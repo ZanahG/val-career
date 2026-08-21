@@ -1,0 +1,659 @@
+.champions-groups {
+  width: 100%;
+  margin-top: 28px;
+  padding: 22px;
+  border: 1px solid #25303d;
+  background: #0e141d;
+  box-sizing: border-box;
+}
+
+.champions-groups__header {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.champions-groups__header h2 {
+  margin: 6px 0 0;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 24px;
+}
+
+.champions-groups__note {
+  color: #6d798a;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .11em;
+}
+
+.champions-groups__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 26px;
+}
+
+.champions-group {
+  border: 1px solid #2a3542;
+  background: #111923;
+}
+
+.champions-group__title {
+  min-height: 42px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #2a3542;
+  background: #18222c;
+}
+
+.champions-group__title span {
+  color: #ff6572;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.champions-group__title strong {
+  color: #46d39a;
+  font-size: 7px;
+  letter-spacing: .08em;
+}
+
+.champions-group__bracket {
+  min-height: 360px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: minmax(210px,1fr) minmax(210px,1fr) minmax(210px,1fr);
+  gap: 42px;
+  align-items: stretch;
+}
+
+.champions-group-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.champions-group-column--opening {
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.champions-group-column--middle {
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.champions-group-column--decider {
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.champions-group-column--middle > div,
+.champions-group-column--decider > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.champions-group-column__title {
+  display: block;
+  color: #8693a4;
+  font-size: 8px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.champions-group-match {
+  min-width: 0;
+  border: 1px solid #3a4654;
+  background: #141d27;
+}
+
+.champions-group-match--player {
+  border-color: #ff4655;
+  box-shadow: 0 0 0 1px rgba(255,70,85,.12);
+}
+
+.champions-group-team {
+  min-height: 38px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid #364250;
+}
+
+.champions-group-team:nth-child(2) {
+  border-bottom: 0;
+}
+
+.champions-group-team--winner {
+  background: rgba(70,211,154,.18);
+}
+
+.champions-group-team > div {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.champions-group-team img {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  object-fit: contain;
+}
+
+.champions-group-team strong {
+  overflow: hidden;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.champions-group-team > b {
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 11px;
+}
+
+.champions-group-team__fallback {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #34404e;
+  background: #101720;
+  font-size: 6px;
+  font-weight: 900;
+}
+
+.champions-group-match__footer {
+  min-height: 22px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #2d3845;
+  background: #0f161f;
+}
+
+.champions-group-match__footer span {
+  color: #667386;
+  font-size: 6px;
+  font-weight: 800;
+}
+
+.champions-group-match__footer strong {
+  color: #ff6572;
+  font-size: 6px;
+  letter-spacing: .07em;
+}
+
+.champions-qualified {
+  min-height: 42px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid #35414e;
+  background: #141d27;
+  opacity: .45;
+}
+
+.champions-qualified--active {
+  border-color: rgba(70,211,154,.55);
+  background: rgba(70,211,154,.18);
+  opacity: 1;
+}
+
+.champions-qualified > div {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.champions-qualified img {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  object-fit: contain;
+}
+
+.champions-qualified strong {
+  overflow: hidden;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.champions-qualified > b {
+  color: #46d39a;
+  font-size: 12px;
+}
+
+.champions-qualified__fallback {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #34404e;
+  background: #101720;
+  font-size: 6px;
+  font-weight: 900;
+}
+
+@media (max-width: 1000px) {
+  .champions-group {
+    overflow-x: auto;
+  }
+
+  .champions-group__bracket {
+    min-width: 760px;
+  }
+}
+
+@media (max-width: 700px) {
+  .champions-groups {
+    padding: 14px;
+  }
+
+  .champions-groups__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.champions-bracket {
+  width: 100%;
+  margin-top: 28px;
+  padding: 22px;
+  border: 1px solid #25303d;
+  background: #0e141d;
+  box-sizing: border-box;
+}
+
+.champions-bracket__header {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.champions-bracket__header h2 {
+  margin: 6px 0 0;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 24px;
+}
+
+.champions-bracket__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.champions-bracket__info span {
+  padding: 5px 8px;
+  border: 1px solid #2d3946;
+  color: #9aa5b4;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.champions-bracket__info strong {
+  color: #687587;
+  font-size: 8px;
+  letter-spacing: .09em;
+}
+
+.champions-bracket-section + .champions-bracket-section {
+  margin-top: 34px;
+  padding-top: 25px;
+  border-top: 1px solid #26313f;
+}
+
+.champions-bracket-section__title {
+  display: block;
+  margin-bottom: 18px;
+  color: #ff6572;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+
+.champions-bracket-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4,minmax(190px,1fr));
+  gap: 34px;
+  align-items: stretch;
+}
+
+.champions-bracket-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.champions-bracket-column__title {
+  min-height: 28px;
+  color: #8090a3;
+  font-size: 8px;
+  text-align: center;
+}
+
+.champions-bracket-column__matches {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 14px;
+}
+
+.champions-bracket-match {
+  position: relative;
+  min-width: 0;
+  border: 1px solid #384452;
+  background: #141d27;
+}
+
+.champions-bracket-match--player {
+  border-color: #ff4655;
+  box-shadow: 0 0 0 1px rgba(255,70,85,.12);
+}
+
+.champions-bracket-match--placeholder {
+  opacity: .45;
+}
+
+.champions-bracket-team {
+  min-height: 38px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid #35414e;
+}
+
+.champions-bracket-team:nth-child(2) {
+  border-bottom: 0;
+}
+
+.champions-bracket-team--winner {
+  background: rgba(70,211,154,.16);
+}
+
+.champions-bracket-team > div {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.champions-bracket-team img {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  object-fit: contain;
+}
+
+.champions-bracket-team strong {
+  overflow: hidden;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.champions-bracket-team > b {
+  flex: 0 0 auto;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 11px;
+}
+
+.champions-bracket-team__fallback {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #33404d;
+  background: #101720;
+  font-size: 6px;
+  font-weight: 900;
+}
+
+.champions-bracket-match__footer {
+  min-height: 22px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #2d3845;
+  background: #0f161f;
+}
+
+.champions-bracket-match__footer span {
+  color: #657285;
+  font-size: 6px;
+  font-weight: 800;
+}
+
+.champions-bracket-match__footer strong {
+  color: #ff6572;
+  font-size: 6px;
+  letter-spacing: .07em;
+}
+
+.champions-bracket__champion {
+  margin-top: 28px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-left: 3px solid #46d39a;
+  background: rgba(70,211,154,.06);
+}
+
+.champions-bracket__champion > span {
+  color: #46d39a;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+
+.champions-bracket__champion-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.champions-bracket__champion-team img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.champions-bracket__champion-team > span {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: #111923;
+  font-size: 8px;
+}
+
+.champions-bracket__champion-team strong {
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 18px;
+}
+
+@media (max-width: 950px) {
+  .champions-bracket {
+    overflow-x: auto;
+  }
+
+  .champions-bracket__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .champions-bracket-grid {
+    min-width: 900px;
+    grid-template-columns: repeat(4,200px);
+  }
+}
+
+.champions-qualified-list {
+  width: 100%;
+  margin-top: 28px;
+  padding: 22px;
+  border: 1px solid #25303d;
+  background: #0e141d;
+  box-sizing: border-box;
+}
+
+.champions-qualified-list__header {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.champions-qualified-list__header h2 {
+  margin: 6px 0 0;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 24px;
+}
+
+.champions-qualified-list__header > span {
+  color: #6d798a;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.champions-qualified-list__grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 14px;
+}
+
+.champions-qualified-region {
+  border: 1px solid #293541;
+  background: #111923;
+}
+
+.champions-qualified-region > header {
+  min-height: 38px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #293541;
+  background: #17212b;
+}
+
+.champions-qualified-region > header strong {
+  color: #ff6572;
+  font-size: 8px;
+  letter-spacing: .1em;
+}
+
+.champions-qualified-region > header span {
+  color: #687587;
+  font-size: 7px;
+}
+
+.champions-qualified-team {
+  min-height: 48px;
+  padding: 0 11px;
+  display: grid;
+  grid-template-columns: 28px minmax(0,1fr) auto;
+  gap: 8px;
+  align-items: center;
+  border-bottom: 1px solid #202b36;
+}
+
+.champions-qualified-team:last-child {
+  border-bottom: 0;
+}
+
+.champions-qualified-team--player {
+  background: rgba(255,70,85,.08);
+  box-shadow: inset 2px 0 #ff4655;
+}
+
+.champions-qualified-team__seed {
+  color: #7d8998;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.champions-qualified-team__identity {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.champions-qualified-team__identity img {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  object-fit: contain;
+}
+
+.champions-qualified-team__identity strong {
+  overflow: hidden;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.champions-qualified-team__fallback {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #34404e;
+  background: #101720;
+  font-size: 6px;
+  font-weight: 900;
+}
+
+.champions-qualified-team > b {
+  color: #ff6572;
+  font-size: 6px;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 1050px) {
+  .champions-qualified-list__grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .champions-qualified-list__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .champions-qualified-list__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

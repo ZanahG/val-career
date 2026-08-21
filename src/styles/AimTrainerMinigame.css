@@ -1,0 +1,381 @@
+.aim-minigame-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 30px;
+  display: grid;
+  place-items: center;
+  background: rgba(3,6,10,.95);
+  backdrop-filter: blur(10px);
+}
+
+.aim-minigame {
+  width: min(100%,900px);
+  padding: 32px;
+  border: 1px solid #293441;
+  border-top: 3px solid #ff4655;
+  background: #0b1119;
+  box-shadow: 0 30px 100px rgba(0,0,0,.6);
+}
+
+.aim-minigame__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.aim-minigame__header h1 {
+  margin: 6px 0 0;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: clamp(34px,6vw,64px);
+  line-height: .9;
+}
+
+.aim-minigame__status {
+  padding: 7px 10px;
+  border: 1px solid #334050;
+  color: #7d899a;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.aim-minigame__status--playing {
+  border-color: rgba(255,70,85,.5);
+  color: #ff6572;
+}
+
+.aim-minigame__status--result {
+  border-color: rgba(70,211,154,.5);
+  color: #46d39a;
+}
+
+.aim-minigame__intro,
+.aim-minigame__result {
+  min-height: 470px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.aim-minigame__intro h2 {
+  margin: 22px 0 8px;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 25px;
+}
+
+.aim-minigame__intro > p {
+  margin: 0;
+  color: #7d899a;
+  font-size: 11px;
+}
+
+.aim-minigame__target-preview {
+  width: 100px;
+  height: 100px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,70,85,.4);
+  border-radius: 50%;
+}
+
+.aim-minigame__target-preview span {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #ff4655;
+  border-radius: 50%;
+}
+
+.aim-minigame__rewards {
+  width: min(100%,540px);
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  border: 1px solid #202a36;
+}
+
+.aim-minigame__rewards span {
+  padding: 12px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-right: 1px solid #202a36;
+  font-size: 8px;
+}
+
+.aim-minigame__rewards span:last-child {
+  border-right: 0;
+}
+
+.aim-minigame__rewards b {
+  color: #7e8a9a;
+}
+
+.aim-minigame__rewards strong {
+  color: #46d39a;
+}
+
+.aim-minigame__start {
+  margin-top: 26px;
+}
+
+.aim-minigame__hud {
+  margin-top: 26px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.aim-minigame__hud span {
+  color: #748093;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.aim-minigame__hud b {
+  margin-left: 7px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.aim-minigame__range {
+  position: relative;
+  height: 500px;
+  margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid #26313e;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    #080d13;
+  background-size: 40px 40px;
+  cursor: crosshair;
+}
+
+.aim-minigame__target {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 3px solid #ff4655;
+  border-radius: 50%;
+  background: rgba(255,70,85,.12);
+  transform: translate(-50%,-50%);
+  cursor: crosshair;
+}
+
+.aim-minigame__target::before,
+.aim-minigame__target::after {
+  content: "";
+  position: absolute;
+  background: #ff4655;
+}
+
+.aim-minigame__target::before {
+  width: 2px;
+  height: 70px;
+}
+
+.aim-minigame__target::after {
+  width: 70px;
+  height: 2px;
+}
+
+.aim-minigame__target span {
+  position: relative;
+  z-index: 1;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ff4655;
+}
+
+.aim-minigame__result-label {
+  color: #46d39a;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.aim-minigame__result > strong {
+  margin: 15px 0 30px;
+  color: #fff;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: clamp(54px,9vw,88px);
+  line-height: .9;
+}
+
+.aim-minigame__result-grid {
+  width: min(100%,600px);
+  margin-bottom: 28px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border: 1px solid #202a36;
+}
+
+.aim-minigame__result-grid > div {
+  padding: 16px 8px;
+  border-right: 1px solid #202a36;
+}
+
+.aim-minigame__result-grid > div:last-child {
+  border-right: 0;
+}
+
+.aim-minigame__result-grid span {
+  display: block;
+  margin-bottom: 5px;
+  color: #697688;
+  font-size: 7px;
+  letter-spacing: .1em;
+}
+
+.aim-minigame__result-grid b {
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 20px;
+}
+
+@media (max-width: 650px) {
+  .aim-minigame-overlay {
+    padding: 12px;
+  }
+
+  .aim-minigame {
+    padding: 22px 16px;
+  }
+
+  .aim-minigame__header {
+    flex-direction: column;
+  }
+
+  .aim-minigame__range {
+    height: 430px;
+  }
+
+  .aim-minigame__rewards,
+  .aim-minigame__result-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.aim-minigame__duck-preview {
+  width: 120px;
+  height: 100px;
+  display: grid;
+  place-items: center;
+}
+
+.aim-minigame__duck-preview img {
+  width: 100px;
+  height: 80px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.aim-minigame__range {
+  position: relative;
+  height: 500px;
+  margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid #26313e;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.aim-minigame__duck {
+  --duck-duration: 1200ms;
+  position: absolute;
+  z-index: 3;
+  width: 90px;
+  height: 70px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: crosshair;
+  transform: translateY(-50%);
+}
+
+.aim-minigame__duck img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.aim-minigame__duck--right {
+  left: -100px;
+  animation: aim-duck-fly-right var(--duck-duration) linear forwards;
+}
+
+.aim-minigame__duck--left {
+  right: -100px;
+  animation: aim-duck-fly-left var(--duck-duration) linear forwards;
+}
+
+.aim-minigame__duck--left img {
+  transform: scaleX(-1);
+}
+
+.aim-minigame__dog {
+  position: absolute;
+  z-index: 4;
+  bottom: -8px;
+  left: 50%;
+  width: 180px;
+  transform: translateX(-50%);
+  animation: aim-dog-popup .65s ease forwards;
+  pointer-events: none;
+}
+
+.aim-minigame__dog img {
+  width: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+@keyframes aim-duck-fly-right {
+  from {
+    left: -100px;
+  }
+
+  to {
+    left: calc(100% + 100px);
+  }
+}
+
+@keyframes aim-duck-fly-left {
+  from {
+    right: -100px;
+  }
+
+  to {
+    right: calc(100% + 100px);
+  }
+}
+
+@keyframes aim-dog-popup {
+  0% {
+    transform: translate(-50%,100%);
+  }
+
+  30%,
+  70% {
+    transform: translate(-50%,0);
+  }
+
+  100% {
+    transform: translate(-50%,100%);
+  }
+}

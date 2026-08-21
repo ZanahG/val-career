@@ -1,0 +1,96 @@
+.player-card {
+  width: 100%;
+  padding: 0;
+  border: 1px solid #273240;
+  background: #0e141d;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: .18s ease;
+}
+
+.player-card:hover {
+  border-color: #ff4655;
+  transform: translateY(-2px);
+}
+
+.player-card__image {
+  position: relative;
+  aspect-ratio: 268 / 640;
+  overflow: hidden;
+  background: #101720;
+}
+
+.player-card__image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.player-card__fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,70,85,.15);
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 120px;
+  font-weight: 900;
+}
+
+.player-card__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,transparent 55%,rgba(5,8,12,.95));
+}
+
+.player-card__overlay {
+  position: absolute;
+  z-index: 2;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+}
+
+.player-card__overlay span,
+.player-card__title span {
+  display: block;
+  color: #8390a2;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.player-card__overlay strong {
+  display: block;
+  margin-top: 3px;
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 20px;
+}
+
+.player-card__title {
+  padding: 15px;
+  border-top: 1px solid #273240;
+}
+
+.player-card__title strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.player-card__edit {
+  padding: 11px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #273240;
+  color: #ff6572;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}

@@ -1,0 +1,282 @@
+.recap-screen {min-height: 100vh;}
+
+.recap-topbar {
+  height: 82px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: rgba(8,11,16,.72);
+  backdrop-filter: blur(14px);
+}
+
+.recap-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.recap-topbar__brand > div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.recap-topbar__brand strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+}
+
+.recap-topbar__brand span {
+  color: #697486;
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+
+.recap-content {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  padding: clamp(40px, 7vw, 90px) 28px;
+}
+
+.recap-heading h1 {
+  margin: 15px 0 8px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(60px, 9vw, 120px);
+  line-height: .82;
+  letter-spacing: -.06em;
+  text-transform: uppercase;
+}
+
+.recap-heading p {
+  margin: 0;
+  color: #7f8a99;
+}
+
+.recap-placement {
+  margin: 45px 0 20px;
+  padding: 22px;
+  border-left: 3px solid #ff4655;
+  background: #111821;
+}
+
+.recap-placement span {
+  color: #758092;
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+
+.recap-placement strong {
+  display: block;
+  margin: 5px 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 56px;
+}
+
+.recap-placement small {
+  color: #ff6572;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.recap-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.recap-stats > div {
+  padding: 16px;
+  background: #111821;
+  border: 1px solid #1d2733;
+}
+
+.recap-stats span {
+  display: block;
+  color: #687486;
+  font-size: 9px;
+  letter-spacing: .1em;
+}
+
+.recap-stats strong {
+  display: block;
+  margin-top: 6px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 20px;
+}
+
+.recap-trophy {
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid rgba(255,196,78,.25);
+  background: rgba(255,196,78,.06);
+}
+
+.recap-trophy > span {font-size: 36px;}
+
+.recap-trophy small {
+  display: block;
+  margin-bottom: 4px;
+  color: #9c865a;
+  font-size: 9px;
+  letter-spacing: .12em;
+}
+
+.recap-trophy strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
+}
+
+.recap-footer {
+  margin-top: 34px;
+  padding-top: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid #202a35;
+}
+
+.recap-footer > div span {
+  display: block;
+  color: #6f7b8c;
+  font-size: 9px;
+  letter-spacing: .12em;
+}
+
+.recap-footer > div strong {
+  display: block;
+  margin-top: 5px;
+}
+
+.recap-footer .primary-button {margin: 0;}
+
+@media (max-width: 800px) {
+  .recap-stats {grid-template-columns: repeat(2, 1fr);}
+}
+
+@media (max-width: 560px) {
+  .recap-topbar {padding: 0 14px;}
+  .recap-content {padding: 34px 18px;}
+  .recap-stats {grid-template-columns: 1fr 1fr;}
+  .recap-footer {align-items: flex-start; flex-direction: column;}
+}
+
+.recap-placement__record {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #202a35;
+}
+
+.recap-placement__record span {
+  display: block;
+  color: #758092;
+  font-size: 8px;
+  letter-spacing: .11em;
+}
+
+.recap-placement__record strong {
+  margin: 4px 0 0;
+  font-size: 22px;
+}
+
+.recap-ascension {
+  margin-bottom: 20px;
+  padding: 22px;
+  border: 1px solid;
+}
+
+.recap-ascension--win {
+  border-color: rgba(70,211,154,.3);
+  background: rgba(70,211,154,.07);
+}
+
+.recap-ascension--loss {
+  border-color: rgba(255,70,85,.3);
+  background: rgba(255,70,85,.07);
+}
+
+.recap-ascension__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.recap-ascension h2 {
+  margin: 6px 0 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 28px;
+}
+
+.recap-ascension__header > strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 42px;
+}
+
+.recap-ascension--win .recap-ascension__header > strong {color: #46d39a;}
+.recap-ascension--loss .recap-ascension__header > strong {color: #ff6572;}
+
+.recap-ascension > p {
+  max-width: 680px;
+  margin: 14px 0 0;
+  color: #8490a0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.recap-vct-status {
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid rgba(70,211,154,.25);
+  background: rgba(70,211,154,.06);
+}
+
+.recap-vct-status--locked {
+  border-color: #252f3b;
+  background: #101620;
+}
+
+.recap-vct-status__icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(70,211,154,.35);
+  color: #46d39a;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.recap-vct-status--locked .recap-vct-status__icon {
+  border-color: #303b49;
+  color: #677384;
+}
+
+.recap-vct-status span {
+  display: block;
+  color: #758092;
+  font-size: 8px;
+  letter-spacing: .12em;
+}
+
+.recap-vct-status strong {
+  display: block;
+  margin-top: 4px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
+}
+
+.recap-vct-status p {
+  margin: 4px 0 0;
+  color: #748092;
+  font-size: 10px;
+}

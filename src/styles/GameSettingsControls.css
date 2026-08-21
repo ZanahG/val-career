@@ -1,0 +1,59 @@
+.game-settings-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.game-setting-control {
+  position: relative;
+  min-height: 38px;
+  padding: 8px 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #101620;
+  border: 1px solid #26313f;
+  transition: .18s ease;
+}
+
+.game-setting-control:hover {
+  border-color: #ff4655;
+}
+
+.game-setting-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.game-setting-control select {
+  appearance: none;
+  min-width: 42px;
+  padding: 0 14px 0 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.game-setting-control::after {
+  content: "▾";
+  position: absolute;
+  right: 8px;
+  font-size: 9px;
+  color: #738092;
+  pointer-events: none;
+}
+
+.game-setting-control option {
+  background: #101620;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .game-settings-controls {gap: 6px;}
+  .game-setting-control {padding: 7px 9px;}
+  .game-setting-icon {display: none;}
+}

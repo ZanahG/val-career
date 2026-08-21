@@ -1,0 +1,97 @@
+.vct-recap-screen {min-height: 100vh;}
+
+.vct-recap-topbar {
+  height: 82px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: rgba(8,11,16,.82);
+}
+
+.vct-recap-topbar > div:first-child {display: flex; align-items: center; gap: 14px;}
+.vct-recap-topbar > div:first-child > div:last-child {display: flex; flex-direction: column;}
+.vct-recap-topbar span {color: #687486; font-size: 8px;}
+
+.vct-recap-content {
+  width: min(100%, 1400px);
+  margin: 0 auto;
+  padding: 50px 28px 80px;
+}
+
+.vct-recap-heading h1 {
+  margin: 10px 0 5px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(54px, 8vw, 100px);
+  line-height: .85;
+  text-transform: uppercase;
+}
+
+.vct-recap-heading p {color: #7b8798;}
+
+.vct-recap-summary {
+  margin-top: 35px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.vct-recap-summary > div {
+  padding: 16px;
+  border: 1px solid #202a36;
+  background: #0e141d;
+}
+
+.vct-recap-summary span {display: block; color: #687486; font-size: 8px; letter-spacing: .09em;}
+.vct-recap-summary strong {display: block; margin-top: 5px; font-family: "Space Grotesk", sans-serif; font-size: 20px;}
+
+.vct-recap-events {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(125px, 1fr));
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.vct-recap-event {
+  min-height: 140px;
+  padding: 14px;
+  border: 1px solid #202a36;
+  background: #0e141d;
+}
+
+.vct-recap-event > span {display: block; margin-bottom: 18px; color: #637083; font-size: 7px; font-weight: 900;}
+.vct-recap-event > strong {display: block; font-family: "Space Grotesk", sans-serif; font-size: 13px;}
+.vct-recap-event > div {margin-top: 18px; display: flex; justify-content: space-between;}
+.vct-recap-event em {color: #ff6572; font-style: normal;}
+.vct-recap-event p {color: #46d39a; font-size: 9px;}
+
+.vct-recap-event--skipped,
+.vct-recap-event--eliminated {opacity: .4;}
+
+.vct-recap-final {
+  margin-top: 20px;
+  padding: 24px;
+  border-left: 3px solid #ff4655;
+  background: #111821;
+}
+
+.vct-recap-final span {display: block; color: #707c8e; font-size: 8px; letter-spacing: .12em;}
+.vct-recap-final strong {display: block; margin-top: 6px; font-family: "Space Grotesk", sans-serif; font-size: 28px;}
+
+.vct-recap-footer {
+  margin-top: 30px;
+  padding-top: 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1px solid #202a35;
+}
+
+.vct-recap-footer span {display: block; color: #687486; font-size: 8px; letter-spacing: .1em;}
+.vct-recap-footer strong {display: block; margin-top: 5px;}
+
+@media (max-width: 900px) {
+  .vct-recap-summary {grid-template-columns: repeat(2, 1fr);}
+}

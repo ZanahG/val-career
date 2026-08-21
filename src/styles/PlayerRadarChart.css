@@ -1,0 +1,79 @@
+.player-radar-card {
+  padding: 22px;
+  border: 1px solid #202a36;
+  background: #0e141d;
+}
+
+.player-radar-card__header {
+  margin-bottom: 14px;
+}
+
+.player-radar-card__header h3 {
+  margin: 6px 0 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
+}
+
+.player-radar-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-radar-chart svg {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  overflow: visible;
+}
+
+.player-radar-chart__grid {
+  fill: none;
+  stroke: rgba(255,255,255,.14);
+  stroke-width: 1;
+}
+
+.player-radar-chart__axis {
+  stroke: rgba(255,255,255,.14);
+  stroke-width: 1;
+}
+
+.player-radar-chart__shape {
+  fill: rgba(255,70,85,.18);
+  stroke: #ff4655;
+  stroke-width: 2;
+}
+
+.player-radar-chart__dot {
+  fill: #ff4655;
+}
+
+.player-radar-chart__label {
+  fill: #dbe4f0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.player-radar-chart__value {
+  fill: #ffd000;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .player-radar-card {
+    padding: 18px;
+  }
+
+  .player-radar-chart svg {
+    max-width: 280px;
+  }
+
+  .player-radar-chart__label {
+    font-size: 10px;
+  }
+
+  .player-radar-chart__value {
+    font-size: 9px;
+  }
+}

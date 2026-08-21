@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  color: #f7f8fb;
+  background: #080b10;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: radial-gradient(circle at 80% 10%, rgba(255,70,85,.12), transparent 25%), linear-gradient(135deg, #080b10 0%, #0c1119 55%, #090b10 100%);
+}
+
+button, input, select {font: inherit;}
+button {color: inherit;}
+
+.brand-mark {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 64px;
+  background: #ff4655;
+  color: white;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 800;
+  letter-spacing: -.05em;
+  clip-path: polygon(10% 0, 100% 0, 100% 82%, 82% 100%, 0 100%, 0 10%);
+}
+
+.brand-mark--small {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  color: #ff6572;
+}
+
+.primary-button {
+  width: fit-content;
+  min-width: 240px;
+  margin-top: 34px;
+  padding: 17px 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border: 0;
+  background: #ff4655;
+  color: white;
+  font-weight: 800;
+  letter-spacing: .06em;
+  cursor: pointer;
+  box-shadow: 0 16px 40px rgba(255,70,85,.2);
+}
+
+.primary-button:hover {background: #ff5b68;}
+
+.secondary-button {
+  padding: 10px 14px;
+  border: 1px solid #26313f;
+  background: #101620;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.secondary-button:hover {
+  border-color: #ff4655;
+  background: #151c26;
+}
