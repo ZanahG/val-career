@@ -54,7 +54,42 @@ export function playNextVCTMatch(player: CareerPlayer,season: VCTSeasonState): V
       const {masters,result} = playNextMastersSwissMatch(player,event.masters);
       const matches = result ? [...event.matches,result] : event.matches;
 
-      let updatedSeason: VCTSeasonState = {...season,events: {...season.events,[phase]: {...event,masters,matches}}};
+      let updatedSeason:VCTSeasonState = {...season,events:{...season.events,[phase]:{...event,masters,matches}}};
+
+      const playerStanding = masters.swiss.standings.find((row) => row.teamId === playerTeamId);
+      const playerQualified = Boolean(playerStanding?.qualified);
+      const playerEliminated = Boolean(playerStanding?.eliminated);
+
+      if (playerQualified || playerEliminated) {
+        const simulatedMasters = masters.swiss.complete ? masters : simulateMastersSwissWithoutPlayer(masters);
+
+        updatedSeason = {
+          ...updatedSeason,
+          events:{
+            ...updatedSeason.events,
+            [phase]:{
+              ...updatedSeason.events[phase],
+              masters:simulatedMasters,
+            },
+          },
+        };
+
+        if (playerEliminated) return finishEvent(player,updatedSeason,phase);
+
+        const bracket = createMastersBracket(simulatedMasters);
+        const mastersWithBracket = {...simulatedMasters,bracket};
+
+        return {
+          ...updatedSeason,
+          events:{
+            ...updatedSeason.events,
+            [phase]:{
+              ...updatedSeason.events[phase],
+              masters:mastersWithBracket,
+            },
+          },
+        };
+      }
 
       if (masters.swiss.complete) {
         const qualified = getMastersSwissQualifiedTeamIds(masters.swiss);
@@ -62,7 +97,17 @@ export function playNextVCTMatch(player: CareerPlayer,season: VCTSeasonState): V
         if (!qualified.includes(playerTeamId)) return finishEvent(player,updatedSeason,phase);
 
         const bracket = createMastersBracket(masters);
-        updatedSeason = {...updatedSeason,events: {...updatedSeason.events,[phase]: {...updatedSeason.events[phase],masters: {...masters,bracket}}}};
+
+        return {
+          ...updatedSeason,
+          events:{
+            ...updatedSeason.events,
+            [phase]:{
+              ...updatedSeason.events[phase],
+              masters:{...masters,bracket},
+            },
+          },
+        };
       }
 
       return updatedSeason;
@@ -73,19 +118,19 @@ export function playNextVCTMatch(player: CareerPlayer,season: VCTSeasonState): V
       const bracket = createMastersBracket(simulated);
       const masters = {...simulated,bracket};
 
-      return {...season,events: {...season.events,[phase]: {...event,masters}}};
+      return {...season,events:{...season.events,[phase]:{...event,masters}}};
     }
 
     if (event.masters.bracket && !event.masters.bracket.complete) {
       const {masters,result} = playNextMastersBracketMatch(player,event.masters);
       const matches = result ? [...event.matches,result] : event.matches;
-      const updatedSeason: VCTSeasonState = {...season,events: {...season.events,[phase]: {...event,masters,matches}}};
+      const updatedSeason:VCTSeasonState = {...season,events:{...season.events,[phase]:{...event,masters,matches}}};
 
       if (masters.bracket?.complete) return finishEvent(player,updatedSeason,phase);
 
-      const playerStillAlive = masters.bracket ? masters.bracket.matches.filter((match) => match.loserId === playerTeamId).length < 2 : false;
+      const playerLosses = masters.bracket?.matches.filter((match) => match.loserId === playerTeamId).length ?? 0;
 
-      if (!playerStillAlive) return finishEvent(player,updatedSeason,phase);
+      if (playerLosses >= 2) return finishEvent(player,updatedSeason,phase);
 
       return updatedSeason;
     }

@@ -4,30 +4,36 @@ import {AimTrainerMinigame} from "./components/AimTrainerMinigame";
 import {CareerDashboard} from "./components/CareerDashboard";
 import {CareerProfile} from "./components/CareerProfile";
 import {ClutchDefuseMinigame} from "./components/ClutchDefuseMinigame";
+import {CommsFilterMinigame} from "./components/CommsFilterMinigame";
 import {CreatePlayer} from "./components/CreatePlayer";
+import {EconomyDecisionMinigame} from "./components/EconomyDecisionMinigame";
 import {MatchStatsModal} from "./components/MatchStatsModal";
 import {OfferScreen} from "./components/OfferScreen";
 import {PlayerCardEditor} from "./components/PlayerCardEditor";
 import {SeasonDashboard} from "./components/SeasonDashboard";
 import {SeasonRecap} from "./components/SeasonRecap";
+import {TiltControlMinigame} from "./components/TiltControlMinigame";
 import {VCTDashboard} from "./components/VCTDashboard";
 import {VCTSeasonRecap} from "./components/VCTSeasonRecap";
+import {WarmupSequenceMinigame} from "./components/WarmupSequenceMinigame";
 
 import {getEventById,getRandomCareerStartEventId} from "./data/events";
 import {generateOffers} from "./data/offers";
 import {getTeamById} from "./data/teams";
+import type {VCTNarrativeChoice} from "./data/vctEvents";
+import {rollVCTMinigame} from "./data/vctMinigames";
+import type {VCTMinigameType} from "./data/vctMinigames";
 
 import {createMatchBoxScore} from "./logic/matchBoxScore";
 import {createSeason,getSortedStandings,playNextMatch} from "./logic/season";
 import {continueVCTAfterNarrativeEvent,createVCTSeason,getVCTSeasonStats,migrateVCTMastersState,migrateVCTStageState,playNextVCTMatch} from "./logic/vctSeason";
 
-import {deleteCareerSave,hasCareerSave,loadCareer,saveCareer} from "./utils/saveGame";
-
-import type {VCTMinigameType,VCTNarrativeChoice} from "./data/vctEvents";
 import type {CareerChoice,CareerEffects,CareerHistoryEntry,CareerPlayer,ContractOffer} from "./types/career";
 import type {MatchBoxScore} from "./types/matchStats";
 import type {SeasonState} from "./types/season";
-import type {VCTSeasonState} from "./types/vct";
+import type {PlayableVCTPhase,VCTSeasonState} from "./types/vct";
+
+import {deleteCareerSave,hasCareerSave,loadCareer,saveCareer} from "./utils/saveGame";
 
 type GameScreen = "create"|"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"profile";
 type ProfileReturnScreen = "career"|"season"|"vct"|"recap"|"vctRecap";
@@ -79,19 +85,21 @@ function normalizePlayerCosmetics(player:CareerPlayer):CareerPlayer {
 }
 
 export default function App() {
-  const [player,setPlayer] = useState<CareerPlayer | null>(null);
+  const [player,setPlayer] = useState<CareerPlayer|null>(null);
   const [screen,setScreen] = useState<GameScreen>("create");
   const [profileReturnScreen,setProfileReturnScreen] = useState<ProfileReturnScreen>("career");
   const [currentEventId,setCurrentEventId] = useState("");
   const [introEventsPlayed,setIntroEventsPlayed] = useState(loadIntroEventCount);
-  const [season,setSeason] = useState<SeasonState | null>(null);
-  const [vctSeason,setVCTSeason] = useState<VCTSeasonState | null>(null);
-  const [matchBoxScore,setMatchBoxScore] = useState<MatchBoxScore | null>(null);
+  const [season,setSeason] = useState<SeasonState|null>(null);
+  const [vctSeason,setVCTSeason] = useState<VCTSeasonState|null>(null);
+  const [matchBoxScore,setMatchBoxScore] = useState<MatchBoxScore|null>(null);
   const [playerCardEditorOpen,setPlayerCardEditorOpen] = useState(false);
   const [saveAvailable,setSaveAvailable] = useState(() => hasCareerSave());
-  const [activeMinigame,setActiveMinigame] = useState<VCTMinigameType | null>(null);
-  const [pendingVCTChoice,setPendingVCTChoice] = useState<VCTNarrativeChoice | null>(null);
-  const [debugMinigame,setDebugMinigame] = useState(false);
+
+  const [activeMinigame,setActiveMinigame] = useState<VCTMinigameType|null>(null);
+  const [queuedMinigame,setQueuedMinigame] = useState<VCTMinigameType|null>(null);
+  const [lastVCTMinigame,setLastVCTMinigame] = useState<VCTMinigameType|null>(null);
+  const [vctMinigameCooldown,setVCTMinigameCooldown] = useState(0);
 
   const currentEvent = getEventById(currentEventId);
   const initialCareerEventsComplete = !currentEvent;
@@ -119,21 +127,15 @@ export default function App() {
   },[player,screen,currentEventId,season,vctSeason]);
 
   useEffect(() => {
-    (window as typeof window & {spawnMinigame?:(type:VCTMinigameType) => void}).spawnMinigame = (type) => {
-      setPendingVCTChoice({
-        id:"debug-minigame",
-        label:{es:"Debug",en:"Debug"},
-        description:{es:"Debug",en:"Debug"},
-        effects:{},
-        minigame:type,
-      });
+    const debugWindow = window as typeof window & {spawnMinigame?:(type:VCTMinigameType) => void};
 
-      setDebugMinigame(true);
+    debugWindow.spawnMinigame = (type) => {
+      setQueuedMinigame(null);
       setActiveMinigame(type);
     };
 
     return () => {
-      delete (window as typeof window & {spawnMinigame?:(type:VCTMinigameType) => void}).spawnMinigame;
+      delete debugWindow.spawnMinigame;
     };
   },[]);
 
@@ -146,6 +148,13 @@ export default function App() {
     if (migrated !== vctSeason) setVCTSeason(migrated);
   },[player,vctSeason,screen]);
 
+  const resetMinigameState = () => {
+    setActiveMinigame(null);
+    setQueuedMinigame(null);
+    setLastVCTMinigame(null);
+    setVCTMinigameCooldown(0);
+  };
+
   const handleCreate = (createdPlayer:CareerPlayer) => {
     setPlayer(normalizePlayerCosmetics(createdPlayer));
     setCurrentEventId(getRandomCareerStartEventId());
@@ -154,9 +163,7 @@ export default function App() {
     setVCTSeason(null);
     setMatchBoxScore(null);
     setPlayerCardEditorOpen(false);
-    setActiveMinigame(null);
-    setPendingVCTChoice(null);
-    setDebugMinigame(false);
+    resetMinigameState();
     setScreen("career");
   };
 
@@ -231,6 +238,7 @@ export default function App() {
     setPlayer(updatedPlayer);
     setMatchBoxScore(null);
     setPlayerCardEditorOpen(false);
+    resetMinigameState();
 
     if (team.tier === 1) {
       setSeason(null);
@@ -247,32 +255,24 @@ export default function App() {
   const handleVCTNarrativeChoice = (choice:VCTNarrativeChoice) => {
     if (!player || !vctSeason?.pendingEvent) return;
 
-    if (choice.minigame) {
-      setPendingVCTChoice(choice);
-      setDebugMinigame(false);
-      setActiveMinigame(choice.minigame);
-      return;
-    }
-
     setPlayer(applyEffects(player,choice.effects));
     setVCTSeason(continueVCTAfterNarrativeEvent(vctSeason));
   };
 
   const handleMinigameComplete = (effects:CareerEffects) => {
-    if (!player || !pendingVCTChoice) return;
+    if (!player || !activeMinigame) return;
 
-    const basePlayer = applyEffects(player,pendingVCTChoice.effects);
-    const updatedPlayer = applyEffects(basePlayer,effects);
-
-    setPlayer(updatedPlayer);
-
-    if (!debugMinigame && vctSeason?.pendingEvent) {
-      setVCTSeason(continueVCTAfterNarrativeEvent(vctSeason));
-    }
-
-    setPendingVCTChoice(null);
+    setPlayer(applyEffects(player,effects));
     setActiveMinigame(null);
-    setDebugMinigame(false);
+  };
+
+  const closeMatchBoxScore = () => {
+    setMatchBoxScore(null);
+
+    if (!queuedMinigame) return;
+
+    setActiveMinigame(queuedMinigame);
+    setQueuedMinigame(null);
   };
 
   const handlePlayMatch = () => {
@@ -349,6 +349,8 @@ export default function App() {
   const continueCareer = () => {
     if (!player) return;
 
+    resetMinigameState();
+
     if (season?.ascensionWon && player.currentStage === "Tier 2") {
       const updatedPlayer:CareerPlayer = {
         ...player,
@@ -412,7 +414,7 @@ export default function App() {
   const handlePlayVCTMatch = () => {
     if (!player || !vctSeason || vctSeason.phase === "Complete") return;
 
-    const previousPhase = vctSeason.phase;
+    const previousPhase = vctSeason.phase as PlayableVCTPhase;
     const previousMatchCount = vctSeason.events[previousPhase].matches.length;
     const updatedSeason = playNextVCTMatch(player,vctSeason);
     const updatedEvent = updatedSeason.events[previousPhase];
@@ -430,6 +432,20 @@ export default function App() {
           consistency:clamp(player.stats.consistency + (result.playerRating >= 1.1 ? 1 : result.playerRating < .8 ? -1 : 0)),
         },
       });
+
+      if (vctMinigameCooldown > 0) {
+        setVCTMinigameCooldown((value) => Math.max(0,value - 1));
+      } else {
+        const minigame = rollVCTMinigame(previousPhase,lastVCTMinigame ?? undefined);
+
+        if (minigame) {
+          setLastVCTMinigame(minigame);
+          setVCTMinigameCooldown(5);
+
+          if (boxScore) setQueuedMinigame(minigame);
+          else setActiveMinigame(minigame);
+        }
+      }
     }
 
     setVCTSeason(updatedSeason);
@@ -481,11 +497,14 @@ export default function App() {
 
     setMatchBoxScore(null);
     setPlayerCardEditorOpen(false);
+    resetMinigameState();
     setScreen("vctRecap");
   };
 
   const continueVCTCareer = () => {
     if (!player) return;
+
+    resetMinigameState();
 
     const seasonsRemaining = Math.max(0,player.contractSeasonsRemaining - 1);
 
@@ -525,9 +544,7 @@ export default function App() {
     setVCTSeason(save.vctSeason ?? null);
     setMatchBoxScore(null);
     setPlayerCardEditorOpen(false);
-    setActiveMinigame(null);
-    setPendingVCTChoice(null);
-    setDebugMinigame(false);
+    resetMinigameState();
     setScreen(save.screen);
   };
 
@@ -543,9 +560,7 @@ export default function App() {
     setPlayerCardEditorOpen(false);
     setCurrentEventId("");
     setIntroEventsPlayed(0);
-    setActiveMinigame(null);
-    setPendingVCTChoice(null);
-    setDebugMinigame(false);
+    resetMinigameState();
     setProfileReturnScreen("career");
     setScreen("create");
   };
@@ -577,8 +592,12 @@ export default function App() {
 
       {activeMinigame === "clutch-defuse" && <ClutchDefuseMinigame onComplete={handleMinigameComplete} />}
       {activeMinigame === "aim-trainer" && <AimTrainerMinigame onComplete={handleMinigameComplete} />}
+      {activeMinigame === "economy-decision" && <EconomyDecisionMinigame onComplete={handleMinigameComplete} />}
+      {activeMinigame === "comms-filter" && <CommsFilterMinigame onComplete={handleMinigameComplete} />}
+      {activeMinigame === "warmup-sequence" && <WarmupSequenceMinigame onComplete={handleMinigameComplete} />}
+      {activeMinigame === "tilt-control" && <TiltControlMinigame onComplete={handleMinigameComplete} />}
 
-      {matchBoxScore && <MatchStatsModal match={matchBoxScore} playerTeamId={player?.currentTeamId} onClose={() => setMatchBoxScore(null)} />}
+      {matchBoxScore && <MatchStatsModal match={matchBoxScore} playerTeamId={player?.currentTeamId} onClose={closeMatchBoxScore} />}
 
       {player && playerCardEditorOpen && <PlayerCardEditor player={player} onEquipBanner={equipPlayerBanner} onEquipTitle={equipPlayerTitle} onClose={() => setPlayerCardEditorOpen(false)} />}
     </>

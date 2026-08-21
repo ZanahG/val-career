@@ -8,14 +8,11 @@ interface LocalizedText {
 
 type VCTStatEffects = Pick<CareerEffects,"aim"|"gameSense"|"communication"|"clutch"|"consistency"|"mental">;
 
-export type VCTMinigameType = "clutch-defuse"|"aim-trainer"|"game-sense"|"communication"|"consistency";
-
 export interface VCTNarrativeChoice {
   id:string;
   label:LocalizedText;
   description:LocalizedText;
   effects:VCTStatEffects;
-  minigame?:VCTMinigameType;
 }
 
 export interface VCTNarrativeEvent {
@@ -201,8 +198,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"kickoff-collapse-mechanics-aim",
         label:{es:"Entrenar precisión y reflejos",en:"Train precision and reflexes"},
         description:{es:"Dedicas una sesión especial al trabajo mecánico.",en:"Dedicate a special session to mechanical training."},
-        effects:{consistency:1,mental:-1},
-        minigame:"aim-trainer",
+        effects:{aim:3,consistency:1,mental:-1},
       },
       {
         id:"kickoff-collapse-mechanics-vods",
@@ -391,8 +387,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"masters1-elimination-grind-aim",
         label:{es:"Entrenar puntería",en:"Train aim"},
         description:{es:"Quieres convertir la frustración en precisión.",en:"Want to turn frustration into precision."},
-        effects:{consistency:1,mental:-1},
-        minigame:"aim-trainer",
+        effects:{aim:3,consistency:1,mental:-1},
       },
       {
         id:"masters1-elimination-grind-comms",
@@ -500,8 +495,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"stage1-pressure-clutch-defuse",
         label:{es:"Practicar desactivaciones límite",en:"Practice last-second defuses"},
         description:{es:"Entrenas el timing exacto necesario para mantener la calma con la Spike a punto de explotar.",en:"Train the exact timing needed to stay calm with the Spike about to explode."},
-        effects:{mental:1},
-        minigame:"clutch-defuse",
+        effects:{clutch:3,mental:1},
       },
       {
         id:"stage1-pressure-clutch-calls",
@@ -582,8 +576,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"stage1-playoffs-success-clutch-drill",
         label:{es:"Entrenar situaciones clutch",en:"Practice clutch situations"},
         description:{es:"Practicas desactivaciones y decisiones con el reloj al límite.",en:"Practice defuses and decisions with the clock running out."},
-        effects:{mental:1},
-        minigame:"clutch-defuse",
+        effects:{clutch:3,mental:1},
       },
       {
         id:"stage1-playoffs-success-clutch-routine",
@@ -772,8 +765,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"masters2-elimination-mechanics-aim",
         label:{es:"Pulir aim",en:"Polish aim"},
         description:{es:"Quieres sentirte más cómodo ganando duelos difíciles.",en:"Want to feel more comfortable winning difficult duels."},
-        effects:{consistency:1},
-        minigame:"aim-trainer",
+        effects:{aim:3,consistency:1},
       },
       {
         id:"masters2-elimination-mechanics-position",
@@ -854,8 +846,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"stage2-last-chance-clutch-defuse",
         label:{es:"Practicar desactivaciones límite",en:"Practice last-second defuses"},
         description:{es:"Entrenas el control necesario para actuar cuando ya casi no queda tiempo.",en:"Train the control required to act when almost no time remains."},
-        effects:{mental:1},
-        minigame:"clutch-defuse",
+        effects:{clutch:3,mental:1},
       },
       {
         id:"stage2-last-chance-clutch-mental",
@@ -936,8 +927,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"stage2-qualified-clutch-drill",
         label:{es:"Entrenar clutch",en:"Train clutch"},
         description:{es:"Practicas escenarios donde una decisión tardía puede definir el mapa.",en:"Practice scenarios where one late decision can define the map."},
-        effects:{mental:1},
-        minigame:"clutch-defuse",
+        effects:{clutch:3,mental:1},
       },
       {
         id:"stage2-qualified-clutch-comms",
@@ -1207,8 +1197,7 @@ export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
         id:"champions-eliminated-rebuild-mechanics",
         label:{es:"Reconstruir mecánicas",en:"Rebuild mechanics"},
         description:{es:"Trabajas velocidad, precisión y control.",en:"Work on speed, precision and control."},
-        effects:{consistency:1},
-        minigame:"aim-trainer",
+        effects:{aim:3,consistency:1},
       },
       {
         id:"champions-eliminated-rebuild-comms",

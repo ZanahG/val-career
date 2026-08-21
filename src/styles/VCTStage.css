@@ -33,3 +33,36 @@
   .vct-stage-groups {grid-template-columns: 1fr;}
   .vct-stage-bracket-grid {grid-template-columns: repeat(4,190px);}
 }
+
+.vct-stage-bracket-team {
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.vct-stage-bracket-team img {
+  width:22px;
+  height:22px;
+  flex:0 0 22px;
+  object-fit:contain;
+}
+
+.vct-stage-bracket-team strong {
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.vct-stage-bracket-team__fallback {
+  width:22px;
+  height:22px;
+  flex:0 0 22px;
+  display:grid;
+  place-items:center;
+  border:1px solid #26313f;
+  color:#687486;
+  font-size:7px;
+  font-weight:800;
+}

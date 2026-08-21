@@ -77,6 +77,9 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
   const isMastersPhase = season.phase === "Masters 1" || season.phase === "Masters 2";
   const isMastersDirectSeedWaiting = Boolean(isMastersPhase && activeEvent?.masters && player.currentTeamId && activeEvent.masters.directPlayoffTeamIds.includes(player.currentTeamId) && !activeEvent.masters.bracket);
 
+  const mastersPlayerStanding = isMastersPhase && activeEvent?.masters && player.currentTeamId ? activeEvent.masters.swiss.standings.find((row) => row.teamId === player.currentTeamId) : undefined;
+  const isMastersSwissResolved = Boolean(mastersPlayerStanding?.qualified || mastersPlayerStanding?.eliminated);
+
   const allMatches = Object.values(season.events).flatMap((event) => event.matches);
   const lastMatch = activeEvent?.matches.at(-1) ?? allMatches.at(-1);
   const narrativeEvent = season.pendingEvent ? getVCTNarrativeEvent(season.pendingEvent.eventId) : undefined;
@@ -259,9 +262,9 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
         </section>
       </div>
 
-      {!finished && !narrativeEvent && useFloatingPlay && (nextOpponent || isMastersDirectSeedWaiting) && (
+      {!finished && !narrativeEvent && useFloatingPlay && (nextOpponent || isMastersDirectSeedWaiting || isMastersSwissResolved) && (
         <button className="vct-floating-play" onClick={onPlayMatch}>
-          {isMastersDirectSeedWaiting ? (
+          {isMastersSwissResolved && !nextOpponent ? (
             <>
               <span><small>{language === "es" ? "SEED DIRECTO" : "DIRECT SEED"}</small><strong>{language === "es" ? "Esperando Playoffs" : "Waiting for Playoffs"}</strong></span>
               <b>{language === "es" ? "SIMULAR SWISS" : "SIMULATE SWISS"} ▶</b>

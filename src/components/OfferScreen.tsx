@@ -50,7 +50,6 @@ export function OfferScreen({player, offers, onAccept}: OfferScreenProps) {
 
                 <span className="eyebrow">{team.tier === 1 ? `VCT ${team.circuit.toUpperCase()}` : `CHALLENGERS ${team.marketRegion.toUpperCase()}`}</span>
                 <h2>{team.name}</h2>
-                <p>{language === "es" ? `Prestigio ${team.prestige} · Fuerza ${team.strength}` : `Prestige ${team.prestige} · Strength ${team.strength}`}</p>
               </div>
 
               <div className="offer-card__details">

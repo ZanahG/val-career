@@ -550,7 +550,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 86,
     salaryMin: 9000,
     salaryMax: 21000,
-    logo: "vct/pacific/drx.png",
+    logo: "pacific/kiwoom.png",
   },
 
   {
@@ -566,7 +566,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 84,
     salaryMin: 6000,
     salaryMax: 14500,
-    logo: "vct/pacific/full-sense.png",
+    logo: "pacific/fullsense.png",
   },
 
   {
@@ -582,7 +582,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 89,
     salaryMin: 10000,
     salaryMax: 23000,
-    logo: "vct/pacific/geng.png",
+    logo: "pacific/geng.png",
   },
 
   {
@@ -598,7 +598,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 84,
     salaryMin: 6500,
     salaryMax: 15500,
-    logo: "vct/pacific/global-esports.png",
+    logo: "pacific/global-esports.png",
   },
 
   {
@@ -614,7 +614,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 94,
     salaryMin: 10500,
     salaryMax: 24000,
-    logo: "vct/pacific/paper-rex.png",
+    logo: "pacific/prx.png",
   },
 
   {
@@ -630,7 +630,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 85,
     salaryMin: 8000,
     salaryMax: 18500,
-    logo: "vct/pacific/rrq.png",
+    logo: "pacific/rex.png",
   },
 
   {
@@ -646,7 +646,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 90,
     salaryMin: 11000,
     salaryMax: 25000,
-    logo: "vct/pacific/t1.png",
+    logo: "pacific/t1.png",
   },
 
   {
@@ -662,7 +662,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 80,
     salaryMin: 7000,
     salaryMax: 16500,
-    logo: "vct/pacific/team-secret.png",
+    logo: "pacific/ts.png",
   },
 
   {
@@ -678,7 +678,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 79,
     salaryMin: 7500,
     salaryMax: 17500,
-    logo: "vct/pacific/zeta.png",
+    logo: "pacific/zeta.png",
   },
 
   {
@@ -710,7 +710,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 88,
     salaryMin: 7000,
     salaryMax: 17000,
-    logo: "vct/pacific/nongshim.png",
+    logo: "pacific/nrf.png",
   },
 
   // VCT CHINA
@@ -728,7 +728,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 84,
     salaryMin: 6500,
     salaryMax: 15500,
-    logo: "vct/china/all-gamers.png",
+    logo: "china/ag.png",
   },
 
   {
@@ -744,7 +744,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 84,
     salaryMin: 8000,
     salaryMax: 19000,
-    logo: "vct/china/bilibili.png",
+    logo: "china/blg.png",
   },
 
   {
@@ -760,7 +760,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 88,
     salaryMin: 7000,
     salaryMax: 17000,
-    logo: "vct/china/drg.png",
+    logo: "china/drg.png",
   },
 
   {
@@ -776,7 +776,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 94,
     salaryMin: 11000,
     salaryMax: 25000,
-    logo: "vct/china/edg.png",
+    logo: "china/edg.png",
   },
 
   {
@@ -792,7 +792,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 82,
     salaryMin: 8000,
     salaryMax: 18500,
-    logo: "vct/china/fpx.png",
+    logo: "china/fpx.png",
   },
 
   {
@@ -808,7 +808,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 86,
     salaryMin: 8000,
     salaryMax: 18500,
-    logo: "vct/china/jdg.png",
+    logo: "china/jdg.png",
   },
 
   {
@@ -824,7 +824,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 89,
     salaryMin: 7000,
     salaryMax: 17000,
-    logo: "vct/china/nova.png",
+    logo: "china/nova.png",
   },
 
   {
@@ -840,7 +840,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 85,
     salaryMin: 7500,
     salaryMax: 18000,
-    logo: "vct/china/trace.png",
+    logo: "china/trace.png",
   },
 
   {
@@ -856,7 +856,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 84,
     salaryMin: 8000,
     salaryMax: 19000,
-    logo: "vct/china/tyloo.png",
+    logo: "china/tyloo.png",
   },
 
   {
@@ -872,7 +872,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 82,
     salaryMin: 6500,
     salaryMax: 15500,
-    logo: "vct/china/titan.png",
+    logo: "china/wuxi.png",
   },
 
   {
@@ -888,7 +888,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 90,
     salaryMin: 9000,
     salaryMax: 21000,
-    logo: "vct/china/wolves.png",
+    logo: "china/wolves.png",
   },
 
   {
@@ -904,7 +904,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 92,
     salaryMin: 8500,
     salaryMax: 20000,
-    logo: "vct/china/xlg.png",
+    logo: "china/xlg.png",
   },
 ];
 

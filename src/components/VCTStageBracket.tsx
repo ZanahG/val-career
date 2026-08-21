@@ -1,16 +1,17 @@
 import type {VCTStageBracketMatch,VCTStageBracketRound,VCTStageBracketState} from "../types/stage";
 import {getTeamById} from "../data/teams";
+import {getTeamLogo} from "../utils/teamLogo";
 import "../styles/VCTStage.css";
 
 interface VCTStageBracketProps {
-  bracket: VCTStageBracketState;
-  playerTeamId?: string;
+  bracket:VCTStageBracketState;
+  playerTeamId?:string;
 }
 
-const UPPER: VCTStageBracketRound[] = ["Upper Round 1","Upper Semifinals","Upper Final","Grand Final"];
-const LOWER: VCTStageBracketRound[] = ["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"];
+const UPPER:VCTStageBracketRound[] = ["Upper Round 1","Upper Semifinals","Upper Final","Grand Final"];
+const LOWER:VCTStageBracketRound[] = ["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"];
 
-export function VCTStageBracket({bracket,playerTeamId}: VCTStageBracketProps) {
+export function VCTStageBracket({bracket,playerTeamId}:VCTStageBracketProps) {
   return (
     <section className="vct-stage-format">
       <header className="vct-stage-format__header">
@@ -24,7 +25,7 @@ export function VCTStageBracket({bracket,playerTeamId}: VCTStageBracketProps) {
   );
 }
 
-function BracketArea({title,rounds,bracket,playerTeamId}: {title: string; rounds: VCTStageBracketRound[]; bracket: VCTStageBracketState; playerTeamId?: string}) {
+function BracketArea({title,rounds,bracket,playerTeamId}:{title:string;rounds:VCTStageBracketRound[];bracket:VCTStageBracketState;playerTeamId?:string}) {
   return (
     <section className="vct-stage-bracket-area">
       <span>{title}</span>
@@ -41,21 +42,28 @@ function BracketArea({title,rounds,bracket,playerTeamId}: {title: string; rounds
   );
 }
 
-function BracketMatch({match,playerTeamId}: {match: VCTStageBracketMatch; playerTeamId?: string}) {
+function BracketMatch({match,playerTeamId}:{match:VCTStageBracketMatch;playerTeamId?:string}) {
+  const playerMatch = match.teamAId === playerTeamId || match.teamBId === playerTeamId;
+
   return (
-    <article className={`vct-stage-bracket-match ${match.teamAId === playerTeamId || match.teamBId === playerTeamId ? "vct-stage-bracket-match--player" : ""}`}>
-      <TeamRow teamId={match.teamAId} score={match.scoreA} winner={match.winnerId === match.teamAId} />
-      <TeamRow teamId={match.teamBId} score={match.scoreB} winner={match.winnerId === match.teamBId} />
+    <article className={`vct-stage-bracket-match ${playerMatch ? "vct-stage-bracket-match--player" : ""}`}>
+      <TeamRow teamId={match.teamAId} score={match.scoreA} winner={Boolean(match.winnerId && match.winnerId === match.teamAId)} />
+      <TeamRow teamId={match.teamBId} score={match.scoreB} winner={Boolean(match.winnerId && match.winnerId === match.teamBId)} />
     </article>
   );
 }
 
-function TeamRow({teamId,score,winner}: {teamId?: string; score?: number; winner: boolean}) {
+function TeamRow({teamId,score,winner}:{teamId?:string;score?:number;winner:boolean}) {
   const team = getTeamById(teamId);
+  const logo = getTeamLogo(team?.logo);
 
   return (
     <div className={winner ? "winner" : ""}>
-      <strong>{team?.shortName ?? "TBD"}</strong>
+      <div className="vct-stage-bracket-team">
+        {logo ? <img src={logo} alt={team?.name ?? ""} /> : <span className="vct-stage-bracket-team__fallback">TBD</span>}
+        <strong>{team?.shortName ?? "TBD"}</strong>
+      </div>
+
       <span>{score ?? "-"}</span>
     </div>
   );
