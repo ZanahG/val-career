@@ -2,9 +2,8 @@ import type {CareerChoice, CareerEvent, CareerPlayer} from "../types/career";
 import {GameSettingsControls} from "./GameSettingsControls";
 import {useGameSettings} from "../context/GameSettingsContext";
 import {PlayerCard} from "./PlayerCard";
-import {StatBar} from "./StatBar";
 import {getEffectLabel, getEffectPreviews} from "../utils/effectLabels";
-import {getPlayerOverall} from "../utils/playerOverall";
+import {PlayerCareerSidebar} from "./PlayerCareerSidebar";
 import "../styles/CareerDashboard.css";
 
 interface CareerDashboardProps {
@@ -18,11 +17,11 @@ interface CareerDashboardProps {
   canOpenOffers: boolean;
   hasActiveSeason: boolean;
   onResumeSeason: () => void;
+  onUpdatePlayer:(player:CareerPlayer) => void;
 }
 
-export function CareerDashboard({player,event,onChoose,onReset,onOpenOffers,onOpenProfile,onEditPlayerCard,canOpenOffers,hasActiveSeason,onResumeSeason}: CareerDashboardProps) {
+export function CareerDashboard({player,event,onChoose,onReset,onOpenOffers,onOpenProfile,onEditPlayerCard,canOpenOffers,hasActiveSeason,onResumeSeason,onUpdatePlayer}:CareerDashboardProps) {
   const {language,t} = useGameSettings();
-  const overall = getPlayerOverall(player);
 
   return (
     <main className="career-shell">
@@ -44,28 +43,7 @@ export function CareerDashboard({player,event,onChoose,onReset,onOpenOffers,onOp
       </header>
 
       <div className="career-layout">
-        <aside className="profile-card">
-          <div className="profile-card__header">
-            <span className="eyebrow">{player.currentStage}</span>
-            <div className="career-player-name-row">
-              <h2>{player.nickname}</h2>
-              <div className="career-player-overall">
-                <strong>{overall}</strong>
-                <span>GRL</span>
-              </div>
-            </div>
-            <p>{player.country} · {player.age} {language === "es" ? "años" : "years old"}</p>
-          </div>
-
-          <div className="stats-list">
-            <StatBar label="AIM" value={player.stats.aim} />
-            <StatBar label="GAME SENSE" value={player.stats.gameSense} />
-            <StatBar label="COMMUNICATION" value={player.stats.communication} />
-            <StatBar label="CLUTCH" value={player.stats.clutch} />
-            <StatBar label="CONSISTENCY" value={player.stats.consistency} />
-            <StatBar label="MENTAL" value={player.stats.mental} />
-          </div>
-        </aside>
+        <PlayerCareerSidebar player={player} language={language} onUpdatePlayer={onUpdatePlayer} showPerformance={false} />
 
         <section className="career-main">
           {event ? (

@@ -7,16 +7,17 @@ import "../styles/PlayerCareerSidebar.css";
 interface PlayerCareerSidebarProps {
   player:CareerPlayer;
   language:"es"|"en";
-  matches:number;
-  wins:number;
-  losses:number;
-  averageRating:number;
-  averageACS:number;
-  kd:number;
+  matches?:number;
+  wins?:number;
+  losses?:number;
+  averageRating?:number;
+  averageACS?:number;
+  kd?:number;
   onUpdatePlayer?:(player:CareerPlayer) => void;
+  showPerformance?:boolean;
 }
 
-export function PlayerCareerSidebar({player,language,matches,wins,losses,averageRating,averageACS,kd,onUpdatePlayer}:PlayerCareerSidebarProps) {
+export function PlayerCareerSidebar({player,language,matches=0,wins=0,losses=0,averageRating=0,averageACS=0,kd=0,onUpdatePlayer,showPerformance=true}:PlayerCareerSidebarProps) {
   const overall = getPlayerOverall(player);
 
   return (
@@ -55,13 +56,15 @@ export function PlayerCareerSidebar({player,language,matches,wins,losses,average
         <PlayerRadarChart player={player} />
       </div>
 
-      <div className="player-career-sidebar__performance">
-        <div><span>{language === "es" ? "PARTIDOS" : "MATCHES"}</span><strong>{matches}</strong></div>
-        <div><span>W / L</span><strong>{wins} / {losses}</strong></div>
-        <div><span>{language === "es" ? "RATING PROM." : "AVG RATING"}</span><strong>{averageRating.toFixed(2)}</strong></div>
-        <div><span>{language === "es" ? "ACS PROM." : "AVG ACS"}</span><strong>{averageACS}</strong></div>
-        <div><span>K / D</span><strong>{kd.toFixed(2)}</strong></div>
-      </div>
+      {showPerformance && (
+        <div className="player-career-sidebar__performance">
+          <div><span>{language === "es" ? "PARTIDOS" : "MATCHES"}</span><strong>{matches}</strong></div>
+          <div><span>W / L</span><strong>{wins} / {losses}</strong></div>
+          <div><span>{language === "es" ? "RATING PROM." : "AVG RATING"}</span><strong>{averageRating.toFixed(2)}</strong></div>
+          <div><span>{language === "es" ? "ACS PROM." : "AVG ACS"}</span><strong>{averageACS}</strong></div>
+          <div><span>K / D</span><strong>{kd.toFixed(2)}</strong></div>
+        </div>
+      )}
     </aside>
   );
 }

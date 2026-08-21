@@ -583,7 +583,7 @@ export default function App() {
 
     if (screen === "vctRecap" && vctSeason) return <VCTSeasonRecap player={player} season={vctSeason} onContinue={continueVCTCareer} />;
 
-    return <CareerDashboard player={player} event={currentEvent} onChoose={handleChoice} onReset={resetCareer} onOpenOffers={openOffers} onOpenProfile={() => openProfile("career")} onEditPlayerCard={() => setPlayerCardEditorOpen(true)} canOpenOffers={canOpenOffers} hasActiveSeason={hasActiveSeason} onResumeSeason={resumeCompetition} />;
+    return <CareerDashboard player={player} event={currentEvent} onChoose={handleChoice} onReset={resetCareer} onOpenOffers={openOffers} onOpenProfile={() => openProfile("career")} onEditPlayerCard={() => setPlayerCardEditorOpen(true)} canOpenOffers={canOpenOffers} hasActiveSeason={hasActiveSeason} onResumeSeason={resumeCompetition} onUpdatePlayer={setPlayer} />;
   };
 
   return (

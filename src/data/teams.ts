@@ -194,7 +194,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 81,
     salaryMin: 7500,
     salaryMax: 17000,
-    logo: "vct/Furia.png",
+    logo: "vct/furia.png",
   },
 
   {
@@ -210,7 +210,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 82,
     salaryMin: 7500,
     salaryMax: 17500,
-    logo: "vct/KRU.png",
+    logo: "vct/kru.png",
   },
 
   {
