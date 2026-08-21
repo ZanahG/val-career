@@ -22,6 +22,7 @@ const createStartingSequence = () => [randomKey(),randomKey(),randomKey()];
 export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps) {
   const {language} = useGameSettings();
 
+  const [started,setStarted] = useState(false);
   const [sequence,setSequence] = useState<WarmupKey[]>(createStartingSequence);
   const [playerSequence,setPlayerSequence] = useState<WarmupKey[]>([]);
   const [round,setRound] = useState(1);
@@ -31,7 +32,7 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
   const [timeLeft,setTimeLeft] = useState(INPUT_TIME_LIMIT);
 
   useEffect(() => {
-    if (phase !== "showing") return;
+    if (!started || phase !== "showing") return;
 
     const showDuration = 1200 + sequence.length * 220;
 
@@ -42,10 +43,10 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
     },showDuration);
 
     return () => window.clearTimeout(timeout);
-  },[phase,sequence]);
+  },[started,phase,sequence]);
 
   useEffect(() => {
-    if (phase !== "input") return;
+    if (!started || phase !== "input") return;
 
     const startedAt = Date.now();
 
@@ -62,10 +63,10 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
     },50);
 
     return () => window.clearInterval(interval);
-  },[phase,round]);
+  },[started,phase,round]);
 
   useEffect(() => {
-    if (phase !== "input") return;
+    if (!started || phase !== "input") return;
 
     const handleKeyDown = (event:KeyboardEvent) => {
       const key = normalizeKey(event);
@@ -78,10 +79,10 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
     window.addEventListener("keydown",handleKeyDown);
 
     return () => window.removeEventListener("keydown",handleKeyDown);
-  },[phase,playerSequence,sequence]);
+  },[started,phase,playerSequence,sequence]);
 
   const submitKey = (key:WarmupKey) => {
-    if (phase !== "input") return;
+    if (!started || phase !== "input") return;
 
     const next = [...playerSequence,key];
     const expectedKey = sequence[next.length - 1];
@@ -99,7 +100,7 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
   };
 
   const resolveRound = (success:boolean,result:Exclude<Feedback,null>) => {
-    if (phase !== "input") return;
+    if (!started || phase !== "input") return;
 
     const nextSuccessfulRounds = successfulRounds + (success ? 1 : 0);
 
@@ -128,51 +129,96 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
   return (
     <div className="career-minigame-overlay">
       <section className={`career-minigame ${feedback === "correct" ? "career-minigame--correct" : feedback ? "career-minigame--wrong" : ""}`}>
-        <header className="career-minigame__header">
-          <div><span>CONSISTENCY</span><h2>{language === "es" ? "RUTINA DE CALENTAMIENTO" : "WARMUP SEQUENCE"}</h2></div>
-          {!finished && <strong>{round}/{MAX_ROUNDS}</strong>}
-        </header>
-
-        {!finished ? (
+        {!started ? (
+          <WarmupIntro language={language} onStart={() => setStarted(true)} />
+        ) : (
           <>
-            {phase === "input" && <Timer timeLeft={timeLeft} max={INPUT_TIME_LIMIT} language={language} />}
+            <header className="career-minigame__header">
+              <div><span>CONSISTENCY</span><h2>{language === "es" ? "RUTINA DE CALENTAMIENTO" : "WARMUP SEQUENCE"}</h2></div>
+              {!finished && <strong>{round}/{MAX_ROUNDS}</strong>}
+            </header>
 
-            <p className="career-minigame__instruction">
-              {phase === "showing"
-                ? (language === "es" ? "MEMORIZA LA SECUENCIA" : "MEMORIZE THE SEQUENCE")
-                : phase === "input"
-                  ? (language === "es" ? "REPRODÚCELA ANTES DE QUE SE ACABE EL TIEMPO" : "REPEAT IT BEFORE TIME RUNS OUT")
-                  : feedback === "correct"
-                    ? (language === "es" ? "SECUENCIA COMPLETA" : "SEQUENCE COMPLETE")
-                    : (language === "es" ? "RONDA FALLIDA" : "ROUND FAILED")}
-            </p>
+            {!finished ? (
+              <>
+                {phase === "input" && <Timer timeLeft={timeLeft} max={INPUT_TIME_LIMIT} language={language} />}
 
-            <div className="warmup-sequence">
-              {phase === "showing" && sequence.map((key,index) => <kbd key={`${key}-${index}`}>{key}</kbd>)}
+                <p className="career-minigame__instruction">
+                  {phase === "showing"
+                    ? (language === "es" ? "MEMORIZA LA SECUENCIA" : "MEMORIZE THE SEQUENCE")
+                    : phase === "input"
+                      ? (language === "es" ? "REPRODÚCELA ANTES DE QUE SE ACABE EL TIEMPO" : "REPEAT IT BEFORE TIME RUNS OUT")
+                      : feedback === "correct"
+                        ? (language === "es" ? "SECUENCIA COMPLETA" : "SEQUENCE COMPLETE")
+                        : (language === "es" ? "RONDA FALLIDA" : "ROUND FAILED")}
+                </p>
 
-              {phase !== "showing" && playerSequence.map((key,index) => {
-                const correctKey = sequence[index] === key;
-                return <kbd key={`${key}-${index}`} className={correctKey ? "warmup-key--correct" : "warmup-key--wrong"}>{key}</kbd>;
-              })}
-            </div>
+                <div className="warmup-sequence">
+                  {phase === "showing" && sequence.map((key,index) => <kbd key={`${key}-${index}`}>{key}</kbd>)}
 
-            {phase === "input" && (
-              <div className="warmup-controls">
-                {KEYS.map((key) => <button key={key} onClick={() => submitKey(key)}>{key}</button>)}
+                  {phase !== "showing" && playerSequence.map((key,index) => {
+                    const correctKey = sequence[index] === key;
+                    return <kbd key={`${key}-${index}`} className={correctKey ? "warmup-key--correct" : "warmup-key--wrong"}>{key}</kbd>;
+                  })}
+                </div>
+
+                {phase === "input" && (
+                  <div className="warmup-controls">
+                    {KEYS.map((key) => <button key={key} onClick={() => submitKey(key)}>{key}</button>)}
+                  </div>
+                )}
+
+                <WarmupFeedback feedback={feedback} sequence={sequence} language={language} />
+              </>
+            ) : (
+              <div className="career-minigame-result">
+                <span>CONSISTENCY</span>
+                <strong>{successfulRounds}/{MAX_ROUNDS}</strong>
+                <p>{reward > 0 ? `+${reward} CONSISTENCY` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
+                <button onClick={() => onComplete({consistency:reward})}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
               </div>
             )}
-
-            <WarmupFeedback feedback={feedback} sequence={sequence} language={language} />
           </>
-        ) : (
-          <div className="career-minigame-result">
-            <span>CONSISTENCY</span>
-            <strong>{successfulRounds}/{MAX_ROUNDS}</strong>
-            <p>{reward > 0 ? `+${reward} CONSISTENCY` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
-            <button onClick={() => onComplete({consistency:reward})}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
-          </div>
         )}
       </section>
+    </div>
+  );
+}
+
+function WarmupIntro({language,onStart}:{language:"es"|"en";onStart:() => void}) {
+  return (
+    <div className="career-minigame-intro">
+      <header className="career-minigame__header">
+        <div><span>ENTRENAMIENTO DE CONSISTENCY</span><h2>{language === "es" ? "RUTINA DE CALENTAMIENTO" : "WARMUP SEQUENCE"}</h2></div>
+        <strong>{language === "es" ? "LISTO" : "READY"}</strong>
+      </header>
+
+      <div className="career-minigame-intro__body">
+        <div className="career-minigame-intro__icon">⌨</div>
+
+        <h3>{language === "es" ? "MEMORIZA Y REPITE LA SECUENCIA" : "MEMORIZE AND REPEAT THE SEQUENCE"}</h3>
+
+        <p>
+          {language === "es"
+            ? "Cada ronda mostrará una secuencia de teclas. Memorízala y repítela usando W, A, S, D y SPACE antes de que se acaben los 4 segundos. La secuencia será más larga en cada ronda."
+            : "Each round shows a key sequence. Memorize it and repeat it using W, A, S, D and SPACE before the 4-second timer expires. The sequence gets longer every round."}
+        </p>
+
+        <div className="career-minigame-intro__rules">
+          <div><strong>W A S D</strong><span>{language === "es" ? "Movimiento" : "Movement"}</span></div>
+          <div><strong>SPACE</strong><span>{language === "es" ? "Salto" : "Jump"}</span></div>
+          <div><strong>{MAX_ROUNDS} {language === "es" ? "RONDAS" : "ROUNDS"}</strong><span>{language === "es" ? "Secuencia creciente" : "Growing sequence"}</span></div>
+          <div><strong>{INPUT_TIME_LIMIT}s</strong><span>{language === "es" ? "Para responder" : "To respond"}</span></div>
+        </div>
+
+        <div className="career-minigame-intro__rewards">
+          <div><strong>7/7</strong><span>+5 CONSISTENCY</span></div>
+          <div><strong>6/7</strong><span>+4 CONSISTENCY</span></div>
+          <div><strong>4-5/7</strong><span>+3 CONSISTENCY</span></div>
+          <div><strong>2-3/7</strong><span>+2 CONSISTENCY</span></div>
+        </div>
+
+        <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+      </div>
     </div>
   );
 }

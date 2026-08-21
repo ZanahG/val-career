@@ -362,3 +362,151 @@
 .career-minigame-timer:has(.career-minigame-timer__track > span[style*="25%"]) strong {
   color:#ff6572;
 }
+.career-minigame-intro {
+  min-height:470px;
+}
+
+.career-minigame-intro__body {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.career-minigame-intro__icon {
+  width:82px;
+  height:82px;
+  margin:4px 0 22px;
+  display:grid;
+  place-items:center;
+  border:1px solid #334050;
+  background:#111923;
+  color:#ff4655;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:34px;
+  font-weight:900;
+  transform:rotate(45deg);
+}
+
+.career-minigame-intro__icon::before {
+  content:"¤";
+  transform:rotate(-45deg);
+}
+
+.career-minigame-intro__icon {
+  font-size:0;
+}
+
+.career-minigame-intro__body h3 {
+  margin:0;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:24px;
+  line-height:1;
+}
+
+.career-minigame-intro__body > p {
+  max-width:610px;
+  margin:14px auto 22px;
+  color:#8995a6;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.career-minigame-intro__rules,
+.career-minigame-intro__rewards {
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  border:1px solid #26313f;
+}
+
+.career-minigame-intro__rules {
+  margin-bottom:12px;
+}
+
+.career-minigame-intro__rules > div,
+.career-minigame-intro__rewards > div {
+  min-height:64px;
+  padding:12px 10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border-right:1px solid #26313f;
+  background:#101720;
+}
+
+.career-minigame-intro__rules > div:last-child,
+.career-minigame-intro__rewards > div:last-child {
+  border-right:0;
+}
+
+.career-minigame-intro__rules strong,
+.career-minigame-intro__rewards strong {
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.career-minigame-intro__rules span {
+  margin-top:4px;
+  color:#718096;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+
+.career-minigame-intro__rewards span {
+  margin-top:4px;
+  color:#55e6a5;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.05em;
+}
+
+.career-minigame-start {
+  min-width:320px;
+  min-height:56px;
+  margin-top:28px;
+  padding:14px 24px;
+  border:0;
+  background:#ff4655;
+  color:#fff;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 16px 35px rgba(255,70,85,.18);
+  transition:.18s ease;
+}
+
+.career-minigame-start:hover {
+  transform:translateY(-1px);
+  background:#ff5b68;
+}
+
+.career-minigame-start span {
+  margin-left:18px;
+}
+
+@media (max-width:600px) {
+  .career-minigame-intro__rules,
+  .career-minigame-intro__rewards {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .career-minigame-intro__rules > div:nth-child(2),
+  .career-minigame-intro__rewards > div:nth-child(2) {
+    border-right:0;
+  }
+
+  .career-minigame-intro__rules > div:nth-child(-n+2),
+  .career-minigame-intro__rewards > div:nth-child(-n+2) {
+    border-bottom:1px solid #26313f;
+  }
+
+  .career-minigame-start {
+    width:100%;
+    min-width:0;
+  }
+}

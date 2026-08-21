@@ -41,8 +41,8 @@ const shuffle = <T,>(items:T[]) => [...items].sort(() => Math.random() - .5);
 
 export function CommsFilterMinigame({onComplete}:CommsFilterMinigameProps) {
   const {language} = useGameSettings();
-
   const messages = useMemo(() => shuffle(MESSAGES).slice(0,8),[]);
+  const [started,setStarted] = useState(false);
   const [index,setIndex] = useState(0);
   const [correct,setCorrect] = useState(0);
   const [finished,setFinished] = useState(false);
@@ -53,7 +53,7 @@ export function CommsFilterMinigame({onComplete}:CommsFilterMinigameProps) {
   const locked = feedback !== null;
 
   useEffect(() => {
-    if (finished || locked) return;
+    if (!started || finished || locked) return;
 
     setTimeLeft(TIME_LIMIT);
 
@@ -72,10 +72,10 @@ export function CommsFilterMinigame({onComplete}:CommsFilterMinigameProps) {
     },50);
 
     return () => window.clearInterval(interval);
-  },[index,finished,locked]);
+  },[started,index,finished,locked]);
 
   const resolveChoice = (choice?:boolean,timeout = false) => {
-    if (locked || finished) return;
+    if (!started || locked || finished) return;
 
     const success = !timeout && choice === message.useful;
     const nextCorrect = correct + (success ? 1 : 0);
@@ -100,33 +100,78 @@ export function CommsFilterMinigame({onComplete}:CommsFilterMinigameProps) {
   return (
     <div className="career-minigame-overlay">
       <section className={`career-minigame ${feedback === "correct" ? "career-minigame--correct" : feedback ? "career-minigame--wrong" : ""}`}>
-        <header className="career-minigame__header">
-          <div><span>COMMUNICATION</span><h2>{language === "es" ? "FILTRO DE COMMS" : "COMMS FILTER"}</h2></div>
-          {!finished && <strong>{index + 1}/{messages.length}</strong>}
-        </header>
-
-        {!finished ? (
-          <>
-            <Timer timeLeft={timeLeft} max={TIME_LIMIT} language={language} />
-
-            <p className="career-minigame__instruction">{language === "es" ? "Decide rápido si esta comunicación ayuda al equipo." : "Quickly decide whether this communication helps the team."}</p>
-
-            <div className="comms-message">
-              <span>TEAM VOICE</span>
-              <strong>“{message.text[language]}”</strong>
-            </div>
-
-            <div className="career-minigame__choices">
-              <button disabled={locked} onClick={() => resolveChoice(true)}>{language === "es" ? "INFORMACIÓN ÚTIL" : "USEFUL INFO"}</button>
-              <button disabled={locked} onClick={() => resolveChoice(false)}>{language === "es" ? "RUIDO" : "NOISE"}</button>
-            </div>
-
-            <FeedbackMessage feedback={feedback} useful={message.useful} language={language} />
-          </>
+        {!started ? (
+          <CommsIntro language={language} onStart={() => setStarted(true)} />
         ) : (
-          <MinigameResult score={`${correct}/${messages.length}`} reward={reward} language={language} onContinue={() => onComplete({communication:reward})} />
+          <>
+            <header className="career-minigame__header">
+              <div><span>COMMUNICATION</span><h2>{language === "es" ? "FILTRO DE COMMS" : "COMMS FILTER"}</h2></div>
+              {!finished && <strong>{index + 1}/{messages.length}</strong>}
+            </header>
+
+            {!finished ? (
+              <>
+                <Timer timeLeft={timeLeft} max={TIME_LIMIT} language={language} />
+
+                <p className="career-minigame__instruction">{language === "es" ? "Decide rápido si esta comunicación ayuda al equipo." : "Quickly decide whether this communication helps the team."}</p>
+
+                <div className="comms-message">
+                  <span>TEAM VOICE</span>
+                  <strong>“{message.text[language]}”</strong>
+                </div>
+
+                <div className="career-minigame__choices">
+                  <button disabled={locked} onClick={() => resolveChoice(true)}>{language === "es" ? "INFORMACIÓN ÚTIL" : "USEFUL INFO"}</button>
+                  <button disabled={locked} onClick={() => resolveChoice(false)}>{language === "es" ? "RUIDO" : "NOISE"}</button>
+                </div>
+
+                <FeedbackMessage feedback={feedback} useful={message.useful} language={language} />
+              </>
+            ) : (
+              <MinigameResult score={`${correct}/${messages.length}`} reward={reward} language={language} onContinue={() => onComplete({communication:reward})} />
+            )}
+          </>
         )}
       </section>
+    </div>
+  );
+}
+
+function CommsIntro({language,onStart}:{language:"es"|"en";onStart:() => void}) {
+  return (
+    <div className="career-minigame-intro">
+      <header className="career-minigame__header">
+        <div><span>ENTRENAMIENTO DE COMMUNICATION</span><h2>{language === "es" ? "FILTRO DE COMMS" : "COMMS FILTER"}</h2></div>
+        <strong>{language === "es" ? "LISTO" : "READY"}</strong>
+      </header>
+
+      <div className="career-minigame-intro__body">
+        <div className="career-minigame-intro__icon">◖</div>
+
+        <h3>{language === "es" ? "SEPARA LA INFORMACIÓN ÚTIL DEL RUIDO" : "SEPARATE USEFUL INFO FROM NOISE"}</h3>
+
+        <p>
+          {language === "es"
+            ? "Escucharás mensajes de voz del equipo. Tendrás 3 segundos para decidir si la comunicación aporta información útil para la ronda o si solamente genera ruido."
+            : "You will hear team voice messages. You have 3 seconds to decide whether the communication provides useful round information or is simply noise."}
+        </p>
+
+        <div className="career-minigame-intro__rules">
+          <div><strong>{language === "es" ? "INFO ÚTIL" : "USEFUL INFO"}</strong><span>{language === "es" ? "HP, posiciones, rotaciones" : "HP, positions, rotations"}</span></div>
+          <div><strong>{language === "es" ? "INFO ÚTIL" : "USEFUL INFO"}</strong><span>{language === "es" ? "Spike, utilidad, ultimates" : "Spike, utility, ultimates"}</span></div>
+          <div><strong>{language === "es" ? "RUIDO" : "NOISE"}</strong><span>{language === "es" ? "Quejas y discusiones" : "Complaints and arguments"}</span></div>
+          <div><strong>{language === "es" ? "RUIDO" : "NOISE"}</strong><span>{language === "es" ? "Comentarios sin impacto" : "Non-actionable comments"}</span></div>
+        </div>
+
+        <div className="career-minigame-intro__rewards">
+          <div><strong>8/8</strong><span>+5 COMMUNICATION</span></div>
+          <div><strong>7/8</strong><span>+4 COMMUNICATION</span></div>
+          <div><strong>5-6/8</strong><span>+3 COMMUNICATION</span></div>
+          <div><strong>3-4/8</strong><span>+2 COMMUNICATION</span></div>
+        </div>
+
+        <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+      </div>
     </div>
   );
 }

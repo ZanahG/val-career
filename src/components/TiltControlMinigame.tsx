@@ -43,6 +43,7 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
   const {language} = useGameSettings();
 
   const messages = useMemo(() => shuffle(MESSAGES).slice(0,10),[]);
+  const [started,setStarted] = useState(false);
   const [index,setIndex] = useState(0);
   const [correct,setCorrect] = useState(0);
   const [tilt,setTilt] = useState(25);
@@ -54,7 +55,7 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
   const locked = feedback !== null;
 
   useEffect(() => {
-    if (finished || locked) return;
+    if (!started || finished || locked) return;
 
     setTimeLeft(TIME_LIMIT);
 
@@ -73,10 +74,10 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
     },50);
 
     return () => window.clearInterval(interval);
-  },[index,finished,locked]);
+  },[started,index,finished,locked]);
 
   const resolveChoice = (mute?:boolean,timeout = false) => {
-    if (locked || finished) return;
+    if (!started || locked || finished) return;
 
     const success = !timeout && mute === message.toxic;
     const nextCorrect = correct + (success ? 1 : 0);
@@ -104,44 +105,91 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
   return (
     <div className="career-minigame-overlay">
       <section className={`career-minigame ${feedback === "correct" ? "career-minigame--correct" : feedback ? "career-minigame--wrong" : ""}`}>
-        <header className="career-minigame__header">
-          <div><span>MENTAL</span><h2>{language === "es" ? "CONTROL DE TILT" : "TILT CONTROL"}</h2></div>
-          {!finished && <strong>{index + 1}/{messages.length}</strong>}
-        </header>
-
-        {!finished ? (
-          <>
-            <Timer timeLeft={timeLeft} max={TIME_LIMIT} language={language} />
-
-            <div className="tilt-meter">
-              <div><span>TILT</span><strong>{tilt}%</strong></div>
-              <div className="tilt-meter__track"><span style={{width:`${tilt}%`}} /></div>
-            </div>
-
-            <p className="career-minigame__instruction">{language === "es" ? "Mutea la toxicidad. No silencies información importante." : "Mute toxicity. Do not silence useful information."}</p>
-
-            <div className="tilt-message">
-              <span>TEAM VOICE</span>
-              <strong>“{message.text[language]}”</strong>
-            </div>
-
-            <div className="career-minigame__choices">
-              <button disabled={locked} onClick={() => resolveChoice(true)}>🔇 MUTE</button>
-              <button disabled={locked} onClick={() => resolveChoice(false)}>🎧 {language === "es" ? "ESCUCHAR" : "LISTEN"}</button>
-            </div>
-
-            <FeedbackMessage feedback={feedback} toxic={message.toxic} language={language} />
-          </>
+        {!started ? (
+          <TiltIntro language={language} onStart={() => setStarted(true)} />
         ) : (
-          <div className="career-minigame-result">
-            <span>MENTAL</span>
-            <strong>{correct}/{messages.length}</strong>
-            <p>{reward > 0 ? `+${reward} MENTAL` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
-            <small className="career-minigame-result__detail">FINAL TILT · {tilt}%</small>
-            <button onClick={() => onComplete({mental:reward})}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
-          </div>
+          <>
+            <header className="career-minigame__header">
+              <div><span>MENTAL</span><h2>{language === "es" ? "CONTROL DE TILT" : "TILT CONTROL"}</h2></div>
+              {!finished && <strong>{index + 1}/{messages.length}</strong>}
+            </header>
+
+            {!finished ? (
+              <>
+                <Timer timeLeft={timeLeft} max={TIME_LIMIT} language={language} />
+
+                <div className="tilt-meter">
+                  <div><span>TILT</span><strong>{tilt}%</strong></div>
+                  <div className="tilt-meter__track"><span style={{width:`${tilt}%`}} /></div>
+                </div>
+
+                <p className="career-minigame__instruction">{language === "es" ? "Mutea la toxicidad. No silencies información importante." : "Mute toxicity. Do not silence useful information."}</p>
+
+                <div className="tilt-message">
+                  <span>TEAM VOICE</span>
+                  <strong>“{message.text[language]}”</strong>
+                </div>
+
+                <div className="career-minigame__choices">
+                  <button disabled={locked} onClick={() => resolveChoice(true)}>🔇 MUTE</button>
+                  <button disabled={locked} onClick={() => resolveChoice(false)}>🎧 {language === "es" ? "ESCUCHAR" : "LISTEN"}</button>
+                </div>
+
+                <FeedbackMessage feedback={feedback} toxic={message.toxic} language={language} />
+              </>
+            ) : (
+              <div className="career-minigame-result">
+                <span>MENTAL</span>
+                <strong>{correct}/{messages.length}</strong>
+                <p>{reward > 0 ? `+${reward} MENTAL` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
+                <small className="career-minigame-result__detail">FINAL TILT · {tilt}%</small>
+                <button onClick={() => onComplete({mental:reward})}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
+              </div>
+            )}
+          </>
         )}
       </section>
+    </div>
+  );
+}
+
+function TiltIntro({language,onStart}:{language:"es"|"en";onStart:() => void}) {
+  return (
+    <div className="career-minigame-intro">
+      <header className="career-minigame__header">
+        <div><span>ENTRENAMIENTO DE MENTAL</span><h2>{language === "es" ? "CONTROL DE TILT" : "TILT CONTROL"}</h2></div>
+        <strong>{language === "es" ? "LISTO" : "READY"}</strong>
+      </header>
+
+      <div className="career-minigame-intro__body">
+        <div className="career-minigame-intro__icon">◉</div>
+
+        <h3>{language === "es" ? "MANTÉN LA CABEZA FRÍA" : "KEEP YOUR HEAD COOL"}</h3>
+
+        <p>
+          {language === "es"
+            ? "Aparecerán mensajes del voice chat del equipo. Tendrás 2.5 segundos para decidir si debes mutear la toxicidad o mantener una comunicación útil. Las malas decisiones aumentarán tu nivel de tilt."
+            : "Team voice messages will appear. You have 2.5 seconds to decide whether to mute toxicity or keep useful communication. Bad decisions will increase your tilt level."}
+        </p>
+
+        <div className="career-minigame-intro__rules">
+          <div><strong>🔇 MUTE</strong><span>{language === "es" ? "Toxicidad y ataques" : "Toxicity and attacks"}</span></div>
+          <div><strong>🎧 {language === "es" ? "ESCUCHAR" : "LISTEN"}</strong><span>{language === "es" ? "Información útil" : "Useful information"}</span></div>
+          <div><strong>-4 TILT</strong><span>{language === "es" ? "Decisión correcta" : "Correct decision"}</span></div>
+          <div><strong>+12/+16</strong><span>{language === "es" ? "Error / timeout" : "Mistake / timeout"}</span></div>
+        </div>
+
+        <div className="career-minigame-intro__rewards">
+          <div><strong>9-10/10</strong><span>+5 MENTAL*</span></div>
+          <div><strong>8/10</strong><span>+4 MENTAL</span></div>
+          <div><strong>6-7/10</strong><span>+3 MENTAL</span></div>
+          <div><strong>4-5/10</strong><span>+2 MENTAL</span></div>
+        </div>
+
+        <p>{language === "es" ? "* +5 requiere terminar con 30% de tilt o menos." : "* +5 requires finishing with 30% tilt or less."}</p>
+
+        <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+      </div>
     </div>
   );
 }
