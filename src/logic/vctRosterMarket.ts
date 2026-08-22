@@ -1,5 +1,6 @@
 import type {VCTRealPlayer} from "../data/vctPlayers";
 import type {VCTRosterState,VCTTransfer} from "../types/vctRosters";
+import {progressVCTPlayers} from "./vctPlayerDevelopment";
 import {TEAMS} from "../data/teams";
 
 const shuffle = <T,>(items:T[]) => [...items].sort(() => Math.random() - .5);
@@ -13,7 +14,8 @@ const REGION_TRANSFER_WEIGHTS:Record<string,Record<string,number>> = {
 };
 
 export function simulateVCTOffseason(state:VCTRosterState,nextSeason:number):VCTRosterState {
-  const players = state.players.map((player) => ({...player,stats:{...player.stats}}));
+  let players = state.players.map((player) => ({...player,stats:{...player.stats}}));
+  players = progressVCTPlayers(players);
   const transfers:VCTTransfer[] = [];
 
   const teams = [...new Set(players.map((player) => player.team))];

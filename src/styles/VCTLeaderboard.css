@@ -1,0 +1,56 @@
+.vct-leaderboard { min-height:100vh; padding:38px 46px; background:#090d12; color:#fff; }
+.vct-leaderboard__header { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:28px; }
+.vct-leaderboard__header h1 { margin:3px 0 8px; font-size:48px; line-height:1; }
+.vct-leaderboard__header p { margin:0; color:#7f8b9b; }
+.vct-leaderboard__back { padding:12px 18px; border:1px solid #26313e; background:#101720; color:#fff; font-weight:900; cursor:pointer; }
+
+.vct-leaderboard__table { max-width:1200px; border:1px solid #202a35; background:#0d131b; }
+.vct-leaderboard__table-header { min-height:42px; padding:0 18px; display:grid; grid-template-columns:60px 1.4fr 1.5fr 1fr 1fr 80px; align-items:center; gap:16px; border-bottom:1px solid #202a35; color:#667486; font-size:10px; font-weight:900; letter-spacing:.12em; }
+.vct-leaderboard__rows { display:flex; flex-direction:column; }
+
+.vct-leaderboard__row { min-height:68px; padding:0 18px; display:grid; grid-template-columns:60px 1.4fr 1.5fr 1fr 1fr 80px; align-items:center; gap:16px; border-bottom:1px solid #18212b; }
+.vct-leaderboard__row:last-child { border-bottom:0; }
+.vct-leaderboard__row:hover { background:#111923; }
+.vct-leaderboard__row--player { background:linear-gradient(90deg,rgba(255,70,85,.12),rgba(255,70,85,.02)); border-left:3px solid #ff4655; }
+
+.vct-leaderboard__rank { color:#778394; font-size:16px; }
+.vct-leaderboard__player { display:flex; align-items:center; gap:8px; min-width:0; }
+.vct-leaderboard__player > strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.vct-leaderboard__player small { padding:2px 5px; background:#ff4655; color:#fff; font-size:8px; font-weight:900; }
+
+.vct-leaderboard__team { display:flex; align-items:center; gap:10px; min-width:0; }
+.vct-leaderboard__team img { width:34px; height:34px; object-fit:contain; }
+.vct-leaderboard__team > span { width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:#18212b; font-size:9px; font-weight:900; }
+.vct-leaderboard__team strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; }
+
+.vct-leaderboard__region,.vct-leaderboard__role { color:#8b97a6; font-size:12px; font-weight:700; }
+.vct-leaderboard__overall { color:#fff; font-size:24px; }
+.vct-leaderboard__row:nth-child(-n+3) .vct-leaderboard__overall { color:#ff4655; }
+
+.vct-leaderboard__find-me {
+  position:fixed;
+  right:28px;
+  bottom:28px;
+  z-index:30;
+  min-height:52px;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  border:1px solid #ff4655;
+  background:#ff4655;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+  box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.vct-leaderboard__find-me span {
+  font-size:18px;
+}
+
+.vct-leaderboard__find-me:hover {
+  background:#ff5c68;
+}

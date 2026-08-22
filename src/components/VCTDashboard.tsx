@@ -34,11 +34,12 @@ interface VCTDashboardProps {
   onPlayMatch:() => void;
   onFinishSeason:() => void;
   onOpenProfile:() => void;
+  onOpenLeaderboard:() => void;
   onChooseEvent:(choice:VCTNarrativeChoice) => void;
   onUpdatePlayer:(player:CareerPlayer) => void;
 }
 
-export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenProfile,onChooseEvent,onUpdatePlayer}:VCTDashboardProps) {
+export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenProfile,onOpenLeaderboard,onChooseEvent,onUpdatePlayer}:VCTDashboardProps) {
   const {language,t} = useGameSettings();
 
   const team = getTeamById(player.currentTeamId);
@@ -88,9 +89,7 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
 
   const championshipPoints = team ? season.championshipPointsByTeam[team.id] ?? 0 : 0;
 
-  const championshipRanking = Object.entries(season.championshipPointsByTeam)
-    .sort(([,a],[,b]) => b - a);
-
+  const championshipRanking = Object.entries(season.championshipPointsByTeam).sort(([,a],[,b]) => b - a);
   const championshipRank = team ? championshipRanking.findIndex(([teamId]) => teamId === team.id) + 1 : 0;
 
   const useFloatingPlay = season.phase === "Kickoff" || season.phase === "Masters 1" || season.phase === "Masters 2" || season.phase === "Stage 1" || season.phase === "Stage 1 Playoffs" || season.phase === "Stage 2" || season.phase === "Stage 2 Playoffs" || season.phase === "Champions";
@@ -105,6 +104,7 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
 
         <div className="vct-topbar__right">
           <button className="secondary-button" onClick={onOpenProfile}>{language === "es" ? "CARRERA" : "CAREER"}</button>
+          <button className="secondary-button" onClick={onOpenLeaderboard}>{language === "es" ? "CLASIFICACIÓN" : "LEADERBOARD"}</button>
           <GameSettingsControls />
           <div className="vct-year"><span>{t("season")}</span><strong>{player.season}</strong></div>
         </div>
@@ -273,20 +273,9 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
 
       {!finished && !narrativeEvent && useFloatingPlay && (nextOpponent || isMastersDirectSeedWaiting || isMastersSwissResolved) && (
         isMastersSwissResolved && !nextOpponent ? (
-          <MatchPlayButton
-            language={language}
-            onClick={onPlayMatch}
-            mode="simulate"
-            simulateLabel={language === "es" ? "SIMULAR SWISS" : "SIMULATE SWISS"}
-          />
+          <MatchPlayButton language={language} onClick={onPlayMatch} mode="simulate" simulateLabel={language === "es" ? "SIMULAR SWISS" : "SIMULATE SWISS"} />
         ) : (
-          <MatchPlayButton
-            opponentName={nextOpponent?.name}
-            opponentShortName={nextOpponent?.shortName}
-            opponentLogo={nextOpponentLogo}
-            language={language}
-            onClick={onPlayMatch}
-          />
+          <MatchPlayButton opponentName={nextOpponent?.name} opponentShortName={nextOpponent?.shortName} opponentLogo={nextOpponentLogo} language={language} onClick={onPlayMatch} />
         )
       )}
     </main>

@@ -6,7 +6,7 @@ import type {VCTRosterState} from "./vctRosters";
 export interface CareerSave {
   version:1;
   player:CareerPlayer;
-  screen:"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"market"|"vctOffseason";
+  screen:"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"market"|"vctOffseason"|"leaderboard";
   currentEventId:string;
   season:SeasonState|null;
   vctSeason:VCTSeasonState|null;

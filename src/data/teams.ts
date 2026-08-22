@@ -598,7 +598,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 84,
     salaryMin: 6500,
     salaryMax: 15500,
-    logo: "pacific/global-esports.png",
+    logo: "pacific/global.png",
   },
 
   {

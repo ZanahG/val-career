@@ -17,9 +17,10 @@ export function VCTOffseasonMoves({season,transfers,onContinue}:VCTOffseasonMove
       <header className="vct-offseason-moves__header">
         <div>
           <span className="eyebrow">VCT OFFSEASON</span>
-          <h1>{season} ROSTER MOVES</h1>
-          <p>{seasonTransfers.length ? `${seasonTransfers.length} movimientos registrados.` : "No hubo movimientos importantes esta temporada."}</p>
+          <h1>{season} MARKET MOVES</h1>
         </div>
+
+        <button className="vct-offseason-moves__continue" onClick={onContinue}>CONTINUE TO MARKET →</button>
       </header>
 
       <section className="vct-offseason-moves__list">
@@ -53,8 +54,6 @@ export function VCTOffseasonMoves({season,transfers,onContinue}:VCTOffseasonMove
           </div>
         )}
       </section>
-
-      <button className="vct-offseason-moves__continue" onClick={onContinue}>CONTINUE TO MARKET →</button>
     </main>
   );
 }

@@ -19,7 +19,7 @@ import {VCTOffseasonMoves} from "./components/VCTOffseasonMoves";
 import {VCTSeasonRecap} from "./components/VCTSeasonRecap";
 import {WarmupSequenceMinigame} from "./components/WarmupSequenceMinigame";
 import {PlantTimingMinigame} from "./components/PlantTimingMinigame";
-
+import {VCTLeaderboard} from "./components/VCTLeaderboard";
 import {getPlayerBanner,getPlayerTitle,isPlayerBannerUnlocked,isPlayerTitleUnlocked} from "./data/cosmetics";
 import {getEventById,getRandomCareerStartEventId} from "./data/events";
 import {generateMidseasonOffers,generateOffers,generateRenewalOffer} from "./data/offers";
@@ -43,7 +43,7 @@ import type {VCTRosterState} from "./types/vctRosters";
 import {applyOffseasonRegression,applyPlayerStatChange} from "./utils/playerStatsProgression";
 import {deleteCareerSave,hasCareerSave,loadCareer,saveCareer} from "./utils/saveGame";
 
-type GameScreen = "create"|"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"profile"|"market"|"vctOffseason";
+type GameScreen = "create"|"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"profile"|"market"|"vctOffseason"|"leaderboard";
 type ProfileReturnScreen = "career"|"season"|"vct"|"recap"|"vctRecap";
 type MarketWindow = "midseason"|"offseason"|null;
 
@@ -263,6 +263,14 @@ export default function App() {
   const openProfile = (returnScreen:ProfileReturnScreen) => {
     setProfileReturnScreen(returnScreen);
     setScreen("profile");
+  };
+
+  const openLeaderboard = () => {
+    setScreen("leaderboard");
+  };
+
+  const closeLeaderboard = () => {
+    setScreen("vct");
   };
 
   const closeProfile = () => setScreen(profileReturnScreen);
@@ -816,7 +824,11 @@ export default function App() {
       return <OfferScreen player={player} offers={offers} onAccept={acceptOffer} onBack={marketWindow ? returnToMarket : undefined} />;
     }
 
-    if (screen === "vct" && vctSeason) return <VCTDashboard player={player} season={vctSeason} onPlayMatch={handlePlayVCTMatch} onFinishSeason={handleFinishVCTSeason} onOpenProfile={() => openProfile("vct")} onChooseEvent={handleVCTNarrativeChoice} onUpdatePlayer={setPlayer} />;
+    if (screen === "leaderboard" && vctRosters) {
+      return <VCTLeaderboard player={player} rosters={vctRosters} onBack={closeLeaderboard} />;
+    }
+
+    if (screen === "vct" && vctSeason) return <VCTDashboard player={player} season={vctSeason} onPlayMatch={handlePlayVCTMatch} onFinishSeason={handleFinishVCTSeason} onOpenProfile={() => openProfile("vct")} onOpenLeaderboard={openLeaderboard} onChooseEvent={handleVCTNarrativeChoice} onUpdatePlayer={setPlayer} />;
 
     if (screen === "season" && season) return <SeasonDashboard player={player} season={season} onPlayMatch={handlePlayMatch} onFinishSeason={handleFinishSeason} onOpenProfile={() => openProfile("season")} onGoHome={() => setScreen("career")} onUpdatePlayer={setPlayer} />;
 
