@@ -44,6 +44,7 @@ type MarketWindow = "midseason"|"offseason"|null;
 
 const MAX_INITIAL_CAREER_EVENTS = 5;
 const INTRO_EVENT_COUNT_STORAGE_KEY = "tu-carrera-valorant:intro-events-played";
+const MAX_CAREER_SEASON = 2035;
 
 const clamp = (value:number) => Math.max(0,Math.min(100,value));
 
@@ -431,19 +432,46 @@ export default function App() {
       ascensionLosses,
     };
 
-    setPlayer({
+    const finishedPlayer:CareerPlayer = {
       ...player,
       vctEligible:player.vctEligible || season.ascensionWon,
       earnings:player.earnings + player.salary * 12,
       history:[...player.history,historyEntry],
       trophies:[...player.trophies,...trophies],
-    });
+    };
+
+    setPlayer(finishedPlayer);
+
+    if (player.season >= MAX_CAREER_SEASON) {
+      setSeason(null);
+      setVCTSeason(null);
+      setMarketWindow(null);
+      setMarketOffers([]);
+      setRenewalOffer(null);
+      setMatchBoxScore(null);
+      resetMinigameState();
+      setProfileReturnScreen("career");
+      setScreen("profile");
+      return;
+    }
 
     setScreen("recap");
   };
 
   const continueCareer = () => {
     if (!player) return;
+
+    if (player.season >= MAX_CAREER_SEASON) {
+      setSeason(null);
+      setVCTSeason(null);
+      setMarketWindow(null);
+      setMarketOffers([]);
+      setRenewalOffer(null);
+      resetMinigameState();
+      setProfileReturnScreen("career");
+      setScreen("profile");
+      return;
+    }
 
     resetMinigameState();
     setMarketWindow(null);
@@ -594,21 +622,45 @@ export default function App() {
       vctEvents,
     };
 
-    setPlayer({
+    const finishedPlayer:CareerPlayer = {
       ...player,
       earnings:player.earnings + player.salary * 12,
       history:[...player.history,historyEntry],
       trophies:[...player.trophies,...trophies],
-    });
+    };
 
+    setPlayer(finishedPlayer);
     setMatchBoxScore(null);
     setPlayerCardEditorOpen(false);
     resetMinigameState();
+
+    if (player.season >= MAX_CAREER_SEASON) {
+      setSeason(null);
+      setVCTSeason(null);
+      setMarketWindow(null);
+      setMarketOffers([]);
+      setRenewalOffer(null);
+      setProfileReturnScreen("career");
+      setScreen("profile");
+      return;
+    }
+
     setScreen("vctRecap");
   };
 
   const continueVCTCareer = () => {
     if (!player) return;
+
+    if (player.season >= MAX_CAREER_SEASON) {
+      setSeason(null);
+      setVCTSeason(null);
+      setMarketWindow(null);
+      setMarketOffers([]);
+      setRenewalOffer(null);
+      setProfileReturnScreen("career");
+      setScreen("profile");
+      return;
+    }
 
     resetMinigameState();
     setMarketWindow("offseason");
