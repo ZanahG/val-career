@@ -70,7 +70,7 @@ export interface VCTSeasonState {
   season: number;
   circuit: CompetitiveCircuit;
   phase: VCTPhase;
-  championshipPoints: number;
+  championshipPointsByTeam:Record<string,number>;
   events: Record<PlayableVCTPhase, VCTEventState>;
   pendingEvent?: VCTPendingEvent;
   marketWindowPending?:"midseason"|"offseason";

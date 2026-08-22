@@ -17,6 +17,7 @@ import {TiltControlMinigame} from "./components/TiltControlMinigame";
 import {VCTDashboard} from "./components/VCTDashboard";
 import {VCTSeasonRecap} from "./components/VCTSeasonRecap";
 import {WarmupSequenceMinigame} from "./components/WarmupSequenceMinigame";
+import {PlantTimingMinigame} from "./components/PlantTimingMinigame";
 
 import {getPlayerBanner,getPlayerTitle,isPlayerBannerUnlocked,isPlayerTitleUnlocked} from "./data/cosmetics";
 import {getEventById,getRandomCareerStartEventId} from "./data/events";
@@ -44,7 +45,7 @@ type MarketWindow = "midseason"|"offseason"|null;
 
 const MAX_INITIAL_CAREER_EVENTS = 5;
 const INTRO_EVENT_COUNT_STORAGE_KEY = "tu-carrera-valorant:intro-events-played";
-const MAX_CAREER_SEASON = 2030;
+const MAX_CAREER_SEASON = 2032;
 
 const clamp = (value:number) => Math.max(0,Math.min(100,value));
 
@@ -611,6 +612,8 @@ export default function App() {
     if (vctSeason.events["Masters 2"].placement === 1) trophies.push(`${player.season} Masters 2 Champion`);
     if (championsPlacement === 1) trophies.push(`${player.season} Valorant World Champion`);
 
+    const championshipPoints = player.currentTeamId ? (vctSeason.championshipPointsByTeam[player.currentTeamId] ?? 0) : 0;
+
     const historyEntry:CareerHistoryEntry = {
       season:player.season,
       teamId:player.currentTeamId ?? "free-agent",
@@ -623,7 +626,7 @@ export default function App() {
       trophies,
       stage:"VCT",
       vctCircuit:vctSeason.circuit,
-      championshipPoints:vctSeason.championshipPoints,
+      championshipPoints,
       vctEvents,
     };
 
@@ -775,7 +778,7 @@ export default function App() {
       return <OfferScreen player={player} offers={offers} onAccept={acceptOffer} onBack={marketWindow ? returnToMarket : undefined} />;
     }
 
-    if (screen === "vct" && vctSeason) return <VCTDashboard player={player} season={vctSeason} onPlayMatch={handlePlayVCTMatch} onFinishSeason={handleFinishVCTSeason} onOpenProfile={() => openProfile("vct")} onChooseEvent={handleVCTNarrativeChoice} />;
+    if (screen === "vct" && vctSeason) return <VCTDashboard player={player} season={vctSeason} onPlayMatch={handlePlayVCTMatch} onFinishSeason={handleFinishVCTSeason} onOpenProfile={() => openProfile("vct")} onChooseEvent={handleVCTNarrativeChoice} onUpdatePlayer={setPlayer}/>;
 
     if (screen === "season" && season) return <SeasonDashboard player={player} season={season} onPlayMatch={handlePlayMatch} onFinishSeason={handleFinishSeason} onOpenProfile={() => openProfile("season")} onGoHome={() => setScreen("career")} onUpdatePlayer={setPlayer} />;
 
@@ -796,6 +799,7 @@ export default function App() {
       {activeMinigame === "comms-filter" && <CommsFilterMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
       {activeMinigame === "warmup-sequence" && <WarmupSequenceMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
       {activeMinigame === "tilt-control" && <TiltControlMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
+      {activeMinigame === "plant-timing" && <PlantTimingMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
 
       {matchBoxScore && <MatchStatsModal match={matchBoxScore} playerTeamId={player?.currentTeamId} onClose={closeMatchBoxScore} />}
 

@@ -936,3 +936,62 @@
     min-width:0;
   }
 }
+
+.season-floating-play {
+  position:fixed;
+  right:32px;
+  bottom:28px;
+  z-index:50;
+  min-width:230px;
+  min-height:72px;
+  padding:10px 22px 10px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  border:1px solid #ff4655;
+  background:#ff4655;
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 18px 45px rgba(255,70,85,.2);
+  transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
+}
+
+.season-floating-play:hover {
+  transform:translateY(-2px);
+  background:#ff5866;
+  box-shadow:0 22px 50px rgba(255,70,85,.28);
+}
+
+.season-floating-play__opponent {
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  padding:0;
+  background:transparent;
+}
+
+.season-floating-play__opponent img {
+  width:42px;
+  height:42px;
+  display:block;
+  object-fit:contain;
+  background:transparent;
+}
+
+.season-floating-play__fallback {
+  font-family:"Space Grotesk",sans-serif;
+  font-size:11px;
+  font-weight:900;
+}
+
+.season-floating-play > strong {
+  font-family:"Space Grotesk",sans-serif;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.06em;
+  white-space:nowrap;
+}

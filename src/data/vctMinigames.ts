@@ -1,22 +1,101 @@
 import type {PlayableVCTPhase} from "../types/vct";
 
-export type VCTMinigameType = "clutch-defuse"|"aim-trainer"|"economy-decision"|"comms-filter"|"warmup-sequence"|"tilt-control";
+export type VCTMinigameType = "clutch-defuse"|"aim-trainer"|"economy-decision"|"comms-filter"|"warmup-sequence"|"tilt-control"|"plant-timing";
 
 type MinigameWeights = Record<VCTMinigameType,number>;
 
 const MINIGAME_CHANCE = .35;
 
-const DEFAULT_WEIGHTS:MinigameWeights = {"aim-trainer":17,"economy-decision":17,"comms-filter":17,"clutch-defuse":17,"warmup-sequence":16,"tilt-control":16};
+const DEFAULT_WEIGHTS:MinigameWeights = {
+  "aim-trainer":15,
+  "economy-decision":15,
+  "comms-filter":15,
+  "clutch-defuse":15,
+  "warmup-sequence":14,
+  "tilt-control":13,
+  "plant-timing":13,
+};
 
 const VCT_MINIGAME_WEIGHTS:Record<PlayableVCTPhase,MinigameWeights> = {
-  Kickoff:{"aim-trainer":22,"economy-decision":18,"comms-filter":15,"clutch-defuse":15,"warmup-sequence":20,"tilt-control":10},
-  "Masters 1":{"aim-trainer":15,"economy-decision":20,"comms-filter":15,"clutch-defuse":20,"warmup-sequence":10,"tilt-control":20},
-  "Stage 1":{"aim-trainer":15,"economy-decision":15,"comms-filter":20,"clutch-defuse":15,"warmup-sequence":25,"tilt-control":10},
-  "Stage 1 Playoffs":{"aim-trainer":10,"economy-decision":15,"comms-filter":20,"clutch-defuse":25,"warmup-sequence":10,"tilt-control":20},
-  "Masters 2":{"aim-trainer":15,"economy-decision":20,"comms-filter":15,"clutch-defuse":20,"warmup-sequence":10,"tilt-control":20},
-  "Stage 2":{"aim-trainer":15,"economy-decision":15,"comms-filter":20,"clutch-defuse":15,"warmup-sequence":20,"tilt-control":15},
-  "Stage 2 Playoffs":{"aim-trainer":10,"economy-decision":15,"comms-filter":15,"clutch-defuse":25,"warmup-sequence":10,"tilt-control":25},
-  Champions:{"aim-trainer":10,"economy-decision":15,"comms-filter":15,"clutch-defuse":25,"warmup-sequence":10,"tilt-control":25},
+  Kickoff:{
+    "aim-trainer":20,
+    "economy-decision":16,
+    "comms-filter":13,
+    "clutch-defuse":13,
+    "warmup-sequence":18,
+    "tilt-control":9,
+    "plant-timing":11,
+  },
+
+  "Masters 1":{
+    "aim-trainer":13,
+    "economy-decision":17,
+    "comms-filter":13,
+    "clutch-defuse":17,
+    "warmup-sequence":9,
+    "tilt-control":17,
+    "plant-timing":14,
+  },
+
+  "Stage 1":{
+    "aim-trainer":13,
+    "economy-decision":13,
+    "comms-filter":17,
+    "clutch-defuse":13,
+    "warmup-sequence":22,
+    "tilt-control":9,
+    "plant-timing":13,
+  },
+
+  "Stage 1 Playoffs":{
+    "aim-trainer":9,
+    "economy-decision":13,
+    "comms-filter":17,
+    "clutch-defuse":22,
+    "warmup-sequence":9,
+    "tilt-control":17,
+    "plant-timing":13,
+  },
+
+  "Masters 2":{
+    "aim-trainer":13,
+    "economy-decision":17,
+    "comms-filter":13,
+    "clutch-defuse":17,
+    "warmup-sequence":9,
+    "tilt-control":17,
+    "plant-timing":14,
+  },
+
+  "Stage 2":{
+    "aim-trainer":13,
+    "economy-decision":13,
+    "comms-filter":17,
+    "clutch-defuse":13,
+    "warmup-sequence":17,
+    "tilt-control":13,
+    "plant-timing":14,
+  },
+
+  "Stage 2 Playoffs":{
+    "aim-trainer":9,
+    "economy-decision":13,
+    "comms-filter":13,
+    "clutch-defuse":22,
+    "warmup-sequence":9,
+    "tilt-control":22,
+    "plant-timing":12,
+  },
+
+  Champions:{
+    "aim-trainer":9,
+    "economy-decision":13,
+    "comms-filter":13,
+    "clutch-defuse":22,
+    "warmup-sequence":9,
+    "tilt-control":22,
+    "plant-timing":12,
+  },
 };
 
 export function rollVCTMinigame(phase:PlayableVCTPhase,lastMinigame?:VCTMinigameType):VCTMinigameType|null {

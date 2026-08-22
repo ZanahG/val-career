@@ -4,17 +4,65 @@ import {GameSettingsControls} from "./GameSettingsControls";
 import {useGameSettings} from "../context/GameSettingsContext";
 import {CountrySelect} from "./CountrySelect";
 import {PlayerRadarChart} from "./PlayerRadarChart";
+import jettIcon from "../images/agents/jett.png";
+import razeIcon from "../images/agents/raze.png";
+import neonIcon from "../images/agents/neon.png";
+import yoruIcon from "../images/agents/yoru.png";
+import phoenixIcon from "../images/agents/phoenix.png";
+
+import sovaIcon from "../images/agents/sova.png";
+import fadeIcon from "../images/agents/fade.png";
+import breachIcon from "../images/agents/breach.png";
+import kayoIcon from "../images/agents/kayo.png";
+import gekkoIcon from "../images/agents/gekko.png";
+
+import omenIcon from "../images/agents/omen.png";
+import viperIcon from "../images/agents/viper.png";
+import astraIcon from "../images/agents/astra.png";
+import brimstoneIcon from "../images/agents/brimstone.png";
+import cloveIcon from "../images/agents/clove.png";
+
+import killjoyIcon from "../images/agents/killjoy.png";
+import cypherIcon from "../images/agents/cypher.png";
+import sageIcon from "../images/agents/sage.png";
+import chamberIcon from "../images/agents/chamber.png";
+import deadlockIcon from "../images/agents/deadlock.png";
+import vetoIcon from "../images/agents/veto.png";
 import "../styles/CreatePlayer.css";
 
 const ROLES: PlayerRole[] = ["Duelist","Initiator","Controller","Sentinel","Flex"];
 const REGIONS: PlayerRegion[] = ["LATAM","Brazil","North America","Europe","MENA","Turkey","CIS","Korea","Japan","Southeast Asia","South Asia","Oceania","China"];
 
+const AGENT_ICONS:Record<string,string> = {
+  Jett:jettIcon,
+  Raze:razeIcon,
+  Neon:neonIcon,
+  Yoru:yoruIcon,
+  Phoenix:phoenixIcon,
+  Sova:sovaIcon,
+  Fade:fadeIcon,
+  Breach:breachIcon,
+  Kayo:kayoIcon,
+  Gekko:gekkoIcon,
+  Omen:omenIcon,
+  Viper:viperIcon,
+  Astra:astraIcon,
+  Brimstone:brimstoneIcon,
+  Clove:cloveIcon,
+  Killjoy:killjoyIcon,
+  Cypher:cypherIcon,
+  Sage:sageIcon,
+  Chamber:chamberIcon,
+  Deadlock:deadlockIcon,
+  Veto: vetoIcon,
+};
+
 const AGENTS_BY_ROLE: Record<PlayerRole,string[]> = {
   Duelist: ["Jett","Raze","Neon","Yoru","Phoenix"],
-  Initiator: ["Sova","Fade","Breach","KAY/O","Gekko"],
+  Initiator: ["Sova","Fade","Breach","Kayo","Gekko"],
   Controller: ["Omen","Viper","Astra","Brimstone","Clove"],
-  Sentinel: ["Killjoy","Cypher","Sage","Chamber","Deadlock"],
-  Flex: ["Jett","Omen","Sova","Killjoy","KAY/O"],
+  Sentinel: ["Killjoy","Cypher","Sage","Chamber","Deadlock", "Veto"],
+  Flex: ["Jett","Omen","Sova","Killjoy","Kayo"],
 };
 
 const ROLE_BASE_STATS: Record<PlayerRole,CareerPlayer["stats"]> = {
@@ -34,9 +82,9 @@ interface CreatePlayerProps {
 export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayerProps) {
   const {language,t} = useGameSettings();
   const [nickname,setNickname] = useState("");
-  const [country,setCountry] = useState("Country");
+  const [country,setCountry] = useState("Chile");
   const [region,setRegion] = useState<PlayerRegion>("LATAM");
-  const [age,setAge] = useState(16);
+  const [age,setAge] = useState(17);
   const [role,setRole] = useState<PlayerRole>("Duelist");
   const [mainAgent,setMainAgent] = useState("Jett");
 
@@ -75,7 +123,18 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
     setMainAgent(AGENTS_BY_ROLE[nextRole][0]);
   };
 
-  const createPlayer = () => onCreate(previewPlayer);
+  const handleAgeChange = (value:string) => {
+    const nextAge = Math.trunc(Number(value));
+
+    if (!Number.isFinite(nextAge)) return;
+
+    setAge(Math.max(17,Math.min(24,nextAge)));
+  };
+
+  const createPlayer = () => {
+    if (!country || age < 17 || age > 24) return;
+    onCreate(previewPlayer);
+  };
 
   return (
     <main className="create-screen">
@@ -105,13 +164,36 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
           <label className="field">
             <span>{language === "es" ? "REGIÓN" : "REGION"}</span>
             <select value={region} onChange={(e) => setRegion(e.target.value as PlayerRegion)}>
-              {REGIONS.map((item) => <option key={item} value={item}>{getRegionLabel(item,language)}</option>)}
+              <optgroup label="AMERICAS">
+                <option value="LATAM">{getRegionLabel("LATAM",language)}</option>
+                <option value="Brazil">{getRegionLabel("Brazil",language)}</option>
+                <option value="North America">{getRegionLabel("North America",language)}</option>
+              </optgroup>
+
+              <optgroup label="EMEA">
+                <option value="Europe">{getRegionLabel("Europe",language)}</option>
+                <option value="MENA">{getRegionLabel("MENA",language)}</option>
+                <option value="Turkey">{getRegionLabel("Turkey",language)}</option>
+                <option value="CIS">{getRegionLabel("CIS",language)}</option>
+              </optgroup>
+
+              <optgroup label="PACIFIC">
+                <option value="Korea">{getRegionLabel("Korea",language)}</option>
+                <option value="Japan">{getRegionLabel("Japan",language)}</option>
+                <option value="Southeast Asia">{getRegionLabel("Southeast Asia",language)}</option>
+                <option value="South Asia">{getRegionLabel("South Asia",language)}</option>
+                <option value="Oceania">{getRegionLabel("Oceania",language)}</option>
+              </optgroup>
+
+              <optgroup label="CHINA">
+                <option value="China">{getRegionLabel("China",language)}</option>
+              </optgroup>
             </select>
           </label>
 
           <label className="field">
             <span>{t("startingAge")}</span>
-            <input type="number" min={16} max={24} value={age} onChange={(e) => setAge(Number(e.target.value))} />
+            <input type="number" min={17} max={24} value={age} onChange={(e) => handleAgeChange(e.target.value)} />
           </label>
 
           <label className="field">
@@ -132,20 +214,23 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
           <div className="field field--wide">
             <span>{t("mainAgent")}</span>
             <div className="agent-list">
-              {agents.map((agent) => <button key={agent} type="button" className={agent === mainAgent ? "agent-chip agent-chip--active" : "agent-chip"} onClick={() => setMainAgent(agent)}>{agent}</button>)}
+              {agents.map((agent) => (
+                <button key={agent} type="button" className={agent === mainAgent ? "agent-chip agent-chip--active" : "agent-chip"} onClick={() => setMainAgent(agent)}>
+                  <img src={AGENT_ICONS[agent]} alt={agent} />
+                  <span>{agent}</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>
 
         <div className="create-actions">
-          <button className="primary-button" onClick={createPlayer}>{t("beginCareer")}<span>→</span></button>
+          <button className="primary-button" onClick={createPlayer} disabled={!country || age < 17 || age > 24}>{t("beginCareer")}<span>→</span></button>
           {hasSave && onContinue && <button className="continue-career-button" onClick={onContinue}>{language === "es" ? "CONTINUAR CARRERA" : "CONTINUE CAREER"}<span>→</span></button>}
         </div>
       </section>
 
       <aside className="create-visual">
-        <div className="visual-number">01</div>
-
         <div className="create-role-preview">
           <span className="eyebrow">{language === "es" ? "PERFIL INICIAL" : "STARTING PROFILE"}</span>
           <h3>{role.toUpperCase()}</h3>
@@ -162,12 +247,6 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
             <div><span>CONSISTENCY</span><strong>{roleStats.consistency}</strong></div>
             <div><span>MENTAL</span><strong>{roleStats.mental}</strong></div>
           </div>
-        </div>
-
-        <div className="visual-card">
-          <span>{language === "es" ? "MODO CARRERA MUNDIAL" : "WORLD CAREER MODE"}</span>
-          <strong>{language === "es" ? <>DE RANKED<br />A CHAMPIONS.</> : <>FROM RANKED<br />TO CHAMPIONS.</>}</strong>
-          <p>{language === "es" ? "Tu región determina dónde comienza tu historia. Tú decides dónde termina." : "Your region determines where your story begins. You decide where it ends."}</p>
         </div>
       </aside>
     </main>

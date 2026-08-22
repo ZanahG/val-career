@@ -38,11 +38,11 @@ export function VCTSeasonRecap({player, season, onContinue}: VCTSeasonRecapProps
         <header className="vct-recap-heading">
           <span className="eyebrow">{language === "es" ? "TEMPORADA PROFESIONAL COMPLETADA" : "PRO SEASON COMPLETE"}</span>
           <h1>{season.circuit} {season.season}</h1>
-          <p>{player.nickname} · {team?.name} · {player.rosterRole}</p>
+          <p>{player.nickname}</p>
         </header>
 
         <section className="vct-recap-summary">
-          <div><span>CHAMPIONSHIP POINTS</span><strong>{season.championshipPoints}</strong></div>
+          <div><span>CHAMPIONSHIP POINTS</span><strong>{player.currentTeamId ? (season.championshipPointsByTeam[player.currentTeamId] ?? 0) : 0}</strong></div>
           <div><span>{language === "es" ? "RÉCORD" : "RECORD"}</span><strong>{stats.wins}-{stats.losses}</strong></div>
           <div><span>AVG RATING</span><strong>{stats.averageRating.toFixed(2)}</strong></div>
           <div><span>AVG ACS</span><strong>{stats.averageACS}</strong></div>
@@ -76,22 +76,10 @@ export function VCTSeasonRecap({player, season, onContinue}: VCTSeasonRecapProps
           })}
         </section>
 
-        <section className="vct-recap-final">
-          <span>{language === "es" ? "RESULTADO DE TEMPORADA" : "SEASON RESULT"}</span>
-
-          <strong>
-            {championsPlayed
-              ? championsPlacement === 1
-                ? language === "es" ? "CAMPEÓN DEL MUNDO" : "WORLD CHAMPION"
-                : language === "es" ? `CHAMPIONS #${championsPlacement}` : `CHAMPIONS #${championsPlacement}`
-              : language === "es" ? "NO CLASIFICADO A CHAMPIONS" : "DID NOT QUALIFY FOR CHAMPIONS"}
-          </strong>
-        </section>
-
         <footer className="vct-recap-footer">
           <div>
-            <span>{language === "es" ? "SIGUIENTE TEMPORADA" : "NEXT SEASON"}</span>
-            <strong>{player.contractSeasonsRemaining > 1 ? (language === "es" ? "Seguir bajo contrato" : "Remain under contract") : (language === "es" ? "Mercado internacional" : "International offseason market")}</strong>
+            <span></span>
+            <strong></strong>
           </div>
 
           <button className="primary-button" onClick={onContinue}>{language === "es" ? "CONTINUAR CARRERA" : "CONTINUE CAREER"} <span>→</span></button>

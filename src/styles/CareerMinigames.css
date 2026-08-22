@@ -598,3 +598,409 @@
     min-width:0;
   }
 }
+
+/* ─────────────────────────────────────────
+   PLANT TIMING
+───────────────────────────────────────── */
+
+.plant-timing-minigame {
+  width:min(920px,94vw);
+}
+
+.plant-timing-board {
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  height:430px;
+  overflow:hidden;
+  cursor:crosshair;
+  user-select:none;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.plant-timing-board::before,
+.plant-timing-board::after {
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+
+.plant-timing-board::before {
+  inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,.025),transparent 10%,transparent 90%,rgba(255,255,255,.025));
+}
+
+.plant-timing-board::after {
+  left:50%;
+  bottom:0;
+  width:1px;
+  height:17%;
+  background:linear-gradient(transparent,rgba(255,255,255,.1));
+}
+
+.plant-timing-site {
+  position:absolute;
+  left:32%;
+  top:5%;
+  width:36%;
+  height:18%;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border:1px solid rgba(50,255,132,.65);
+  background:
+    repeating-linear-gradient(135deg,rgba(48,255,128,.08) 0 8px,transparent 8px 16px),
+    rgba(27,157,79,.18);
+  box-shadow:0 0 35px rgba(45,255,125,.06) inset;
+}
+
+.plant-timing-site::before,
+.plant-timing-site::after {
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+}
+
+.plant-timing-site::before {
+  left:7px;
+  top:7px;
+  border-left:2px solid #35ee7d;
+  border-top:2px solid #35ee7d;
+}
+
+.plant-timing-site::after {
+  right:7px;
+  bottom:7px;
+  border-right:2px solid #35ee7d;
+  border-bottom:2px solid #35ee7d;
+}
+
+.plant-timing-site > span {
+  font-size:34px;
+  line-height:1;
+  font-weight:900;
+  color:#48f58b;
+  opacity:.9;
+}
+
+.plant-timing-site > strong {
+  margin-top:4px;
+  font-size:10px;
+  letter-spacing:.22em;
+  color:rgba(127,255,176,.72);
+}
+
+.plant-timing-site-line {
+  position:absolute;
+  left:32%;
+  top:23%;
+  width:36%;
+  height:1px;
+  z-index:0;
+  background:linear-gradient(90deg,transparent,#35ee7d,transparent);
+  box-shadow:0 0 8px rgba(53,238,125,.6);
+}
+
+.plant-timing-enemy {
+  position:absolute;
+  height:4%;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  transform:translateY(-50%);
+}
+
+.plant-timing-enemy__line {
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#ff526d);
+  box-shadow:0 0 5px rgba(255,51,87,.65);
+}
+
+.plant-timing-enemy__line:last-child {
+  background:linear-gradient(90deg,#ff526d,transparent);
+}
+
+.plant-timing-enemy strong {
+  position:relative;
+  flex:0 0 23px;
+  height:23px;
+  display:grid;
+  place-items:center;
+  margin:0 1px;
+  font-size:23px;
+  font-weight:300;
+  line-height:1;
+  color:#ff6c80;
+  text-shadow:0 0 10px rgba(255,52,85,.55);
+}
+
+.plant-timing-enemy strong::after {
+  content:"";
+  position:absolute;
+  inset:7px;
+  border-radius:50%;
+  background:#ff3759;
+  box-shadow:0 0 11px #ff3759;
+  opacity:.16;
+}
+
+.plant-timing-player {
+  position:absolute;
+  width:5.5%;
+  height:auto;
+  aspect-ratio:1;
+  z-index:5;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  transition:filter .15s ease;
+  transform-origin:center bottom;
+  pointer-events:none;
+}
+
+.plant-timing-player__sprite {
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  object-position:center bottom;
+  user-select:none;
+  pointer-events:none;
+  image-rendering:pixelated;
+}
+
+.plant-timing-player--waiting {
+  animation:plantIdle .46s ease-in-out infinite alternate;
+}
+
+.plant-timing-player--committed {
+  animation:plantRun .16s linear infinite alternate;
+  filter:drop-shadow(0 0 7px rgba(255,220,0,.3));
+}
+
+.plant-timing-player--planting {
+  animation:plantingBob .3s ease-in-out infinite alternate;
+}
+
+@keyframes plantIdle {
+  from {transform:translateY(0)}
+  to {transform:translateY(-2px)}
+}
+
+@keyframes plantRun {
+  from {transform:rotate(-2deg)}
+  to {transform:rotate(2deg)}
+}
+
+@keyframes plantingBob {
+  from {transform:translateY(0) scale(.98)}
+  to {transform:translateY(2px) scale(1)}
+}
+
+.plant-timing-spike {
+  position:absolute;
+  left:65%;
+  bottom:-8px;
+  display:grid;
+  place-items:center;
+  width:17px;
+  height:25px;
+  font-size:12px;
+  color:#161b1d;
+  background:#60ec8e;
+  clip-path:polygon(50% 0,100% 25%,82% 100%,18% 100%,0 25%);
+  filter:drop-shadow(0 0 6px rgba(71,255,137,.65));
+}
+
+.plant-timing-commit-hint {
+  position:absolute;
+  left:50%;
+  bottom:3%;
+  z-index:4;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transform:translateX(-50%);
+  pointer-events:none;
+  animation:plantHint 1s ease-in-out infinite alternate;
+}
+
+.plant-timing-commit-hint strong {
+  padding:5px 10px;
+  font-size:11px;
+  letter-spacing:.16em;
+  color:#0b0d0e;
+  background:#f5d900;
+}
+
+.plant-timing-commit-hint span {
+  margin-top:5px;
+  font-size:9px;
+  letter-spacing:.2em;
+  color:rgba(255,255,255,.45);
+}
+
+@keyframes plantHint {
+  from {opacity:.45;transform:translateX(-50%) translateY(2px)}
+  to {opacity:1;transform:translateX(-50%) translateY(0)}
+}
+
+.plant-timing-plant-progress {
+  position:absolute;
+  left:50%;
+  top:28%;
+  z-index:8;
+  width:180px;
+  padding:9px 11px;
+  transform:translateX(-50%);
+  border:1px solid rgba(72,246,137,.32);
+  background:rgba(5,9,7,.9);
+}
+
+.plant-timing-plant-progress > span {
+  display:block;
+  margin-bottom:6px;
+  font-size:9px;
+  font-weight:900;
+  text-align:center;
+  letter-spacing:.19em;
+  color:#65f496;
+}
+
+.plant-timing-plant-progress > div {
+  height:3px;
+  overflow:hidden;
+  background:rgba(255,255,255,.1);
+}
+
+.plant-timing-plant-progress i {
+  display:block;
+  height:100%;
+  background:#56ee8d;
+  transform-origin:left;
+  animation:plantProgress .85s linear forwards;
+}
+
+@keyframes plantProgress {
+  from {transform:scaleX(0)}
+  to {transform:scaleX(1)}
+}
+
+.plant-timing-round-result {
+  position:absolute;
+  inset:0;
+  z-index:20;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(1px);
+  animation:plantResultIn .18s ease-out;
+}
+
+.plant-timing-round-result::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+}
+
+.plant-timing-round-result > strong {
+  font-size:58px;
+  line-height:1;
+}
+
+.plant-timing-round-result > span {
+  margin-top:8px;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.2em;
+}
+
+.plant-timing-round-result--success::before {
+  background:rgba(15,110,56,.13);
+}
+
+.plant-timing-round-result--success > strong,
+.plant-timing-round-result--success > span {
+  color:#52f390;
+}
+
+.plant-timing-round-result--caught::before {
+  background:rgba(150,17,40,.13);
+}
+
+.plant-timing-round-result--caught > strong,
+.plant-timing-round-result--caught > span {
+  color:#ff5570;
+}
+
+@keyframes plantResultIn {
+  from {opacity:0;transform:scale(1.03)}
+  to {opacity:1;transform:scale(1)}
+}
+
+.plant-timing-status {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border:1px solid rgba(255,255,255,.08);
+  border-top:0;
+  background:#090c0e;
+}
+
+.plant-timing-status > div {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  padding:10px;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+
+.plant-timing-status > div:last-child {
+  border-right:0;
+}
+
+.plant-timing-status span {
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.17em;
+  color:rgba(255,255,255,.35);
+}
+
+.plant-timing-status strong {
+  font-size:11px;
+  letter-spacing:.1em;
+  color:#e8ecef;
+}
+
+@media (max-width:700px) {
+  .plant-timing-board {
+    height:430px;
+  }
+
+  .plant-timing-status {
+    grid-template-columns:1fr;
+  }
+
+  .plant-timing-status > div {
+    flex-direction:row;
+    justify-content:space-between;
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+  }
+
+  .plant-timing-player {
+    width:9%;
+  }
+}

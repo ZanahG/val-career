@@ -8,6 +8,9 @@ import {simulateMatch} from "./season";
 import {createChampionsBracket,createChampionsState,createDefaultChampionsQualifiedTeams,getChampionsGroupPlacement,getChampionsPlacement,getChampionsQualifiedTeamIds,playChampionsBracketMatch,playChampionsGroupMatch} from "./championsFormat";
 import {createDefaultMastersQualifiedTeams,createMastersBracket,createMastersState,getMastersBracketPlacement,getMastersSwissQualifiedTeamIds,playNextMastersBracketMatch,playNextMastersSwissMatch,simulateMastersSwissWithoutPlayer} from "./mastersFormat";
 
+const createChampionshipPointsTable = (circuit:TeamDefinition["circuit"]) => Object.fromEntries(
+  TEAMS.filter((team) => team.tier === 1 && team.circuit === circuit).map((team) => [team.id,0])
+);
 const emptyEvent = (): VCTEventState => ({status: "Locked",schedule: [],matches: [],championshipPointsEarned: 0});
 const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - .5);
 
@@ -21,7 +24,7 @@ export function createVCTSeason(player: CareerPlayer): VCTSeasonState {
     season: player.season,
     circuit: team.circuit,
     phase: "Kickoff",
-    championshipPoints: 0,
+    championshipPointsByTeam:createChampionshipPointsTable(team.circuit),
     events: {
       Kickoff: {...emptyEvent(),status: "Active",schedule: kickoffBracket ? [] : createRegionalSchedule(team,4),bracket: kickoffBracket},
       "Masters 1": emptyEvent(),
@@ -263,6 +266,65 @@ export function continueVCTAfterNarrativeEvent(season: VCTSeasonState): VCTSeaso
   };
 }
 
+function addChampionshipPoints(season:VCTSeasonState,teamId:string,points:number):VCTSeasonState {
+  if (points <= 0) return season;
+
+  return {
+    ...season,
+    championshipPointsByTeam:{
+      ...season.championshipPointsByTeam,
+      [teamId]:(season.championshipPointsByTeam[teamId] ?? 0) + points,
+    },
+  };
+}
+
+function simulateRivalChampionshipPoints(season:VCTSeasonState,playerTeamId:string,phase:PlayableVCTPhase):VCTSeasonState {
+  if (phase === "Champions") return season;
+
+  const teams = TEAMS.filter((team) => team.tier === 1 && team.circuit === season.circuit && team.id !== playerTeamId);
+  const table = {...season.championshipPointsByTeam};
+
+  for (const team of teams) {
+    const strengthFactor = Math.max(0,Math.min(1,(team.strength - 65) / 35));
+    const roll = Math.random();
+
+    let points = 0;
+
+    if (phase === "Kickoff") {
+      if (roll < strengthFactor * .35) points = randomWeighted([1,2,3,4]);
+    }
+
+    if (phase === "Masters 1") {
+      if (roll < strengthFactor * .25) points = randomWeighted([1,1,2,3,4,6]);
+    }
+
+    if (phase === "Stage 1" || phase === "Stage 2") {
+      const expectedWins = Math.round(1 + strengthFactor * 4);
+      points = Math.max(0,Math.min(5,expectedWins + Math.floor(Math.random() * 3) - 1));
+    }
+
+    if (phase === "Stage 1 Playoffs") {
+      if (roll < strengthFactor * .35) points = randomWeighted([2,3,4,6]);
+    }
+
+    if (phase === "Masters 2") {
+      if (roll < strengthFactor * .25) points = randomWeighted([3,3,4,5,6,8]);
+    }
+
+    if (phase === "Stage 2 Playoffs") {
+      if (roll < strengthFactor * .35) points = randomWeighted([4,5,6,8]);
+    }
+
+    table[team.id] = (table[team.id] ?? 0) + points;
+  }
+
+  return {...season,championshipPointsByTeam:table};
+}
+
+function randomWeighted(values:number[]) {
+  return values[Math.floor(Math.random() * values.length)];
+}
+
 export function resumeVCTAfterMidseasonMarket(player:CareerPlayer,season:VCTSeasonState):VCTSeasonState {
   const team = getTeamById(player.currentTeamId);
   if (!team || team.tier !== 1) return season;
@@ -358,11 +420,13 @@ function finishKickoffBracket(player: CareerPlayer,season: VCTSeasonState): VCTS
   const placement = getKickoffPlacement(bracket,team.id);
   const points = placement === 1 ? 4 : placement === 2 ? 3 : placement === 3 ? 2 : placement === 4 ? 1 : 0;
 
-  let updatedSeason: VCTSeasonState = {
+  let updatedSeason:VCTSeasonState = {
     ...season,
-    championshipPoints: season.championshipPoints + points,
-    events: {...season.events,Kickoff: {...event,status: "Complete",placement,championshipPointsEarned: points}},
+    events:{...season.events,Kickoff:{...event,status:"Complete",placement,championshipPointsEarned:points}},
   };
+
+  updatedSeason = addChampionshipPoints(updatedSeason,team.id,points);
+  updatedSeason = simulateRivalChampionshipPoints(updatedSeason,team.id,"Kickoff");
 
   if (placement <= 3) {
     updatedSeason = prepareMasters(updatedSeason,"Masters 1",team,placement as 1 | 2 | 3);
@@ -402,11 +466,13 @@ function finishEvent(player: CareerPlayer,season: VCTSeasonState,phase: Playable
 
   const points = getChampionshipPoints(phase,wins,placement);
 
-  let updatedSeason: VCTSeasonState = {
+  let updatedSeason:VCTSeasonState = {
     ...season,
-    championshipPoints: season.championshipPoints + points,
-    events: {...season.events,[phase]: {...event,status: "Complete",placement,championshipPointsEarned: points}},
+    events:{...season.events,[phase]:{...event,status:"Complete",placement,championshipPointsEarned:points}},
   };
+
+  updatedSeason = addChampionshipPoints(updatedSeason,team.id,points);
+  updatedSeason = simulateRivalChampionshipPoints(updatedSeason,team.id,phase);
 
   if (phase === "Masters 1") {
     updatedSeason = prepareStageGroups(updatedSeason,"Stage 1",team);
@@ -610,15 +676,35 @@ export function migrateVCTMastersState(player: CareerPlayer,season: VCTSeasonSta
   };
 }
 
-function resolveChampionsQualification(season: VCTSeasonState,team: TeamDefinition,sourcePhase: PlayableVCTPhase,placement: number): VCTSeasonState {
+function resolveChampionsQualification(season:VCTSeasonState,team:TeamDefinition,sourcePhase:PlayableVCTPhase,placement:number):VCTSeasonState {
   const playoffs = season.events["Stage 2 Playoffs"];
   const playoffPlacement = playoffs.placement ?? 99;
 
-  const directQualification = playoffs.status === "Complete" && playoffPlacement <= 3;
-  const pointsQualification = season.championshipPoints >= 10;
+  const directQualification = playoffs.status === "Complete" && playoffPlacement <= 2;
+
+  const fullRanking = Object.entries(season.championshipPointsByTeam)
+    .sort(([,a],[,b]) => b - a);
+
+  const playerPoints = season.championshipPointsByTeam[team.id] ?? 0;
+
+  const simulatedDirectTeams = directQualification
+    ? []
+    : fullRanking
+        .filter(([teamId]) => teamId !== team.id)
+        .slice(0,2)
+        .map(([teamId]) => teamId);
+
+  const pointsRanking = fullRanking
+    .filter(([teamId]) => !simulatedDirectTeams.includes(teamId));
+
+  const pointsRank = pointsRanking.findIndex(([teamId]) => teamId === team.id) + 1;
+
+  const pointsQualification = !directQualification && pointsRank > 0 && pointsRank <= 2;
 
   if (directQualification || pointsQualification) {
-    const seed: 1 | 2 | 3 | 4 = directQualification ? playoffPlacement as 1 | 2 | 3 : 4;
+    const seed:1|2|3|4 = directQualification
+      ? playoffPlacement as 1|2
+      : pointsRank === 1 ? 3 : 4;
 
     const updatedSeason = prepareChampions(season,team,seed);
 
@@ -627,10 +713,10 @@ function resolveChampionsQualification(season: VCTSeasonState,team: TeamDefiniti
 
   return {
     ...season,
-    phase: "Complete",
-    events: {
+    phase:"Complete",
+    events:{
       ...season.events,
-      Champions: {...season.events.Champions,status: "Eliminated"},
+      Champions:{...season.events.Champions,status:"Eliminated"},
     },
   };
 }
@@ -685,10 +771,46 @@ function getPlacement(phase: PlayableVCTPhase,wins: number,losses: number) {
   return phase === "Champions" ? 9 : 8;
 }
 
-function getChampionshipPoints(phase: PlayableVCTPhase,wins: number,placement: number) {
-  if (phase === "Stage 1" || phase === "Stage 2") return wins;
-  if (phase === "Stage 1 Playoffs" || phase === "Stage 2 Playoffs") return placement === 1 ? 6 : placement === 2 ? 4 : placement <= 4 ? 2 : 0;
-  if (phase === "Masters 1" || phase === "Masters 2") return placement === 1 ? 8 : placement === 2 ? 6 : placement <= 4 ? 4 : 2;
+function getChampionshipPoints(phase:PlayableVCTPhase,wins:number,placement:number) {
+  if (phase === "Kickoff") return placement === 1 ? 4 : placement === 2 ? 3 : placement === 3 ? 2 : placement === 4 ? 1 : 0;
+
+  if (phase === "Masters 1") {
+    if (placement === 1) return 6;
+    if (placement === 2) return 4;
+    if (placement === 3) return 3;
+    if (placement === 4) return 2;
+    if (placement === 5 || placement === 6) return 1;
+    return 0;
+  }
+
+  if (phase === "Stage 1") return wins;
+
+  if (phase === "Stage 1 Playoffs") {
+    if (placement === 1) return 6;
+    if (placement === 2) return 4;
+    if (placement === 3) return 3;
+    if (placement === 4) return 2;
+    return 0;
+  }
+
+  if (phase === "Masters 2") {
+    if (placement === 1) return 8;
+    if (placement === 2) return 6;
+    if (placement === 3) return 5;
+    if (placement === 4) return 4;
+    if (placement === 5 || placement === 6) return 3;
+    return 0;
+  }
+
+  if (phase === "Stage 2") return wins;
+
+  if (phase === "Stage 2 Playoffs") {
+    if (placement === 1) return 8;
+    if (placement === 2) return 6;
+    if (placement === 3) return 5;
+    if (placement === 4) return 4;
+    return 0;
+  }
 
   return 0;
 }

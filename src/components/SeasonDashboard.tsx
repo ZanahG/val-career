@@ -183,12 +183,11 @@ export function SeasonDashboard({player,season,onPlayMatch,onFinishSeason,onOpen
 
       {!seasonFinished && nextOpponent && (
         <button className="season-floating-play" onClick={onPlayMatch}>
-          <span>
-            <small>{language === "es" ? "PRÓXIMO RIVAL" : "NEXT OPPONENT"}</small>
-            <strong>{nextOpponent.name}</strong>
+          <span className="season-floating-play__opponent">
+            {nextOpponentLogo ? <img src={nextOpponentLogo} alt={nextOpponent.name} /> : <span className="season-floating-play__fallback">{nextOpponent.shortName}</span>}
           </span>
 
-          <b>{language === "es" ? "JUGAR PARTIDO" : "PLAY MATCH"} ▶</b>
+          <strong>{language === "es" ? "JUGAR PARTIDO" : "PLAY MATCH"}</strong>
         </button>
       )}
     </main>

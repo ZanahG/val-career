@@ -2,6 +2,7 @@ import type {CareerPlayer} from "../types/career";
 import {getPlayerOverall} from "../utils/playerOverall";
 import {PlayerRadarChart} from "./PlayerRadarChart";
 import {PlayerPhotoUpload} from "./PlayerPhotoUpload";
+import {COUNTRIES} from "../data/countries";
 import "../styles/PlayerCareerSidebar.css";
 
 interface PlayerCareerSidebarProps {
@@ -23,7 +24,12 @@ export function PlayerCareerSidebar({player,language,matches=0,wins=0,losses=0,a
   return (
     <aside className="player-career-sidebar">
       <div className="player-career-sidebar__identity">
-        <span className="player-career-sidebar__country">{getCountryFlag(player.country)} {player.country.toUpperCase()}</span>
+        <span className="player-career-sidebar__country">
+          {getCountryCode(player.country) && <img className="player-career-sidebar__country-flag" src={`https://flagcdn.com/${getCountryCode(player.country)!.toLowerCase()}.svg`} alt="" />}
+          <strong>{player.country.toUpperCase()}</strong>
+          <i>·</i>
+          <small>{player.age} {language === "es" ? "AÑOS" : "Y.O."}</small>
+        </span>
 
         <div className="player-career-sidebar__name-row">
           <h2>{player.nickname}</h2>
@@ -33,8 +39,6 @@ export function PlayerCareerSidebar({player,language,matches=0,wins=0,losses=0,a
             <span>GRL</span>
           </div>
         </div>
-
-        <small>{player.rosterRole.toUpperCase()} · {player.role.toUpperCase()}</small>
       </div>
 
       {onUpdatePlayer ? (
@@ -69,7 +73,6 @@ export function PlayerCareerSidebar({player,language,matches=0,wins=0,losses=0,a
   );
 }
 
-function getCountryFlag(countryCode:string) {
-  if (!countryCode || countryCode.length !== 2) return "🌐";
-  return countryCode.toUpperCase().replace(/./g,(char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+function getCountryCode(country:string) {
+  return COUNTRIES.find((item) => item.name.en === country || item.name.es === country)?.code;
 }

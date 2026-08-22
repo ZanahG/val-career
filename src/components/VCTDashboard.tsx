@@ -23,6 +23,7 @@ import {VCTMastersQualified} from "./VCTMastersQualified";
 import {VCTChampionsGroups} from "./VCTChampionsGroups";
 import {VCTChampionsBracket} from "./VCTChampionsBracket";
 import {VCTChampionsQualified} from "./VCTChampionsQualified";
+import {MatchPlayButton} from "./MatchPlayButton";
 import "../styles/VCTDashboard.css";
 
 type PlayableVCTPhase = Exclude<VCTPhase,"Complete">;
@@ -34,9 +35,10 @@ interface VCTDashboardProps {
   onFinishSeason:() => void;
   onOpenProfile:() => void;
   onChooseEvent:(choice:VCTNarrativeChoice) => void;
+  onUpdatePlayer:(player:CareerPlayer) => void;
 }
 
-export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenProfile,onChooseEvent}:VCTDashboardProps) {
+export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenProfile,onChooseEvent,onUpdatePlayer}:VCTDashboardProps) {
   const {language,t} = useGameSettings();
 
   const team = getTeamById(player.currentTeamId);
@@ -84,6 +86,13 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
   const lastMatch = activeEvent?.matches.at(-1) ?? allMatches.at(-1);
   const narrativeEvent = season.pendingEvent ? getVCTNarrativeEvent(season.pendingEvent.eventId) : undefined;
 
+  const championshipPoints = team ? season.championshipPointsByTeam[team.id] ?? 0 : 0;
+
+  const championshipRanking = Object.entries(season.championshipPointsByTeam)
+    .sort(([,a],[,b]) => b - a);
+
+  const championshipRank = team ? championshipRanking.findIndex(([teamId]) => teamId === team.id) + 1 : 0;
+
   const useFloatingPlay = season.phase === "Kickoff" || season.phase === "Masters 1" || season.phase === "Masters 2" || season.phase === "Stage 1" || season.phase === "Stage 1 Playoffs" || season.phase === "Stage 2" || season.phase === "Stage 2 Playoffs" || season.phase === "Champions";
 
   return (
@@ -102,7 +111,7 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
       </header>
 
       <div className="vct-career-layout">
-        <PlayerCareerSidebar player={player} language={language} matches={stats.matches} wins={stats.wins} losses={stats.losses} averageRating={stats.averageRating} averageACS={stats.averageACS} kd={stats.kd} />
+        <PlayerCareerSidebar player={player} language={language} matches={stats.matches} wins={stats.wins} losses={stats.losses} averageRating={stats.averageRating} averageACS={stats.averageACS} kd={stats.kd} onUpdatePlayer={onUpdatePlayer}/>
 
         <section className="vct-content">
           <header className="vct-heading">
@@ -114,7 +123,7 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
 
             <div className="vct-points">
               <span>CHAMPIONSHIP POINTS</span>
-              <strong>{season.championshipPoints}</strong>
+              <strong>{championshipPoints}</strong>
             </div>
           </header>
 
@@ -263,19 +272,22 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
       </div>
 
       {!finished && !narrativeEvent && useFloatingPlay && (nextOpponent || isMastersDirectSeedWaiting || isMastersSwissResolved) && (
-        <button className="vct-floating-play" onClick={onPlayMatch}>
-          {isMastersSwissResolved && !nextOpponent ? (
-            <>
-              <span><small>{language === "es" ? "SEED DIRECTO" : "DIRECT SEED"}</small><strong>{language === "es" ? "Esperando Playoffs" : "Waiting for Playoffs"}</strong></span>
-              <b>{language === "es" ? "SIMULAR SWISS" : "SIMULATE SWISS"} ▶</b>
-            </>
-          ) : (
-            <>
-              <span><small>{language === "es" ? "PRÓXIMO RIVAL" : "NEXT OPPONENT"}</small><strong>{nextOpponent?.name ?? "TBD"}</strong></span>
-              <b>{language === "es" ? "JUGAR PARTIDO" : "PLAY MATCH"} ▶</b>
-            </>
-          )}
-        </button>
+        isMastersSwissResolved && !nextOpponent ? (
+          <MatchPlayButton
+            language={language}
+            onClick={onPlayMatch}
+            mode="simulate"
+            simulateLabel={language === "es" ? "SIMULAR SWISS" : "SIMULATE SWISS"}
+          />
+        ) : (
+          <MatchPlayButton
+            opponentName={nextOpponent?.name}
+            opponentShortName={nextOpponent?.shortName}
+            opponentLogo={nextOpponentLogo}
+            language={language}
+            onClick={onPlayMatch}
+          />
+        )
       )}
     </main>
   );

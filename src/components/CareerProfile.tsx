@@ -121,7 +121,6 @@ export function CareerProfile({player,onBack,onEditPlayerCard}:CareerProfileProp
               <div><span>{language === "es" ? "GANANCIAS" : "EARNINGS"}</span><strong>{formatCurrency(player.earnings,currency)}</strong></div>
               <div><span>{language === "es" ? "TROFEOS" : "TROPHIES"}</span><strong>{player.trophies.length}</strong></div>
               <div><span>{language === "es" ? "MEJOR POSICIÓN" : "BEST FINISH"}</span><strong>{bestPlacement ? `#${bestPlacement}` : "-"}</strong></div>
-              <div><span>{language === "es" ? "SEGUIDORES" : "FOLLOWERS"}</span><strong>{player.followers.toLocaleString()}</strong></div>
             </section>
 
             <div className="profile-columns">
@@ -205,20 +204,6 @@ export function CareerProfile({player,onBack,onEditPlayerCard}:CareerProfileProp
                 </section>
 
                 <PlayerRadarChart player={player} />
-
-                <section className="profile-panel profile-personality">
-                  <div className="profile-panel__title">
-                    <div><span className="eyebrow">{language === "es" ? "REPUTACIÓN" : "REPUTATION"}</span><h2>{language === "es" ? "Perfil profesional" : "Professional profile"}</h2></div>
-                  </div>
-
-                  <div className="profile-reputation">
-                    <div><span>{language === "es" ? "REPUTACIÓN" : "REPUTATION"}</span><strong>{player.reputationStats.reputation}</strong></div>
-                    <div><span>{language === "es" ? "PROFESIONALISMO" : "PROFESSIONALISM"}</span><strong>{player.reputationStats.professionalism}</strong></div>
-                    <div><span>TEAMWORK</span><strong>{player.reputationStats.teamwork}</strong></div>
-                    <div><span>{language === "es" ? "POPULARIDAD" : "POPULARITY"}</span><strong>{player.reputationStats.popularity}</strong></div>
-                    <div><span>TOXICITY</span><strong>{player.reputationStats.toxicity}</strong></div>
-                  </div>
-                </section>
               </aside>
             </div>
           </div>
