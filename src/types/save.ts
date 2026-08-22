@@ -1,11 +1,12 @@
 import type {CareerPlayer,ContractOffer} from "./career";
 import type {SeasonState} from "./season";
 import type {VCTSeasonState} from "./vct";
+import type {VCTRosterState} from "./vctRosters";
 
 export interface CareerSave {
   version:1;
   player:CareerPlayer;
-  screen:"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"market";
+  screen:"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"market"|"vctOffseason";
   currentEventId:string;
   season:SeasonState|null;
   vctSeason:VCTSeasonState|null;
@@ -13,4 +14,5 @@ export interface CareerSave {
   marketOffers?:ContractOffer[];
   savedAt:number;
   renewalOffer?:ContractOffer|null;
+  vctRosters?:VCTRosterState;
 }

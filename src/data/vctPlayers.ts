@@ -1,4 +1,5 @@
 import playersData from "./vctTier1Players.json";
+import type {VCTRosterState} from "../types/vctRosters";
 import type {CareerPlayer} from "../types/career";
 
 export interface VCTRealPlayer {
@@ -22,12 +23,22 @@ export interface VCTMatchPlayer extends VCTRealPlayer {
 
 const VCT_PLAYERS = playersData.vct_players as VCTRealPlayer[];
 
-export function getVCTTeamPlayers(teamName:string) {
-  return VCT_PLAYERS.filter((player) => player.team === teamName);
+export function createInitialVCTRosterState(season:number):VCTRosterState {
+  return {
+    season,
+    initialized:true,
+    players:VCT_PLAYERS.map((player) => ({...player,stats:{...player.stats}})),
+    transfers:[],
+  };
 }
 
-export function getEffectiveVCTRoster(teamName:string,careerPlayer?:CareerPlayer):VCTMatchPlayer[] {
-  const roster = getVCTTeamPlayers(teamName);
+export function getVCTTeamPlayers(teamName:string,rosterState?:VCTRosterState) {
+  const players = rosterState?.players ?? VCT_PLAYERS;
+  return players.filter((player) => player.team === teamName);
+}
+
+export function getEffectiveVCTRoster(teamName:string,careerPlayer?:CareerPlayer,rosterState?:VCTRosterState):VCTMatchPlayer[] {
+  const roster = getVCTTeamPlayers(teamName,rosterState);
 
   if (!careerPlayer || careerPlayer.currentTeam !== teamName) return roster;
 
@@ -39,14 +50,7 @@ export function getEffectiveVCTRoster(teamName:string,careerPlayer?:CareerPlayer
     region:"",
     role:careerPlayer.role,
     isCareerPlayer:true,
-    stats:{
-			aim:careerPlayer.stats.aim,
-			clutch:careerPlayer.stats.clutch,
-			gameSense:careerPlayer.stats.gameSense,
-			communication:careerPlayer.stats.communication,
-			consistency:careerPlayer.stats.consistency,
-			mental:careerPlayer.stats.mental,
-		},
+    stats:{...careerPlayer.stats},
   };
 
   if (replacementIndex === -1) return [...roster.slice(0,4),careerEntry];

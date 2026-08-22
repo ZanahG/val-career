@@ -1,3 +1,5 @@
+import type {VCTRosterState} from "./vctRosters";
+
 export type PlayerRole =
   | "Duelist"
   | "Initiator"

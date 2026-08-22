@@ -4,6 +4,7 @@ import type {MatchBoxScore,MatchMapStats,MatchPlayerStats} from "../types/matchS
 import type {VCTMatchPlayer} from "../data/vctPlayers";
 import {getTeamById} from "../data/teams";
 import {getEffectiveVCTRoster} from "../data/vctPlayers";
+import type {VCTRosterState} from "../types/vctRosters";
 
 const MAP_POOL = ["Haven","Bind","Abyss","Lotus","Sunset","Icebox","Corrode","Ascent","Split"];
 
@@ -17,7 +18,7 @@ const random = (min:number,max:number) => Math.floor(Math.random() * (max - min 
 const clamp = (value:number,min:number,max:number) => Math.max(min,Math.min(max,value));
 const shuffle = <T,>(items:T[]) => [...items].sort(() => Math.random() - .5);
 
-export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestOf:3|5=3):MatchBoxScore|null {
+export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestOf:3|5=3,vctRosters?:VCTRosterState):MatchBoxScore|null {
   const playerTeam = getTeamById(player.currentTeamId);
   const opponent = getTeamById(result.opponentId);
   if (!playerTeam || !opponent) return null;
@@ -31,8 +32,8 @@ export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestO
 
   const useRealVCTRosters = playerTeam.tier === 1 && opponent.tier === 1;
 
-  const playerVCTRoster = useRealVCTRosters ? getEffectiveVCTRoster(playerTeam.name,player) : [];
-  const opponentVCTRoster = useRealVCTRosters ? getEffectiveVCTRoster(opponent.name) : [];
+  const playerVCTRoster = useRealVCTRosters ? getEffectiveVCTRoster(playerTeam.name,player,vctRosters) : [];
+  const opponentVCTRoster = useRealVCTRosters ? getEffectiveVCTRoster(opponent.name,undefined,vctRosters) : [];
 
   const realAllies = playerVCTRoster.filter((rosterPlayer) => !rosterPlayer.isCareerPlayer);
   const realEnemies = opponentVCTRoster;
