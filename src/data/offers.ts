@@ -1,6 +1,7 @@
 import type {CareerPlayer,ContractOffer,TeamDefinition} from "../types/career";
 import {getPlayerOverallExact} from "../utils/playerOverall";
 import {getCircuitFromRegion} from "./regions";
+import {getCareerMarketRegion} from "../utils/marketRegion";
 import {TEAMS} from "./teams";
 
 const OFFER_COUNT = 3;
@@ -9,12 +10,13 @@ export function generateOffers(player:CareerPlayer):ContractOffer[] {
   const overall = getPlayerOverallExact(player);
   const scoutingScore = getPlayerScoutingScore(player);
   const homeCircuit = getCircuitFromRegion(player.region);
+  const marketRegion = getCareerMarketRegion(player.region);
   const hasVCTExperience = player.history.some((entry) => entry.stage === "VCT");
   const firstVCTJump = player.currentStage === "Tier 2" && player.vctEligible && !hasVCTExperience;
 
   if (firstVCTJump) {
-    const regionalPool = TEAMS.filter((team) => team.tier === 1 && team.marketRegion === player.region && team.id !== player.currentTeamId);
-    const circuitFallbackPool = TEAMS.filter((team) => team.tier === 1 && team.circuit === homeCircuit && team.marketRegion !== player.region && team.id !== player.currentTeamId);
+    const regionalPool = TEAMS.filter((team) => team.tier === 1 && team.marketRegion === marketRegion && team.id !== player.currentTeamId);
+    const circuitFallbackPool = TEAMS.filter((team) => team.tier === 1 && team.circuit === homeCircuit && team.marketRegion !== marketRegion && team.id !== player.currentTeamId);
 
     const regionalEligible = regionalPool.filter((team) => canOfferContract(team,scoutingScore));
     const circuitEligible = circuitFallbackPool.filter((team) => canOfferContract(team,scoutingScore));
@@ -44,7 +46,7 @@ export function generateOffers(player:CareerPlayer):ContractOffer[] {
     return offerTeams.map((team,index) => createOffer(team,player,overall,scoutingScore,index));
   }
 
-  const tier2Pool = TEAMS.filter((team) => team.tier === 2 && team.marketRegion === player.region && team.id !== player.currentTeamId);
+  const tier2Pool = TEAMS.filter((team) => team.tier === 2 && team.marketRegion === marketRegion && team.id !== player.currentTeamId);
   const eligible = tier2Pool.filter((team) => canOfferContract(team,scoutingScore));
 
   const preferred = sortTeamsForPlayer(eligible,player,overall,scoutingScore,homeCircuit);
@@ -150,8 +152,10 @@ function sortTeamsForPlayer(teams:TeamDefinition[],player:CareerPlayer,overall:n
 }
 
 function getTeamInterestScore(team:TeamDefinition,player:CareerPlayer,overall:number,scoutingScore:number,homeCircuit:string,playerCountry:string) {
+  const playerMarketRegion = getCareerMarketRegion(player.region);
+
   const sameCountryBonus = normalizeCountry(team.country) === playerCountry ? 5 : 0;
-  const sameRegionBonus = team.marketRegion === player.region ? 7 : 0;
+  const sameRegionBonus = team.marketRegion === playerMarketRegion ? 7 : 0;
   const sameCircuitBonus = team.circuit === homeCircuit ? 3 : 0;
 
   const levelDifference = scoutingScore - team.strength;
