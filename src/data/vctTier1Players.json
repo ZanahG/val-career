@@ -1,0 +1,3365 @@
+{
+    "snapshot": "VCT Stage 1 2026",
+    "vct_players": [
+        {
+            "ign": "tex",
+            "team": "MIBR",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 79,
+                "clutch": 78,
+                "gameSense": 85,
+                "communication": 83,
+                "consistency": 92,
+                "mental": 72
+            }
+        },
+        {
+            "ign": "zekken",
+            "team": "MIBR",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 83,
+                "clutch": 80,
+                "gameSense": 94,
+                "communication": 97,
+                "consistency": 83,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "Mazino",
+            "team": "MIBR",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 89,
+                "clutch": 70,
+                "gameSense": 81,
+                "communication": 84,
+                "consistency": 75,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "aspas",
+            "team": "MIBR",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 78,
+                "clutch": 83,
+                "gameSense": 94,
+                "communication": 95,
+                "consistency": 86,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "Verno",
+            "team": "MIBR",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 94,
+                "clutch": 76,
+                "gameSense": 84,
+                "communication": 84,
+                "consistency": 78,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "Zellsis",
+            "team": "Cloud9",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 79,
+                "clutch": 79,
+                "gameSense": 84,
+                "communication": 85,
+                "consistency": 81,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "penny",
+            "team": "Cloud9",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 86,
+                "clutch": 84,
+                "gameSense": 80,
+                "communication": 72,
+                "consistency": 83,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "Xeppaa",
+            "team": "Cloud9",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 84,
+                "clutch": 87,
+                "gameSense": 99,
+                "communication": 98,
+                "consistency": 78,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "v1c",
+            "team": "Cloud9",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 91,
+                "clutch": 74,
+                "gameSense": 83,
+                "communication": 77,
+                "consistency": 91,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "OXY",
+            "team": "Cloud9",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 90,
+                "clutch": 79,
+                "gameSense": 85,
+                "communication": 71,
+                "consistency": 87,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "kiNgg",
+            "team": "LEVIATÁN",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 94,
+                "clutch": 90,
+                "gameSense": 76,
+                "communication": 70,
+                "consistency": 80,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "blowz",
+            "team": "LEVIATÁN",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 87,
+                "clutch": 88,
+                "gameSense": 77,
+                "communication": 85,
+                "consistency": 82,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "Sato",
+            "team": "LEVIATÁN",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 94,
+                "clutch": 79,
+                "gameSense": 86,
+                "communication": 79,
+                "consistency": 76,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "spike",
+            "team": "LEVIATÁN",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 92,
+                "clutch": 79,
+                "gameSense": 86,
+                "communication": 89,
+                "consistency": 82,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "Neon",
+            "team": "LEVIATÁN",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 86,
+                "clutch": 89,
+                "gameSense": 80,
+                "communication": 80,
+                "consistency": 92,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "brawk",
+            "team": "NRG",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 81,
+                "clutch": 81,
+                "gameSense": 93,
+                "communication": 82,
+                "consistency": 90,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "mada",
+            "team": "NRG",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 88,
+                "clutch": 85,
+                "gameSense": 84,
+                "communication": 77,
+                "consistency": 83,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "skuba",
+            "team": "NRG",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 93,
+                "clutch": 75,
+                "gameSense": 90,
+                "communication": 77,
+                "consistency": 86,
+                "mental": 81
+            }
+        },
+        {
+            "ign": "Ethan",
+            "team": "NRG",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 87,
+                "clutch": 93,
+                "gameSense": 83,
+                "communication": 83,
+                "consistency": 77,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "keiko",
+            "team": "NRG",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 91,
+                "clutch": 79,
+                "gameSense": 85,
+                "communication": 85,
+                "consistency": 89,
+                "mental": 69
+            }
+        },
+        {
+            "ign": "Virtyy",
+            "team": "LOUD",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 86,
+                "clutch": 78,
+                "gameSense": 88,
+                "communication": 74,
+                "consistency": 92,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "cauanzin",
+            "team": "LOUD",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 83,
+                "clutch": 91,
+                "gameSense": 91,
+                "communication": 84,
+                "consistency": 92,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "Darker",
+            "team": "LOUD",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 82,
+                "clutch": 82,
+                "gameSense": 78,
+                "communication": 92,
+                "consistency": 90,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "lukxo",
+            "team": "LOUD",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 83,
+                "clutch": 90,
+                "gameSense": 80,
+                "communication": 87,
+                "consistency": 79,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "erde",
+            "team": "LOUD",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 85,
+                "clutch": 91,
+                "gameSense": 80,
+                "communication": 79,
+                "consistency": 89,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "nerve",
+            "team": "FURIA",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 86,
+                "clutch": 90,
+                "gameSense": 91,
+                "communication": 77,
+                "consistency": 79,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "eeiu",
+            "team": "FURIA",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 92,
+                "clutch": 79,
+                "gameSense": 86,
+                "communication": 83,
+                "consistency": 85,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "koalanoob",
+            "team": "FURIA",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 86,
+                "clutch": 89,
+                "gameSense": 86,
+                "communication": 87,
+                "consistency": 90,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "artzin",
+            "team": "FURIA",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 83,
+                "clutch": 75,
+                "gameSense": 90,
+                "communication": 99,
+                "consistency": 86,
+                "mental": 94
+            }
+        },
+        {
+            "ign": "alym",
+            "team": "FURIA",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 90,
+                "clutch": 91,
+                "gameSense": 77,
+                "communication": 88,
+                "consistency": 79,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "Asuna",
+            "team": "100 Thieves",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 76,
+                "clutch": 84,
+                "gameSense": 94,
+                "communication": 94,
+                "consistency": 84,
+                "mental": 94
+            }
+        },
+        {
+            "ign": "bang",
+            "team": "100 Thieves",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 94,
+                "clutch": 94,
+                "gameSense": 82,
+                "communication": 72,
+                "consistency": 91,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "Cryocells",
+            "team": "100 Thieves",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 86,
+                "clutch": 89,
+                "gameSense": 79,
+                "communication": 76,
+                "consistency": 92,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "vora",
+            "team": "100 Thieves",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 89,
+                "clutch": 89,
+                "gameSense": 90,
+                "communication": 77,
+                "consistency": 93,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "Timotino",
+            "team": "100 Thieves",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 87,
+                "clutch": 75,
+                "gameSense": 87,
+                "communication": 72,
+                "consistency": 84,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "C0M",
+            "team": "Evil Geniuses",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 82,
+                "clutch": 90,
+                "gameSense": 82,
+                "communication": 86,
+                "consistency": 76,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "supamen",
+            "team": "Evil Geniuses",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 79,
+                "clutch": 86,
+                "gameSense": 82,
+                "communication": 80,
+                "consistency": 79,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "Paincakes",
+            "team": "Evil Geniuses",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 78,
+                "clutch": 83,
+                "gameSense": 86,
+                "communication": 84,
+                "consistency": 84,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "Okeanos",
+            "team": "Evil Geniuses",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 87,
+                "clutch": 83,
+                "gameSense": 90,
+                "communication": 74,
+                "consistency": 78,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "dgzin",
+            "team": "Evil Geniuses",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 91,
+                "clutch": 85,
+                "gameSense": 86,
+                "communication": 84,
+                "consistency": 76,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "johnqt",
+            "team": "Sentinels",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 91,
+                "clutch": 85,
+                "gameSense": 77,
+                "communication": 80,
+                "consistency": 92,
+                "mental": 67
+            }
+        },
+        {
+            "ign": "JonahP",
+            "team": "Sentinels",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 83,
+                "clutch": 94,
+                "gameSense": 81,
+                "communication": 77,
+                "consistency": 89,
+                "mental": 70
+            }
+        },
+        {
+            "ign": "cortezia",
+            "team": "Sentinels",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 84,
+                "clutch": 81,
+                "gameSense": 82,
+                "communication": 82,
+                "consistency": 91,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "Reduxx",
+            "team": "Sentinels",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 91,
+                "gameSense": 87,
+                "communication": 91,
+                "consistency": 80,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "Jerrwin",
+            "team": "Sentinels",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 82,
+                "clutch": 88,
+                "gameSense": 88,
+                "communication": 85,
+                "consistency": 77,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "saadhak",
+            "team": "KRÜ Esports",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 91,
+                "clutch": 76,
+                "gameSense": 84,
+                "communication": 78,
+                "consistency": 95,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "mwzera",
+            "team": "KRÜ Esports",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 96,
+                "clutch": 77,
+                "gameSense": 82,
+                "communication": 78,
+                "consistency": 91,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "Less",
+            "team": "KRÜ Esports",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 74,
+                "clutch": 79,
+                "gameSense": 96,
+                "communication": 98,
+                "consistency": 90,
+                "mental": 67
+            }
+        },
+        {
+            "ign": "silentzz",
+            "team": "KRÜ Esports",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 86,
+                "clutch": 89,
+                "gameSense": 77,
+                "communication": 79,
+                "consistency": 93,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Dantedeu5",
+            "team": "KRÜ Esports",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 91,
+                "clutch": 76,
+                "gameSense": 78,
+                "communication": 78,
+                "consistency": 85,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "BABYBAY",
+            "team": "G2 Esports",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 86,
+                "clutch": 82,
+                "gameSense": 77,
+                "communication": 83,
+                "consistency": 92,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "valyn",
+            "team": "G2 Esports",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 85,
+                "clutch": 93,
+                "gameSense": 90,
+                "communication": 95,
+                "consistency": 89,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "jawgemo",
+            "team": "G2 Esports",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 76,
+                "clutch": 76,
+                "gameSense": 99,
+                "communication": 95,
+                "consistency": 94,
+                "mental": 94
+            }
+        },
+        {
+            "ign": "leaf",
+            "team": "G2 Esports",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 87,
+                "gameSense": 78,
+                "communication": 77,
+                "consistency": 78,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "trent",
+            "team": "G2 Esports",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 93,
+                "clutch": 72,
+                "gameSense": 79,
+                "communication": 67,
+                "consistency": 79,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "Rossy",
+            "team": "ENVY",
+            "region": "VCT Americas",
+            "role": "IGL",
+            "stats": {
+                "aim": 91,
+                "clutch": 87,
+                "gameSense": 84,
+                "communication": 80,
+                "consistency": 76,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "keznit",
+            "team": "ENVY",
+            "region": "VCT Americas",
+            "role": "Duelista",
+            "stats": {
+                "aim": 89,
+                "clutch": 81,
+                "gameSense": 80,
+                "communication": 90,
+                "consistency": 83,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "P0PPIN",
+            "team": "ENVY",
+            "region": "VCT Americas",
+            "role": "Controlador",
+            "stats": {
+                "aim": 78,
+                "clutch": 81,
+                "gameSense": 79,
+                "communication": 83,
+                "consistency": 80,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Demon1",
+            "team": "ENVY",
+            "region": "VCT Americas",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 78,
+                "clutch": 91,
+                "gameSense": 81,
+                "communication": 76,
+                "consistency": 94,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "Eggsterr",
+            "team": "ENVY",
+            "region": "VCT Americas",
+            "role": "Centinela",
+            "stats": {
+                "aim": 82,
+                "clutch": 79,
+                "gameSense": 80,
+                "communication": 91,
+                "consistency": 85,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "Rosé",
+            "team": "BBL Esports",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 89,
+                "clutch": 87,
+                "gameSense": 92,
+                "communication": 79,
+                "consistency": 90,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "Crewen",
+            "team": "BBL Esports",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 79,
+                "clutch": 91,
+                "gameSense": 83,
+                "communication": 80,
+                "consistency": 92,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "Loita",
+            "team": "BBL Esports",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 83,
+                "clutch": 83,
+                "gameSense": 91,
+                "communication": 80,
+                "consistency": 76,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "Lar0k",
+            "team": "BBL Esports",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 80,
+                "clutch": 77,
+                "gameSense": 83,
+                "communication": 89,
+                "consistency": 79,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "lovers rock",
+            "team": "BBL Esports",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 92,
+                "clutch": 79,
+                "gameSense": 89,
+                "communication": 89,
+                "consistency": 90,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "crashies",
+            "team": "FNATIC",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 84,
+                "clutch": 88,
+                "gameSense": 99,
+                "communication": 93,
+                "consistency": 82,
+                "mental": 70
+            }
+        },
+        {
+            "ign": "Boaster",
+            "team": "FNATIC",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 71,
+                "clutch": 94,
+                "gameSense": 93,
+                "communication": 94,
+                "consistency": 75,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "kaajak",
+            "team": "FNATIC",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 90,
+                "clutch": 77,
+                "gameSense": 85,
+                "communication": 86,
+                "consistency": 91,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "Alfajer",
+            "team": "FNATIC",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 78,
+                "clutch": 84,
+                "gameSense": 87,
+                "communication": 78,
+                "consistency": 88,
+                "mental": 68
+            }
+        },
+        {
+            "ign": "CyvOph",
+            "team": "FNATIC",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 86,
+                "clutch": 83,
+                "gameSense": 84,
+                "communication": 86,
+                "consistency": 82,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "Chronicle",
+            "team": "Team Vitality",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 89,
+                "clutch": 73,
+                "gameSense": 77,
+                "communication": 71,
+                "consistency": 78,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "Derke",
+            "team": "Team Vitality",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 79,
+                "clutch": 79,
+                "gameSense": 90,
+                "communication": 77,
+                "consistency": 78,
+                "mental": 66
+            }
+        },
+        {
+            "ign": "PROFEK",
+            "team": "Team Vitality",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 91,
+                "clutch": 81,
+                "gameSense": 78,
+                "communication": 81,
+                "consistency": 85,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "Jamppi",
+            "team": "Team Vitality",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 81,
+                "gameSense": 98,
+                "communication": 98,
+                "consistency": 95,
+                "mental": 73
+            }
+        },
+        {
+            "ign": "Sayonara",
+            "team": "Team Vitality",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 79,
+                "clutch": 85,
+                "gameSense": 81,
+                "communication": 80,
+                "consistency": 90,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "Cloud",
+            "team": "GIANTX",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 93,
+                "clutch": 75,
+                "gameSense": 76,
+                "communication": 69,
+                "consistency": 94,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "grubinho",
+            "team": "GIANTX",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 83,
+                "clutch": 76,
+                "gameSense": 80,
+                "communication": 79,
+                "consistency": 77,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "Flickless",
+            "team": "GIANTX",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 93,
+                "clutch": 90,
+                "gameSense": 85,
+                "communication": 87,
+                "consistency": 90,
+                "mental": 93
+            }
+        },
+        {
+            "ign": "ara",
+            "team": "GIANTX",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 88,
+                "clutch": 81,
+                "gameSense": 76,
+                "communication": 75,
+                "consistency": 93,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "westside",
+            "team": "GIANTX",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 84,
+                "clutch": 80,
+                "gameSense": 84,
+                "communication": 77,
+                "consistency": 80,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "starxo",
+            "team": "Gentle Mates",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 83,
+                "clutch": 93,
+                "gameSense": 89,
+                "communication": 79,
+                "consistency": 91,
+                "mental": 65
+            }
+        },
+        {
+            "ign": "GLYPH",
+            "team": "Gentle Mates",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 84,
+                "clutch": 90,
+                "gameSense": 86,
+                "communication": 81,
+                "consistency": 84,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "marteen",
+            "team": "Gentle Mates",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 93,
+                "clutch": 73,
+                "gameSense": 74,
+                "communication": 69,
+                "consistency": 85,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "bipo",
+            "team": "Gentle Mates",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 90,
+                "clutch": 86,
+                "gameSense": 77,
+                "communication": 76,
+                "consistency": 83,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "Minny",
+            "team": "Gentle Mates",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 81,
+                "clutch": 92,
+                "gameSense": 93,
+                "communication": 90,
+                "consistency": 77,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "Boo",
+            "team": "Team Heretics",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 85,
+                "clutch": 79,
+                "gameSense": 97,
+                "communication": 92,
+                "consistency": 83,
+                "mental": 67
+            }
+        },
+        {
+            "ign": "RieNs",
+            "team": "Team Heretics",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 91,
+                "clutch": 87,
+                "gameSense": 80,
+                "communication": 77,
+                "consistency": 84,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "Wo0t",
+            "team": "Team Heretics",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 80,
+                "clutch": 70,
+                "gameSense": 92,
+                "communication": 82,
+                "consistency": 88,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "koshmaras",
+            "team": "Team Heretics",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 80,
+                "clutch": 76,
+                "gameSense": 87,
+                "communication": 72,
+                "consistency": 77,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "benjyfishy",
+            "team": "Team Heretics",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 99,
+                "clutch": 73,
+                "gameSense": 70,
+                "communication": 65,
+                "consistency": 86,
+                "mental": 93
+            }
+        },
+        {
+            "ign": "sociablEE",
+            "team": "FUT Esports",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 84,
+                "clutch": 84,
+                "gameSense": 90,
+                "communication": 89,
+                "consistency": 82,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "yetujey",
+            "team": "FUT Esports",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 92,
+                "clutch": 73,
+                "gameSense": 85,
+                "communication": 78,
+                "consistency": 76,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "xeus",
+            "team": "FUT Esports",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 78,
+                "clutch": 74,
+                "gameSense": 90,
+                "communication": 80,
+                "consistency": 91,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "KROSTALY",
+            "team": "FUT Esports",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 89,
+                "clutch": 79,
+                "gameSense": 80,
+                "communication": 87,
+                "consistency": 90,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "s0pp",
+            "team": "FUT Esports",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 88,
+                "clutch": 90,
+                "gameSense": 79,
+                "communication": 80,
+                "consistency": 79,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Filu",
+            "team": "Natus Vincere",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 88,
+                "clutch": 90,
+                "gameSense": 82,
+                "communication": 89,
+                "consistency": 83,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "chloric",
+            "team": "Natus Vincere",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 94,
+                "clutch": 86,
+                "gameSense": 84,
+                "communication": 76,
+                "consistency": 90,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "Ruxic",
+            "team": "Natus Vincere",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 87,
+                "clutch": 89,
+                "gameSense": 86,
+                "communication": 78,
+                "consistency": 77,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "hiro",
+            "team": "Natus Vincere",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 87,
+                "clutch": 83,
+                "gameSense": 90,
+                "communication": 79,
+                "consistency": 88,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "Kolosha",
+            "team": "Natus Vincere",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 92,
+                "clutch": 89,
+                "gameSense": 89,
+                "communication": 78,
+                "consistency": 84,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "SUYGETSU",
+            "team": "Karmine Corp",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 83,
+                "clutch": 81,
+                "gameSense": 92,
+                "communication": 84,
+                "consistency": 92,
+                "mental": 68
+            }
+        },
+        {
+            "ign": "Avez",
+            "team": "Karmine Corp",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 81,
+                "clutch": 85,
+                "gameSense": 77,
+                "communication": 81,
+                "consistency": 87,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "dos9",
+            "team": "Karmine Corp",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 85,
+                "clutch": 75,
+                "gameSense": 88,
+                "communication": 77,
+                "consistency": 84,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "LewN",
+            "team": "Karmine Corp",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 92,
+                "clutch": 83,
+                "gameSense": 76,
+                "communication": 85,
+                "consistency": 85,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "N4RRATE",
+            "team": "Karmine Corp",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 90,
+                "clutch": 81,
+                "gameSense": 78,
+                "communication": 90,
+                "consistency": 95,
+                "mental": 70
+            }
+        },
+        {
+            "ign": "nAts",
+            "team": "Team Liquid",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 91,
+                "clutch": 83,
+                "gameSense": 71,
+                "communication": 71,
+                "consistency": 92,
+                "mental": 73
+            }
+        },
+        {
+            "ign": "purp0",
+            "team": "Team Liquid",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 82,
+                "clutch": 80,
+                "gameSense": 92,
+                "communication": 80,
+                "consistency": 94,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "kamo",
+            "team": "Team Liquid",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 76,
+                "clutch": 75,
+                "gameSense": 93,
+                "communication": 97,
+                "consistency": 77,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "MiniBoo",
+            "team": "Team Liquid",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 70,
+                "gameSense": 78,
+                "communication": 80,
+                "consistency": 94,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "wayne",
+            "team": "Team Liquid",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 81,
+                "clutch": 80,
+                "gameSense": 90,
+                "communication": 73,
+                "consistency": 78,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "Izzy",
+            "team": "Eternal Fire",
+            "region": "VCT EMEA",
+            "role": "IGL",
+            "stats": {
+                "aim": 81,
+                "clutch": 92,
+                "gameSense": 85,
+                "communication": 79,
+                "consistency": 80,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "nekky",
+            "team": "Eternal Fire",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 82,
+                "clutch": 89,
+                "gameSense": 89,
+                "communication": 86,
+                "consistency": 83,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "audaz",
+            "team": "Eternal Fire",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 87,
+                "clutch": 87,
+                "gameSense": 87,
+                "communication": 73,
+                "consistency": 89,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "Favian",
+            "team": "Eternal Fire",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 78,
+                "clutch": 89,
+                "gameSense": 76,
+                "communication": 89,
+                "consistency": 88,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "echo",
+            "team": "Eternal Fire",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 92,
+                "clutch": 77,
+                "gameSense": 91,
+                "communication": 77,
+                "consistency": 83,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "cNed",
+            "team": "PCIFIC Esports",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 88,
+                "clutch": 89,
+                "gameSense": 92,
+                "communication": 81,
+                "consistency": 88,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "al0rante",
+            "team": "PCIFIC Esports",
+            "region": "VCT EMEA",
+            "role": "Duelista",
+            "stats": {
+                "aim": 86,
+                "clutch": 78,
+                "gameSense": 92,
+                "communication": 77,
+                "consistency": 87,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "qpert",
+            "team": "PCIFIC Esports",
+            "region": "VCT EMEA",
+            "role": "Controlador",
+            "stats": {
+                "aim": 82,
+                "clutch": 86,
+                "gameSense": 90,
+                "communication": 74,
+                "consistency": 77,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "seven",
+            "team": "PCIFIC Esports",
+            "region": "VCT EMEA",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 77,
+                "gameSense": 90,
+                "communication": 79,
+                "consistency": 83,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "NINJA",
+            "team": "PCIFIC Esports",
+            "region": "VCT EMEA",
+            "role": "Centinela",
+            "stats": {
+                "aim": 83,
+                "clutch": 84,
+                "gameSense": 82,
+                "communication": 89,
+                "consistency": 78,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "Meiy",
+            "team": "DetonatioN FocusMe",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 84,
+                "clutch": 91,
+                "gameSense": 81,
+                "communication": 84,
+                "consistency": 89,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "Akame",
+            "team": "DetonatioN FocusMe",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 86,
+                "clutch": 91,
+                "gameSense": 76,
+                "communication": 81,
+                "consistency": 88,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "SSeeS",
+            "team": "DetonatioN FocusMe",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 79,
+                "clutch": 79,
+                "gameSense": 78,
+                "communication": 81,
+                "consistency": 93,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "Caedye",
+            "team": "DetonatioN FocusMe",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 86,
+                "clutch": 74,
+                "gameSense": 82,
+                "communication": 84,
+                "consistency": 87,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "yatsuka",
+            "team": "DetonatioN FocusMe",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 93,
+                "clutch": 83,
+                "gameSense": 83,
+                "communication": 74,
+                "consistency": 84,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "free1ng",
+            "team": "KIWOOM DRX",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 80,
+                "clutch": 84,
+                "gameSense": 79,
+                "communication": 87,
+                "consistency": 86,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "MaKo",
+            "team": "KIWOOM DRX",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 92,
+                "clutch": 93,
+                "gameSense": 84,
+                "communication": 83,
+                "consistency": 77,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "BeYN",
+            "team": "KIWOOM DRX",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 82,
+                "clutch": 80,
+                "gameSense": 77,
+                "communication": 74,
+                "consistency": 82,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "HYUNMIN",
+            "team": "KIWOOM DRX",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 75,
+                "gameSense": 78,
+                "communication": 86,
+                "consistency": 89,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "yong",
+            "team": "KIWOOM DRX",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 81,
+                "clutch": 75,
+                "gameSense": 87,
+                "communication": 76,
+                "consistency": 85,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "Crws",
+            "team": "FULL SENSE",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 82,
+                "clutch": 78,
+                "gameSense": 99,
+                "communication": 94,
+                "consistency": 92,
+                "mental": 94
+            }
+        },
+        {
+            "ign": "Killua",
+            "team": "FULL SENSE",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 94,
+                "clutch": 84,
+                "gameSense": 87,
+                "communication": 78,
+                "consistency": 87,
+                "mental": 81
+            }
+        },
+        {
+            "ign": "JitBoyS",
+            "team": "FULL SENSE",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 99,
+                "clutch": 79,
+                "gameSense": 75,
+                "communication": 77,
+                "consistency": 85,
+                "mental": 73
+            }
+        },
+        {
+            "ign": "primmie",
+            "team": "FULL SENSE",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 93,
+                "clutch": 76,
+                "gameSense": 76,
+                "communication": 84,
+                "consistency": 76,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "Leviathan",
+            "team": "FULL SENSE",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 82,
+                "clutch": 85,
+                "gameSense": 82,
+                "communication": 79,
+                "consistency": 93,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "Lakia",
+            "team": "Gen.G",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 86,
+                "clutch": 90,
+                "gameSense": 82,
+                "communication": 90,
+                "consistency": 79,
+                "mental": 93
+            }
+        },
+        {
+            "ign": "t3xture",
+            "team": "Gen.G",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 89,
+                "clutch": 82,
+                "gameSense": 74,
+                "communication": 73,
+                "consistency": 93,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "Foxy9",
+            "team": "Gen.G",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 79,
+                "clutch": 82,
+                "gameSense": 86,
+                "communication": 84,
+                "consistency": 80,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "Ash",
+            "team": "Gen.G",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 92,
+                "clutch": 90,
+                "gameSense": 81,
+                "communication": 92,
+                "consistency": 78,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "Karon",
+            "team": "Gen.G",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 91,
+                "clutch": 82,
+                "gameSense": 88,
+                "communication": 76,
+                "consistency": 85,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "Autumn",
+            "team": "Global Esports",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 91,
+                "clutch": 84,
+                "gameSense": 83,
+                "communication": 76,
+                "consistency": 95,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "UdoTan",
+            "team": "Global Esports",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 81,
+                "clutch": 89,
+                "gameSense": 92,
+                "communication": 89,
+                "consistency": 92,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "Kr1stal",
+            "team": "Global Esports",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 86,
+                "clutch": 79,
+                "gameSense": 91,
+                "communication": 89,
+                "consistency": 82,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "xavi8k",
+            "team": "Global Esports",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 78,
+                "clutch": 78,
+                "gameSense": 79,
+                "communication": 81,
+                "consistency": 89,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "PatMen",
+            "team": "Global Esports",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 78,
+                "clutch": 74,
+                "gameSense": 83,
+                "communication": 90,
+                "consistency": 82,
+                "mental": 93
+            }
+        },
+        {
+            "ign": "Jinggg",
+            "team": "Paper Rex",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 89,
+                "clutch": 74,
+                "gameSense": 82,
+                "communication": 73,
+                "consistency": 93,
+                "mental": 67
+            }
+        },
+        {
+            "ign": "invy",
+            "team": "Paper Rex",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 86,
+                "clutch": 93,
+                "gameSense": 85,
+                "communication": 77,
+                "consistency": 84,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "f0rsakeN",
+            "team": "Paper Rex",
+            "region": "VCT Pacific",
+            "role": "Flex",
+            "stats": {
+                "aim": 72,
+                "clutch": 77,
+                "gameSense": 95,
+                "communication": 98,
+                "consistency": 94,
+                "mental": 67
+            }
+        },
+        {
+            "ign": "d4v41",
+            "team": "Paper Rex",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 87,
+                "clutch": 82,
+                "gameSense": 78,
+                "communication": 78,
+                "consistency": 85,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "something",
+            "team": "Paper Rex",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 81,
+                "clutch": 86,
+                "gameSense": 81,
+                "communication": 78,
+                "consistency": 75,
+                "mental": 65
+            }
+        },
+        {
+            "ign": "crazyguy",
+            "team": "Rex Regum Qeon",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 88,
+                "clutch": 81,
+                "gameSense": 89,
+                "communication": 81,
+                "consistency": 92,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "Kushy",
+            "team": "Rex Regum Qeon",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 86,
+                "clutch": 78,
+                "gameSense": 84,
+                "communication": 73,
+                "consistency": 91,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "xffero",
+            "team": "Rex Regum Qeon",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 84,
+                "clutch": 73,
+                "gameSense": 93,
+                "communication": 96,
+                "consistency": 76,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "Monyet",
+            "team": "Rex Regum Qeon",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 79,
+                "clutch": 83,
+                "gameSense": 92,
+                "communication": 82,
+                "consistency": 80,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "Jemkin",
+            "team": "Rex Regum Qeon",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 78,
+                "clutch": 79,
+                "gameSense": 85,
+                "communication": 90,
+                "consistency": 79,
+                "mental": 67
+            }
+        },
+        {
+            "ign": "stax",
+            "team": "T1",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 71,
+                "clutch": 87,
+                "gameSense": 93,
+                "communication": 96,
+                "consistency": 94,
+                "mental": 73
+            }
+        },
+        {
+            "ign": "BuZz",
+            "team": "T1",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 98,
+                "clutch": 95,
+                "gameSense": 77,
+                "communication": 66,
+                "consistency": 79,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "Munchkin",
+            "team": "T1",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 87,
+                "clutch": 70,
+                "gameSense": 86,
+                "communication": 80,
+                "consistency": 88,
+                "mental": 77
+            }
+        },
+        {
+            "ign": "Meteor",
+            "team": "T1",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 84,
+                "clutch": 70,
+                "gameSense": 99,
+                "communication": 96,
+                "consistency": 79,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "iZu",
+            "team": "T1",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 90,
+                "clutch": 72,
+                "gameSense": 92,
+                "communication": 80,
+                "consistency": 92,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "JessieVash",
+            "team": "Team Secret",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 74,
+                "clutch": 77,
+                "gameSense": 98,
+                "communication": 99,
+                "consistency": 84,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "Sylvan",
+            "team": "Team Secret",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 80,
+                "clutch": 76,
+                "gameSense": 92,
+                "communication": 85,
+                "consistency": 93,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "BerserX",
+            "team": "Team Secret",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 81,
+                "clutch": 84,
+                "gameSense": 92,
+                "communication": 73,
+                "consistency": 81,
+                "mental": 81
+            }
+        },
+        {
+            "ign": "kellyS",
+            "team": "Team Secret",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 83,
+                "clutch": 78,
+                "gameSense": 90,
+                "communication": 82,
+                "consistency": 83,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "Zeus",
+            "team": "Team Secret",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 79,
+                "clutch": 88,
+                "gameSense": 83,
+                "communication": 83,
+                "consistency": 87,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "eKo",
+            "team": "ZETA DIVISION",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 79,
+                "clutch": 78,
+                "gameSense": 87,
+                "communication": 85,
+                "consistency": 80,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "SugarZ3ro",
+            "team": "ZETA DIVISION",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 83,
+                "clutch": 74,
+                "gameSense": 89,
+                "communication": 80,
+                "consistency": 93,
+                "mental": 94
+            }
+        },
+        {
+            "ign": "SyouTa",
+            "team": "ZETA DIVISION",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 94,
+                "clutch": 89,
+                "gameSense": 93,
+                "communication": 74,
+                "consistency": 83,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "Xdll",
+            "team": "ZETA DIVISION",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 89,
+                "clutch": 76,
+                "gameSense": 85,
+                "communication": 73,
+                "consistency": 88,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "Absol",
+            "team": "ZETA DIVISION",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 93,
+                "clutch": 82,
+                "gameSense": 81,
+                "communication": 73,
+                "consistency": 79,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "C1ndeR",
+            "team": "VARREL",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 86,
+                "clutch": 75,
+                "gameSense": 76,
+                "communication": 88,
+                "consistency": 92,
+                "mental": 88
+            }
+        },
+        {
+            "ign": "Klaus",
+            "team": "VARREL",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 76,
+                "clutch": 88,
+                "gameSense": 94,
+                "communication": 99,
+                "consistency": 77,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "oonzmlp",
+            "team": "VARREL",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 78,
+                "clutch": 83,
+                "gameSense": 80,
+                "communication": 76,
+                "consistency": 88,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "Zexy",
+            "team": "VARREL",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 80,
+                "clutch": 75,
+                "gameSense": 90,
+                "communication": 84,
+                "consistency": 82,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "XuNa",
+            "team": "VARREL",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 80,
+                "clutch": 86,
+                "gameSense": 84,
+                "communication": 85,
+                "consistency": 84,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Rb",
+            "team": "Nongshim RedForce",
+            "region": "VCT Pacific",
+            "role": "IGL",
+            "stats": {
+                "aim": 80,
+                "clutch": 74,
+                "gameSense": 79,
+                "communication": 75,
+                "consistency": 93,
+                "mental": 89
+            }
+        },
+        {
+            "ign": "Dambi",
+            "team": "Nongshim RedForce",
+            "region": "VCT Pacific",
+            "role": "Duelista",
+            "stats": {
+                "aim": 90,
+                "clutch": 86,
+                "gameSense": 84,
+                "communication": 74,
+                "consistency": 85,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "Francis",
+            "team": "Nongshim RedForce",
+            "region": "VCT Pacific",
+            "role": "Controlador",
+            "stats": {
+                "aim": 85,
+                "clutch": 86,
+                "gameSense": 79,
+                "communication": 77,
+                "consistency": 93,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "Ivy",
+            "team": "Nongshim RedForce",
+            "region": "VCT Pacific",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 84,
+                "clutch": 80,
+                "gameSense": 90,
+                "communication": 89,
+                "consistency": 83,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "Xross",
+            "team": "Nongshim RedForce",
+            "region": "VCT Pacific",
+            "role": "Centinela",
+            "stats": {
+                "aim": 89,
+                "clutch": 76,
+                "gameSense": 91,
+                "communication": 92,
+                "consistency": 83,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "Septem7",
+            "team": "All Gamers",
+            "region": "VCT China",
+            "role": "IGL",
+            "stats": {
+                "aim": 78,
+                "clutch": 80,
+                "gameSense": 83,
+                "communication": 78,
+                "consistency": 84,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "f4ngeer",
+            "team": "All Gamers",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 91,
+                "clutch": 89,
+                "gameSense": 89,
+                "communication": 84,
+                "consistency": 76,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "Shr1mp",
+            "team": "All Gamers",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 91,
+                "clutch": 86,
+                "gameSense": 79,
+                "communication": 92,
+                "consistency": 85,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "K1ra",
+            "team": "All Gamers",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 87,
+                "gameSense": 90,
+                "communication": 76,
+                "consistency": 83,
+                "mental": 93
+            }
+        },
+        {
+            "ign": "iamgrq",
+            "team": "All Gamers",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 89,
+                "clutch": 82,
+                "gameSense": 86,
+                "communication": 72,
+                "consistency": 76,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "jkuro",
+            "team": "JD Gaming",
+            "region": "VCT China",
+            "role": "IGL",
+            "stats": {
+                "aim": 90,
+                "clutch": 70,
+                "gameSense": 81,
+                "communication": 86,
+                "consistency": 84,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Yuicaw",
+            "team": "JD Gaming",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 90,
+                "clutch": 89,
+                "gameSense": 89,
+                "communication": 75,
+                "consistency": 84,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "coconut",
+            "team": "JD Gaming",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 80,
+                "clutch": 78,
+                "gameSense": 93,
+                "communication": 92,
+                "consistency": 77,
+                "mental": 93
+            }
+        },
+        {
+            "ign": "stew",
+            "team": "JD Gaming",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 78,
+                "clutch": 82,
+                "gameSense": 92,
+                "communication": 92,
+                "consistency": 94,
+                "mental": 69
+            }
+        },
+        {
+            "ign": "zhe",
+            "team": "JD Gaming",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 81,
+                "clutch": 91,
+                "gameSense": 77,
+                "communication": 78,
+                "consistency": 78,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "sword9",
+            "team": "TYLOO",
+            "region": "VCT China",
+            "role": "IGL",
+            "stats": {
+                "aim": 88,
+                "clutch": 76,
+                "gameSense": 82,
+                "communication": 86,
+                "consistency": 83,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "splash",
+            "team": "TYLOO",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 80,
+                "clutch": 76,
+                "gameSense": 91,
+                "communication": 72,
+                "consistency": 93,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "Scales",
+            "team": "TYLOO",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 78,
+                "clutch": 84,
+                "gameSense": 89,
+                "communication": 89,
+                "consistency": 81,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "slowly",
+            "team": "TYLOO",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 89,
+                "clutch": 76,
+                "gameSense": 93,
+                "communication": 74,
+                "consistency": 82,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "Erv",
+            "team": "TYLOO",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 87,
+                "clutch": 90,
+                "gameSense": 93,
+                "communication": 76,
+                "consistency": 91,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "Haodong",
+            "team": "Titan Esports Club",
+            "region": "VCT China",
+            "role": "IGL",
+            "stats": {
+                "aim": 83,
+                "clutch": 88,
+                "gameSense": 91,
+                "communication": 77,
+                "consistency": 94,
+                "mental": 92
+            }
+        },
+        {
+            "ign": "Spitfires",
+            "team": "Titan Esports Club",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 90,
+                "clutch": 93,
+                "gameSense": 82,
+                "communication": 75,
+                "consistency": 76,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "lucas",
+            "team": "Titan Esports Club",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 89,
+                "clutch": 81,
+                "gameSense": 79,
+                "communication": 87,
+                "consistency": 89,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Dynamite",
+            "team": "Titan Esports Club",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 89,
+                "clutch": 75,
+                "gameSense": 91,
+                "communication": 79,
+                "consistency": 79,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Coco",
+            "team": "Titan Esports Club",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 90,
+                "clutch": 77,
+                "gameSense": 90,
+                "communication": 75,
+                "consistency": 86,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "NoMan",
+            "team": "Xi Lai Gaming",
+            "region": "VCT China",
+            "role": "IGL",
+            "stats": {
+                "aim": 93,
+                "clutch": 86,
+                "gameSense": 83,
+                "communication": 77,
+                "consistency": 88,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "Rarga",
+            "team": "Xi Lai Gaming",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 93,
+                "clutch": 82,
+                "gameSense": 91,
+                "communication": 83,
+                "consistency": 87,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "WsLeo",
+            "team": "Xi Lai Gaming",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 89,
+                "clutch": 85,
+                "gameSense": 83,
+                "communication": 78,
+                "consistency": 84,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "Lysoar",
+            "team": "Xi Lai Gaming",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 82,
+                "gameSense": 76,
+                "communication": 79,
+                "consistency": 83,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "happywei",
+            "team": "Xi Lai Gaming",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 81,
+                "clutch": 84,
+                "gameSense": 90,
+                "communication": 87,
+                "consistency": 93,
+                "mental": 86
+            }
+        },
+        {
+            "ign": "nobody",
+            "team": "EDward Gaming",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 92,
+                "clutch": 93,
+                "gameSense": 73,
+                "communication": 67,
+                "consistency": 83,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "ZmjjKK",
+            "team": "EDward Gaming",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 79,
+                "clutch": 86,
+                "gameSense": 90,
+                "communication": 95,
+                "consistency": 87,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "Smoggy",
+            "team": "EDward Gaming",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 78,
+                "clutch": 86,
+                "gameSense": 92,
+                "communication": 88,
+                "consistency": 85,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "CHICHOO",
+            "team": "EDward Gaming",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 83,
+                "clutch": 79,
+                "gameSense": 80,
+                "communication": 78,
+                "consistency": 89,
+                "mental": 82
+            }
+        },
+        {
+            "ign": "Jieni7",
+            "team": "EDward Gaming",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 79,
+                "clutch": 91,
+                "gameSense": 79,
+                "communication": 85,
+                "consistency": 90,
+                "mental": 85
+            }
+        },
+        {
+            "ign": "vo0kashu",
+            "team": "Dragon Ranger Gaming",
+            "region": "VCT China",
+            "role": "IGL",
+            "stats": {
+                "aim": 84,
+                "clutch": 90,
+                "gameSense": 81,
+                "communication": 86,
+                "consistency": 77,
+                "mental": 79
+            }
+        },
+        {
+            "ign": "Flex1n",
+            "team": "Dragon Ranger Gaming",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 78,
+                "clutch": 91,
+                "gameSense": 91,
+                "communication": 74,
+                "consistency": 83,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "Nicc",
+            "team": "Dragon Ranger Gaming",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 92,
+                "clutch": 91,
+                "gameSense": 82,
+                "communication": 81,
+                "consistency": 92,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "SpiritZ1",
+            "team": "Dragon Ranger Gaming",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 92,
+                "clutch": 75,
+                "gameSense": 92,
+                "communication": 81,
+                "consistency": 80,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "Akeman",
+            "team": "Dragon Ranger Gaming",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 90,
+                "clutch": 77,
+                "gameSense": 76,
+                "communication": 82,
+                "consistency": 79,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "LuoK1ng",
+            "team": "Trace Esports",
+            "region": "VCT China",
+            "role": "IGL",
+            "stats": {
+                "aim": 87,
+                "clutch": 81,
+                "gameSense": 88,
+                "communication": 82,
+                "consistency": 84,
+                "mental": 72
+            }
+        },
+        {
+            "ign": "deLb",
+            "team": "Trace Esports",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 77,
+                "clutch": 93,
+                "gameSense": 95,
+                "communication": 95,
+                "consistency": 84,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "Viva",
+            "team": "Trace Esports",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 94,
+                "clutch": 89,
+                "gameSense": 78,
+                "communication": 66,
+                "consistency": 81,
+                "mental": 84
+            }
+        },
+        {
+            "ign": "Kai",
+            "team": "Trace Esports",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 78,
+                "clutch": 76,
+                "gameSense": 85,
+                "communication": 77,
+                "consistency": 76,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "Xlele",
+            "team": "Trace Esports",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 79,
+                "clutch": 75,
+                "gameSense": 84,
+                "communication": 73,
+                "consistency": 85,
+                "mental": 74
+            }
+        },
+        {
+            "ign": "whzy",
+            "team": "Bilibili Gaming",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 83,
+                "clutch": 70,
+                "gameSense": 92,
+                "communication": 97,
+                "consistency": 86,
+                "mental": 70
+            }
+        },
+        {
+            "ign": "nephh",
+            "team": "Bilibili Gaming",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 84,
+                "clutch": 80,
+                "gameSense": 87,
+                "communication": 90,
+                "consistency": 82,
+                "mental": 80
+            }
+        },
+        {
+            "ign": "Knight",
+            "team": "Bilibili Gaming",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 88,
+                "clutch": 77,
+                "gameSense": 88,
+                "communication": 86,
+                "consistency": 75,
+                "mental": 66
+            }
+        },
+        {
+            "ign": "rushia",
+            "team": "Bilibili Gaming",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 86,
+                "clutch": 79,
+                "gameSense": 90,
+                "communication": 77,
+                "consistency": 89,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "yilai",
+            "team": "Bilibili Gaming",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 83,
+                "clutch": 82,
+                "gameSense": 82,
+                "communication": 89,
+                "consistency": 81,
+                "mental": 81
+            }
+        },
+        {
+            "ign": "Setrod",
+            "team": "FunPlus Phoenix",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 79,
+                "clutch": 83,
+                "gameSense": 88,
+                "communication": 84,
+                "consistency": 90,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "Ben1Ley",
+            "team": "FunPlus Phoenix",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 86,
+                "clutch": 92,
+                "gameSense": 88,
+                "communication": 92,
+                "consistency": 80,
+                "mental": 91
+            }
+        },
+        {
+            "ign": "KovaQ",
+            "team": "FunPlus Phoenix",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 78,
+                "clutch": 82,
+                "gameSense": 92,
+                "communication": 72,
+                "consistency": 80,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "AAAAY",
+            "team": "FunPlus Phoenix",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 74,
+                "clutch": 83,
+                "gameSense": 98,
+                "communication": 93,
+                "consistency": 77,
+                "mental": 68
+            }
+        },
+        {
+            "ign": "BerLIN",
+            "team": "FunPlus Phoenix",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 96,
+                "clutch": 72,
+                "gameSense": 82,
+                "communication": 67,
+                "consistency": 82,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "Ezeir",
+            "team": "Nova Esports",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 82,
+                "clutch": 75,
+                "gameSense": 92,
+                "communication": 92,
+                "consistency": 82,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "qiutiaN",
+            "team": "Nova Esports",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 81,
+                "clutch": 81,
+                "gameSense": 90,
+                "communication": 76,
+                "consistency": 90,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "swagzor",
+            "team": "Nova Esports",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 80,
+                "clutch": 90,
+                "gameSense": 81,
+                "communication": 73,
+                "consistency": 77,
+                "mental": 90
+            }
+        },
+        {
+            "ign": "GREEN",
+            "team": "Nova Esports",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 85,
+                "clutch": 92,
+                "gameSense": 86,
+                "communication": 82,
+                "consistency": 89,
+                "mental": 83
+            }
+        },
+        {
+            "ign": "GuanG",
+            "team": "Nova Esports",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 79,
+                "clutch": 76,
+                "gameSense": 90,
+                "communication": 87,
+                "consistency": 76,
+                "mental": 71
+            }
+        },
+        {
+            "ign": "Spring",
+            "team": "Wolves Esports",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 91,
+                "clutch": 92,
+                "gameSense": 90,
+                "communication": 83,
+                "consistency": 85,
+                "mental": 76
+            }
+        },
+        {
+            "ign": "jowa",
+            "team": "Wolves Esports",
+            "region": "VCT China",
+            "role": "Duelista",
+            "stats": {
+                "aim": 85,
+                "clutch": 85,
+                "gameSense": 81,
+                "communication": 90,
+                "consistency": 90,
+                "mental": 78
+            }
+        },
+        {
+            "ign": "glacier",
+            "team": "Wolves Esports",
+            "region": "VCT China",
+            "role": "Controlador",
+            "stats": {
+                "aim": 88,
+                "clutch": 91,
+                "gameSense": 92,
+                "communication": 83,
+                "consistency": 91,
+                "mental": 87
+            }
+        },
+        {
+            "ign": "yosemite",
+            "team": "Wolves Esports",
+            "region": "VCT China",
+            "role": "Centinela",
+            "stats": {
+                "aim": 97,
+                "clutch": 85,
+                "gameSense": 72,
+                "communication": 67,
+                "consistency": 94,
+                "mental": 75
+            }
+        },
+        {
+            "ign": "SiuFatBB",
+            "team": "Wolves Esports",
+            "region": "VCT China",
+            "role": "Iniciador",
+            "stats": {
+                "aim": 82,
+                "clutch": 82,
+                "gameSense": 79,
+                "communication": 72,
+                "consistency": 92,
+                "mental": 84
+            }
+        }
+    ]
+}

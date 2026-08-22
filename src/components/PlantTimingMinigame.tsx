@@ -78,6 +78,8 @@ export function PlantTimingMinigame({onComplete,onSkip}:PlantTimingMinigameProps
   const enemiesRef = useRef<EnemyState[]>(createEnemies(1));
   const lastFrameRef = useRef<number|null>(null);
   const resolvedRef = useRef(false);
+  const attemptsRef = useRef(0);
+  const successfulRoundsRef = useRef(0);
 
   const updatePhase = (next:Phase) => {
     phaseRef.current = next;
@@ -104,24 +106,32 @@ export function PlantTimingMinigame({onComplete,onSkip}:PlantTimingMinigameProps
     if (resolvedRef.current) return;
 
     resolvedRef.current = true;
-    const nextSuccessfulRounds = successfulRounds + (success ? 1 : 0);
 
-    setSuccessfulRounds(nextSuccessfulRounds);
+    attemptsRef.current += 1;
+
+    if (success) {
+      successfulRoundsRef.current += 1;
+      setSuccessfulRounds(successfulRoundsRef.current);
+    }
+
     setResult(success ? "success" : "caught");
     updatePhase("feedback");
 
+    const attempts = attemptsRef.current;
+
     window.setTimeout(() => {
-      if (round >= MAX_ROUNDS) {
+      if (attempts >= MAX_ROUNDS) {
         updatePhase("finished");
         setResult(null);
         return;
       }
 
-      const nextRound = round + 1;
+      const nextRound = attempts + 1;
+
       setRound(nextRound);
       resetRound(nextRound);
     },FEEDBACK_DELAY);
-  },[round,successfulRounds,resetRound]);
+  },[resetRound]);
 
   const commit = useCallback(() => {
     if (!started || phaseRef.current !== "waiting") return;
