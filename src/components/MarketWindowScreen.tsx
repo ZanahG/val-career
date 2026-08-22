@@ -3,6 +3,7 @@ import {getTeamById} from "../data/teams";
 import {useGameSettings} from "../context/GameSettingsContext";
 import {formatCurrency} from "../utils/currency";
 import "../styles/MarketWindowScreen.css";
+import {getTeamLogo} from "../utils/teamLogo";
 
 interface MarketWindowScreenProps {
   player:CareerPlayer;
@@ -16,6 +17,7 @@ interface MarketWindowScreenProps {
 export function MarketWindowScreen({player,type,renewalOffer,onStay,onRenew,onExploreOffers}:MarketWindowScreenProps) {
   const {language,currency} = useGameSettings();
   const team = getTeamById(player.currentTeamId);
+  const teamLogo = getTeamLogo(team?.logo);
   const isMidseason = type === "midseason";
 
   const eyebrow = language === "es" ? "VENTANA DE TRANSFERENCIAS" : "TRANSFER WINDOW";
@@ -40,7 +42,10 @@ export function MarketWindowScreen({player,type,renewalOffer,onStay,onRenew,onEx
 
         <div className="market-window-current-team">
           <span>{language === "es" ? "EQUIPO ACTUAL" : "CURRENT TEAM"}</span>
-          <strong>{team?.name ?? player.currentTeam}</strong>
+          <div className="market-window-current-team__identity">
+            {teamLogo && <img src={teamLogo} alt={team?.name ?? player.currentTeam} />}
+            <strong>{team?.name ?? player.currentTeam}</strong>
+          </div>
         </div>
 
         {!isMidseason && renewalOffer && (
@@ -88,13 +93,14 @@ export function MarketWindowScreen({player,type,renewalOffer,onStay,onRenew,onEx
         <div className={`market-window-actions ${!isMidseason ? "market-window-actions--offseason" : ""}`}>
           {isMidseason && (
             <button onClick={onStay}>
-              <span>{language === "es" ? "CONTINUAR PROYECTO" : "CONTINUE PROJECT"}</span>
-              <strong>{language === "es" ? `SEGUIR EN ${team?.name ?? player.currentTeam}` : `STAY WITH ${team?.name ?? player.currentTeam}`}</strong>
+              <div className="market-window-stay-team">
+                {teamLogo && <img src={teamLogo} alt="" />}
+                <strong>{language === "es" ? `SEGUIR EN ${team?.name ?? player.currentTeam}` : `STAY WITH ${team?.name ?? player.currentTeam}`}</strong>
+              </div>
             </button>
           )}
 
           <button className="market-window-actions__offers" onClick={onExploreOffers}>
-            <span>{language === "es" ? "EXPLORAR MERCADO" : "EXPLORE MARKET"}</span>
             <strong>{language === "es" ? "VER 3 NUEVAS OFERTAS" : "VIEW 3 NEW OFFERS"}</strong>
           </button>
         </div>

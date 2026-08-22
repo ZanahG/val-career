@@ -239,3 +239,37 @@
     border-bottom:0;
   }
 }
+
+.market-window-current-team__identity {
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.market-window-current-team__identity img {
+  width:56px;
+  height:56px;
+  object-fit:contain;
+}
+
+.market-window-current-team__identity strong {
+  font-family:"Space Grotesk",sans-serif;
+  font-size:24px;
+}
+
+.market-window-stay-team {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.market-window-stay-team img {
+  width:34px;
+  height:34px;
+  object-fit:contain;
+}
+
+.market-window-stay-team strong {
+  display:block;
+}
