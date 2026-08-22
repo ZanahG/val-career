@@ -1,0 +1,241 @@
+.market-window-screen {
+  min-height:100vh;
+  padding:40px 24px;
+  display:grid;
+  place-items:center;
+  background:#080d13;
+}
+
+.market-window-card {
+  width:min(100%,880px);
+  padding:42px;
+  border:1px solid #26313f;
+  border-top:3px solid #ff4655;
+  background:#0e151e;
+  box-shadow:0 30px 100px rgba(0,0,0,.45);
+}
+
+.market-window-card h1 {
+  margin:8px 0 14px;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:clamp(42px,7vw,72px);
+  line-height:.9;
+  letter-spacing:-.05em;
+}
+
+.market-window-card > p {
+  max-width:680px;
+  margin:0;
+  color:#818d9d;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.market-window-current-team {
+  margin-top:32px;
+  padding:20px 22px;
+  border-left:3px solid #ff4655;
+  background:#111923;
+}
+
+.market-window-current-team span,
+.market-window-current-team small {
+  display:block;
+  color:#718096;
+  font-size:9px;
+  letter-spacing:.11em;
+}
+
+.market-window-current-team strong {
+  display:block;
+  margin:6px 0;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:27px;
+}
+
+.market-window-actions {
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.market-window-actions button {
+  min-height:110px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:6px;
+  border:1px solid #293441;
+  background:#101720;
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.market-window-actions button:hover {
+  border-color:#ff4655;
+  transform:translateY(-2px);
+}
+
+.market-window-actions button span {
+  color:#718096;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.market-window-actions button strong {
+  font-family:"Space Grotesk",sans-serif;
+  font-size:16px;
+}
+
+.market-window-actions__offers {
+  border-color:rgba(255,70,85,.5) !important;
+  background:rgba(255,70,85,.07) !important;
+}
+
+@media (max-width:650px) {
+  .market-window-card {padding:26px;}
+  .market-window-actions {grid-template-columns:1fr;}
+}
+
+.market-renewal {
+  margin-top:22px;
+  border:1px solid rgba(255,70,85,.42);
+  background:linear-gradient(135deg,rgba(255,70,85,.09),rgba(14,21,30,.96));
+}
+
+.market-renewal__header {
+  padding:20px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border-bottom:1px solid #27313d;
+}
+
+.market-renewal__header > div:first-child span {
+  display:block;
+  margin-bottom:5px;
+  color:#ff4655;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.market-renewal__header > div:first-child strong {
+  display:block;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:24px;
+}
+
+.market-renewal__status {
+  padding:7px 10px;
+  border:1px solid rgba(255,70,85,.35);
+  color:#ff6976;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.market-renewal__details {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.market-renewal__details > div {
+  padding:18px 20px;
+  border-right:1px solid #27313d;
+}
+
+.market-renewal__details > div:last-child {
+  border-right:0;
+}
+
+.market-renewal__details span {
+  display:block;
+  margin-bottom:7px;
+  color:#718096;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.market-renewal__details strong {
+  font-family:"Space Grotesk",sans-serif;
+  font-size:15px;
+}
+
+.market-renewal__accept {
+  width:100%;
+  min-height:72px;
+  padding:16px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:0;
+  border-top:1px solid rgba(255,70,85,.4);
+  background:#ff4655;
+  color:#fff;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.market-renewal__accept:hover {
+  filter:brightness(1.08);
+}
+
+.market-renewal__accept span {
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+  opacity:.75;
+}
+
+.market-renewal__accept strong {
+  font-family:"Space Grotesk",sans-serif;
+  font-size:15px;
+}
+
+.market-window-actions--offseason {
+  grid-template-columns:1fr;
+}
+
+@media (max-width:700px) {
+  .market-renewal__header {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .market-renewal__details {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .market-renewal__details > div:nth-child(2) {
+    border-right:0;
+  }
+
+  .market-renewal__details > div:nth-child(-n+2) {
+    border-bottom:1px solid #27313d;
+  }
+}
+
+@media (max-width:480px) {
+  .market-renewal__details {
+    grid-template-columns:1fr;
+  }
+
+  .market-renewal__details > div {
+    border-right:0;
+    border-bottom:1px solid #27313d;
+  }
+
+  .market-renewal__details > div:last-child {
+    border-bottom:0;
+  }
+}

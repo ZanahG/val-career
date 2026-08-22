@@ -95,7 +95,7 @@ export function CommsFilterMinigame({onComplete}:CommsFilterMinigameProps) {
     },FEEDBACK_DELAY);
   };
 
-  const reward = correct >= 8 ? 5 : correct === 7 ? 4 : correct >= 5 ? 3 : correct >= 3 ? 2 : correct >= 1 ? 1 : 0;
+  const reward = correct >= 8 ? 5 : correct === 7 ? 4 : correct >= 6 ? 3 : correct >= 4 ? 1 : correct >= 2 ? -1 : -2;
 
   return (
     <div className="career-minigame-overlay">
@@ -206,7 +206,15 @@ function MinigameResult({score,reward,language,onContinue}:{score:string;reward:
     <div className="career-minigame-result">
       <span>COMMUNICATION</span>
       <strong>{score}</strong>
-      <p>{reward > 0 ? `+${reward} COMMUNICATION` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
+      <p>
+        {reward > 0
+          ? `+${reward} COMMUNICATION`
+          : reward < 0
+            ? `${reward} COMMUNICATION`
+            : language === "es"
+              ? "Sin cambios esta vez."
+              : "No change this time."}
+      </p>
       <button onClick={onContinue}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
     </div>
   );

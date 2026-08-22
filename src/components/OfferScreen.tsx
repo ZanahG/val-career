@@ -7,17 +7,19 @@ import {getTeamLogo} from "../utils/teamLogo";
 import "../styles/OfferScreen.css";
 
 interface OfferScreenProps {
-  player: CareerPlayer;
-  offers: ContractOffer[];
-  onAccept: (offer: ContractOffer) => void;
+  player:CareerPlayer;
+  offers:ContractOffer[];
+  onAccept:(offer:ContractOffer) => void;
+  onBack?:() => void;
 }
 
-export function OfferScreen({player, offers, onAccept}: OfferScreenProps) {
+export function OfferScreen({player,offers,onAccept,onBack}:OfferScreenProps) {
   const {language, currency, t} = useGameSettings();
 
   return (
     <main className="offer-screen">
       <header className="offer-header">
+        {onBack && <button className="offer-back-button" onClick={onBack}>← {language === "es" ? "VOLVER" : "BACK"}</button>}
         <div>
           <span className="eyebrow">{language === "es" ? "MERCADO DE FICHAJES" : "OFFSEASON MARKET"}</span>
           <h1>{t("contractOffers")}</h1>

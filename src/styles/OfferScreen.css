@@ -204,3 +204,21 @@
   font-weight: 700;
   line-height: 1;
 }
+
+.offer-back-button {
+  align-self:flex-start;
+  padding:10px 14px;
+  border:1px solid #293441;
+  background:#101720;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.1em;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.offer-back-button:hover {
+  border-color:#ff4655;
+  color:#ff4655;
+}

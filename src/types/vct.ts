@@ -73,6 +73,7 @@ export interface VCTSeasonState {
   championshipPoints: number;
   events: Record<PlayableVCTPhase, VCTEventState>;
   pendingEvent?: VCTPendingEvent;
+  marketWindowPending?:"midseason"|"offseason";
 }
 
 export interface VCTSeasonDefinition {

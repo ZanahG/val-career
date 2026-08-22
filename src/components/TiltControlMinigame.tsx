@@ -100,7 +100,7 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
     },FEEDBACK_DELAY);
   };
 
-  const reward = correct >= 9 && tilt <= 30 ? 5 : correct >= 8 ? 4 : correct >= 6 ? 3 : correct >= 4 ? 2 : correct >= 2 ? 1 : 0;
+  const reward = correct >= 9 && tilt <= 30 ? 5 : correct >= 8 ? 4 : correct >= 6 ? 3 : correct >= 4 ? 1 : correct >= 2 ? -1 : -2;
 
   return (
     <div className="career-minigame-overlay">
@@ -141,7 +141,15 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
               <div className="career-minigame-result">
                 <span>MENTAL</span>
                 <strong>{correct}/{messages.length}</strong>
-                <p>{reward > 0 ? `+${reward} MENTAL` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
+                <p>
+                  {reward > 0
+                    ? `+${reward} MENTAL`
+                    : reward < 0
+                      ? `${reward} MENTAL`
+                      : language === "es"
+                        ? "Sin cambios esta vez."
+                        : "No change this time."}
+                </p>
                 <small className="career-minigame-result__detail">FINAL TILT · {tilt}%</small>
                 <button onClick={() => onComplete({mental:reward})}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
               </div>

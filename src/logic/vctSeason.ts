@@ -263,6 +263,64 @@ export function continueVCTAfterNarrativeEvent(season: VCTSeasonState): VCTSeaso
   };
 }
 
+export function resumeVCTAfterMidseasonMarket(player:CareerPlayer,season:VCTSeasonState):VCTSeasonState {
+  const team = getTeamById(player.currentTeamId);
+  if (!team || team.tier !== 1) return season;
+
+  const previousCircuit = season.circuit;
+  const changedCircuit = previousCircuit !== team.circuit;
+  const masters2 = season.events["Masters 2"].masters;
+  const qualifiedForMasters2 = Boolean(masters2?.qualifiedTeams.some((entry) => entry.teamId === team.id));
+
+  let updatedSeason:VCTSeasonState = {
+    ...season,
+    circuit:team.circuit,
+    marketWindowPending:undefined,
+  };
+
+  if (qualifiedForMasters2 && masters2) {
+    const pendingEvent = updatedSeason.pendingEvent
+      ? {...updatedSeason.pendingEvent,nextPhase:"Masters 2" as const,nextSchedule:[]}
+      : undefined;
+
+    return {
+      ...updatedSeason,
+      pendingEvent,
+      events:{
+        ...updatedSeason.events,
+        "Masters 2":{...updatedSeason.events["Masters 2"],masters:masters2},
+      },
+    };
+  }
+
+  updatedSeason = prepareStageGroups(updatedSeason,"Stage 2",team);
+
+  updatedSeason = {
+    ...updatedSeason,
+    events:{
+      ...updatedSeason.events,
+      "Masters 2":{...emptyEvent(),status:"Skipped"},
+    },
+  };
+
+  if (updatedSeason.pendingEvent) {
+    return {
+      ...updatedSeason,
+      pendingEvent:{
+        ...updatedSeason.pendingEvent,
+        nextPhase:"Stage 2",
+        nextSchedule:updatedSeason.events["Stage 2"].schedule,
+      },
+    };
+  }
+
+  if (changedCircuit || season.phase === "Stage 1 Playoffs") {
+    return activatePhase(updatedSeason,"Stage 2",updatedSeason.events["Stage 2"].schedule);
+  }
+
+  return updatedSeason;
+}
+
 function playNextKickoffMatch(player: CareerPlayer,season: VCTSeasonState): VCTSeasonState {
   const event = season.events.Kickoff;
   const bracket = event.bracket;
@@ -368,11 +426,17 @@ function finishEvent(player: CareerPlayer,season: VCTSeasonState,phase: Playable
   if (phase === "Stage 1 Playoffs") {
     if (placement <= 3) {
       updatedSeason = prepareMasters(updatedSeason,"Masters 2",team,placement as 1 | 2 | 3);
-      return queueTransition(updatedSeason,phase,placement,"Masters 2",[]);
+
+      const transitionedSeason = queueTransition(updatedSeason,phase,placement,"Masters 2",[]);
+
+      return {...transitionedSeason,marketWindowPending:"midseason"};
     }
 
     updatedSeason = prepareStageGroups(updatedSeason,"Stage 2",team);
-    return queueSkippedTransition(updatedSeason,phase,placement,"Masters 2","Stage 2",updatedSeason.events["Stage 2"].schedule);
+
+    const transitionedSeason = queueSkippedTransition(updatedSeason,phase,placement,"Masters 2","Stage 2",updatedSeason.events["Stage 2"].schedule);
+
+    return {...transitionedSeason,marketWindowPending:"midseason"};
   }
 
   if (phase === "Masters 2") {

@@ -137,7 +137,7 @@ export function ClutchDefuseMinigame({onComplete}: ClutchDefuseMinigameProps) {
     setResult({
       label:remaining > 0 && remaining < DEFUSE_DURATION ? "too-late" : "failed",
       remaining,
-      clutch:0,
+      clutch:remaining > 0 && remaining < DEFUSE_DURATION ? -2 : -1,
     });
   };
 
@@ -258,8 +258,8 @@ export function ClutchDefuseMinigame({onComplete}: ClutchDefuseMinigameProps) {
 
     audio.pause();
 
-    let clutch = 1;
-    let label: Result["label"] = "early";
+    let clutch = 0;
+    let label:Result["label"] = "early";
 
     if (startedRemaining <= 7.10) {
       clutch = 5;
@@ -285,7 +285,7 @@ export function ClutchDefuseMinigame({onComplete}: ClutchDefuseMinigameProps) {
 
     cleanup();
 
-    onComplete(result.clutch > 0 ? {clutch:result.clutch} : {});
+    onComplete({clutch:result.clutch});
   };
 
   const defuseRemaining = state === "defusing" ? Math.max(0,DEFUSE_DURATION * (1 - defuseProgress / 100)) : 0;
@@ -311,7 +311,7 @@ export function ClutchDefuseMinigame({onComplete}: ClutchDefuseMinigameProps) {
               <span><b>7.11–7.30s</b> {text.insane} <strong>+4</strong></span>
               <span><b>7.31–7.60s</b> {text.great} <strong>+3</strong></span>
               <span><b>7.61–8.20s</b> {text.safe} <strong>+2</strong></span>
-              <span><b>&gt; 8.20s</b> {text.early} <strong>+1</strong></span>
+              <span><b>&gt; 8.20s</b> {text.early} <strong>0</strong></span>
             </div>
 
             <button className="primary-button clutch-minigame__start" onClick={startGame}>{text.start} <span>▶</span></button>
@@ -368,7 +368,9 @@ export function ClutchDefuseMinigame({onComplete}: ClutchDefuseMinigameProps) {
               <>
                 <strong>{result.remaining > 0 ? `${result.remaining.toFixed(3)}s` : "0.000s"}</strong>
                 <p>{result.label === "too-late" ? text.tooLate : result.label === "audio-error" ? text.audioError : text.exploded}</p>
-                <div className="clutch-minigame__gain clutch-minigame__gain--failed">{text.clutch} <b>+0</b></div>
+                <div className="clutch-minigame__gain clutch-minigame__gain--failed">
+                  {text.clutch} <b>{result.clutch > 0 ? `+${result.clutch}` : result.clutch}</b>
+                </div>
               </>
             )}
 

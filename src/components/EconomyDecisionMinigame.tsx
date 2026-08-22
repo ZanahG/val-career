@@ -86,7 +86,7 @@ export function EconomyDecisionMinigame({onComplete}:EconomyDecisionMinigameProp
     },FEEDBACK_DELAY);
   };
 
-  const reward = correct >= 5 ? 5 : correct === 4 ? 4 : correct === 3 ? 3 : correct === 2 ? 1 : 0;
+  const reward = correct >= 5 ? 5 : correct === 4 ? 3 : correct === 3 ? 1 : correct === 2 ? 0 : correct === 1 ? -1 : -2;
 
   return (
     <div className="career-minigame-overlay">
@@ -202,7 +202,15 @@ function MinigameResult({title,score,reward,language,onContinue}:{title:string;s
     <div className="career-minigame-result">
       <span>{title}</span>
       <strong>{score}</strong>
-      <p>{reward > 0 ? `+${reward} ${title}` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
+      <p>
+        {reward > 0
+          ? `+${reward} GAME SENSE`
+          : reward < 0
+            ? `${reward} GAME SENSE`
+            : language === "es"
+              ? "Sin cambios esta vez."
+              : "No change this time."}
+      </p>
       <button onClick={onContinue}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
     </div>
   );

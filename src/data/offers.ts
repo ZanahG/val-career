@@ -54,6 +54,50 @@ export function generateOffers(player:CareerPlayer):ContractOffer[] {
   return offerTeams.map((team,index) => createOffer(team,player,overall,scoutingScore,index));
 }
 
+export function generateMidseasonOffers(player:CareerPlayer):ContractOffer[] {
+  const overall = getPlayerOverallExact(player);
+  const scoutingScore = getPlayerScoutingScore(player);
+  const homeCircuit = getCircuitFromRegion(player.region);
+
+  const worldwidePool = TEAMS.filter((team) => team.tier === 1 && team.id !== player.currentTeamId);
+  const eligible = worldwidePool.filter((team) => canOfferContract(team,scoutingScore));
+
+  const preferred = sortTeamsForPlayer(eligible,player,overall,scoutingScore,homeCircuit);
+  const fallback = sortTeamsForPlayer(worldwidePool,player,overall,scoutingScore,homeCircuit);
+  const offerTeams = fillOffers(preferred,fallback,OFFER_COUNT);
+
+  return offerTeams.map((team,index) => createOffer(team,player,overall,scoutingScore,index));
+}
+
+export function generateRenewalOffer(player:CareerPlayer):ContractOffer|null {
+  if (!player.currentTeamId) return null;
+
+  const team = TEAMS.find((item) => item.id === player.currentTeamId);
+  if (!team) return null;
+
+  const overall = getPlayerOverallExact(player);
+  const scoutingScore = getPlayerScoutingScore(player);
+
+  const salaryProgress = Math.max(0,Math.min(1,(scoutingScore - 42) / 40));
+  const baseSalary = Math.round(team.salaryMin + (team.salaryMax - team.salaryMin) * salaryProgress);
+  const performanceBonus = overall >= 90 ? 1.18 : overall >= 85 ? 1.12 : overall >= 80 ? 1.08 : overall >= 75 ? 1.04 : 1;
+  const salary = Math.round(baseSalary * performanceBonus);
+
+  const rosterRole:"Starter"|"Substitute" = scoutingScore >= team.strength - 5 ? "Starter" : "Substitute";
+  const duration = scoutingScore >= 85 ? 2 : Math.random() > .5 ? 2 : 1;
+  const signingBonus = Math.round(salary * (team.tier === 1 ? .6 : .35));
+
+  return {
+    id:`${player.season}-${team.id}-renewal`,
+    teamId:team.id,
+    salary,
+    duration,
+    rosterRole,
+    signingBonus,
+    expectations:getExpectations(team.tier,rosterRole),
+  };
+}
+
 function getPlayerScoutingScore(player:CareerPlayer) {
   const overall = getPlayerOverallExact(player);
   const roleFit = getRoleFit(player);

@@ -123,7 +123,7 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
     },FEEDBACK_DELAY);
   };
 
-  const reward = successfulRounds >= 7 ? 5 : successfulRounds === 6 ? 4 : successfulRounds >= 4 ? 3 : successfulRounds >= 2 ? 2 : successfulRounds >= 1 ? 1 : 0;
+  const reward = successfulRounds >= 7 ? 5 : successfulRounds === 6 ? 4 : successfulRounds >= 4 ? 3 : successfulRounds >= 2 ? 0 : successfulRounds === 1 ? -1 : -2;
   const finished = phase === "finished";
 
   return (
@@ -173,7 +173,15 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
               <div className="career-minigame-result">
                 <span>CONSISTENCY</span>
                 <strong>{successfulRounds}/{MAX_ROUNDS}</strong>
-                <p>{reward > 0 ? `+${reward} CONSISTENCY` : language === "es" ? "Sin mejora esta vez." : "No improvement this time."}</p>
+                <p>
+                  {reward > 0
+                    ? `+${reward} CONSISTENCY`
+                    : reward < 0
+                      ? `${reward} CONSISTENCY`
+                      : language === "es"
+                        ? "Sin cambios esta vez."
+                        : "No change this time."}
+                </p>
                 <button onClick={() => onComplete({consistency:reward})}>{language === "es" ? "CONTINUAR" : "CONTINUE"} →</button>
               </div>
             )}

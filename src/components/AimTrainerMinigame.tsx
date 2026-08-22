@@ -116,10 +116,11 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
     if (finalHits === 10 && accuracy >= .9 && averageReaction <= 450) return 5;
     if (finalHits >= 8 && accuracy >= .8) return 4;
     if (finalHits >= 6 && accuracy >= .65) return 3;
-    if (finalHits >= 4) return 2;
-    if (finalHits >= 1) return 1;
+    if (finalHits >= 4 && accuracy >= .5) return 1;
+    if (finalHits >= 2) return 0;
+    if (finalHits === 1) return -1;
 
-    return 0;
+    return -2;
   };
 
   const finishGame = () => {
@@ -235,7 +236,7 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
   const totalShots = hits + missedShots;
   const accuracy = totalShots ? hits / totalShots : 0;
 
-  const finish = () => onComplete(aimGain > 0 ? {aim:aimGain} : {});
+  const finish = () => onComplete({aim:aimGain});
 
   const rangeStyle = {
     backgroundImage:`url(${backgroundImage})`,
@@ -262,8 +263,8 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
               <span><b>{text.elite}</b><strong>AIM +5</strong></span>
               <span><b>{text.great}</b><strong>AIM +4</strong></span>
               <span><b>{text.good}</b><strong>AIM +3</strong></span>
-              <span><b>{text.decent}</b><strong>AIM +2</strong></span>
-              <span><b>{text.completeReward}</b><strong>AIM +1</strong></span>
+              <span><b>{text.decent}</b><strong>AIM +1</strong></span>
+              <span><b>{text.completeReward}</b><strong>AIM 0 / -2</strong></span>
             </div>
 
             <button className="primary-button aim-minigame__start" onClick={startGame}>{text.start} <span>▶</span></button>
@@ -304,7 +305,7 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
         {state === "result" && (
           <div className="aim-minigame__result">
             <span className="aim-minigame__result-label">{text.result}</span>
-            <strong>AIM +{aimGain}</strong>
+            <strong>{aimGain > 0 ? `AIM +${aimGain}` : aimGain < 0 ? `AIM ${aimGain}` : "AIM ±0"}</strong>
 
             <div className="aim-minigame__result-grid">
               <div><span>{text.hits}</span><b>{hits}/{TOTAL_DUCKS}</b></div>
