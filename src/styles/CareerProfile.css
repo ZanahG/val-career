@@ -51,9 +51,40 @@
 }
 
 .profile-content {
-  width: min(100%, 1350px);
-  margin: 0 auto;
-  padding: clamp(34px, 5vw, 70px) 28px;
+  width:min(100%,1650px);
+  margin:0 auto;
+  padding:clamp(34px,5vw,70px) 28px;
+}
+
+.profile-layout {
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr);
+  gap:32px;
+  align-items:start;
+}
+
+.profile-player-card-column {
+  position:sticky;
+  top:110px;
+  min-width:0;
+}
+
+.profile-player-card-heading {
+  margin-bottom:14px;
+}
+
+.profile-player-card-heading h2 {
+  margin:6px 0 0;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:22px;
+}
+
+.profile-player-card-column .player-card {
+  width:100%;
+}
+
+.profile-main-content {
+  min-width:0;
 }
 
 .profile-hero {
@@ -254,25 +285,28 @@
   line-height: 1.6;
 }
 
-@media (max-width: 1150px) {
-  .profile-summary {grid-template-columns: repeat(3, 1fr);}
-  .profile-columns {grid-template-columns: 1fr;}
+@media (max-width:1250px) {
+  .profile-layout {grid-template-columns:210px minmax(0,1fr);gap:22px;}
+  .profile-summary {grid-template-columns:repeat(3,1fr);}
+  .profile-columns {grid-template-columns:1fr;}
 }
 
-@media (max-width: 800px) {
-  .profile-hero {align-items: flex-start; flex-direction: column;}
-  .profile-current-team {width: 100%;}
-  .career-history-row {grid-template-columns: 55px 1fr 60px 60px 30px;}
-  .career-history-salary {display: none;}
+@media (max-width:900px) {
+  .profile-layout {grid-template-columns:1fr;}
+  .profile-player-card-column {position:static;width:min(100%,260px);}
+  .profile-hero {grid-template-columns:1fr;}
+  .profile-current-team {width:100%;}
+  .career-history-row {grid-template-columns:55px 1fr 60px 60px 30px;}
+  .career-history-salary {display:none;}
 }
 
-@media (max-width: 600px) {
-  .profile-topbar {padding: 0 14px;}
-  .profile-content {padding: 30px 18px;}
-  .profile-summary {grid-template-columns: repeat(2, 1fr);}
-  .career-history-row {grid-template-columns: 50px 1fr 50px 30px;}
-  .career-history-record {display: none;}
-  .profile-topbar__left > div:last-child {display: none;}
+@media (max-width:600px) {
+  .profile-topbar {padding:0 14px;}
+  .profile-content {padding:30px 18px;}
+  .profile-summary {grid-template-columns:repeat(2,1fr);}
+  .career-history-row {grid-template-columns:50px 1fr 50px 30px;}
+  .career-history-record {display:none;}
+  .profile-topbar__left > div:last-child {display:none;}
 }
 
 .career-history-ascension {
@@ -286,4 +320,145 @@
 
 .career-history-ascension--win {
   color: #46d39a;
+}
+
+.profile-share-actions {
+  margin-bottom:18px;
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+
+.profile-share-actions button {
+  min-height:38px;
+  padding:0 15px;
+  border:1px solid #293441;
+  background:#101720;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.profile-share-actions button:hover:not(:disabled) {
+  border-color:#ff4655;
+}
+
+.profile-share-actions__primary {
+  border-color:#ff4655 !important;
+  background:#ff4655 !important;
+}
+
+.profile-share-actions__primary:hover:not(:disabled) {
+  background:#ff5c69 !important;
+}
+
+.profile-share-actions button:disabled {
+  opacity:.5;
+  cursor:wait;
+}
+
+.career-share-preview-backdrop {
+  position:fixed;
+  inset:0;
+  z-index:1500;
+  padding:28px;
+  display:grid;
+  place-items:center;
+  background:rgba(3,6,10,.88);
+  backdrop-filter:blur(10px);
+}
+
+.career-share-preview {
+  width:min(100%,1050px);
+  border:1px solid #293441;
+  background:#0d141d;
+  box-shadow:0 30px 100px rgba(0,0,0,.65);
+}
+
+.career-share-preview > header {
+  padding:20px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border-bottom:1px solid #26313f;
+}
+
+.career-share-preview > header h2 {
+  margin:6px 0 0;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:26px;
+}
+
+.career-share-preview > header > button {
+  border:0;
+  background:transparent;
+  color:#7f8999;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.career-share-preview > header > button:hover {
+  color:#fff;
+}
+
+.career-share-preview__image {
+  padding:22px;
+  background:#080d13;
+}
+
+.career-share-preview__image img {
+  width:100%;
+  display:block;
+  border:1px solid #26313f;
+}
+
+.career-share-preview > footer {
+  padding:18px 22px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  border-top:1px solid #26313f;
+}
+
+.career-share-preview > footer button {
+  min-height:42px;
+  padding:0 16px;
+  border:1px solid #293441;
+  background:#111923;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+}
+
+.career-share-preview > footer button:hover {
+  border-color:#ff4655;
+}
+
+.career-share-preview__share {
+  border-color:#ff4655 !important;
+  background:#ff4655 !important;
+}
+
+.career-share-preview__share:hover {
+  background:#ff5d69 !important;
+}
+
+@media (max-width:700px) {
+  .career-share-preview-backdrop {
+    padding:10px;
+  }
+
+  .career-share-preview > footer {
+    flex-direction:column;
+  }
+
+  .career-share-preview > footer button {
+    width:100%;
+  }
 }

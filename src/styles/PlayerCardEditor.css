@@ -118,12 +118,6 @@
 
 .banner-option--equipped > span {color: #ff6572;}
 
-.banner-option--locked {
-  opacity: .3;
-  cursor: not-allowed;
-  filter: grayscale(1);
-}
-
 .title-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(210px,1fr));
@@ -169,11 +163,6 @@
 
 .title-option--equipped span {color: #ff6572;}
 
-.title-option--locked {
-  opacity: .3;
-  cursor: not-allowed;
-}
-
 .player-card-editor::-webkit-scrollbar {width: 6px;}
 .player-card-editor::-webkit-scrollbar-track {background: #0b1118;}
 .player-card-editor::-webkit-scrollbar-thumb {background: #303b48;}
@@ -184,4 +173,83 @@
   .player-card-editor > section {padding: 18px;}
   .banner-grid {grid-template-columns: repeat(2,minmax(0,1fr));}
   .title-grid {grid-template-columns: 1fr;}
+}
+.banner-option__image {
+  position:relative;
+}
+
+.banner-option__lock {
+  position:absolute;
+  inset:0;
+  display:grid !important;
+  place-items:center;
+  padding:0 !important;
+  background:rgba(4,7,11,.58);
+  color:#fff !important;
+  font-size:28px !important;
+  letter-spacing:0 !important;
+  backdrop-filter:blur(1px);
+}
+
+.banner-option > small {
+  display:block;
+  min-height:34px;
+  padding:0 10px 12px;
+  color:#7d8999;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.banner-option--locked {
+  opacity:1;
+  cursor:not-allowed;
+}
+
+.banner-option--locked img {
+  filter:grayscale(1) brightness(.42);
+}
+
+.banner-option--locked > strong {
+  color:#9aa4b2;
+}
+
+.banner-option--locked > span {
+  color:#ff6572;
+}
+
+.banner-option--locked:hover {
+  transform:none;
+}
+
+.title-option__content {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.title-option__lock {
+  color:#8a95a4 !important;
+  font-size:13px !important;
+  letter-spacing:0 !important;
+}
+
+.title-option > small {
+  color:#7d8999;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.title-option--locked {
+  opacity:1;
+  cursor:not-allowed;
+  background:#0e151d;
+}
+
+.title-option--locked strong {
+  color:#929dab;
+}
+
+.title-option--locked > span {
+  color:#ff6572;
 }

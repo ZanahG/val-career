@@ -16,6 +16,7 @@ import {TiltControlMinigame} from "./components/TiltControlMinigame";
 import {VCTDashboard} from "./components/VCTDashboard";
 import {VCTSeasonRecap} from "./components/VCTSeasonRecap";
 import {WarmupSequenceMinigame} from "./components/WarmupSequenceMinigame";
+import {getPlayerBanner,getPlayerTitle,isPlayerBannerUnlocked,isPlayerTitleUnlocked} from "./data/cosmetics";
 
 import {getEventById,getRandomCareerStartEventId} from "./data/events";
 import {generateOffers} from "./data/offers";
@@ -209,12 +210,22 @@ export default function App() {
   const closeProfile = () => setScreen(profileReturnScreen);
 
   const equipPlayerBanner = (id:string) => {
-    if (!player || !player.unlockedBannerIds.includes(id)) return;
+    if (!player) return;
+
+    const banner = getPlayerBanner(id);
+
+    if (!banner || !isPlayerBannerUnlocked(banner,player)) return;
+
     setPlayer({...player,equippedBannerId:id});
   };
 
   const equipPlayerTitle = (id:string) => {
-    if (!player || !player.unlockedTitleIds.includes(id)) return;
+    if (!player) return;
+
+    const title = getPlayerTitle(id);
+
+    if (!title || !isPlayerTitleUnlocked(title,player)) return;
+
     setPlayer({...player,equippedTitleId:id});
   };
 
@@ -568,7 +579,7 @@ export default function App() {
   const renderScreen = () => {
     if (!player || screen === "create") return <CreatePlayer onCreate={handleCreate} onContinue={continueSavedCareer} hasSave={saveAvailable} />;
 
-    if (screen === "profile") return <CareerProfile player={player} onBack={closeProfile} />;
+    if (screen === "profile") return <CareerProfile player={player} onBack={closeProfile} onEditPlayerCard={() => setPlayerCardEditorOpen(true)}/>;
 
     if (screen === "offers") {
       const offers = generateOffers(player);
