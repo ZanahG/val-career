@@ -308,3 +308,53 @@
   font-family: "Space Grotesk",sans-serif;
   font-size: 24px;
 }
+
+.clutch-minigame__intro-actions {
+  width:100%;
+  margin-top:28px;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+  gap:12px;
+}
+
+.clutch-minigame__intro-actions .clutch-minigame__start {
+  margin-top:0;
+}
+
+.clutch-minigame__skip {
+  min-width:140px;
+  min-height:56px;
+  padding:14px 22px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.04);
+  color:#8995a6;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.clutch-minigame__skip:hover {
+  border-color:#ff4655;
+  background:rgba(255,70,85,.08);
+  color:#fff;
+}
+
+.clutch-minigame__skip span {
+  margin-left:10px;
+}
+
+@media (max-width:600px) {
+  .clutch-minigame__intro-actions {
+    flex-direction:column;
+  }
+
+  .clutch-minigame__intro-actions .clutch-minigame__start,
+  .clutch-minigame__skip {
+    width:100%;
+    min-width:0;
+  }
+}

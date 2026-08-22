@@ -275,3 +275,53 @@
 .career-share-card__footer strong {
   color:#ff6572;
 }
+
+.career-share-card__team {
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.career-share-card__team img {
+  width:24px;
+  height:24px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+.career-share-card__team span {
+  margin:0;
+}
+
+.career-share-card__highlight {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:34px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.career-share-card__highlight img {
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+.career-share-card__highlight-fallback {
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  border:1px solid #26313f;
+  background:#111923;
+  color:#fff;
+  font-size:7px;
+  font-weight:900;
+}
+
+.career-share-card__highlight strong {
+  min-width:0;
+}

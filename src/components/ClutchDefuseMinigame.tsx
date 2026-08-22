@@ -6,6 +6,7 @@ import "../styles/ClutchDefuseMinigame.css";
 
 interface ClutchDefuseMinigameProps {
   onComplete: (effects: CareerEffects) => void;
+  onSkip:() => void;
 }
 
 type GameState = "ready"|"playing"|"defusing"|"success"|"failed";
@@ -21,7 +22,7 @@ const DEFUSE_DURATION = 7;
 const EXPLOSION_AT = 41.0;
 const AUDIO_END_AT = 51.0;
 
-export function ClutchDefuseMinigame({onComplete}: ClutchDefuseMinigameProps) {
+export function ClutchDefuseMinigame({onComplete,onSkip}: ClutchDefuseMinigameProps) {
   const {language} = useGameSettings();
 
   const [state,setState] = useState<GameState>("ready");
@@ -314,7 +315,10 @@ export function ClutchDefuseMinigame({onComplete}: ClutchDefuseMinigameProps) {
               <span><b>&gt; 8.20s</b> {text.early} <strong>0</strong></span>
             </div>
 
-            <button className="primary-button clutch-minigame__start" onClick={startGame}>{text.start} <span>▶</span></button>
+            <div className="clutch-minigame__intro-actions">
+              <button className="primary-button clutch-minigame__start" onClick={startGame}>{text.start} <span>▶</span></button>
+              <button className="clutch-minigame__skip" onClick={onSkip}>{language === "es" ? "SALTAR" : "SKIP"} <span>→</span></button>
+            </div>
           </div>
         )}
 

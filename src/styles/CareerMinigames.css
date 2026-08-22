@@ -510,3 +510,91 @@
     min-width:0;
   }
 }
+
+.career-minigame-intro__actions {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  margin-top:20px;
+}
+
+.career-minigame-intro__actions .career-minigame-start {
+  margin-top:0;
+}
+
+.career-minigame-skip {
+  min-width:120px;
+  padding:0 20px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.03);
+  color:#8492a6;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.career-minigame-skip:hover {
+  border-color:#ff4655;
+  background:rgba(255,70,85,.08);
+  color:#fff;
+}
+
+@media (max-width:600px) {
+  .career-minigame-intro__actions {
+    grid-template-columns:1fr;
+  }
+
+  .career-minigame-skip {
+    min-height:48px;
+  }
+}
+.career-minigame-intro__actions {
+  width:100%;
+  margin-top:20px;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+  gap:12px;
+}
+
+.career-minigame-intro__actions .career-minigame-start {
+  margin-top:0;
+}
+
+.career-minigame-skip {
+  min-width:140px;
+  min-height:56px;
+  padding:14px 22px;
+  border:1px solid #354251;
+  background:#111923;
+  color:#8995a6;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.career-minigame-skip:hover {
+  border-color:#ff4655;
+  background:rgba(255,70,85,.08);
+  color:#fff;
+}
+
+.career-minigame-skip span {
+  margin-left:10px;
+}
+
+@media (max-width:600px) {
+  .career-minigame-intro__actions {
+    flex-direction:column;
+  }
+
+  .career-minigame-skip {
+    width:100%;
+    min-width:0;
+  }
+}

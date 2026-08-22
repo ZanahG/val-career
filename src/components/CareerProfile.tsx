@@ -8,6 +8,7 @@ import {PlayerCard} from "./PlayerCard";
 import {useRef,useState} from "react";
 import {toPng} from "html-to-image";
 import {CareerShareCard} from "./CareerShareCard";
+import {getTeamLogo} from "../utils/teamLogo";
 import "../styles/CareerProfile.css";
 
 interface CareerProfileProps {
@@ -133,22 +134,58 @@ export function CareerProfile({player,onBack,onEditPlayerCard}:CareerProfileProp
                 <div className="career-history">
                   {player.history.length === 0 && <div className="profile-empty">{language === "es" ? "Completa tu primera temporada para comenzar tu historial." : "Complete your first season to start building your career history."}</div>}
 
-                  {[...player.history].reverse().map((season) => (
-                    <article key={`${season.season}-${season.teamId}`} className="career-history-row">
-                      <div className="career-history-year"><span>{season.season}</span></div>
+                  {[...player.history].reverse().map((season) => {
+                    const seasonTeam = getTeamById(season.teamId);
+                    const seasonTeamLogo = getTeamLogo(seasonTeam?.logo);
 
-                      <div className="career-history-team">
-                        <strong>{season.teamName}</strong>
-                        <span>{season.rosterRole}</span>
-                        {season.ascensionQualified && <small className={season.ascensionWon ? "career-history-ascension career-history-ascension--win" : "career-history-ascension"}>ASCENSION {season.ascensionWins ?? 0}-{season.ascensionLosses ?? 0}</small>}
-                      </div>
+                    return (
+                      <article key={`${season.season}-${season.teamId}`} className="career-history-row">
+                        <div className="career-history-year">
+                          <span>{season.season}</span>
+                        </div>
 
-                      <div className="career-history-record"><span>W/L</span><strong>{season.wins}-{season.losses}</strong></div>
-                      <div className="career-history-placement"><span>{language === "es" ? "POS." : "FINISH"}</span><strong>#{season.placement}</strong></div>
-                      <div className="career-history-salary"><span>{language === "es" ? "SUELDO" : "SALARY"}</span><strong>{formatCurrency(season.salary,currency)}</strong></div>
-                      <div className="career-history-trophy">{season.ascensionWon ? "⬆" : season.trophies.length > 0 ? "🏆" : ""}</div>
-                    </article>
-                  ))}
+                        <div className="career-history-team">
+                          <div className="career-history-team__identity">
+                            {seasonTeamLogo ? (
+                              <img className="career-history-team__logo" src={seasonTeamLogo} alt={season.teamName} />
+                            ) : (
+                              <div className="career-history-team__logo-fallback">
+                                {season.teamName.slice(0,2).toUpperCase()}
+                              </div>
+                            )}
+
+                            <div className="career-history-team__meta">
+                              <strong>{season.teamName}</strong>
+                              {season.ascensionQualified && (
+                                <small className={season.ascensionWon ? "career-history-ascension career-history-ascension--win" : "career-history-ascension"}>
+                                  ASCENSION {season.ascensionWins ?? 0}-{season.ascensionLosses ?? 0}
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="career-history-record">
+                          <span>W/L</span>
+                          <strong>{season.wins}-{season.losses}</strong>
+                        </div>
+
+                        <div className="career-history-placement">
+                          <span>{language === "es" ? "POS." : "FINISH"}</span>
+                          <strong>#{season.placement}</strong>
+                        </div>
+
+                        <div className="career-history-salary">
+                          <span>{language === "es" ? "SUELDO" : "SALARY"}</span>
+                          <strong>{formatCurrency(season.salary,currency)}</strong>
+                        </div>
+
+                        <div className="career-history-trophy">
+                          {season.ascensionWon ? "⬆" : season.trophies.length > 0 ? "🏆" : ""}
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
               </section>
 

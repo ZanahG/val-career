@@ -5,6 +5,7 @@ import "../styles/CareerMinigames.css";
 
 interface EconomyDecisionMinigameProps {
   onComplete:(effects:CareerEffects) => void;
+  onSkip:() => void;
 }
 
 type EconomyChoice = "save"|"half"|"force"|"full";
@@ -31,7 +32,7 @@ const SCENARIOS:EconomyScenario[] = [
 
 const shuffle = <T,>(items:T[]) => [...items].sort(() => Math.random() - .5);
 
-export function EconomyDecisionMinigame({onComplete}:EconomyDecisionMinigameProps) {
+export function EconomyDecisionMinigame({onComplete,onSkip}:EconomyDecisionMinigameProps) {
   const {language} = useGameSettings();
   const scenarios = useMemo(() => shuffle(SCENARIOS),[]);
   const [started,setStarted] = useState(false);
@@ -92,7 +93,7 @@ export function EconomyDecisionMinigame({onComplete}:EconomyDecisionMinigameProp
     <div className="career-minigame-overlay">
       <section className={`career-minigame ${feedback === "correct" ? "career-minigame--correct" : feedback ? "career-minigame--wrong" : ""}`}>
         {!started ? (
-          <EconomyIntro language={language} onStart={() => setStarted(true)} />
+          <EconomyIntro language={language} onStart={() => setStarted(true)} onSkip={onSkip} />
         ) : (
           <>
             <header className="career-minigame__header">
@@ -130,7 +131,7 @@ export function EconomyDecisionMinigame({onComplete}:EconomyDecisionMinigameProp
   );
 }
 
-function EconomyIntro({language,onStart}:{language:"es"|"en";onStart:() => void}) {
+function EconomyIntro({language,onStart,onSkip}:{language:"es"|"en";onStart:() => void;onSkip:() => void}) {
   return (
     <div className="career-minigame-intro">
       <header className="career-minigame__header">
@@ -158,12 +159,15 @@ function EconomyIntro({language,onStart}:{language:"es"|"en";onStart:() => void}
 
         <div className="career-minigame-intro__rewards">
           <div><strong>5/5</strong><span>+5 GAME SENSE</span></div>
-          <div><strong>4/5</strong><span>+4 GAME SENSE</span></div>
-          <div><strong>3/5</strong><span>+3 GAME SENSE</span></div>
-          <div><strong>2/5</strong><span>+1 GAME SENSE</span></div>
+          <div><strong>4/5</strong><span>+3 GAME SENSE</span></div>
+          <div><strong>3/5</strong><span>+1 GAME SENSE</span></div>
+          <div><strong>2/5</strong><span>±0 GAME SENSE</span></div>
         </div>
 
-        <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+        <div className="career-minigame-intro__actions">
+          <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+          <button className="career-minigame-skip" onClick={onSkip}>{language === "es" ? "SALTAR" : "SKIP"} <span>→</span></button>
+        </div>
       </div>
     </div>
   );

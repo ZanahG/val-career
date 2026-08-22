@@ -462,3 +462,52 @@
     width:100%;
   }
 }
+.career-history-team__identity {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.career-history-team__logo {
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+.career-history-team__logo-fallback {
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:1px solid #26313f;
+  background:#111923;
+  color:#fff;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:11px;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.career-history-team__meta {
+  min-width:0;
+}
+
+.career-history-team__meta strong {
+  display:block;
+  font-family:"Space Grotesk",sans-serif;
+}
+
+.career-history-team__meta span,
+.career-history-team__meta .career-history-ascension {
+  display:block;
+}
+
+@media (max-width:800px) {
+  .career-history-team__logo,
+  .career-history-team__logo-fallback {
+    width:34px;
+    height:34px;
+  }
+}

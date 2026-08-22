@@ -5,6 +5,7 @@ import "../styles/CareerMinigames.css";
 
 interface TiltControlMinigameProps {
   onComplete:(effects:CareerEffects) => void;
+  onSkip:() => void;
 }
 
 type Feedback = "correct"|"wrong"|"timeout"|null;
@@ -39,7 +40,7 @@ const MESSAGES:TiltMessage[] = [
 
 const shuffle = <T,>(items:T[]) => [...items].sort(() => Math.random() - .5);
 
-export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
+export function TiltControlMinigame({onComplete,onSkip}:TiltControlMinigameProps) {
   const {language} = useGameSettings();
 
   const messages = useMemo(() => shuffle(MESSAGES).slice(0,10),[]);
@@ -103,10 +104,10 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
   const reward = correct >= 9 && tilt <= 30 ? 5 : correct >= 8 ? 4 : correct >= 6 ? 3 : correct >= 4 ? 1 : correct >= 2 ? -1 : -2;
 
   return (
-    <div className="career-minigame-overlay">
-      <section className={`career-minigame ${feedback === "correct" ? "career-minigame--correct" : feedback ? "career-minigame--wrong" : ""}`}>
-        {!started ? (
-          <TiltIntro language={language} onStart={() => setStarted(true)} />
+  <div className="career-minigame-overlay">
+    <section className={`career-minigame ${feedback === "correct" ? "career-minigame--correct" : feedback ? "career-minigame--wrong" : ""}`}>
+      {!started ? (
+          <TiltIntro language={language} onStart={() => setStarted(true)} onSkip={onSkip} />
         ) : (
           <>
             <header className="career-minigame__header">
@@ -161,12 +162,11 @@ export function TiltControlMinigame({onComplete}:TiltControlMinigameProps) {
   );
 }
 
-function TiltIntro({language,onStart}:{language:"es"|"en";onStart:() => void}) {
+function TiltIntro({language,onStart,onSkip}:{language:"es"|"en";onStart:() => void;onSkip:() => void}) {
   return (
     <div className="career-minigame-intro">
       <header className="career-minigame__header">
         <div><span>ENTRENAMIENTO DE MENTAL</span><h2>{language === "es" ? "CONTROL DE TILT" : "TILT CONTROL"}</h2></div>
-        <strong>{language === "es" ? "LISTO" : "READY"}</strong>
       </header>
 
       <div className="career-minigame-intro__body">
@@ -191,12 +191,15 @@ function TiltIntro({language,onStart}:{language:"es"|"en";onStart:() => void}) {
           <div><strong>9-10/10</strong><span>+5 MENTAL*</span></div>
           <div><strong>8/10</strong><span>+4 MENTAL</span></div>
           <div><strong>6-7/10</strong><span>+3 MENTAL</span></div>
-          <div><strong>4-5/10</strong><span>+2 MENTAL</span></div>
+          <div><strong>4-5/10</strong><span>+1 MENTAL</span></div>
         </div>
 
         <p>{language === "es" ? "* +5 requiere terminar con 30% de tilt o menos." : "* +5 requires finishing with 30% tilt or less."}</p>
 
-        <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+        <div className="career-minigame-intro__actions">
+          <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+          <button className="career-minigame-skip" onClick={onSkip}>{language === "es" ? "SALTAR" : "SKIP"} <span>→</span></button>
+        </div>
       </div>
     </div>
   );

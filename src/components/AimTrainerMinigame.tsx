@@ -8,15 +8,16 @@ import backgroundImage from "../images/minigames/duck-hunt/background.png";
 import "../styles/AimTrainerMinigame.css";
 
 interface AimTrainerMinigameProps {
-  onComplete: (effects: CareerEffects) => void;
+  onComplete:(effects:CareerEffects) => void;
+  onSkip:() => void;
 }
 
 interface Duck {
-  id: number;
-  y: number;
-  direction: "left"|"right";
-  duration: number;
-  createdAt: number;
+  id:number;
+  y:number;
+  direction:"left"|"right";
+  duration:number;
+  createdAt:number;
 }
 
 type GameState = "ready"|"playing"|"result";
@@ -25,11 +26,11 @@ const TOTAL_DUCKS = 10;
 const DUCK_MIN_DURATION = 900;
 const DUCK_MAX_DURATION = 1450;
 
-export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
+export function AimTrainerMinigame({onComplete,onSkip}:AimTrainerMinigameProps) {
   const {language} = useGameSettings();
 
   const [state,setState] = useState<GameState>("ready");
-  const [duck,setDuck] = useState<Duck | null>(null);
+  const [duck,setDuck] = useState<Duck|null>(null);
   const [duckNumber,setDuckNumber] = useState(0);
   const [hits,setHits] = useState(0);
   const [missedShots,setMissedShots] = useState(0);
@@ -38,8 +39,8 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
   const [aimGain,setAimGain] = useState(0);
   const [dogVisible,setDogVisible] = useState(false);
 
-  const duckTimeoutRef = useRef<number | null>(null);
-  const nextDuckTimeoutRef = useRef<number | null>(null);
+  const duckTimeoutRef = useRef<number|null>(null);
+  const nextDuckTimeoutRef = useRef<number|null>(null);
   const duckIdRef = useRef(0);
   const duckNumberRef = useRef(0);
   const hitsRef = useRef(0);
@@ -57,6 +58,7 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
       introTitle:"DERRIBA LOS 10 PATOS",
       intro:"Los patos cruzarán la pantalla rápidamente. Haz clic sobre ellos antes de que escapen. Los disparos fallidos reducen tu precisión.",
       start:"COMENZAR ENTRENAMIENTO",
+      skip:"SALTAR",
       hits:"ACIERTOS",
       misses:"FALLOS",
       duck:"PATO",
@@ -80,6 +82,7 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
       introTitle:"TAKE DOWN ALL 10 DUCKS",
       intro:"Ducks will fly quickly across the range. Click them before they escape. Missed shots will reduce your accuracy.",
       start:"START TRAINING",
+      skip:"SKIP",
       hits:"HITS",
       misses:"MISSES",
       duck:"DUCK",
@@ -154,10 +157,10 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
     duckNumberRef.current = nextNumber;
     duckIdRef.current += 1;
 
-    const direction: Duck["direction"] = Math.random() > .5 ? "right" : "left";
+    const direction:Duck["direction"] = Math.random() > .5 ? "right" : "left";
     const duration = DUCK_MIN_DURATION + Math.random() * (DUCK_MAX_DURATION - DUCK_MIN_DURATION);
 
-    const nextDuck: Duck = {
+    const nextDuck:Duck = {
       id:duckIdRef.current,
       y:10 + Math.random() * 58,
       direction,
@@ -267,7 +270,10 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
               <span><b>{text.completeReward}</b><strong>AIM 0 / -2</strong></span>
             </div>
 
-            <button className="primary-button aim-minigame__start" onClick={startGame}>{text.start} <span>▶</span></button>
+            <div className="aim-minigame__intro-actions">
+              <button className="primary-button aim-minigame__start" onClick={startGame}>{text.start} <span>▶</span></button>
+              <button className="aim-minigame__skip" onClick={onSkip}>{text.skip} <span>→</span></button>
+            </div>
           </div>
         )}
 
@@ -282,13 +288,7 @@ export function AimTrainerMinigame({onComplete}: AimTrainerMinigameProps) {
 
             <div className="aim-minigame__range" style={rangeStyle} onClick={missShot}>
               {duck && (
-                <button
-                  key={duck.id}
-                  className={`aim-minigame__duck aim-minigame__duck--${duck.direction}`}
-                  style={{top:`${duck.y}%`,"--duck-duration":`${duck.duration}ms`} as CSSProperties}
-                  onClick={hitDuck}
-                  aria-label="Duck"
-                >
+                <button key={duck.id} className={`aim-minigame__duck aim-minigame__duck--${duck.direction}`} style={{top:`${duck.y}%`,"--duck-duration":`${duck.duration}ms`} as CSSProperties} onClick={hitDuck} aria-label="Duck">
                   <img src={duckImage} alt="" draggable={false} />
                 </button>
               )}

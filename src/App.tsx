@@ -44,7 +44,7 @@ type MarketWindow = "midseason"|"offseason"|null;
 
 const MAX_INITIAL_CAREER_EVENTS = 5;
 const INTRO_EVENT_COUNT_STORAGE_KEY = "tu-carrera-valorant:intro-events-played";
-const MAX_CAREER_SEASON = 2035;
+const MAX_CAREER_SEASON = 2030;
 
 const clamp = (value:number) => Math.max(0,Math.min(100,value));
 
@@ -361,6 +361,11 @@ export default function App() {
 
     setPlayer(applyEffects(player,effects));
     setActiveMinigame(null);
+  };
+
+  const skipMinigame = () => {
+    setActiveMinigame(null);
+    setQueuedMinigame(null);
   };
 
   const closeMatchBoxScore = () => {
@@ -785,12 +790,12 @@ export default function App() {
     <>
       {renderScreen()}
 
-      {activeMinigame === "clutch-defuse" && <ClutchDefuseMinigame onComplete={handleMinigameComplete} />}
-      {activeMinigame === "aim-trainer" && <AimTrainerMinigame onComplete={handleMinigameComplete} />}
-      {activeMinigame === "economy-decision" && <EconomyDecisionMinigame onComplete={handleMinigameComplete} />}
-      {activeMinigame === "comms-filter" && <CommsFilterMinigame onComplete={handleMinigameComplete} />}
-      {activeMinigame === "warmup-sequence" && <WarmupSequenceMinigame onComplete={handleMinigameComplete} />}
-      {activeMinigame === "tilt-control" && <TiltControlMinigame onComplete={handleMinigameComplete} />}
+      {activeMinigame === "clutch-defuse" && <ClutchDefuseMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
+      {activeMinigame === "aim-trainer" && <AimTrainerMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
+      {activeMinigame === "economy-decision" && <EconomyDecisionMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
+      {activeMinigame === "comms-filter" && <CommsFilterMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
+      {activeMinigame === "warmup-sequence" && <WarmupSequenceMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
+      {activeMinigame === "tilt-control" && <TiltControlMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
 
       {matchBoxScore && <MatchStatsModal match={matchBoxScore} playerTeamId={player?.currentTeamId} onClose={closeMatchBoxScore} />}
 

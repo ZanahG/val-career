@@ -5,6 +5,7 @@ import "../styles/CareerMinigames.css";
 
 interface WarmupSequenceMinigameProps {
   onComplete:(effects:CareerEffects) => void;
+  onSkip:() => void;
 }
 
 type WarmupKey = "W"|"A"|"S"|"D"|"SPACE";
@@ -19,7 +20,7 @@ const FEEDBACK_DELAY = 700;
 const randomKey = () => KEYS[Math.floor(Math.random() * KEYS.length)];
 const createStartingSequence = () => [randomKey(),randomKey(),randomKey()];
 
-export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps) {
+export function WarmupSequenceMinigame({onComplete,onSkip}:WarmupSequenceMinigameProps) {
   const {language} = useGameSettings();
 
   const [started,setStarted] = useState(false);
@@ -130,7 +131,7 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
     <div className="career-minigame-overlay">
       <section className={`career-minigame ${feedback === "correct" ? "career-minigame--correct" : feedback ? "career-minigame--wrong" : ""}`}>
         {!started ? (
-          <WarmupIntro language={language} onStart={() => setStarted(true)} />
+          <WarmupIntro language={language} onStart={() => setStarted(true)} onSkip={onSkip} />
         ) : (
           <>
             <header className="career-minigame__header">
@@ -192,7 +193,7 @@ export function WarmupSequenceMinigame({onComplete}:WarmupSequenceMinigameProps)
   );
 }
 
-function WarmupIntro({language,onStart}:{language:"es"|"en";onStart:() => void}) {
+function WarmupIntro({language,onStart,onSkip}:{language:"es"|"en";onStart:() => void;onSkip:() => void}) {
   return (
     <div className="career-minigame-intro">
       <header className="career-minigame__header">
@@ -222,10 +223,13 @@ function WarmupIntro({language,onStart}:{language:"es"|"en";onStart:() => void})
           <div><strong>7/7</strong><span>+5 CONSISTENCY</span></div>
           <div><strong>6/7</strong><span>+4 CONSISTENCY</span></div>
           <div><strong>4-5/7</strong><span>+3 CONSISTENCY</span></div>
-          <div><strong>2-3/7</strong><span>+2 CONSISTENCY</span></div>
+          <div><strong>2-3/7</strong><span>±0 CONSISTENCY</span></div>
         </div>
 
-        <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+        <div className="career-minigame-intro__actions">
+          <button className="career-minigame-start" onClick={onStart}>{language === "es" ? "COMENZAR ENTRENAMIENTO" : "START TRAINING"} <span>▶</span></button>
+          <button className="career-minigame-skip" onClick={onSkip}>{language === "es" ? "SALTAR" : "SKIP"} <span>→</span></button>
+        </div>
       </div>
     </div>
   );
