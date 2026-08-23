@@ -1,0 +1,44 @@
+.trade-kill-backdrop { position:fixed; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center; padding:28px; background:rgba(4,8,12,.94); }
+.trade-kill { width:min(900px,100%); background:#0e151d; border:1px solid #27313d; color:#fff; }
+.trade-kill__header { display:flex; justify-content:space-between; gap:24px; padding:24px 26px; border-bottom:1px solid #27313d; }
+.trade-kill__header h2 { margin:4px 0 6px; font-size:34px; }
+.trade-kill__header p { margin:0; color:#8491a1; }
+.trade-kill__header > button { width:38px; height:38px; border:1px solid #2b3744; background:#111923; color:#fff; font-size:22px; cursor:pointer; }
+
+.trade-kill__arena { position:relative; height:500px; overflow:hidden; background:linear-gradient(180deg,#17222d 0,#101820 55%,#0a1016 100%); }
+.trade-kill__site { position:absolute; inset:0; }
+.trade-kill__cover { position:absolute; bottom:0; width:28%; height:74%; background:#27323d; }
+.trade-kill__cover--left { left:0; clip-path:polygon(0 0,75% 8%,100% 100%,0 100%); }
+.trade-kill__cover--right { right:0; clip-path:polygon(25% 8%,100% 0,100% 100%,0 100%); }
+
+.trade-kill__ally { position:absolute; left:50%; bottom:70px; width:48px; height:100px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; transition:.18s ease; }
+.trade-kill__ally span { width:32px; height:32px; border-radius:50%; background:#52a8ff; }
+.trade-kill__ally::after { content:""; width:42px; height:60px; border-radius:12px 12px 6px 6px; background:#3678b8; }
+.trade-kill__ally strong { position:absolute; top:-24px; font-size:10px; color:#8ec7ff; }
+.trade-kill__ally--dead { transform:translateX(-50%) rotate(75deg) translateY(28px); opacity:.55; }
+
+.trade-kill__enemy { position:absolute; bottom:76px; width:52px; height:100px; padding:0; border:0; background:#b92f3d; border-radius:14px 14px 7px 7px; cursor:crosshair; }
+.trade-kill__enemy::before { content:""; position:absolute; left:50%; top:-24px; width:30px; height:30px; transform:translateX(-50%); border-radius:50%; background:#ff736f; }
+.trade-kill__enemy--left { left:24%; }
+.trade-kill__enemy--right { right:24%; }
+
+.trade-kill__fake-zone { position:absolute; bottom:40px; width:28%; height:74%; border:0; background:transparent; cursor:crosshair; }
+.trade-kill__fake-zone--left { left:0; }
+.trade-kill__fake-zone--right { right:0; }
+
+.trade-kill__result { position:absolute; left:50%; top:45%; transform:translate(-50%,-50%); padding:12px 20px; background:#111923; border:1px solid #354252; font-size:22px; font-weight:900; }
+.trade-kill__result--perfect { border-color:#51db94; }
+.trade-kill__result--good { border-color:#86c8ff; }
+.trade-kill__result--late { border-color:#ffb44c; }
+.trade-kill__result--miss { border-color:#ff4655; }
+
+.trade-kill__overlay { position:absolute; inset:0; z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:rgba(5,9,13,.86); text-align:center; }
+.trade-kill__overlay strong { font-size:30px; }
+.trade-kill__overlay span { color:#8e9bab; }
+.trade-kill__overlay button { margin-top:8px; padding:14px 28px; border:0; background:#ff4655; color:#fff; font-weight:900; cursor:pointer; }
+
+.trade-kill__stats { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid #27313d; }
+.trade-kill__stats > div { padding:16px 20px; display:flex; flex-direction:column; gap:4px; border-right:1px solid #27313d; }
+.trade-kill__stats > div:last-child { border-right:0; }
+.trade-kill__stats span { color:#6f7d8d; font-size:10px; font-weight:900; letter-spacing:.12em; }
+.trade-kill__stats strong { font-size:18px; }

@@ -1,98 +1,35 @@
 import {useEffect,useState} from "react";
-
-import {AimTrainerMinigame} from "./components/AimTrainerMinigame";
-import {CareerDashboard} from "./components/CareerDashboard";
-import {CareerProfile} from "./components/CareerProfile";
-import {ClutchDefuseMinigame} from "./components/ClutchDefuseMinigame";
-import {CommsFilterMinigame} from "./components/CommsFilterMinigame";
-import {CreatePlayer} from "./components/CreatePlayer";
-import {EconomyDecisionMinigame} from "./components/EconomyDecisionMinigame";
-import {MarketWindowScreen} from "./components/MarketWindowScreen";
-import {MatchStatsModal} from "./components/MatchStatsModal";
-import {OfferScreen} from "./components/OfferScreen";
-import {PlayerCardEditor} from "./components/PlayerCardEditor";
-import {SeasonDashboard} from "./components/SeasonDashboard";
-import {SeasonRecap} from "./components/SeasonRecap";
-import {TiltControlMinigame} from "./components/TiltControlMinigame";
-import {VCTDashboard} from "./components/VCTDashboard";
-import {VCTOffseasonMoves} from "./components/VCTOffseasonMoves";
-import {VCTSeasonRecap} from "./components/VCTSeasonRecap";
-import {WarmupSequenceMinigame} from "./components/WarmupSequenceMinigame";
-import {PlantTimingMinigame} from "./components/PlantTimingMinigame";
-import {VCTLeaderboard} from "./components/VCTLeaderboard";
+import {CareerDashboard,CareerProfile,CreatePlayer} from "./components/career";
+import {MarketWindowScreen,OfferScreen} from "./components/market";
+import {MatchStatsModal} from "./components/match";
+import {MinigameRenderer} from "./components/minigames";
+import {PlayerCardEditor} from "./components/player";
+import {SeasonDashboard,SeasonRecap} from "./components/season";
+import {VCTDashboard,VCTLeaderboard,VCTOffseasonMoves,VCTSeasonRecap} from "./components/vct";
 import {getPlayerBanner,getPlayerTitle,isPlayerBannerUnlocked,isPlayerTitleUnlocked} from "./data/cosmetics";
 import {getEventById,getRandomCareerStartEventId} from "./data/events";
 import {generateMidseasonOffers,generateOffers,generateRenewalOffer} from "./data/offers";
 import {getTeamById} from "./data/teams";
 import {createInitialVCTRosterState} from "./data/vctPlayers";
 import type {VCTNarrativeChoice} from "./data/vctEvents";
-import {rollVCTMinigame} from "./data/vctMinigames";
-import type {VCTMinigameType} from "./data/vctMinigames";
-
+import {MAX_CAREER_SEASON,MAX_INITIAL_CAREER_EVENTS} from "./config/career";
+import {applyCareerEffects,normalizePlayerCosmetics} from "./logic/careerPlayer";
 import {createMatchBoxScore} from "./logic/matchBoxScore";
 import {createSeason,getSortedStandings,playNextMatch} from "./logic/season";
 import {simulateVCTOffseason} from "./logic/vctRosterMarket";
 import {continueVCTAfterNarrativeEvent,createVCTSeason,getVCTSeasonStats,migrateVCTMastersState,migrateVCTStageState,playNextVCTMatch,resumeVCTAfterMidseasonMarket} from "./logic/vctSeason";
-
 import type {CareerChoice,CareerEffects,CareerHistoryEntry,CareerPlayer,ContractOffer} from "./types/career";
 import type {MatchBoxScore} from "./types/matchStats";
 import type {SeasonState} from "./types/season";
 import type {PlayableVCTPhase,VCTSeasonState} from "./types/vct";
 import type {VCTRosterState} from "./types/vctRosters";
-
 import {applyOffseasonRegression,applyPlayerStatChange} from "./utils/playerStatsProgression";
-import {deleteCareerSave,hasCareerSave,loadCareer,saveCareer} from "./utils/saveGame";
-
-type GameScreen = "create"|"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"profile"|"market"|"vctOffseason"|"leaderboard";
-type ProfileReturnScreen = "career"|"season"|"vct"|"recap"|"vctRecap";
-type MarketWindow = "midseason"|"offseason"|null;
-
-const MAX_INITIAL_CAREER_EVENTS = 5;
-const INTRO_EVENT_COUNT_STORAGE_KEY = "tu-carrera-valorant:intro-events-played";
-const MAX_CAREER_SEASON = 2032;
-
-const clamp = (value:number) => Math.max(0,Math.min(100,value));
-
-const loadIntroEventCount = () => {
-  const stored = Number(window.localStorage.getItem(INTRO_EVENT_COUNT_STORAGE_KEY));
-  return Number.isFinite(stored) && stored >= 0 ? stored : 0;
-};
-
-function applyEffects(player:CareerPlayer,effects:CareerEffects):CareerPlayer {
-  return {
-    ...player,
-    stats:{
-      aim:applyPlayerStatChange(player.stats.aim,effects.aim ?? 0),
-      gameSense:applyPlayerStatChange(player.stats.gameSense,effects.gameSense ?? 0),
-      communication:applyPlayerStatChange(player.stats.communication,effects.communication ?? 0),
-      clutch:applyPlayerStatChange(player.stats.clutch,effects.clutch ?? 0),
-      consistency:applyPlayerStatChange(player.stats.consistency,effects.consistency ?? 0),
-      mental:applyPlayerStatChange(player.stats.mental,effects.mental ?? 0),
-    },
-    reputationStats:{
-      reputation:clamp(player.reputationStats.reputation + (effects.reputation ?? 0)),
-      popularity:clamp(player.reputationStats.popularity + (effects.popularity ?? 0)),
-      professionalism:clamp(player.reputationStats.professionalism + (effects.professionalism ?? 0)),
-      teamwork:clamp(player.reputationStats.teamwork + (effects.teamwork ?? 0)),
-      toxicity:clamp(player.reputationStats.toxicity + (effects.toxicity ?? 0)),
-    },
-    followers:Math.max(0,player.followers + (effects.followers ?? 0)),
-    earnings:Math.max(0,player.earnings + (effects.earnings ?? 0)),
-    careerPoints:Math.max(0,player.careerPoints + (effects.careerPoints ?? 0)),
-    currentTeam:effects.currentTeam ?? player.currentTeam,
-    currentStage:effects.currentStage ?? player.currentStage,
-  };
-}
-
-function normalizePlayerCosmetics(player:CareerPlayer):CareerPlayer {
-  return {
-    ...player,
-    equippedBannerId:player.equippedBannerId ?? "rookie",
-    equippedTitleId:player.equippedTitleId ?? "unknown-prospect",
-    unlockedBannerIds:player.unlockedBannerIds?.length ? player.unlockedBannerIds : ["rookie"],
-    unlockedTitleIds:player.unlockedTitleIds?.length ? player.unlockedTitleIds : ["unknown-prospect"],
-  };
-}
+import {loadCareer} from "./utils/saveGame";
+import type {GameScreen,MarketWindow,ProfileReturnScreen} from "./types/navigation";
+import {clearIntroEventCount,loadIntroEventCount,saveIntroEventCount} from "./utils/careerStorage";
+import {useVCTMinigames} from "./hooks/useVCTMinigames";
+import {useCareerSave} from "./hooks/useCareerSave";
+import {restoreCareerSave} from "./logic/restoreCareerSave";
 
 export default function App() {
   const [player,setPlayer] = useState<CareerPlayer|null>(null);
@@ -105,16 +42,11 @@ export default function App() {
   const [vctRosters,setVCTRosters] = useState<VCTRosterState|undefined>(undefined);
   const [matchBoxScore,setMatchBoxScore] = useState<MatchBoxScore|null>(null);
   const [playerCardEditorOpen,setPlayerCardEditorOpen] = useState(false);
-  const [saveAvailable,setSaveAvailable] = useState(() => hasCareerSave());
-
-  const [activeMinigame,setActiveMinigame] = useState<VCTMinigameType|null>(null);
-  const [queuedMinigame,setQueuedMinigame] = useState<VCTMinigameType|null>(null);
-  const [lastVCTMinigame,setLastVCTMinigame] = useState<VCTMinigameType|null>(null);
-  const [vctMinigameCooldown,setVCTMinigameCooldown] = useState(0);
-
+  const {activeMinigame,resetMinigameState,skipMinigame,completeMinigame,queueMinigameAfterMatch,openQueuedMinigame} = useVCTMinigames();
   const [marketWindow,setMarketWindow] = useState<MarketWindow>(null);
   const [marketOffers,setMarketOffers] = useState<ContractOffer[]>([]);
   const [renewalOffer,setRenewalOffer] = useState<ContractOffer|null>(null);
+  const {saveAvailable,clearCareerSave} = useCareerSave({player,screen,currentEventId,season,vctSeason,marketWindow,marketOffers,renewalOffer,vctRosters});
 
   const currentEvent = getEventById(currentEventId);
   const initialCareerEventsComplete = !currentEvent;
@@ -122,41 +54,8 @@ export default function App() {
   const canOpenOffers = initialCareerEventsComplete && !hasActiveSeason && !player?.currentTeamId;
 
   useEffect(() => {
-    window.localStorage.setItem(INTRO_EVENT_COUNT_STORAGE_KEY,String(introEventsPlayed));
+    saveIntroEventCount(introEventsPlayed);
   },[introEventsPlayed]);
-
-  useEffect(() => {
-    if (!player || screen === "create" || screen === "profile") return;
-
-    saveCareer({
-      version:1,
-      player,
-      screen,
-      currentEventId,
-      season,
-      vctSeason,
-      marketWindow,
-      marketOffers,
-      savedAt:Date.now(),
-      renewalOffer,
-      vctRosters,
-    });
-
-    setSaveAvailable(true);
-  },[player,screen,currentEventId,season,vctSeason,marketWindow,marketOffers,renewalOffer,vctRosters]);
-
-  useEffect(() => {
-    const debugWindow = window as typeof window & {spawnMinigame?:(type:VCTMinigameType) => void};
-
-    debugWindow.spawnMinigame = (type) => {
-      setQueuedMinigame(null);
-      setActiveMinigame(type);
-    };
-
-    return () => {
-      delete debugWindow.spawnMinigame;
-    };
-  },[]);
 
   useEffect(() => {
     if (!player || !vctSeason || screen !== "vct") return;
@@ -166,13 +65,6 @@ export default function App() {
 
     if (migrated !== vctSeason) setVCTSeason(migrated);
   },[player,vctSeason,screen]);
-
-  const resetMinigameState = () => {
-    setActiveMinigame(null);
-    setQueuedMinigame(null);
-    setLastVCTMinigame(null);
-    setVCTMinigameCooldown(0);
-  };
 
   const ensureVCTRosters = (seasonNumber:number) => {
     if (vctRosters) return vctRosters;
@@ -229,7 +121,7 @@ export default function App() {
   const handleChoice = (choice:CareerChoice) => {
     if (!player) return;
 
-    const updatedPlayer = applyEffects(player,choice.effects);
+    const updatedPlayer = applyCareerEffects(player,choice.effects);
     const nextCount = introEventsPlayed + 1;
     const reachedLimit = nextCount >= MAX_INITIAL_CAREER_EVENTS;
     const chainFinished = !choice.nextEventId;
@@ -383,29 +275,20 @@ export default function App() {
   const handleVCTNarrativeChoice = (choice:VCTNarrativeChoice) => {
     if (!player || !vctSeason?.pendingEvent) return;
 
-    setPlayer(applyEffects(player,choice.effects));
+    setPlayer(applyCareerEffects(player,choice.effects));
     setVCTSeason(continueVCTAfterNarrativeEvent(vctSeason));
   };
 
   const handleMinigameComplete = (effects:CareerEffects) => {
     if (!player || !activeMinigame) return;
 
-    setPlayer(applyEffects(player,effects));
-    setActiveMinigame(null);
-  };
-
-  const skipMinigame = () => {
-    setActiveMinigame(null);
-    setQueuedMinigame(null);
+    setPlayer(applyCareerEffects(player,effects));
+    completeMinigame();
   };
 
   const closeMatchBoxScore = () => {
     setMatchBoxScore(null);
-
-    if (!queuedMinigame) return;
-
-    setActiveMinigame(queuedMinigame);
-    setQueuedMinigame(null);
+    openQueuedMinigame();
   };
 
   const handlePlayMatch = () => {
@@ -598,19 +481,7 @@ export default function App() {
         },
       });
 
-      if (vctMinigameCooldown > 0) {
-        setVCTMinigameCooldown((value) => Math.max(0,value - 1));
-      } else {
-        const minigame = rollVCTMinigame(previousPhase,lastVCTMinigame ?? undefined);
-
-        if (minigame) {
-          setLastVCTMinigame(minigame);
-          setVCTMinigameCooldown(5);
-
-          if (boxScore) setQueuedMinigame(minigame);
-          else setActiveMinigame(minigame);
-        }
-      }
+      queueMinigameAfterMatch(previousPhase,Boolean(boxScore));
     }
 
     setVCTSeason(updatedSeason);
@@ -639,8 +510,10 @@ export default function App() {
     const trophies:string[] = [];
 
     if (vctSeason.events.Kickoff.placement === 1) trophies.push(`${player.season} VCT ${vctSeason.circuit} Kickoff Champion`);
+    if (vctSeason.events["Stage 1 Playoffs"].placement === 1) trophies.push(`${player.season} VCT ${vctSeason.circuit} Stage 1 Champion`);
     if (vctSeason.events["Masters 1"].placement === 1) trophies.push(`${player.season} Masters 1 Champion`);
     if (vctSeason.events["Masters 2"].placement === 1) trophies.push(`${player.season} Masters 2 Champion`);
+    if (vctSeason.events["Stage 2 Playoffs"].placement === 1) trophies.push(`${player.season} VCT ${vctSeason.circuit} Stage 2 Champion`);
     if (championsPlacement === 1) trophies.push(`${player.season} Valorant World Champion`);
 
     const championshipPoints = player.currentTeamId ? (vctSeason.championshipPointsByTeam[player.currentTeamId] ?? 0) : 0;
@@ -760,27 +633,17 @@ export default function App() {
     const save = loadCareer();
     if (!save) return;
 
-    const normalizedPlayer = normalizePlayerCosmetics(save.player);
-    const restoredMarketWindow:MarketWindow = save.marketWindow ?? save.vctSeason?.marketWindowPending ?? null;
-    const restoredRenewalOffer = save.renewalOffer ?? (restoredMarketWindow === "offseason" ? generateRenewalOffer(normalizedPlayer) : null);
+    const restored = restoreCareerSave(save);
 
-    let restoredMarketOffers = save.marketOffers ?? [];
-
-    if (save.screen === "offers" && restoredMarketWindow && !restoredMarketOffers.length) {
-      restoredMarketOffers = restoredMarketWindow === "midseason" ? generateMidseasonOffers(normalizedPlayer) : generateOffers(normalizedPlayer);
-    }
-
-    const restoredVCTRosters = save.vctRosters ?? (normalizedPlayer.currentStage === "VCT" ? createInitialVCTRosterState(normalizedPlayer.season) : undefined);
-
-    setRenewalOffer(restoredRenewalOffer);
-    setPlayer(normalizedPlayer);
+    setRenewalOffer(restored.renewalOffer);
+    setPlayer(restored.player);
     setCurrentEventId(save.currentEventId);
     setIntroEventsPlayed(loadIntroEventCount());
     setSeason(save.season ?? null);
     setVCTSeason(save.vctSeason ?? null);
-    setVCTRosters(restoredVCTRosters);
-    setMarketWindow(restoredMarketWindow);
-    setMarketOffers(restoredMarketOffers);
+    setVCTRosters(restored.vctRosters);
+    setMarketWindow(restored.marketWindow);
+    setMarketOffers(restored.marketOffers);
     setMatchBoxScore(null);
     setPlayerCardEditorOpen(false);
     resetMinigameState();
@@ -788,10 +651,9 @@ export default function App() {
   };
 
   const resetCareer = () => {
-    deleteCareerSave();
-    window.localStorage.removeItem(INTRO_EVENT_COUNT_STORAGE_KEY);
+    clearCareerSave();
+    clearIntroEventCount();
 
-    setSaveAvailable(false);
     setPlayer(null);
     setSeason(null);
     setVCTSeason(null);
@@ -843,13 +705,7 @@ export default function App() {
     <>
       {renderScreen()}
 
-      {activeMinigame === "clutch-defuse" && <ClutchDefuseMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
-      {activeMinigame === "aim-trainer" && <AimTrainerMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
-      {activeMinigame === "economy-decision" && <EconomyDecisionMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
-      {activeMinigame === "comms-filter" && <CommsFilterMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
-      {activeMinigame === "warmup-sequence" && <WarmupSequenceMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
-      {activeMinigame === "tilt-control" && <TiltControlMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
-      {activeMinigame === "plant-timing" && <PlantTimingMinigame onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
+      {player && <MinigameRenderer type={activeMinigame} player={player} onComplete={handleMinigameComplete} onSkip={skipMinigame} />}
 
       {matchBoxScore && <MatchStatsModal match={matchBoxScore} playerTeamId={player?.currentTeamId} onClose={closeMatchBoxScore} />}
 

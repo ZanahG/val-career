@@ -1,0 +1,1 @@
+export {MinigameRenderer} from "./MinigameRenderer";

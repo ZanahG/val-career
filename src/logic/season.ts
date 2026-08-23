@@ -40,7 +40,6 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
   if (!team || !opponent) throw new Error("Invalid team or opponent.");
 
   const overall = getPlayerOverallExact(player);
-  const starterMultiplier = player.rosterRole === "Starter" ? 1 : .35;
 
   const aim = player.stats.aim;
   const gameSense = player.stats.gameSense;
@@ -49,12 +48,12 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
   const consistency = player.stats.consistency;
   const mental = player.stats.mental;
 
-  const overallImpact = (overall - 60) * .28;
-  const communicationImpact = (communication - 50) * .025;
-  const gameSenseImpact = (gameSense - 50) * .02;
-  const mentalImpact = (mental - 50) * .015;
+  const overallImpact = (overall - 60) * .16;
+  const communicationImpact = (communication - 50) * .02;
+  const gameSenseImpact = (gameSense - 50) * .015;
+  const mentalImpact = (mental - 50) * .01;
 
-  const playerImpact = (overallImpact + communicationImpact + gameSenseImpact + mentalImpact) * starterMultiplier;
+  const playerImpact = overallImpact + communicationImpact + gameSenseImpact + mentalImpact;
 
   const teamVariance = clamp(6 - consistency * .035,2.5,6);
   const teamStrength = team.strength + playerImpact + randomBetween(-teamVariance,teamVariance);
@@ -63,8 +62,8 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
   const strengthDifference = teamStrength - opponentStrength;
   const pressureMatch = Math.abs(strengthDifference) <= 6;
 
-  const clutchPressureBonus = pressureMatch ? (clutch - 50) * .0015 : 0;
-  const mentalPressureBonus = pressureMatch ? (mental - 50) * .001 : 0;
+  const clutchPressureBonus = pressureMatch ? (clutch - 50) * .0007 : 0;
+  const mentalPressureBonus = pressureMatch ? (mental - 50) * .0004 : 0;
 
   const winProbability = clamp(.5 + strengthDifference / 40 + clutchPressureBonus + mentalPressureBonus,.12,.88);
   const won = Math.random() < winProbability;
@@ -155,6 +154,9 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
 }
 
 export function updateStandings(standings:StandingRow[],currentTeamId:string,opponentId:string,result:MatchResult):StandingRow[] {
+  const leagueTeams = standings.map((row) => getTeamById(row.teamId)).filter((team) => Boolean(team));
+  const averageStrength = leagueTeams.length ? leagueTeams.reduce((total,team) => total + team!.strength,0) / leagueTeams.length : 75;
+
   return standings.map((row) => {
     if (row.teamId === currentTeamId) {
       return {...row,wins:row.wins + (result.won ? 1 : 0),losses:row.losses + (result.won ? 0 : 1),roundsWon:row.roundsWon + result.scoreFor,roundsLost:row.roundsLost + result.scoreAgainst};
@@ -164,9 +166,19 @@ export function updateStandings(standings:StandingRow[],currentTeamId:string,opp
       return {...row,wins:row.wins + (result.won ? 0 : 1),losses:row.losses + (result.won ? 1 : 0),roundsWon:row.roundsWon + result.scoreAgainst,roundsLost:row.roundsLost + result.scoreFor};
     }
 
-    const simulatedWin = Math.random() >= .5;
-    const roundsWon = simulatedWin ? 13 : randomInt(6,12);
-    const roundsLost = simulatedWin ? randomInt(6,12) : 13;
+    const team = getTeamById(row.teamId);
+    if (!team) return row;
+
+    const strengthDifference = team.strength - averageStrength;
+    const winProbability = clamp(.5 + strengthDifference / 35,.25,.75);
+    const simulatedWin = Math.random() < winProbability;
+
+    const roundDifference = Math.abs(team.strength - averageStrength);
+    const closeMatchChance = clamp(.70 - roundDifference * .04,.30,.70);
+    const closeMatch = Math.random() < closeMatchChance;
+
+    const roundsWon = simulatedWin ? 13 : closeMatch ? randomInt(9,12) : randomInt(5,8);
+    const roundsLost = simulatedWin ? closeMatch ? randomInt(9,12) : randomInt(5,8) : 13;
 
     return {...row,wins:row.wins + (simulatedWin ? 1 : 0),losses:row.losses + (simulatedWin ? 0 : 1),roundsWon:row.roundsWon + roundsWon,roundsLost:row.roundsLost + roundsLost};
   });

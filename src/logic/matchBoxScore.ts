@@ -8,11 +8,11 @@ import type {VCTRosterState} from "../types/vctRosters";
 
 const MAP_POOL = ["Haven","Bind","Abyss","Lotus","Sunset","Icebox","Corrode","Ascent","Split"];
 
-const DUELIST_AGENTS = ["Jett","Raze","Yoru","Phoenix","Neon","Iso","Reyna"];
-const INITIATOR_AGENTS = ["Sova","Skye","Fade","Breach","Gekko","Kayo","Tejo"];
-const CONTROLLER_AGENTS = ["Omen","Brimstone","Astra","Viper","Harbor","Clove"];
-const SENTINEL_AGENTS = ["Killjoy","Cypher","Sage","Chamber","Deadlock","Vyse"];
-const FLEX_AGENTS = [...DUELIST_AGENTS,...INITIATOR_AGENTS,...CONTROLLER_AGENTS,...SENTINEL_AGENTS];
+const DUELIST_AGENTS = ["Iso","Jett","Neon","Phoenix","Raze","Reyna","Waylay","Yoru"];
+const CONTROLLER_AGENTS = ["Astra","Brimstone","Clove","Harbor","Miks","Omen","Viper"];
+const INITIATOR_AGENTS = ["Breach","Fade","Gekko","Kayo","Skye","Sova","Tejo"];
+const SENTINEL_AGENTS = ["Chamber","Cypher","Deadlock","Killjoy","Sage","Veto","Vyse"];
+const FLEX_AGENTS = [...DUELIST_AGENTS,...CONTROLLER_AGENTS,...INITIATOR_AGENTS,...SENTINEL_AGENTS];
 
 const random = (min:number,max:number) => Math.floor(Math.random() * (max - min + 1)) + min;
 const clamp = (value:number,min:number,max:number) => Math.max(min,Math.min(max,value));
@@ -462,12 +462,13 @@ function pickPlayerAgent(player:CareerPlayer,mapIndex:number,taken:Set<string>) 
 }
 
 function pickAgentForRole(role:string,taken:Set<string>,preferred?:string) {
-  if (preferred && !taken.has(preferred)) {
+  const pool = getAgentPoolByRole(role);
+
+  if (preferred && pool.includes(preferred) && !taken.has(preferred)) {
     taken.add(preferred);
     return preferred;
   }
 
-  const pool = getAgentPoolByRole(role);
   const available = pool.filter((agent) => !taken.has(agent));
   const fallback = FLEX_AGENTS.filter((agent) => !taken.has(agent));
   const agent = shuffle(available.length ? available : fallback)[0] ?? "Jett";
