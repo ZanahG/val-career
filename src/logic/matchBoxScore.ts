@@ -9,7 +9,7 @@ import type {VCTRosterState} from "../types/vctRosters";
 const MAP_POOL = ["Haven","Bind","Abyss","Lotus","Sunset","Icebox","Corrode","Ascent","Split"];
 
 const DUELIST_AGENTS = ["Iso","Jett","Neon","Phoenix","Raze","Reyna","Waylay","Yoru"];
-const CONTROLLER_AGENTS = ["Astra","Brimstone","Clove","Harbor","Miks","Omen","Viper"];
+const CONTROLLER_AGENTS = ["Astra","Brimstone","Clove","Harbor","Omen","Viper"];
 const INITIATOR_AGENTS = ["Breach","Fade","Gekko","Kayo","Skye","Sova","Tejo"];
 const SENTINEL_AGENTS = ["Chamber","Cypher","Deadlock","Killjoy","Sage","Veto","Vyse"];
 const FLEX_AGENTS = [...DUELIST_AGENTS,...CONTROLLER_AGENTS,...INITIATOR_AGENTS,...SENTINEL_AGENTS];

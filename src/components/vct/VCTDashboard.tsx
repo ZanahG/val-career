@@ -103,10 +103,23 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
         </div>
 
         <div className="vct-topbar__right">
-          <button className="secondary-button" onClick={onOpenProfile}>{language === "es" ? "CARRERA" : "CAREER"}</button>
-          <button className="secondary-button" onClick={onOpenLeaderboard}>{language === "es" ? "CLASIFICACIÓN" : "LEADERBOARD"}</button>
-          <GameSettingsControls />
-          <div className="vct-year"><span>{t("season")}</span><strong>{player.season}</strong></div>
+          <nav className="vct-topbar-nav">
+            <button className="vct-topbar-nav__button" onClick={onOpenProfile}>
+              <span className="vct-topbar-nav__icon">👤</span>
+              <span>{language==="es" ? "CARRERA" : "CAREER"}</span>
+            </button>
+
+            <button className="vct-topbar-nav__button vct-topbar-nav__button--featured" onClick={onOpenLeaderboard}>
+              <span className="vct-topbar-nav__icon"></span>
+              <span>{language==="es" ? "CLASIFICACIÓN" : "LEADERBOARD"}</span>
+              <small className="vct-topbar-nav__badge">{language==="es" ? "TOP" : "TOP"}</small>
+            </button>
+          </nav>
+
+          <div className="vct-topbar-settings">
+            <GameSettingsControls />
+            <div className="vct-year"><span>{t("season")}</span><strong>{player.season}</strong></div>
+          </div>
         </div>
       </header>
 
