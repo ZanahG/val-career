@@ -128,11 +128,11 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
 
     if (!Number.isFinite(nextAge)) return;
 
-    setAge(Math.max(17,Math.min(24,nextAge)));
+    setAge(Math.max(17,Math.min(40,nextAge)));
   };
 
   const createPlayer = () => {
-    if (!country || age < 17 || age > 24) return;
+    if (!country || age < 17 || age > 40) return;
     onCreate(previewPlayer);
   };
 
@@ -193,7 +193,7 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
 
           <label className="field">
             <span>{t("startingAge")}</span>
-            <input type="number" min={17} max={24} value={age} onChange={(e) => handleAgeChange(e.target.value)} />
+            <input type="number" min={17} max={40} value={age} onChange={(e) => handleAgeChange(e.target.value)} />
           </label>
 
           <label className="field">
@@ -225,7 +225,7 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
         </div>
 
         <div className="create-actions">
-          <button className="primary-button" onClick={createPlayer} disabled={!country || age < 17 || age > 24}>{t("beginCareer")}<span>→</span></button>
+          <button className="primary-button" onClick={createPlayer} disabled={!country || age < 17 || age > 40}>{t("beginCareer")}<span>→</span></button>
           {hasSave && onContinue && <button className="continue-career-button" onClick={onContinue}>{language === "es" ? "CONTINUAR CARRERA" : "CONTINUE CAREER"}<span>→</span></button>}
         </div>
       </section>

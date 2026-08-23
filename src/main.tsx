@@ -1,9 +1,9 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import {StrictMode} from "react";
+import {createRoot} from "react-dom/client";
+import {Analytics} from "@vercel/analytics/react";
 
 import App from "./App";
-
-import { GameSettingsProvider } from "./context/GameSettingsContext";
+import {GameSettingsProvider} from "./context/GameSettingsContext";
 
 import "./styles/global.css";
 
@@ -14,5 +14,7 @@ createRoot(
     <GameSettingsProvider>
       <App />
     </GameSettingsProvider>
+
+    <Analytics />
   </StrictMode>,
 );

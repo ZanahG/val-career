@@ -69,7 +69,7 @@
   border: 1px solid #2c3743;
   background: #161f29;
   color: #8895a6;
-  font-size: 9px;
+  font-size: 14px;
   font-weight: 800;
   white-space: nowrap;
   cursor: pointer;
@@ -79,7 +79,7 @@
 .match-modal-tabs button:hover {border-color: #596675; color: #fff;}
 .match-modal-tabs button.active {border-color: #ff4655; background: rgba(255,70,85,.1); color: #fff;}
 .match-modal-tabs sup {color: #687486; font-size: 7px;}
-.match-modal-tabs small {margin-left: 4px; color: #5f6c7e; font-size: 7px;}
+.match-modal-tabs small {margin-left: 4px; color: #5f6c7e; font-size: 12px;}
 
 .match-table {padding: 18px; overflow-x: auto;}
 

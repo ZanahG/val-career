@@ -38,7 +38,6 @@ export function MatchStatsModal({match, playerTeamId, onClose}: MatchStatsModalP
           </div>
 
           <div className="match-modal-score">
-            <span>{map ? map.mapName.toUpperCase() : `FINAL · BO${match.bestOf}`}</span>
             <strong>{scoreA} <small>:</small> {scoreB}</strong>
           </div>
 
@@ -55,7 +54,7 @@ export function MatchStatsModal({match, playerTeamId, onClose}: MatchStatsModalP
 
           {match.maps.map((item) => (
             <button key={item.mapNumber} className={selectedMap === item.mapNumber ? "active" : ""} onClick={() => setSelectedMap(item.mapNumber)}>
-              <sup>{item.mapNumber}</sup> {item.mapName}
+              <sup></sup> {item.mapName}
               <small>{item.scoreA}-{item.scoreB}</small>
             </button>
           ))}
@@ -75,7 +74,7 @@ export function MatchStatsModal({match, playerTeamId, onClose}: MatchStatsModalP
 
         <footer className="match-modal__footer">
           <div className="match-modal-map-summary">
-            {match.maps.map((item) => <span key={item.mapNumber}>{item.mapName} <strong>{item.scoreA}-{item.scoreB}</strong></span>)}
+            {}
           </div>
 
           <button className="primary-button" onClick={onClose}>CONTINUAR <span>→</span></button>

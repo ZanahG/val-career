@@ -26,10 +26,6 @@ export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestO
   const mapWinners = createSeriesPattern(result.won,bestOf);
   const mapNames = shuffle(MAP_POOL).slice(0,mapWinners.length);
 
-  const playerKills = distributeTotal(result.kills,mapWinners.length);
-  const playerDeaths = distributeTotal(result.deaths,mapWinners.length);
-  const playerAssists = distributeTotal(result.assists,mapWinners.length);
-
   const useRealVCTRosters = playerTeam.tier === 1 && opponent.tier === 1;
 
   const playerVCTRoster = useRealVCTRosters ? getEffectiveVCTRoster(playerTeam.name,player,vctRosters) : [];
@@ -45,46 +41,68 @@ export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestO
     const enemyTaken = new Set<string>();
 
     const playerAgent = pickPlayerAgent(player,index,allyTaken);
-    const playerRow = createCareerPlayerMapStats(player,result,index,playerKills[index],playerDeaths[index],playerAssists[index],playerAgent);
+    const playerRow = createCareerPlayerMapStats(player,result,score.for,score.against,playerWon,playerAgent);
 
     const allies = useRealVCTRosters && realAllies.length >= 4
       ? realAllies.slice(0,4).map((rosterPlayer) => {
-          const agent = pickAgentForRole(normalizeVCTRole(rosterPlayer.role),allyTaken);
-          return createVCTMapPlayer(rosterPlayer,playerTeam.id,playerTeam.strength,playerWon,agent);
+          const role = normalizeVCTRole(rosterPlayer.role);
+          const agent = pickAgentForRole(role,allyTaken);
+          return createVCTMapPlayer(rosterPlayer,playerTeam.id,playerTeam.strength,playerWon,score.for,score.against,agent);
         })
       : Array.from({length:4},(_,playerIndex) => {
-          const agent = pickAgentForRole(getCpuRole(playerIndex),allyTaken);
-          return createCPUMapPlayer(`${playerTeam.shortName} Player ${playerIndex + 1}`,`${playerTeam.id}-cpu-${playerIndex + 1}`,playerTeam.id,playerTeam.strength,playerWon,agent);
+          const role = getCpuRole(playerIndex);
+          const agent = pickAgentForRole(role,allyTaken);
+          return createCPUMapPlayer(`${playerTeam.shortName} Player ${playerIndex + 1}`,`${playerTeam.id}-cpu-${playerIndex + 1}`,playerTeam.id,playerTeam.strength,playerWon,score.for,score.against,role,agent);
         });
 
     const enemies = useRealVCTRosters && realEnemies.length >= 5
       ? realEnemies.slice(0,5).map((rosterPlayer) => {
-          const agent = pickAgentForRole(normalizeVCTRole(rosterPlayer.role),enemyTaken);
-          return createVCTMapPlayer(rosterPlayer,opponent.id,opponent.strength,!playerWon,agent);
+          const role = normalizeVCTRole(rosterPlayer.role);
+          const agent = pickAgentForRole(role,enemyTaken);
+          return createVCTMapPlayer(rosterPlayer,opponent.id,opponent.strength,!playerWon,score.against,score.for,agent);
         })
       : Array.from({length:5},(_,playerIndex) => {
-          const agent = pickAgentForRole(getCpuRole(playerIndex),enemyTaken);
-          return createCPUMapPlayer(`${opponent.shortName} Player ${playerIndex + 1}`,`${opponent.id}-cpu-${playerIndex + 1}`,opponent.id,opponent.strength,!playerWon,agent);
+          const role = getCpuRole(playerIndex);
+          const agent = pickAgentForRole(role,enemyTaken);
+          return createCPUMapPlayer(`${opponent.shortName} Player ${playerIndex + 1}`,`${opponent.id}-cpu-${playerIndex + 1}`,opponent.id,opponent.strength,!playerWon,score.against,score.for,role,agent);
         });
 
-    return {mapNumber:index + 1,mapName:mapNames[index],scoreA:score.for,scoreB:score.against,players:[playerRow,...allies,...enemies]};
+    return {
+      mapNumber:index + 1,
+      mapName:mapNames[index],
+      scoreA:score.for,
+      scoreB:score.against,
+      players:[playerRow,...allies,...enemies],
+    };
   });
 
   const playerMapWins = mapWinners.filter(Boolean).length;
   const opponentMapWins = mapWinners.length - playerMapWins;
 
-  return {teamAId:playerTeam.id,teamBId:opponent.id,scoreA:playerMapWins,scoreB:opponentMapWins,bestOf,maps,players:aggregatePlayers(maps)};
+  return {
+    teamAId:playerTeam.id,
+    teamBId:opponent.id,
+    scoreA:playerMapWins,
+    scoreB:opponentMapWins,
+    bestOf,
+    maps,
+    players:aggregatePlayers(maps),
+  };
 }
 
 function createSeriesPattern(playerWon:boolean,bestOf:3|5) {
   if (bestOf === 3) {
     if (Math.random() < .45) return playerWon ? [true,true] : [false,false];
-    return playerWon ? (Math.random() < .5 ? [true,false,true] : [false,true,true]) : (Math.random() < .5 ? [false,true,false] : [true,false,false]);
+    return playerWon
+      ? Math.random() < .5 ? [true,false,true] : [false,true,true]
+      : Math.random() < .5 ? [false,true,false] : [true,false,false];
   }
 
   const mapsPlayed = random(3,5);
+
   if (mapsPlayed === 3) return playerWon ? [true,true,true] : [false,false,false];
   if (mapsPlayed === 4) return playerWon ? shuffle([true,true,false]).concat(true) : shuffle([false,false,true]).concat(false);
+
   return playerWon ? shuffle([true,true,false,false]).concat(true) : shuffle([false,false,true,true]).concat(false);
 }
 
@@ -92,13 +110,57 @@ function createMapScore(playerWon:boolean) {
   const overtime = Math.random() < .12;
   const winningScore = overtime ? random(14,16) : 13;
   const losingScore = overtime ? winningScore - 2 : random(5,11);
+
   return playerWon ? {for:winningScore,against:losingScore} : {for:losingScore,against:winningScore};
 }
 
-function createCareerPlayerMapStats(player:CareerPlayer,result:MatchResult,index:number,kills:number,deaths:number,assists:number,agent:string):MatchPlayerStats {
-  const performanceVariation = random(-12,12) / 100;
-  const rating = clamp(Number((result.playerRating + performanceVariation).toFixed(2)),.45,1.85);
-  const acs = clamp(Math.round(result.acs + random(-35,35)),80,380);
+function createCareerPlayerMapStats(
+  player:CareerPlayer,
+  result:MatchResult,
+  scoreFor:number,
+  scoreAgainst:number,
+  won:boolean,
+  agent:string,
+):MatchPlayerStats {
+  const rounds = scoreFor + scoreAgainst;
+  const performanceVariation = random(-10,10) / 100;
+
+  const rating = clamp(
+    Number((result.playerRating + performanceVariation + (won ? .03 : -.02)).toFixed(2)),
+    .55,
+    1.85,
+  );
+
+  const aimFactor = (player.stats.aim - 75) / 100;
+  const commFactor = (player.stats.communication - 75) / 100;
+
+  const killsPerRound = clamp(.56 + (rating - 1) * .32 + aimFactor * .14, .35, 1.05);
+  const deathsPerRound = clamp(.70 - (rating - 1) * .18 - (won ? .04 : -.02), .42, .90);
+  const assistsPerRound = clamp(.20 + commFactor * .14, .10, .48);
+
+  const kills = clamp(
+    Math.round(rounds * killsPerRound + random(-3,3)),
+    Math.max(5,Math.round(rounds * .28)),
+    Math.round(rounds * 1.25),
+  );
+
+  const deaths = clamp(
+    Math.round(rounds * deathsPerRound + random(-2,2)),
+    Math.max(5,Math.round(rounds * .38)),
+    Math.round(rounds * .95),
+  );
+
+  const assists = clamp(
+    Math.round(rounds * assistsPerRound + random(-2,3)),
+    1,
+    Math.round(rounds * .65),
+  );
+
+  const acs = clamp(
+    Math.round(125 + kills * 5.2 + assists * 1.4 - deaths * 1.1 + (rating - 1) * 55 + random(-12,12)),
+    90,
+    390,
+  );
 
   return {
     id:"career-player",
@@ -109,33 +171,112 @@ function createCareerPlayerMapStats(player:CareerPlayer,result:MatchResult,index
     kills,
     deaths,
     assists,
-    kast:clamp(random(64,88) + (rating >= 1.2 ? 3 : 0),50,95),
-    adr:clamp(Math.round(acs * .63 + random(-10,15)),70,220),
-    headshot:random(18,45),
-    firstKills:random(0,Math.max(2,Math.round(kills * .3))),
-    firstDeaths:random(0,Math.max(2,Math.round(deaths * .25))),
+    kast:clamp(Math.round(64 + rating * 8 + (won ? 3 : 0) + random(-5,5)),50,96),
+    adr:clamp(Math.round(acs * .62 + random(-8,12)),70,230),
+    headshot:clamp(random(18,38) + Math.round((player.stats.aim - 80) / 3),10,60),
+    firstKills:clamp(random(0,Math.max(2,Math.round(kills * .3))),0,Math.round(rounds * .3)),
+    firstDeaths:clamp(random(0,Math.max(2,Math.round(deaths * .25))),0,Math.round(rounds * .3)),
     agent,
   };
 }
 
-function createVCTMapPlayer(player:VCTMatchPlayer,teamId:string,teamStrength:number,won:boolean,agent:string):MatchPlayerStats {
-  const individualSkill = getVCTPlayerSkill(player);
-  const teamBonus = Math.round((teamStrength - 75) / 8);
-  const skillBonus = Math.round((individualSkill - 80) / 4);
-  const aimBonus = Math.round((player.stats.aim - 80) / 5);
-  const consistencyBonus = Math.round((player.stats.consistency - 80) / 8);
-  const winBonus = won ? random(2,5) : random(-4,1);
+function createVCTMapPlayer(
+  player:VCTMatchPlayer,
+  teamId:string,
+  teamStrength:number,
+  won:boolean,
+  scoreFor:number,
+  scoreAgainst:number,
+  agent:string,
+):MatchPlayerStats {
+  const rounds = scoreFor + scoreAgainst;
+  const role = normalizeVCTRole(player.role);
 
-  const kills = clamp(random(10,19) + winBonus + teamBonus + skillBonus + aimBonus,5,32);
-  const deaths = clamp(random(12,20) - Math.round(winBonus / 2) - consistencyBonus,5,30);
-  const assists = clamp(random(3,9) + Math.round((player.stats.communication - 80) / 7),1,15);
+  const skill = getVCTPlayerSkill(player);
+  const skillFactor = (skill - 80) / 100;
+  const teamFactor = (teamStrength - 80) / 100;
+  const aimFactor = (player.stats.aim - 80) / 100;
+  const consistencyFactor = (player.stats.consistency - 80) / 100;
+  const communicationFactor = (player.stats.communication - 80) / 100;
+  const gameSenseFactor = (player.stats.gameSense - 80) / 100;
+  const clutchFactor = (player.stats.clutch - 80) / 100;
 
-  const kd = kills / Math.max(1,deaths);
-  const gameSenseBonus = (player.stats.gameSense - 80) / 100;
-  const clutchBonus = (player.stats.clutch - 80) / 180;
-  const rating = clamp(Number((.69 + kd * .3 + assists * .011 + gameSenseBonus + clutchBonus + (won ? .05 : 0)).toFixed(2)),.45,1.80);
+  const performanceVariation = random(-12,12) / 100;
 
-  const acs = clamp(Math.round(120 + kills * 4.2 + aimBonus * 3 + random(-15,22)),90,360);
+  const rating = clamp(
+    Number((
+      .97 +
+      skillFactor * .82 +
+      teamFactor * .28 +
+      gameSenseFactor * .15 +
+      clutchFactor * .10 +
+      (won ? .07 : -.04) +
+      performanceVariation
+    ).toFixed(2)),
+    .48,
+    1.78,
+  );
+
+  const duelistKillBonus = role === "Duelist" ? .045 : 0;
+  const assistRoleBonus = role === "Initiator" ? .065 : role === "Controller" ? .045 : role === "Sentinel" ? .02 : 0;
+
+  const killsPerRound = clamp(
+    .57 +
+    (rating - 1) * .31 +
+    aimFactor * .16 +
+    duelistKillBonus,
+    .32,
+    1.05,
+  );
+
+  const deathsPerRound = clamp(
+    .69 -
+    (rating - 1) * .16 -
+    consistencyFactor * .12 +
+    (won ? -.035 : .025),
+    .40,
+    .93,
+  );
+
+  const assistsPerRound = clamp(
+    .20 +
+    communicationFactor * .18 +
+    assistRoleBonus,
+    .10,
+    .55,
+  );
+
+  const kills = clamp(
+    Math.round(rounds * killsPerRound + random(-3,3)),
+    Math.max(4,Math.round(rounds * .25)),
+    Math.round(rounds * 1.20),
+  );
+
+  const deaths = clamp(
+    Math.round(rounds * deathsPerRound + random(-2,2)),
+    Math.max(5,Math.round(rounds * .35)),
+    Math.round(rounds * .95),
+  );
+
+  const assists = clamp(
+    Math.round(rounds * assistsPerRound + random(-2,3)),
+    1,
+    Math.round(rounds * .70),
+  );
+
+  const acs = clamp(
+    Math.round(
+      120 +
+      kills * 5 +
+      assists * 1.25 -
+      deaths * .9 +
+      aimFactor * 35 +
+      (rating - 1) * 45 +
+      random(-15,15),
+    ),
+    90,
+    385,
+  );
 
   return {
     id:`${teamId}-${normalizePlayerId(player.ign)}`,
@@ -146,27 +287,139 @@ function createVCTMapPlayer(player:VCTMatchPlayer,teamId:string,teamStrength:num
     kills,
     deaths,
     assists,
-    kast:clamp(random(60,80) + Math.round((player.stats.consistency - 80) / 3) + (won ? 3 : 0),50,95),
-    adr:clamp(Math.round(acs * .62 + random(-10,12)),70,220),
-    headshot:clamp(random(18,34) + Math.round((player.stats.aim - 80) / 2),10,60),
-    firstKills:clamp(random(0,4) + (normalizeVCTRole(player.role) === "Duelist" ? random(1,3) : 0),0,8),
-    firstDeaths:random(0,6),
+    kast:clamp(
+      Math.round(64 + rating * 8 + consistencyFactor * 16 + (won ? 3 : 0) + random(-5,5)),
+      48,
+      96,
+    ),
+    adr:clamp(Math.round(acs * .62 + random(-10,12)),70,230),
+    headshot:clamp(random(18,34) + Math.round((player.stats.aim - 80) / 2),10,62),
+    firstKills:clamp(
+      Math.round(kills * (role === "Duelist" ? random(14,25) : random(7,17)) / 100),
+      0,
+      Math.round(rounds * .30),
+    ),
+    firstDeaths:clamp(
+      Math.round(deaths * random(7,22) / 100),
+      0,
+      Math.round(rounds * .30),
+    ),
     agent,
   };
 }
 
-function createCPUMapPlayer(name:string,id:string,teamId:string,strength:number,won:boolean,agent:string):MatchPlayerStats {
-  const winBonus = won ? random(2,6) : random(-5,1);
-  const strengthBonus = Math.round((strength - 75) / 6);
+function createCPUMapPlayer(
+  name:string,
+  id:string,
+  teamId:string,
+  strength:number,
+  won:boolean,
+  scoreFor:number,
+  scoreAgainst:number,
+  role:string,
+  agent:string,
+):MatchPlayerStats {
+  const rounds = scoreFor + scoreAgainst;
 
-  const kills = clamp(random(10,22) + winBonus + strengthBonus,5,32);
-  const deaths = clamp(random(11,21) - Math.round(winBonus / 2),5,30);
-  const assists = random(3,11);
-  const kd = kills / Math.max(1,deaths);
-  const rating = clamp(Number((.72 + kd * .3 + assists * .012 + (won ? .06 : 0)).toFixed(2)),.45,1.75);
-  const acs = clamp(Math.round(125 + kills * 4.1 + random(-18,24)),90,350);
+  const effectiveSkill = clamp(strength + random(-9,9),58,97);
+  const skillFactor = (effectiveSkill - 80) / 100;
+  const performanceVariation = random(-14,14) / 100;
 
-  return {id,name,teamId,rating,acs,kills,deaths,assists,kast:random(58,88),adr:random(85,185),headshot:random(14,48),firstKills:random(0,7),firstDeaths:random(0,7),agent};
+  const rating = clamp(
+    Number((
+      .96 +
+      skillFactor * .78 +
+      (won ? .06 : -.04) +
+      performanceVariation
+    ).toFixed(2)),
+    .48,
+    1.72,
+  );
+
+  const duelistKillBonus = role === "Duelist" ? .04 : 0;
+  const assistRoleBonus = role === "Initiator" ? .06 : role === "Controller" ? .04 : role === "Sentinel" ? .02 : 0;
+
+  const killsPerRound = clamp(
+    .56 +
+    (rating - 1) * .30 +
+    skillFactor * .13 +
+    duelistKillBonus,
+    .32,
+    1.02,
+  );
+
+  const deathsPerRound = clamp(
+    .70 -
+    (rating - 1) * .15 -
+    skillFactor * .08 +
+    (won ? -.03 : .025),
+    .42,
+    .94,
+  );
+
+  const assistsPerRound = clamp(
+    .20 +
+    assistRoleBonus +
+    skillFactor * .05,
+    .10,
+    .52,
+  );
+
+  const kills = clamp(
+    Math.round(rounds * killsPerRound + random(-3,3)),
+    Math.max(4,Math.round(rounds * .25)),
+    Math.round(rounds * 1.15),
+  );
+
+  const deaths = clamp(
+    Math.round(rounds * deathsPerRound + random(-2,2)),
+    Math.max(5,Math.round(rounds * .35)),
+    Math.round(rounds * .95),
+  );
+
+  const assists = clamp(
+    Math.round(rounds * assistsPerRound + random(-2,3)),
+    1,
+    Math.round(rounds * .68),
+  );
+
+  const acs = clamp(
+    Math.round(
+      120 +
+      kills * 4.9 +
+      assists * 1.2 -
+      deaths * .8 +
+      (rating - 1) * 42 +
+      random(-16,16),
+    ),
+    90,
+    370,
+  );
+
+  return {
+    id,
+    name,
+    teamId,
+    rating,
+    acs,
+    kills,
+    deaths,
+    assists,
+    kast:clamp(Math.round(64 + rating * 8 + (won ? 3 : 0) + random(-7,7)),48,94),
+    adr:clamp(Math.round(acs * .62 + random(-12,12)),70,220),
+    headshot:random(14,48),
+    firstKills:clamp(
+      Math.round(kills * (role === "Duelist" ? random(14,25) : random(6,17)) / 100),
+      0,
+      Math.round(rounds * .30),
+    ),
+    firstDeaths:clamp(
+      Math.round(deaths * random(7,23) / 100),
+      0,
+      Math.round(rounds * .30),
+    ),
+    agent,
+  };
 }
 
 function aggregatePlayers(maps:MatchMapStats[]):MatchPlayerStats[] {
@@ -241,7 +494,15 @@ function normalizeVCTRole(role:string) {
 
 function getVCTPlayerSkill(player:VCTMatchPlayer) {
   const {aim,clutch,gameSense,communication,consistency,mental} = player.stats;
-  return aim * .3 + consistency * .2 + gameSense * .18 + clutch * .12 + mental * .1 + communication * .1;
+
+  return (
+    aim * .3 +
+    consistency * .2 +
+    gameSense * .18 +
+    clutch * .12 +
+    mental * .1 +
+    communication * .1
+  );
 }
 
 function normalizePlayerId(ign:string) {
@@ -254,22 +515,6 @@ function getCpuRole(index:number) {
   if (index === 2) return "Controller";
   if (index === 3) return "Sentinel";
   return "Flex";
-}
-
-function distributeTotal(total:number,parts:number) {
-  if (parts <= 1) return [total];
-
-  const weights = Array.from({length:parts},() => random(75,125));
-  const weightTotal = sum(weights);
-  const values = weights.map((weight) => Math.floor(total * weight / weightTotal));
-  let remaining = total - sum(values);
-
-  for (let i = 0; remaining > 0; i = (i + 1) % parts) {
-    values[i]++;
-    remaining--;
-  }
-
-  return values;
 }
 
 function sum(values:number[]) {
