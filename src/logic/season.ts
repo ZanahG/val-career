@@ -77,23 +77,23 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
   const consistencyNoise = clamp(.18 - consistency * .001,.07,.18);
   const ratingNoise = randomBetween(-consistencyNoise,consistencyNoise);
 
-  const aimRatingImpact = (aim - 50) * .0018;
-  const gameSenseRatingImpact = (gameSense - 50) * .0014;
-  const clutchRatingImpact = closeMatch ? (clutch - 50) * .0012 : 0;
-  const mentalRatingImpact = (mental - 50) * .001;
-  const communicationRatingImpact = (communication - 50) * .0007;
+  const aimRatingImpact = (aim - 50) * .0009;
+  const gameSenseRatingImpact = (gameSense - 50) * .0007;
+  const clutchRatingImpact = closeMatch ? (clutch - 50) * .0006 : 0;
+  const mentalRatingImpact = (mental - 50) * .0004;
+  const communicationRatingImpact = (communication - 50) * .00035;
 
-  const ratingBase = .82
-    + (overall - 50) / 75
+  const ratingBase = .86
+    + (overall - 50) / 180
     + aimRatingImpact
     + gameSenseRatingImpact
     + clutchRatingImpact
     + mentalRatingImpact
     + communicationRatingImpact
-    + (won ? .10 : -.04)
+    + (won ? .05 : -.03)
     + ratingNoise;
 
-  const playerRating = Number(clamp(ratingBase,.62,1.58).toFixed(2));
+  const playerRating = Number(clamp(ratingBase,.60,1.55).toFixed(2));
 
   const killVariance = clamp(4.5 - consistency * .025,2,4.5);
   const deathVariance = clamp(3.5 - consistency * .018,1.7,3.5);
@@ -110,10 +110,10 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
   ));
 
   const deaths = Math.round(clamp(
-    20
-    - (gameSense - 50) * .055
-    - (mental - 50) * .02
-    - (playerRating - .9) * 7
+    18
+    - (gameSense - 50) * .04
+    - (mental - 50) * .012
+    - (playerRating - 1) * 5
     + randomBetween(-deathVariance,deathVariance),
     8,
     28,
@@ -129,13 +129,13 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
   ));
 
   const acs = Math.round(clamp(
-    150
-    + (aim - 50) * 1
-    + (clutch - 50) * (closeMatch ? .2 : .08)
-    + (playerRating - .85) * 160
-    + randomBetween(-10,10),
-    110,
-    360,
+    155
+    + (aim - 50) * .75
+    + (clutch - 50) * (closeMatch ? .12 : .05)
+    + (playerRating - 1) * 115
+    + randomBetween(-12,12),
+    105,
+    350,
   ));
 
   return {
