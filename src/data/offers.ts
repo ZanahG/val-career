@@ -6,6 +6,13 @@ import {TEAMS} from "./teams";
 
 const OFFER_COUNT = 3;
 
+type PlayerExpectationProfile = "aggressive"|"leader"|"tactical"|"reliable"|"clutch"|"complete";
+
+interface ExpectationProfile {
+  type:PlayerExpectationProfile;
+  score:number;
+}
+
 export function generateOffers(player:CareerPlayer):ContractOffer[] {
   const overall = getPlayerOverallExact(player);
   const scoutingScore = getPlayerScoutingScore(player);
@@ -32,7 +39,7 @@ export function generateOffers(player:CareerPlayer):ContractOffer[] {
     ];
 
     const offerTeams = fillOffers(preferred,fallback,OFFER_COUNT);
-    return offerTeams.map((team,index) => createOffer(team,player,overall,scoutingScore,index));
+    return offerTeams.map((team,index) => createOffer(team,player,overall,scoutingScore,index,true));
   }
 
   if (hasVCTExperience || player.currentStage === "VCT") {
@@ -79,13 +86,19 @@ export function generateRenewalOffer(player:CareerPlayer):ContractOffer|null {
 
   const overall = getPlayerOverallExact(player);
   const scoutingScore = getPlayerScoutingScore(player);
+  const marketSalary = getOfferSalary(team,player,scoutingScore,false);
 
-  const salaryProgress = Math.max(0,Math.min(1,(scoutingScore - 42) / 40));
-  const baseSalary = Math.round(team.salaryMin + (team.salaryMax - team.salaryMin) * salaryProgress);
-  const performanceBonus = overall >= 90 ? 1.18 : overall >= 85 ? 1.12 : overall >= 80 ? 1.08 : overall >= 75 ? 1.04 : 1;
-  const salary = Math.round(baseSalary * performanceBonus);
+  const performanceBonus =
+    overall >= 95 ? 1.10 :
+    overall >= 90 ? 1.07 :
+    overall >= 85 ? 1.04 :
+    1;
 
-  const rosterRole:"Starter"|"Substitute" = scoutingScore >= team.strength - 5 ? "Starter" : "Substitute";
+  const salary = team.tier === 1
+    ? Math.min(30000,Math.round(marketSalary * performanceBonus))
+    : Math.round(marketSalary * performanceBonus);
+
+  const rosterRole:"Starter" = "Starter";
   const duration = scoutingScore >= 85 ? 2 : Math.random() > .5 ? 2 : 1;
   const signingBonus = Math.round(salary * (team.tier === 1 ? .6 : .35));
 
@@ -96,7 +109,7 @@ export function generateRenewalOffer(player:CareerPlayer):ContractOffer|null {
     duration,
     rosterRole,
     signingBonus,
-    expectations:getExpectations(team.tier,rosterRole),
+    expectations:getRenewalExpectation(player,team.tier),
   };
 }
 
@@ -189,12 +202,9 @@ function fillOffers(preferred:TeamDefinition[],fallback:TeamDefinition[],count:n
   return selected.slice(0,count);
 }
 
-function createOffer(team:TeamDefinition,player:CareerPlayer,overall:number,scoutingScore:number,index:number):ContractOffer {
-  const salaryProgress = Math.max(0,Math.min(1,(scoutingScore - 42) / 40));
-  const salary = Math.round(team.salaryMin + (team.salaryMax - team.salaryMin) * salaryProgress);
-
-  const starterThreshold = team.strength - 5;
-  const rosterRole:"Starter"|"Substitute" = scoutingScore >= starterThreshold ? "Starter" : "Substitute";
+function createOffer(team:TeamDefinition,player:CareerPlayer,overall:number,scoutingScore:number,index:number,isFirstVCTContract=false):ContractOffer {
+  const salary = getOfferSalary(team,player,scoutingScore,isFirstVCTContract);
+  const rosterRole:"Starter" = "Starter";
 
   const duration = team.tier === 1
     ? scoutingScore >= 78 ? 2 : Math.random() > .55 ? 2 : 1
@@ -211,22 +221,101 @@ function createOffer(team:TeamDefinition,player:CareerPlayer,overall:number,scou
     duration,
     rosterRole,
     signingBonus,
-    expectations:getExpectations(team.tier,rosterRole),
+    expectations:getOfferExpectation(player,team.tier,index),
   };
 }
 
-function getExpectations(tier:1|2,rosterRole:"Starter"|"Substitute") {
+function getOfferExpectation(player:CareerPlayer,tier:1|2,index:number) {
+  const profiles = getPlayerExpectationProfiles(player);
+  const profile = profiles[index % profiles.length]?.type ?? "complete";
+
+  return getExpectationText(profile,tier);
+}
+
+function getRenewalExpectation(player:CareerPlayer,tier:1|2) {
+  const profile = getPlayerExpectationProfiles(player)[0]?.type ?? "complete";
+
   if (tier === 1) {
-    return rosterRole === "Starter"
-      ? "Compete for international qualification and perform at a VCT level."
-      : "Fight for the starting position and prove you belong in VCT.";
+    return `El equipo quiere seguir construyendo alrededor de ti. ${getExpectationText(profile,tier)}`;
   }
 
-  return rosterRole === "Starter"
-    ? "Fight for Challengers playoffs and establish yourself as a top regional player."
-    : "Earn your place in the starting roster and make an impact when called upon.";
+  return `El club confía en que sigas siendo una pieza importante del proyecto. ${getExpectationText(profile,tier)}`;
+}
+
+function getPlayerExpectationProfiles(player:CareerPlayer):ExpectationProfile[] {
+  const {aim,gameSense,communication,clutch,consistency,mental} = player.stats;
+
+  const profiles:ExpectationProfile[] = [
+    {type:"aggressive",score:aim * .62 + clutch * .23 + mental * .15},
+    {type:"leader",score:communication * .50 + gameSense * .35 + mental * .15},
+    {type:"tactical",score:gameSense * .55 + consistency * .30 + communication * .15},
+    {type:"reliable",score:consistency * .50 + mental * .35 + gameSense * .15},
+    {type:"clutch",score:clutch * .52 + mental * .30 + aim * .18},
+    {type:"complete",score:(aim + gameSense + communication + clutch + consistency + mental) / 6},
+  ];
+
+  return profiles.sort((a,b) => b.score - a.score);
+}
+
+function getExpectationText(profile:PlayerExpectationProfile,tier:1|2) {
+  if (tier === 1) {
+    if (profile === "aggressive") return "El staff espera que seas un referente agresivo, tomando la iniciativa, buscando primeros duelos y creando ventajas para el equipo.";
+    if (profile === "leader") return "El staff espera que seas una de las voces del equipo, aportando información, lecturas y responsabilidad en las decisiones importantes.";
+    if (profile === "tactical") return "El equipo quiere aprovechar tu lectura del juego para convertirte en una pieza táctica clave dentro de su sistema.";
+    if (profile === "reliable") return "Esperan que seas uno de los pilares más estables del roster, manteniendo tu nivel durante series largas y partidos de alta presión.";
+    if (profile === "clutch") return "El equipo confía en ti para asumir responsabilidad cuando las rondas se complican y el margen de error desaparece.";
+
+    return "El staff considera que tu perfil completo puede aportar en distintas situaciones durante la temporada VCT.";
+  }
+
+  if (profile === "aggressive") return "Tendrás un lugar como titular. El equipo quiere que aproveches tus mecánicas para jugar con iniciativa, buscar duelos y generar espacio desde el primer mapa.";
+  if (profile === "leader") return "Tendrás un lugar como titular. El roster espera que aportes una voz activa dentro del servidor, ayudando a ordenar las rondas y comunicar las lecturas del equipo.";
+  if (profile === "tactical") return "Tendrás un lugar como titular. El staff cree que tu comprensión del juego puede ayudarte a ejecutar el sistema y tomar mejores decisiones durante las rondas.";
+  if (profile === "reliable") return "Tendrás un lugar como titular. El equipo busca en ti estabilidad, disciplina y un rendimiento confiable durante toda la temporada.";
+  if (profile === "clutch") return "Tendrás un lugar como titular. Esperan que puedas mantener la calma bajo presión y convertirte en una amenaza cuando las rondas llegan a situaciones decisivas.";
+
+  return "Tendrás un lugar como titular. El equipo valora que puedas adaptarte a distintas necesidades y crecer como una pieza importante del roster.";
 }
 
 function normalizeCountry(country:string) {
   return country.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+
+function getOfferSalary(team:TeamDefinition,player:CareerPlayer,scoutingScore:number,isFirstVCTContract:boolean) {
+  if (team.tier === 2) {
+    const progress = Math.max(0,Math.min(1,(scoutingScore - 55) / 30));
+    return Math.round(team.salaryMin + (team.salaryMax - team.salaryMin) * progress);
+  }
+
+  if (isFirstVCTContract) {
+    const progress = Math.max(0,Math.min(1,(scoutingScore - 68) / 15));
+    return Math.round(5000 + 2500 * progress);
+  }
+
+  const overall = getPlayerOverallExact(player);
+
+  let minSalary = 7500;
+  let maxSalary = 15000;
+
+  if (overall >= 95 || scoutingScore >= 94) {
+    minSalary = 22000;
+    maxSalary = 30000;
+  } else if (overall >= 90 || scoutingScore >= 89) {
+    minSalary = 15000;
+    maxSalary = 22000;
+  } else if (overall >= 85 || scoutingScore >= 84) {
+    minSalary = 11000;
+    maxSalary = 18000;
+  } else if (overall >= 80 || scoutingScore >= 79) {
+    minSalary = 8500;
+    maxSalary = 14000;
+  }
+
+  const bandMin = Math.min(overall,scoutingScore);
+  const progress = Math.max(0,Math.min(1,(bandMin - 75) / 22));
+  const prestigeBonus = Math.max(0,Math.min(1,(team.prestige - 70) / 30));
+
+  const salaryProgress = Math.min(1,progress * .75 + prestigeBonus * .25);
+
+  return Math.min(30000,Math.round(minSalary + (maxSalary - minSalary) * salaryProgress));
 }

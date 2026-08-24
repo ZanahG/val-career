@@ -13,7 +13,7 @@ import {getTeamById} from "./data/teams";
 import {createInitialVCTRosterState} from "./data/vctPlayers";
 import type {VCTNarrativeChoice} from "./data/vctEvents";
 import {MAX_CAREER_SEASON,MAX_INITIAL_CAREER_EVENTS} from "./config/career";
-import {applyCareerEffects,normalizePlayerCosmetics} from "./logic/careerPlayer";
+import {applyCareerEffects,normalizePlayerCosmetics,scaleIntroCareerEffects} from "./logic/careerPlayer";
 import {createMatchBoxScore} from "./logic/matchBoxScore";
 import {createSeason,getSortedStandings,playNextMatch} from "./logic/season";
 import {simulateVCTOffseason} from "./logic/vctRosterMarket";
@@ -121,7 +121,7 @@ export default function App() {
   const handleChoice = (choice:CareerChoice) => {
     if (!player) return;
 
-    const updatedPlayer = applyCareerEffects(player,choice.effects);
+    const updatedPlayer = applyCareerEffects(player,scaleIntroCareerEffects(choice.effects));
     const nextCount = introEventsPlayed + 1;
     const reachedLimit = nextCount >= MAX_INITIAL_CAREER_EVENTS;
     const chainFinished = !choice.nextEventId;

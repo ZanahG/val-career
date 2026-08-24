@@ -19,10 +19,8 @@ const MINIGAMES:VCTMinigameType[] = [
   "economy-decision",
   "comms-filter",
   "warmup-sequence",
-  "tilt-control",
   "plant-timing",
   "spray-control",
-  "prefire-training",
 ];
 
 export function rollVCTMinigame(_phase:PlayableVCTPhase,lastMinigame?:VCTMinigameType):VCTMinigameType|null {

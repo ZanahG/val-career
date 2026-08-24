@@ -3,6 +3,22 @@ import {applyPlayerStatChange} from "../utils/playerStatsProgression";
 
 const clamp = (value:number) => Math.max(0,Math.min(100,value));
 
+const INTRO_STAT_MULTIPLIER = 2;
+
+export function scaleIntroCareerEffects(effects:CareerEffects):CareerEffects {
+  const scale = (value?:number) => value === undefined ? undefined : value > 0 ? value * INTRO_STAT_MULTIPLIER : value;
+
+  return {
+    ...effects,
+    aim:scale(effects.aim),
+    gameSense:scale(effects.gameSense),
+    communication:scale(effects.communication),
+    clutch:scale(effects.clutch),
+    consistency:scale(effects.consistency),
+    mental:scale(effects.mental),
+  };
+}
+
 export function applyCareerEffects(player:CareerPlayer,effects:CareerEffects):CareerPlayer {
   return {
     ...player,

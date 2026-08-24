@@ -31,7 +31,7 @@ import vetoIcon from "../../images/agents/veto.png";
 import "../../styles/CreatePlayer.css";
 
 const ROLES: PlayerRole[] = ["Duelist","Initiator","Controller","Sentinel","Flex"];
-const REGIONS: PlayerRegion[] = ["LATAM","Brazil","North America","Europe","MENA","Turkey","CIS","Korea","Japan","Southeast Asia","South Asia","Oceania","China"];
+const REGIONS: PlayerRegion[] = ["LATAM","LATAM North","Brazil","North America","Europe","MENA","Turkey","CIS","Korea","Japan","Southeast Asia","South Asia","Oceania","China"];
 
 const AGENT_ICONS:Record<string,string> = {
   Jett:jettIcon,
@@ -166,6 +166,7 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
             <select value={region} onChange={(e) => setRegion(e.target.value as PlayerRegion)}>
               <optgroup label="AMERICAS">
                 <option value="LATAM">{getRegionLabel("LATAM",language)}</option>
+                <option value="LATAM North">{getRegionLabel("LATAM North",language)}</option>
                 <option value="Brazil">{getRegionLabel("Brazil",language)}</option>
                 <option value="North America">{getRegionLabel("North America",language)}</option>
               </optgroup>
@@ -256,6 +257,7 @@ export function CreatePlayer({onCreate,onContinue,hasSave = false}: CreatePlayer
 function getRegionLabel(region: PlayerRegion, language: "es" | "en") {
   const labels: Record<PlayerRegion,{es: string; en: string}> = {
     LATAM: {es: "Latinoamérica",en: "Latin America"},
+    "LATAM North": {es:"Latinoamérica Norte",en:"Latin America North"},
     Brazil: {es: "Brasil",en: "Brazil"},
     "North America": {es: "Norteamérica",en: "North America"},
     Europe: {es: "Europa",en: "Europe"},
@@ -273,9 +275,11 @@ function getRegionLabel(region: PlayerRegion, language: "es" | "en") {
   return labels[region][language];
 }
 
+
 function getCircuitLabel(region: PlayerRegion) {
   const circuits: Record<PlayerRegion,string> = {
     LATAM: "Americas",
+    "LATAM North":"Americas",
     Brazil: "Americas",
     "North America": "Americas",
     Europe: "EMEA",
