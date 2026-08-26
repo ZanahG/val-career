@@ -6,6 +6,7 @@
             "team": "MIBR",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 26,
             "stats": {
                 "aim": 79,
                 "clutch": 78,
@@ -20,6 +21,7 @@
             "team": "MIBR",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 83,
                 "clutch": 80,
@@ -34,6 +36,7 @@
             "team": "MIBR",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 70,
@@ -48,6 +51,7 @@
             "team": "MIBR",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 78,
                 "clutch": 83,
@@ -62,6 +66,7 @@
             "team": "MIBR",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 19,
             "stats": {
                 "aim": 94,
                 "clutch": 76,
@@ -76,6 +81,7 @@
             "team": "Cloud9",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 27,
             "stats": {
                 "aim": 79,
                 "clutch": 79,
@@ -90,6 +96,7 @@
             "team": "Cloud9",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 86,
                 "clutch": 84,
@@ -104,6 +111,7 @@
             "team": "Cloud9",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 25,
             "stats": {
                 "aim": 84,
                 "clutch": 87,
@@ -118,6 +126,7 @@
             "team": "Cloud9",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 21,
             "stats": {
                 "aim": 91,
                 "clutch": 74,
@@ -132,6 +141,7 @@
             "team": "Cloud9",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 90,
                 "clutch": 79,
@@ -146,6 +156,7 @@
             "team": "LEVIATÁN",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 94,
                 "clutch": 90,
@@ -160,6 +171,7 @@
             "team": "LEVIATÁN",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 18,
             "stats": {
                 "aim": 87,
                 "clutch": 88,
@@ -174,6 +186,7 @@
             "team": "LEVIATÁN",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 18,
             "stats": {
                 "aim": 94,
                 "clutch": 79,
@@ -188,6 +201,7 @@
             "team": "LEVIATÁN",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 92,
                 "clutch": 79,
@@ -202,6 +216,7 @@
             "team": "LEVIATÁN",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 86,
                 "clutch": 89,
@@ -216,6 +231,7 @@
             "team": "NRG",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 18,
             "stats": {
                 "aim": 81,
                 "clutch": 81,
@@ -230,6 +246,7 @@
             "team": "NRG",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 88,
                 "clutch": 85,
@@ -244,6 +261,7 @@
             "team": "NRG",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 19,
             "stats": {
                 "aim": 93,
                 "clutch": 75,
@@ -258,6 +276,7 @@
             "team": "NRG",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 25,
             "stats": {
                 "aim": 87,
                 "clutch": 93,
@@ -272,6 +291,7 @@
             "team": "NRG",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 91,
                 "clutch": 79,
@@ -286,6 +306,7 @@
             "team": "LOUD",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 18,
             "stats": {
                 "aim": 86,
                 "clutch": 78,
@@ -300,6 +321,7 @@
             "team": "LOUD",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 83,
                 "clutch": 91,
@@ -314,6 +336,7 @@
             "team": "LOUD",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 19,
             "stats": {
                 "aim": 82,
                 "clutch": 82,
@@ -328,6 +351,7 @@
             "team": "LOUD",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 83,
                 "clutch": 90,
@@ -342,6 +366,7 @@
             "team": "LOUD",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 22,
             "stats": {
                 "aim": 85,
                 "clutch": 91,
@@ -356,6 +381,7 @@
             "team": "FURIA",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 86,
                 "clutch": 90,
@@ -370,6 +396,7 @@
             "team": "FURIA",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 24,
             "stats": {
                 "aim": 92,
                 "clutch": 79,
@@ -384,6 +411,7 @@
             "team": "FURIA",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 86,
                 "clutch": 89,
@@ -398,6 +426,7 @@
             "team": "FURIA",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 25,
             "stats": {
                 "aim": 83,
                 "clutch": 75,
@@ -412,6 +441,7 @@
             "team": "FURIA",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 90,
                 "clutch": 91,
@@ -426,6 +456,7 @@
             "team": "100 Thieves",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 76,
                 "clutch": 84,
@@ -440,6 +471,7 @@
             "team": "100 Thieves",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 94,
                 "clutch": 94,
@@ -454,6 +486,7 @@
             "team": "100 Thieves",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 86,
                 "clutch": 89,
@@ -468,6 +501,7 @@
             "team": "100 Thieves",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 21,
             "stats": {
                 "aim": 89,
                 "clutch": 89,
@@ -482,6 +516,7 @@
             "team": "100 Thieves",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 87,
                 "clutch": 75,
@@ -496,6 +531,7 @@
             "team": "Evil Geniuses",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 26,
             "stats": {
                 "aim": 82,
                 "clutch": 90,
@@ -510,6 +546,7 @@
             "team": "Evil Geniuses",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 26,
             "stats": {
                 "aim": 79,
                 "clutch": 86,
@@ -524,6 +561,7 @@
             "team": "Evil Geniuses",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 20,
             "stats": {
                 "aim": 78,
                 "clutch": 83,
@@ -538,6 +576,7 @@
             "team": "Evil Geniuses",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 25,
             "stats": {
                 "aim": 87,
                 "clutch": 83,
@@ -552,6 +591,7 @@
             "team": "Evil Geniuses",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 91,
                 "clutch": 85,
@@ -566,6 +606,7 @@
             "team": "Sentinels",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 26,
             "stats": {
                 "aim": 91,
                 "clutch": 85,
@@ -580,6 +621,7 @@
             "team": "Sentinels",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 26,
             "stats": {
                 "aim": 83,
                 "clutch": 94,
@@ -594,6 +636,7 @@
             "team": "Sentinels",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 19,
             "stats": {
                 "aim": 84,
                 "clutch": 81,
@@ -608,6 +651,7 @@
             "team": "Sentinels",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 25,
             "stats": {
                 "aim": 82,
                 "clutch": 91,
@@ -622,6 +666,7 @@
             "team": "Sentinels",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 82,
                 "clutch": 88,
@@ -636,6 +681,7 @@
             "team": "KRÜ Esports",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 28,
             "stats": {
                 "aim": 91,
                 "clutch": 76,
@@ -650,6 +696,7 @@
             "team": "KRÜ Esports",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 24,
             "stats": {
                 "aim": 96,
                 "clutch": 77,
@@ -664,6 +711,7 @@
             "team": "KRÜ Esports",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 20,
             "stats": {
                 "aim": 74,
                 "clutch": 79,
@@ -678,6 +726,7 @@
             "team": "KRÜ Esports",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 86,
                 "clutch": 89,
@@ -692,6 +741,7 @@
             "team": "KRÜ Esports",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 91,
                 "clutch": 76,
@@ -706,6 +756,7 @@
             "team": "G2 Esports",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 30,
             "stats": {
                 "aim": 86,
                 "clutch": 82,
@@ -720,6 +771,7 @@
             "team": "G2 Esports",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 85,
                 "clutch": 93,
@@ -734,6 +786,7 @@
             "team": "G2 Esports",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 26,
             "stats": {
                 "aim": 76,
                 "clutch": 76,
@@ -748,6 +801,7 @@
             "team": "G2 Esports",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 82,
                 "clutch": 87,
@@ -762,6 +816,7 @@
             "team": "G2 Esports",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 93,
                 "clutch": 72,
@@ -776,6 +831,7 @@
             "team": "ENVY",
             "region": "VCT Americas",
             "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 91,
                 "clutch": 87,
@@ -790,6 +846,7 @@
             "team": "ENVY",
             "region": "VCT Americas",
             "role": "Duelista",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 81,
@@ -804,6 +861,7 @@
             "team": "ENVY",
             "region": "VCT Americas",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 78,
                 "clutch": 81,
@@ -818,6 +876,7 @@
             "team": "ENVY",
             "region": "VCT Americas",
             "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 78,
                 "clutch": 91,
@@ -832,6 +891,7 @@
             "team": "ENVY",
             "region": "VCT Americas",
             "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 82,
                 "clutch": 79,
@@ -846,6 +906,7 @@
             "team": "BBL Esports",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 21,
             "stats": {
                 "aim": 89,
                 "clutch": 87,
@@ -860,6 +921,7 @@
             "team": "BBL Esports",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 79,
                 "clutch": 91,
@@ -874,6 +936,7 @@
             "team": "BBL Esports",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 18,
             "stats": {
                 "aim": 83,
                 "clutch": 83,
@@ -888,6 +951,7 @@
             "team": "BBL Esports",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 80,
                 "clutch": 77,
@@ -902,6 +966,7 @@
             "team": "BBL Esports",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 92,
                 "clutch": 79,
@@ -916,6 +981,7 @@
             "team": "FNATIC",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 28,
             "stats": {
                 "aim": 84,
                 "clutch": 88,
@@ -930,6 +996,7 @@
             "team": "FNATIC",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 30,
             "stats": {
                 "aim": 71,
                 "clutch": 94,
@@ -944,6 +1011,7 @@
             "team": "FNATIC",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 90,
                 "clutch": 77,
@@ -958,6 +1026,7 @@
             "team": "FNATIC",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 78,
                 "clutch": 84,
@@ -972,6 +1041,7 @@
             "team": "FNATIC",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 22,
             "stats": {
                 "aim": 86,
                 "clutch": 83,
@@ -986,6 +1056,7 @@
             "team": "Team Vitality",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 89,
                 "clutch": 73,
@@ -1000,6 +1071,7 @@
             "team": "Team Vitality",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 79,
                 "clutch": 79,
@@ -1014,6 +1086,7 @@
             "team": "Team Vitality",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 25,
             "stats": {
                 "aim": 91,
                 "clutch": 81,
@@ -1028,6 +1101,7 @@
             "team": "Team Vitality",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 24,
             "stats": {
                 "aim": 82,
                 "clutch": 81,
@@ -1042,6 +1116,7 @@
             "team": "Team Vitality",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 79,
                 "clutch": 85,
@@ -1056,6 +1131,7 @@
             "team": "GIANTX",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 93,
                 "clutch": 75,
@@ -1070,6 +1146,7 @@
             "team": "GIANTX",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 83,
                 "clutch": 76,
@@ -1084,6 +1161,7 @@
             "team": "GIANTX",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 18,
             "stats": {
                 "aim": 93,
                 "clutch": 90,
@@ -1098,6 +1176,7 @@
             "team": "GIANTX",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 88,
                 "clutch": 81,
@@ -1112,6 +1191,7 @@
             "team": "GIANTX",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 18,
             "stats": {
                 "aim": 84,
                 "clutch": 80,
@@ -1126,6 +1206,7 @@
             "team": "Gentle Mates",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 83,
                 "clutch": 93,
@@ -1140,6 +1221,7 @@
             "team": "Gentle Mates",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 84,
                 "clutch": 90,
@@ -1154,6 +1236,7 @@
             "team": "Gentle Mates",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 93,
                 "clutch": 73,
@@ -1168,6 +1251,7 @@
             "team": "Gentle Mates",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 90,
                 "clutch": 86,
@@ -1182,6 +1266,7 @@
             "team": "Gentle Mates",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 81,
                 "clutch": 92,
@@ -1196,6 +1281,7 @@
             "team": "Team Heretics",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 28,
             "stats": {
                 "aim": 85,
                 "clutch": 79,
@@ -1210,6 +1296,7 @@
             "team": "Team Heretics",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 91,
                 "clutch": 87,
@@ -1224,6 +1311,7 @@
             "team": "Team Heretics",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 20,
             "stats": {
                 "aim": 80,
                 "clutch": 70,
@@ -1238,6 +1326,7 @@
             "team": "Team Heretics",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 21,
             "stats": {
                 "aim": 80,
                 "clutch": 76,
@@ -1252,6 +1341,7 @@
             "team": "Team Heretics",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 99,
                 "clutch": 73,
@@ -1266,6 +1356,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 84,
                 "clutch": 84,
@@ -1280,6 +1371,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 92,
                 "clutch": 73,
@@ -1294,6 +1386,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 22,
             "stats": {
                 "aim": 78,
                 "clutch": 74,
@@ -1308,6 +1401,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 79,
@@ -1322,6 +1416,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 88,
                 "clutch": 90,
@@ -1336,6 +1431,7 @@
             "team": "Natus Vincere",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 21,
             "stats": {
                 "aim": 88,
                 "clutch": 90,
@@ -1350,6 +1446,7 @@
             "team": "Natus Vincere",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 23,
             "stats": {
                 "aim": 94,
                 "clutch": 86,
@@ -1364,6 +1461,7 @@
             "team": "Natus Vincere",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 25,
             "stats": {
                 "aim": 87,
                 "clutch": 89,
@@ -1378,6 +1476,7 @@
             "team": "Natus Vincere",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 21,
             "stats": {
                 "aim": 87,
                 "clutch": 83,
@@ -1392,6 +1491,7 @@
             "team": "Natus Vincere",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 92,
                 "clutch": 89,
@@ -1406,6 +1506,7 @@
             "team": "Karmine Corp",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 83,
                 "clutch": 81,
@@ -1420,6 +1521,7 @@
             "team": "Karmine Corp",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 81,
                 "clutch": 85,
@@ -1434,6 +1536,7 @@
             "team": "Karmine Corp",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 85,
                 "clutch": 75,
@@ -1448,6 +1551,7 @@
             "team": "Karmine Corp",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 92,
                 "clutch": 83,
@@ -1462,6 +1566,7 @@
             "team": "Karmine Corp",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 90,
                 "clutch": 81,
@@ -1476,6 +1581,7 @@
             "team": "Team Liquid",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 91,
                 "clutch": 83,
@@ -1490,6 +1596,7 @@
             "team": "Team Liquid",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 82,
                 "clutch": 80,
@@ -1504,6 +1611,7 @@
             "team": "Team Liquid",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 22,
             "stats": {
                 "aim": 76,
                 "clutch": 75,
@@ -1518,6 +1626,7 @@
             "team": "Team Liquid",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 82,
                 "clutch": 70,
@@ -1532,6 +1641,7 @@
             "team": "Team Liquid",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 19,
             "stats": {
                 "aim": 81,
                 "clutch": 80,
@@ -1546,6 +1656,7 @@
             "team": "Eternal Fire",
             "region": "VCT EMEA",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 81,
                 "clutch": 92,
@@ -1560,6 +1671,7 @@
             "team": "Eternal Fire",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 23,
             "stats": {
                 "aim": 82,
                 "clutch": 89,
@@ -1574,6 +1686,7 @@
             "team": "Eternal Fire",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 87,
                 "clutch": 87,
@@ -1588,6 +1701,7 @@
             "team": "Eternal Fire",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 78,
                 "clutch": 89,
@@ -1602,6 +1716,7 @@
             "team": "Eternal Fire",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 92,
                 "clutch": 77,
@@ -1616,6 +1731,7 @@
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 23,
             "stats": {
                 "aim": 88,
                 "clutch": 89,
@@ -1630,6 +1746,7 @@
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
             "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 86,
                 "clutch": 78,
@@ -1644,6 +1761,7 @@
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 82,
                 "clutch": 86,
@@ -1658,6 +1776,7 @@
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
             "role": "Iniciador",
+            "age": 19,
             "stats": {
                 "aim": 82,
                 "clutch": 77,
@@ -1672,6 +1791,7 @@
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
             "role": "Centinela",
+            "age": 19,
             "stats": {
                 "aim": 83,
                 "clutch": 84,
@@ -1686,6 +1806,7 @@
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 84,
                 "clutch": 91,
@@ -1700,6 +1821,7 @@
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 86,
                 "clutch": 91,
@@ -1714,6 +1836,7 @@
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 25,
             "stats": {
                 "aim": 79,
                 "clutch": 79,
@@ -1728,6 +1851,7 @@
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 19,
             "stats": {
                 "aim": 86,
                 "clutch": 74,
@@ -1742,6 +1866,7 @@
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 93,
                 "clutch": 83,
@@ -1756,6 +1881,7 @@
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 80,
                 "clutch": 84,
@@ -1770,6 +1896,7 @@
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 92,
                 "clutch": 93,
@@ -1784,6 +1911,7 @@
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 82,
                 "clutch": 80,
@@ -1798,6 +1926,7 @@
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 19,
             "stats": {
                 "aim": 82,
                 "clutch": 75,
@@ -1812,6 +1941,7 @@
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 81,
                 "clutch": 75,
@@ -1826,6 +1956,7 @@
             "team": "FULL SENSE",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 29,
             "stats": {
                 "aim": 82,
                 "clutch": 78,
@@ -1840,6 +1971,7 @@
             "team": "FULL SENSE",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 24,
             "stats": {
                 "aim": 94,
                 "clutch": 84,
@@ -1854,6 +1986,7 @@
             "team": "FULL SENSE",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 99,
                 "clutch": 79,
@@ -1868,6 +2001,7 @@
             "team": "FULL SENSE",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 93,
                 "clutch": 76,
@@ -1882,6 +2016,7 @@
             "team": "FULL SENSE",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 82,
                 "clutch": 85,
@@ -1896,6 +2031,7 @@
             "team": "Gen.G",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 25,
             "stats": {
                 "aim": 86,
                 "clutch": 90,
@@ -1910,6 +2046,7 @@
             "team": "Gen.G",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 26,
             "stats": {
                 "aim": 89,
                 "clutch": 82,
@@ -1924,6 +2061,7 @@
             "team": "Gen.G",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 79,
                 "clutch": 82,
@@ -1938,6 +2076,7 @@
             "team": "Gen.G",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 19,
             "stats": {
                 "aim": 92,
                 "clutch": 90,
@@ -1952,6 +2091,7 @@
             "team": "Gen.G",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 91,
                 "clutch": 82,
@@ -1966,6 +2106,7 @@
             "team": "Global Esports",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 27,
             "stats": {
                 "aim": 91,
                 "clutch": 84,
@@ -1980,6 +2121,7 @@
             "team": "Global Esports",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 18,
             "stats": {
                 "aim": 81,
                 "clutch": 89,
@@ -1994,6 +2136,7 @@
             "team": "Global Esports",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 19,
             "stats": {
                 "aim": 86,
                 "clutch": 79,
@@ -2008,6 +2151,7 @@
             "team": "Global Esports",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 21,
             "stats": {
                 "aim": 78,
                 "clutch": 78,
@@ -2022,6 +2166,7 @@
             "team": "Global Esports",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 22,
             "stats": {
                 "aim": 78,
                 "clutch": 74,
@@ -2036,6 +2181,7 @@
             "team": "Paper Rex",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 89,
                 "clutch": 74,
@@ -2050,6 +2196,7 @@
             "team": "Paper Rex",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 25,
             "stats": {
                 "aim": 86,
                 "clutch": 93,
@@ -2064,6 +2211,7 @@
             "team": "Paper Rex",
             "region": "VCT Pacific",
             "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 72,
                 "clutch": 77,
@@ -2078,6 +2226,7 @@
             "team": "Paper Rex",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 27,
             "stats": {
                 "aim": 87,
                 "clutch": 82,
@@ -2092,6 +2241,7 @@
             "team": "Paper Rex",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 81,
                 "clutch": 86,
@@ -2106,6 +2256,7 @@
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 29,
             "stats": {
                 "aim": 88,
                 "clutch": 81,
@@ -2120,6 +2271,7 @@
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 25,
             "stats": {
                 "aim": 86,
                 "clutch": 78,
@@ -2134,6 +2286,7 @@
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 27,
             "stats": {
                 "aim": 84,
                 "clutch": 73,
@@ -2148,6 +2301,7 @@
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 79,
                 "clutch": 83,
@@ -2162,6 +2316,7 @@
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 18,
             "stats": {
                 "aim": 78,
                 "clutch": 79,
@@ -2176,6 +2331,7 @@
             "team": "T1",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 25,
             "stats": {
                 "aim": 71,
                 "clutch": 87,
@@ -2190,6 +2346,7 @@
             "team": "T1",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 98,
                 "clutch": 95,
@@ -2204,6 +2361,7 @@
             "team": "T1",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 27,
             "stats": {
                 "aim": 87,
                 "clutch": 70,
@@ -2218,6 +2376,7 @@
             "team": "T1",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 26,
             "stats": {
                 "aim": 84,
                 "clutch": 70,
@@ -2232,6 +2391,7 @@
             "team": "T1",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 90,
                 "clutch": 72,
@@ -2246,6 +2406,7 @@
             "team": "Team Secret",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 35,
             "stats": {
                 "aim": 74,
                 "clutch": 77,
@@ -2260,6 +2421,7 @@
             "team": "Team Secret",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 80,
                 "clutch": 76,
@@ -2274,6 +2436,7 @@
             "team": "Team Secret",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 81,
                 "clutch": 84,
@@ -2288,6 +2451,7 @@
             "team": "Team Secret",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 83,
                 "clutch": 78,
@@ -2302,6 +2466,7 @@
             "team": "Team Secret",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 22,
             "stats": {
                 "aim": 79,
                 "clutch": 88,
@@ -2316,6 +2481,7 @@
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 18,
             "stats": {
                 "aim": 79,
                 "clutch": 78,
@@ -2330,6 +2496,7 @@
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 83,
                 "clutch": 74,
@@ -2344,6 +2511,7 @@
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 94,
                 "clutch": 89,
@@ -2358,6 +2526,7 @@
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 19,
             "stats": {
                 "aim": 89,
                 "clutch": 76,
@@ -2372,6 +2541,7 @@
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 93,
                 "clutch": 82,
@@ -2386,6 +2556,7 @@
             "team": "VARREL",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 86,
                 "clutch": 75,
@@ -2400,6 +2571,7 @@
             "team": "VARREL",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 76,
                 "clutch": 88,
@@ -2414,6 +2586,7 @@
             "team": "VARREL",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 18,
             "stats": {
                 "aim": 78,
                 "clutch": 83,
@@ -2428,6 +2601,7 @@
             "team": "VARREL",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 80,
                 "clutch": 75,
@@ -2442,6 +2616,7 @@
             "team": "VARREL",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 19,
             "stats": {
                 "aim": 80,
                 "clutch": 86,
@@ -2456,6 +2631,7 @@
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
             "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 80,
                 "clutch": 74,
@@ -2470,6 +2646,7 @@
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
             "role": "Duelista",
+            "age": 25,
             "stats": {
                 "aim": 90,
                 "clutch": 86,
@@ -2484,6 +2661,7 @@
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
             "role": "Controlador",
+            "age": 19,
             "stats": {
                 "aim": 85,
                 "clutch": 86,
@@ -2498,6 +2676,7 @@
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
             "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 84,
                 "clutch": 80,
@@ -2512,6 +2691,7 @@
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
             "role": "Centinela",
+            "age": 19,
             "stats": {
                 "aim": 89,
                 "clutch": 76,
@@ -2526,6 +2706,7 @@
             "team": "All Gamers",
             "region": "VCT China",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 78,
                 "clutch": 80,
@@ -2540,6 +2721,7 @@
             "team": "All Gamers",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 91,
                 "clutch": 89,
@@ -2554,6 +2736,7 @@
             "team": "All Gamers",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 91,
                 "clutch": 86,
@@ -2568,6 +2751,7 @@
             "team": "All Gamers",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 82,
                 "clutch": 87,
@@ -2582,6 +2766,7 @@
             "team": "All Gamers",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 82,
@@ -2596,6 +2781,7 @@
             "team": "JD Gaming",
             "region": "VCT China",
             "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 90,
                 "clutch": 70,
@@ -2610,6 +2796,7 @@
             "team": "JD Gaming",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 24,
             "stats": {
                 "aim": 90,
                 "clutch": 89,
@@ -2624,6 +2811,7 @@
             "team": "JD Gaming",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 80,
                 "clutch": 78,
@@ -2638,6 +2826,7 @@
             "team": "JD Gaming",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 19,
             "stats": {
                 "aim": 78,
                 "clutch": 82,
@@ -2652,6 +2841,7 @@
             "team": "JD Gaming",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 19,
             "stats": {
                 "aim": 81,
                 "clutch": 91,
@@ -2666,6 +2856,7 @@
             "team": "TYLOO",
             "region": "VCT China",
             "role": "IGL",
+            "age": 21,
             "stats": {
                 "aim": 88,
                 "clutch": 76,
@@ -2680,6 +2871,7 @@
             "team": "TYLOO",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 80,
                 "clutch": 76,
@@ -2694,6 +2886,7 @@
             "team": "TYLOO",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 78,
                 "clutch": 84,
@@ -2708,6 +2901,7 @@
             "team": "TYLOO",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 89,
                 "clutch": 76,
@@ -2722,6 +2916,7 @@
             "team": "TYLOO",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 18,
             "stats": {
                 "aim": 87,
                 "clutch": 90,
@@ -2736,6 +2931,7 @@
             "team": "Titan Esports Club",
             "region": "VCT China",
             "role": "IGL",
+            "age": 21,
             "stats": {
                 "aim": 83,
                 "clutch": 88,
@@ -2750,6 +2946,7 @@
             "team": "Titan Esports Club",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 90,
                 "clutch": 93,
@@ -2764,6 +2961,7 @@
             "team": "Titan Esports Club",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 81,
@@ -2778,6 +2976,7 @@
             "team": "Titan Esports Club",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 89,
                 "clutch": 75,
@@ -2792,6 +2991,7 @@
             "team": "Titan Esports Club",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 90,
                 "clutch": 77,
@@ -2806,6 +3006,7 @@
             "team": "Xi Lai Gaming",
             "region": "VCT China",
             "role": "IGL",
+            "age": 18,
             "stats": {
                 "aim": 93,
                 "clutch": 86,
@@ -2820,6 +3021,7 @@
             "team": "Xi Lai Gaming",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 93,
                 "clutch": 82,
@@ -2834,6 +3036,7 @@
             "team": "Xi Lai Gaming",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 85,
@@ -2848,6 +3051,7 @@
             "team": "Xi Lai Gaming",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 25,
             "stats": {
                 "aim": 82,
                 "clutch": 82,
@@ -2862,6 +3066,7 @@
             "team": "Xi Lai Gaming",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 81,
                 "clutch": 84,
@@ -2876,6 +3081,7 @@
             "team": "EDward Gaming",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 92,
                 "clutch": 93,
@@ -2890,6 +3096,7 @@
             "team": "EDward Gaming",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 79,
                 "clutch": 86,
@@ -2904,6 +3111,7 @@
             "team": "EDward Gaming",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 78,
                 "clutch": 86,
@@ -2918,6 +3126,7 @@
             "team": "EDward Gaming",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 83,
                 "clutch": 79,
@@ -2932,6 +3141,7 @@
             "team": "EDward Gaming",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 79,
                 "clutch": 91,
@@ -2946,6 +3156,7 @@
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
             "role": "IGL",
+            "age": 21,
             "stats": {
                 "aim": 84,
                 "clutch": 90,
@@ -2960,6 +3171,7 @@
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 78,
                 "clutch": 91,
@@ -2974,6 +3186,7 @@
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 92,
                 "clutch": 91,
@@ -2988,6 +3201,7 @@
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 92,
                 "clutch": 75,
@@ -3002,6 +3216,7 @@
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 90,
                 "clutch": 77,
@@ -3016,6 +3231,7 @@
             "team": "Trace Esports",
             "region": "VCT China",
             "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 87,
                 "clutch": 81,
@@ -3030,6 +3246,7 @@
             "team": "Trace Esports",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 24,
             "stats": {
                 "aim": 77,
                 "clutch": 93,
@@ -3044,6 +3261,7 @@
             "team": "Trace Esports",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 20,
             "stats": {
                 "aim": 94,
                 "clutch": 89,
@@ -3058,6 +3276,7 @@
             "team": "Trace Esports",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 25,
             "stats": {
                 "aim": 78,
                 "clutch": 76,
@@ -3072,6 +3291,7 @@
             "team": "Trace Esports",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 18,
             "stats": {
                 "aim": 79,
                 "clutch": 75,
@@ -3086,6 +3306,7 @@
             "team": "Bilibili Gaming",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 83,
                 "clutch": 70,
@@ -3100,6 +3321,7 @@
             "team": "Bilibili Gaming",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 19,
             "stats": {
                 "aim": 84,
                 "clutch": 80,
@@ -3114,6 +3336,7 @@
             "team": "Bilibili Gaming",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 21,
             "stats": {
                 "aim": 88,
                 "clutch": 77,
@@ -3128,6 +3351,7 @@
             "team": "Bilibili Gaming",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 86,
                 "clutch": 79,
@@ -3142,6 +3366,7 @@
             "team": "Bilibili Gaming",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 83,
                 "clutch": 82,
@@ -3156,6 +3381,7 @@
             "team": "FunPlus Phoenix",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 18,
             "stats": {
                 "aim": 79,
                 "clutch": 83,
@@ -3170,6 +3396,7 @@
             "team": "FunPlus Phoenix",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 86,
                 "clutch": 92,
@@ -3184,6 +3411,7 @@
             "team": "FunPlus Phoenix",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 78,
                 "clutch": 82,
@@ -3198,6 +3426,7 @@
             "team": "FunPlus Phoenix",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 22,
             "stats": {
                 "aim": 74,
                 "clutch": 83,
@@ -3212,6 +3441,7 @@
             "team": "FunPlus Phoenix",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 22,
             "stats": {
                 "aim": 96,
                 "clutch": 72,
@@ -3226,6 +3456,7 @@
             "team": "Nova Esports",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 18,
             "stats": {
                 "aim": 82,
                 "clutch": 75,
@@ -3240,6 +3471,7 @@
             "team": "Nova Esports",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 20,
             "stats": {
                 "aim": 81,
                 "clutch": 81,
@@ -3254,6 +3486,7 @@
             "team": "Nova Esports",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 19,
             "stats": {
                 "aim": 80,
                 "clutch": 90,
@@ -3268,6 +3501,7 @@
             "team": "Nova Esports",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 85,
                 "clutch": 92,
@@ -3282,6 +3516,7 @@
             "team": "Nova Esports",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 79,
                 "clutch": 76,
@@ -3296,6 +3531,7 @@
             "team": "Wolves Esports",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 91,
                 "clutch": 92,
@@ -3310,6 +3546,7 @@
             "team": "Wolves Esports",
             "region": "VCT China",
             "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 85,
                 "clutch": 85,
@@ -3324,6 +3561,7 @@
             "team": "Wolves Esports",
             "region": "VCT China",
             "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 88,
                 "clutch": 91,
@@ -3338,6 +3576,7 @@
             "team": "Wolves Esports",
             "region": "VCT China",
             "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 97,
                 "clutch": 85,
@@ -3352,6 +3591,7 @@
             "team": "Wolves Esports",
             "region": "VCT China",
             "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 82,
                 "clutch": 82,

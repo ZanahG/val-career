@@ -12,7 +12,8 @@ export type CoachSaveScreen=
   |"coachMapPool"
   |"coachSeason"
   |"coachEventRecap"
-  |"coachOffseasonRecap";
+  |"coachOffseasonRecap"
+  |"coachTransferNegotiation";
 
 export interface CoachCareerSave {
   version:number;

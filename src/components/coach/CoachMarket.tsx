@@ -1,7 +1,9 @@
 import {useMemo,useState} from "react";
 import type {CoachCareerState,CoachPlayer} from "../../types/coach";
 import type {CoachMarketRoleFilter} from "../../logic/coachMarket";
-import {canAffordCoachTransfer,getCoachMarketPlayers,signCoachPlayer} from "../../logic/coachMarket";
+import {getCoachMarketPlayers} from "../../logic/coachMarket";
+import {getCoachPlayerMarketValue} from "../../logic/coachPlayerValue";
+import {getCoachMinimumAcceptedTransferFee,getCoachPlayerBuyout} from "../../logic/coachTransferEconomy";
 import {completeCoachOffseason,openCoachOffseasonMarket,renewCoachPlayerContract} from "../../logic/coachCareerProgression";
 import {getTeamById} from "../../data/teams";
 import {getTeamLogo} from "../../utils/teamLogo";
@@ -12,23 +14,35 @@ interface CoachMarketProps {
   onUpdateCareer:(career:CoachCareerState)=>void;
   onBack:()=>void;
   onOffseasonComplete?:()=>void;
+  onNegotiatePlayer:(playerId:string)=>void;
 }
 
 const ROLE_FILTERS:CoachMarketRoleFilter[]=["ALL","Duelist","Initiator","Controller","Sentinel","Flex","IGL"];
 const MAX_ROSTER_SIZE=5;
 
-export function CoachMarket({career,onUpdateCareer,onBack,onOffseasonComplete}:CoachMarketProps) {
+export function CoachMarket({career,onUpdateCareer,onBack,onOffseasonComplete,onNegotiatePlayer}:CoachMarketProps) {
   const [roleFilter,setRoleFilter]=useState<CoachMarketRoleFilter>("ALL");
   const [selectedPlayerId,setSelectedPlayerId]=useState<string|null>(null);
-  const [replacePlayerId,setReplacePlayerId]=useState("");
 
   const team=getTeamById(career.team.teamId);
   const teamLogo=getTeamLogo(team?.logo);
-
   const offseason=career.offseason;
+  const midseasonMarket=career.midseasonMarket;
+
   const offseasonActive=Boolean(offseason&&!offseason.completed);
-  const contractsPhase=offseasonActive&&offseason?.phase==="Contracts";
-  const marketPhase=offseasonActive&&offseason?.phase==="Market";
+  const midseasonActive=Boolean(midseasonMarket&&!midseasonMarket.completed);
+  const contractsPhase=Boolean(offseasonActive&&offseason?.phase==="Contracts");
+  const offseasonMarketPhase=Boolean(offseasonActive&&offseason?.phase==="Market");
+  const marketWindowActive=midseasonActive||offseasonMarketPhase;
+
+  const activeTransferRequests=
+    midseasonActive
+      ?midseasonMarket?.transferRequests??[]
+      :offseasonMarketPhase
+        ?offseason?.transferRequests??[]
+        :[];
+
+  const transferRequestIds=useMemo(()=>new Set(activeTransferRequests.map(request=>request.playerId)),[activeTransferRequests]);
 
   const expiredPlayers=useMemo(()=>{
     if(!contractsPhase||!offseason)return [];
@@ -39,125 +53,83 @@ export function CoachMarket({career,onUpdateCareer,onBack,onOffseasonComplete}:C
         .map(departure=>departure.playerId),
     );
 
-    return career.playerPool.filter(player=>ids.has(player.id));
+    return career.playerPool.filter(player=>ids.has(player.id)).map(normalizeMarketPlayer);
   },[career.playerPool,contractsPhase,offseason]);
 
   const regularMarketPlayers=useMemo(
-    ()=>getCoachMarketPlayers(career.playerPool,career,roleFilter),
+    ()=>getCoachMarketPlayers(career.playerPool,career,roleFilter).map(normalizeMarketPlayer),
     [career,roleFilter],
   );
 
-  const offseasonMarketPlayers=useMemo(()=>{
-    if(!marketPhase)return [];
+  const windowMarketPlayers=useMemo(()=>{
+    if(!marketWindowActive)return [];
 
     return career.playerPool
-      .filter(player=>player.teamId==="free-agent")
+      .filter(player=>player.teamId!==career.team.teamId)
       .filter(player=>roleFilter==="ALL"||player.role===roleFilter)
-      .filter(player=>!career.team.roster.some(current=>current.id===player.id))
-      .sort((a,b)=>b.overall-a.overall);
-  },[career.playerPool,career.team.roster,marketPhase,roleFilter]);
+      .map(normalizeMarketPlayer)
+      .sort((a,b)=>{
+        const requestA=transferRequestIds.has(a.id)?1:0;
+        const requestB=transferRequestIds.has(b.id)?1:0;
+        if(requestB!==requestA)return requestB-requestA;
+        if(b.overall!==a.overall)return b.overall-a.overall;
+        return b.marketValue-a.marketValue;
+      });
+  },[career.playerPool,career.team.teamId,marketWindowActive,roleFilter,transferRequestIds]);
 
-  const marketPlayers=marketPhase?offseasonMarketPlayers:regularMarketPlayers;
-  const selectedPlayer=marketPlayers.find(player=>player.id===selectedPlayerId)??null;
-  const replacePlayer=career.team.roster.find(player=>player.id===replacePlayerId)??null;
+  const marketPlayers=marketWindowActive?windowMarketPlayers:regularMarketPlayers;
+  const selectedPlayer=marketPlayers.find(player=>player.id===selectedPlayerId)??marketPlayers[0]??null;
 
-  const rosterFull=career.team.roster.length>=MAX_ROSTER_SIZE;
   const payroll=career.team.finances.currentMonthlyPayroll;
   const monthlyBudget=career.team.finances.monthlyBudget;
+  const transferBudget=career.team.finances.transferBudget;
   const payrollUsage=monthlyBudget>0?Math.min(100,Math.round(payroll/monthlyBudget*100)):0;
 
-  const projectedPayroll=
-    selectedPlayer
-      ?replacePlayer
-        ?payroll-replacePlayer.salary+selectedPlayer.salary
-        :payroll+selectedPlayer.salary
-      :payroll;
+  const selectedPlayerTransferRequested=Boolean(selectedPlayer&&transferRequestIds.has(selectedPlayer.id));
 
-  const canAffordRegular=Boolean(
-    selectedPlayer&&
-    replacePlayer&&
-    canAffordCoachTransfer(career,selectedPlayer,replacePlayer),
-  );
+  const selectedPlayerSellerRoster=useMemo(()=>{
+    if(!selectedPlayer||selectedPlayer.teamId==="free-agent")return [];
+    return career.playerPool.filter(player=>player.teamId===selectedPlayer.teamId);
+  },[career.playerPool,selectedPlayer]);
 
-  const canAffordOffseason=Boolean(
-    selectedPlayer&&
-    (!rosterFull||replacePlayer)&&
-    projectedPayroll<=monthlyBudget,
-  );
+  const selectedTransferFee=
+    selectedPlayer&&selectedPlayer.teamId!=="free-agent"
+      ?getCoachMinimumAcceptedTransferFee(selectedPlayer,selectedPlayerSellerRoster,selectedPlayerTransferRequested)
+      :0;
 
-  const canAfford=marketPhase?canAffordOffseason:canAffordRegular;
+  const selectedBuyout=
+    selectedPlayer&&selectedPlayer.teamId!=="free-agent"
+      ?getCoachPlayerBuyout(selectedPlayer)
+      :0;
 
-  const handleSelectPlayer=(playerId:string)=>{
-    setSelectedPlayerId(playerId);
-    setReplacePlayerId("");
-  };
-
-  const handleSign=()=>{
-    if(!selectedPlayer)return;
-
-    if(marketPhase){
-      if(rosterFull&&!replacePlayer)return;
-
-      const updated=signOffseasonPlayer(
-        career,
-        selectedPlayer,
-        replacePlayer?.id,
-      );
-
-      if(!updated)return;
-
-      onUpdateCareer(updated);
-      setSelectedPlayerId(null);
-      setReplacePlayerId("");
-      return;
-    }
-
-    if(!replacePlayer)return;
-
-    const result=signCoachPlayer(career,selectedPlayer,replacePlayer.id);
-    if(!result)return;
-
-    const updatedPool=career.playerPool.map(player=>{
-      if(player.id===selectedPlayer.id)return {...player,teamId:career.team.teamId};
-      if(player.id===replacePlayer.id)return {...player,teamId:"free-agent"};
-      return player;
-    });
-
-    onUpdateCareer({...result.career,playerPool:updatedPool});
-    setSelectedPlayerId(null);
-    setReplacePlayerId("");
-  };
+  const sellerCanSell=
+    !selectedPlayer||
+    selectedPlayer.teamId==="free-agent"||
+    selectedPlayerSellerRoster.length>=5;
 
   const handleRenew=(player:CoachPlayer,seasons:number)=>{
     const salary=getRenewalSalary(player.salary,seasons);
-
-    const updated=renewCoachPlayerContract(
-      career,
-      player.id,
-      seasons,
-      salary,
-    );
-
-    onUpdateCareer(updated);
+    onUpdateCareer(renewCoachPlayerContract(career,player.id,seasons,salary));
   };
 
   const handleOpenMarket=()=>{
-    const updated=openCoachOffseasonMarket(career);
-
-    onUpdateCareer(updated);
+    onUpdateCareer(openCoachOffseasonMarket(career));
     setSelectedPlayerId(null);
-    setReplacePlayerId("");
   };
 
   const handleCloseMarket=()=>{
-    const updated=completeCoachOffseason(career);
-
-    onUpdateCareer(updated);
     setSelectedPlayerId(null);
-    setReplacePlayerId("");
 
-    if(onOffseasonComplete){
-      onOffseasonComplete();
+    if(midseasonActive){
+      if(onOffseasonComplete){onOffseasonComplete();return;}
+      onBack();
+      return;
+    }
+
+    if(offseasonMarketPhase){
+      onUpdateCareer(completeCoachOffseason(career));
+      if(onOffseasonComplete){onOffseasonComplete();return;}
+      onBack();
       return;
     }
 
@@ -171,191 +143,112 @@ export function CoachMarket({career,onUpdateCareer,onBack,onOffseasonComplete}:C
 
       <div className="coach-market__shell">
         <header className="coach-market__topbar">
-          <div className="coach-market__club">
-            <div className="coach-market__club-logo">
-              {teamLogo?<img src={teamLogo} alt={team?.name??""}/>:<span>{team?.shortName??"TBD"}</span>}
-            </div>
-
-            <div>
-              <span>{offseasonActive?"OFFSEASON MANAGEMENT":"SCOUTING & TRANSFERS"}</span>
-              <strong>{team?.name??"Equipo"}</strong>
-              <small>{team?.circuit} · {team?.marketRegion}</small>
-            </div>
+          <div className="coach-market__nav-brand">
+            <div className="coach-market__club-logo">{teamLogo?<img src={teamLogo} alt={team?.name??""}/>:<span>{team?.shortName??"TCV"}</span>}</div>
+            <span className="coach-market__nav-muted">Transfers</span>
+            <strong>GLOBAL TRANSFER NETWORK</strong>
           </div>
 
-          <button className="coach-market__back" onClick={onBack}>
-            ← {offseasonActive?"TEMPORADA":"DASHBOARD"}
-          </button>
+          <div className="coach-market__club-budget">
+            <div className="coach-market__club-mini">
+              {teamLogo&&<img src={teamLogo} alt=""/>}
+              <span>{team?.name??"Equipo"}</span>
+            </div>
+            <div className="coach-market__budget-bar"><span style={{width:`${Math.min(100,Math.round((transferBudget/Math.max(1,transferBudget+payroll*12))*100))}%`}}/></div>
+            <strong>${transferBudget.toLocaleString("en-US")}</strong>
+            <button onClick={onBack}>VOLVER</button>
+          </div>
         </header>
 
-        <section className="coach-market__hero">
-          <div>
-            <span className="coach-market__eyebrow">
-              {contractsPhase?"OFFSEASON · CONTRATOS":marketPhase?"OFFSEASON · MERCADO":"CENTRO DE TRASPASOS"}
-            </span>
-
-            <h1>{contractsPhase?"CONTRATOS":marketPhase?"AGENTES LIBRES":"MERCADO"}</h1>
-
-            <p>
-              {contractsPhase
-                ?"Decide qué jugadores con contrato vencido seguirán formando parte del equipo la próxima temporada."
-                :marketPhase
-                  ?"Completa tu plantilla antes de comenzar la próxima temporada y mantén la nómina dentro del presupuesto."
-                  :"Explora jugadores disponibles, compara perfiles y mejora tu plantilla sin superar el presupuesto mensual."}
-            </p>
-          </div>
-
-          <div className="coach-market__budget-summary">
-            <div>
-              <span>NÓMINA ACTUAL</span>
-              <strong>${payroll.toLocaleString("en-US")}</strong>
-              <small>USD / MES</small>
-            </div>
-
-            <div>
-              <span>LÍMITE MENSUAL</span>
-              <strong>${monthlyBudget.toLocaleString("en-US")}</strong>
-              <small>USD / MES</small>
-            </div>
-
-            <div className="coach-market__budget-progress">
-              <div><span style={{width:`${payrollUsage}%`}}/></div>
-              <small>{payrollUsage}% UTILIZADO</small>
-            </div>
-          </div>
-        </section>
-
         {contractsPhase?(
-          <ContractsPanel
-            career={career}
-            players={expiredPlayers}
-            onRenew={handleRenew}
-            onContinue={handleOpenMarket}
-          />
+          <ContractsPanel career={career} players={expiredPlayers} onRenew={handleRenew} onContinue={handleOpenMarket}/>
         ):(
           <>
-            <nav className="coach-market__filters">
-              {ROLE_FILTERS.map(role=>(
-                <button key={role} className={roleFilter===role?"active":""} onClick={()=>{
-                  setRoleFilter(role);
-                  setSelectedPlayerId(null);
-                  setReplacePlayerId("");
-                }}>
-                  {getRoleLabel(role)}
-                </button>
-              ))}
-            </nav>
+            <section className="coach-market__subnav">
+              <div className="coach-market__window-copy">
+                <span>{marketWindowActive?"TRANSFER WINDOW":"SCOUTING DATABASE"}</span>
+                <strong>{marketWindowActive?"MERCADO DE FICHAJES":"RED GLOBAL DE SCOUTING"}</strong>
+              </div>
+
+              <nav className="coach-market__filters">
+                {ROLE_FILTERS.map(role=>(
+                  <button key={role} className={roleFilter===role?"active":""} onClick={()=>{
+                    setRoleFilter(role);
+                    setSelectedPlayerId(null);
+                  }}>{getRoleLabel(role)}</button>
+                ))}
+              </nav>
+
+              <div className="coach-market__payroll-mini">
+                <span>NÓMINA</span>
+                <strong>{payrollUsage}%</strong>
+              </div>
+            </section>
 
             <div className="coach-market__layout">
-              <section className="coach-market__list-panel">
-                <header className="coach-market__list-title">
+              <section className="coach-market__results-panel">
+                <header className="coach-market__panel-head">
                   <div>
-                    <span>{marketPhase?"AGENTES LIBRES":"JUGADORES DISPONIBLES"}</span>
-                    <strong>{marketPlayers.length} RESULTADOS</strong>
+                    <span>SEARCH RESULTS</span>
+                    <strong>{marketPlayers.length} JUGADORES</strong>
                   </div>
-
-                  <span>{getRoleLabel(roleFilter)}</span>
+                  <small>{marketWindowActive?"VENTANA ABIERTA":"SOLO SCOUTING"}</small>
                 </header>
 
-                <div className="coach-market__list">
-                  <div className="coach-market__list-header">
-                    <span>JUGADOR</span>
-                    <span>EQUIPO</span>
-                    <span>ROL</span>
-                    <span>OVR</span>
-                    <span>EDAD</span>
-                    <span>SUELDO</span>
-                  </div>
+                <div className="coach-market__results-grid">
+                  {marketPlayers.map(player=>(
+                    <PlayerResultCard
+                      key={player.id}
+                      player={player}
+                      selected={selectedPlayer?.id===player.id}
+                      requested={transferRequestIds.has(player.id)}
+                      onClick={()=>setSelectedPlayerId(player.id)}
+                    />
+                  ))}
 
-                  {marketPlayers.map(player=>{
-                    const playerTeam=getTeamById(player.teamId);
-                    const logo=getTeamLogo(playerTeam?.logo);
-                    const selected=selectedPlayerId===player.id;
-
-                    return (
-                      <button key={player.id} className={`coach-market__player${selected?" coach-market__player--active":""}`} onClick={()=>handleSelectPlayer(player.id)}>
-                        <div className="coach-market__player-name">
-                          <div className="coach-market__player-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
-
-                          <div>
-                            <strong>{player.ign}</strong>
-                            <small>{player.teamId==="free-agent"?"AGENTE LIBRE":player.starter?"TITULAR":"SUPLENTE"}</small>
-                          </div>
-                        </div>
-
-                        <div className="coach-market__team">
-                          <div>{logo&&<img src={logo} alt=""/>}</div>
-                          <span>{player.teamId==="free-agent"?"FA":playerTeam?.shortName??"FA"}</span>
-                        </div>
-
-                        <span className="coach-market__role">{getRoleLabel(player.role)}</span>
-
-                        <strong className={`coach-market__overall ${getOverallClass(player.overall)}`}>
-                          {player.overall}
-                        </strong>
-
-                        <span>{player.age}</span>
-
-                        <strong className="coach-market__salary">
-                          ${player.salary.toLocaleString("en-US")}
-                        </strong>
-                      </button>
-                    );
-                  })}
-
-                  {!marketPlayers.length&&(
-                    <div className="coach-market__no-results">
-                      {marketPhase
-                        ?"No hay agentes libres disponibles con este filtro."
-                        :"No hay jugadores disponibles con este filtro."}
-                    </div>
-                  )}
+                  {!marketPlayers.length&&<div className="coach-market__no-results">No hay jugadores disponibles con este filtro.</div>}
                 </div>
               </section>
 
-              <aside className="coach-market__detail">
-                {!selectedPlayer?(
-                  <div className="coach-market__empty">
-                    <div className="coach-market__empty-icon">⌕</div>
-                    <span>SCOUTING</span>
-                    <strong>SELECCIONA UN JUGADOR</strong>
-                    <p>Elige un jugador de la lista para revisar sus atributos, salario y encaje dentro de tu roster.</p>
-                  </div>
-                ):(
+              <aside className="coach-market__report-panel">
+                {selectedPlayer?(
                   <PlayerDetail
                     career={career}
                     player={selectedPlayer}
-                    replacePlayerId={replacePlayerId}
-                    replacePlayer={replacePlayer}
-                    projectedPayroll={projectedPayroll}
-                    canAfford={canAfford}
-                    offseason={marketPhase}
-                    rosterFull={rosterFull}
-                    onReplaceChange={setReplacePlayerId}
-                    onSign={handleSign}
+                    transferFee={selectedTransferFee}
+                    buyout={selectedBuyout}
+                    transferRequested={selectedPlayerTransferRequested}
+                    marketWindowActive={marketWindowActive}
+                    midseason={midseasonActive}
+                    sellerCanSell={sellerCanSell}
+                    onNegotiate={()=>onNegotiatePlayer(selectedPlayer.id)}
                   />
+                ):(
+                  <div className="coach-market__empty">
+                    <span>SCOUT REPORT</span>
+                    <strong>SELECCIONA UN JUGADOR</strong>
+                    <p>Selecciona un resultado para abrir su informe completo.</p>
+                  </div>
                 )}
               </aside>
             </div>
 
-            {marketPhase&&(
-              <section className="coach-market__offseason-footer">
-                <div>
-                  <span>PLANTILLA</span>
-                  <strong>{career.team.roster.length}/{MAX_ROSTER_SIZE} JUGADORES</strong>
-                  <small>Completa tus movimientos antes de cerrar la offseason.</small>
-                </div>
+            <footer className="coach-market__footer-bar">
+              <div>
+                <span>PRESUPUESTO TRANSFERENCIAS</span>
+                <strong>${transferBudget.toLocaleString("en-US")}</strong>
+              </div>
+              <div>
+                <span>NÓMINA</span>
+                <strong>${payroll.toLocaleString("en-US")} / ${monthlyBudget.toLocaleString("en-US")}</strong>
+              </div>
 
+              {marketWindowActive&&(
                 <button className="coach-market__close-market" disabled={career.team.roster.length<MAX_ROSTER_SIZE} onClick={handleCloseMarket}>
-                  <span>
-                    <small>{career.team.roster.length<MAX_ROSTER_SIZE?"PLANTILLA INCOMPLETA":"OFFSEASON"}</small>
-                    CERRAR MERCADO
-                  </span>
-
-                  <b>→</b>
+                  {career.team.roster.length<MAX_ROSTER_SIZE?"PLANTILLA INCOMPLETA":"CERRAR MERCADO"} <span>→</span>
                 </button>
-              </section>
-            )}
+              )}
+            </footer>
           </>
         )}
       </div>
@@ -363,9 +256,27 @@ export function CoachMarket({career,onUpdateCareer,onBack,onOffseasonComplete}:C
   );
 }
 
-/* =========================================================
-   CONTRACTS
-========================================================= */
+function PlayerResultCard({player,selected,requested,onClick}:{player:CoachPlayer;selected:boolean;requested:boolean;onClick:()=>void}) {
+  const team=getTeamById(player.teamId);
+  const logo=getTeamLogo(team?.logo);
+
+  return (
+    <button className={`coach-market__result-card${selected?" coach-market__result-card--active":""}`} onClick={onClick}>
+      <div className="coach-market__result-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
+
+      <div className="coach-market__result-main">
+        <span>{getRoleLabel(player.role)} · {player.age} AÑOS</span>
+        <strong>{player.ign}</strong>
+        <small>{player.teamId==="free-agent"?"AGENTE LIBRE":requested?"SOLICITÓ TRANSFERENCIA":team?.name??"EQUIPO"}</small>
+      </div>
+
+      <div className="coach-market__result-side">
+        {logo&&<img src={logo} alt=""/>}
+        <strong className={getOverallClass(player.overall)}>{player.overall}</strong>
+      </div>
+    </button>
+  );
+}
 
 function ContractsPanel({career,players,onRenew,onContinue}:{
   career:CoachCareerState;
@@ -378,11 +289,7 @@ function ContractsPanel({career,players,onRenew,onContinue}:{
   return (
     <section className="coach-market__contracts-panel">
       <header className="coach-market__contracts-head">
-        <div>
-          <span>CONTRATOS VENCIDOS</span>
-          <strong>{unresolvedPlayers.length} PENDIENTES</strong>
-        </div>
-
+        <div><span>CONTRATOS VENCIDOS</span><strong>{unresolvedPlayers.length} PENDIENTES</strong></div>
         <small>RENUEVA A LOS JUGADORES QUE QUIERAS CONSERVAR</small>
       </header>
 
@@ -394,28 +301,14 @@ function ContractsPanel({career,players,onRenew,onContinue}:{
           return (
             <article key={player.id} className={`coach-market__contract-player${renewed?" coach-market__contract-player--renewed":""}`}>
               <div className="coach-market__contract-player-main">
-                <div className="coach-market__player-avatar">
-                  {player.ign.slice(0,1).toUpperCase()}
-                </div>
-
-                <div>
-                  <span>{getRoleLabel(player.role)} · {player.age} AÑOS</span>
-                  <strong>{player.ign}</strong>
-                  <small>OVR {player.overall}</small>
-                </div>
+                <div className="coach-market__player-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
+                <div><span>{getRoleLabel(player.role)} · {player.age} AÑOS</span><strong>{player.ign}</strong><small>OVR {player.overall}</small></div>
               </div>
 
-              <div className="coach-market__contract-old">
-                <span>SUELDO ANTERIOR</span>
-                <strong>${player.salary.toLocaleString("en-US")}</strong>
-              </div>
+              <div className="coach-market__contract-old"><span>SUELDO ANTERIOR</span><strong>${player.salary.toLocaleString("en-US")}</strong></div>
 
               {renewed?(
-                <div className="coach-market__contract-renewed">
-                  <span>RENOVADO</span>
-                  <strong>{current.contractSeasonsRemaining??1} AÑOS</strong>
-                  <small>${current.salary.toLocaleString("en-US")} / MES</small>
-                </div>
+                <div className="coach-market__contract-renewed"><span>RENOVADO</span><strong>{current.contractSeasonsRemaining??1} AÑOS</strong><small>${current.salary.toLocaleString("en-US")} / MES</small></div>
               ):(
                 <div className="coach-market__contract-options">
                   {[1,2,3].map(seasons=>{
@@ -437,270 +330,109 @@ function ContractsPanel({career,players,onRenew,onContinue}:{
           );
         })}
 
-        {!players.length&&(
-          <div className="coach-market__contracts-empty">
-            <span>✓</span>
-            <strong>NO HAY CONTRATOS VENCIDOS</strong>
-            <p>Todos los jugadores de tu plantilla mantienen contrato para la próxima temporada.</p>
-          </div>
-        )}
+        {!players.length&&<div className="coach-market__contracts-empty"><span>✓</span><strong>NO HAY CONTRATOS VENCIDOS</strong><p>Todos los jugadores de tu plantilla mantienen contrato para la próxima temporada.</p></div>}
       </div>
 
       <footer className="coach-market__contracts-footer">
-        <div>
-          <span>PLANTILLA ACTUAL</span>
-          <strong>{career.team.roster.length}/{MAX_ROSTER_SIZE}</strong>
-        </div>
-
-        <button onClick={onContinue}>
-          IR AL MERCADO <span>→</span>
-        </button>
+        <div><span>PLANTILLA ACTUAL</span><strong>{career.team.roster.length}/{MAX_ROSTER_SIZE}</strong></div>
+        <button onClick={onContinue}>IR AL MERCADO <span>→</span></button>
       </footer>
     </section>
   );
 }
 
-/* =========================================================
-   PLAYER DETAIL
-========================================================= */
-
-function PlayerDetail({career,player,replacePlayerId,replacePlayer,projectedPayroll,canAfford,offseason,rosterFull,onReplaceChange,onSign}:{
+function PlayerDetail({career,player,transferFee,buyout,transferRequested,marketWindowActive,midseason,sellerCanSell,onNegotiate}:{
   career:CoachCareerState;
   player:CoachPlayer;
-  replacePlayerId:string;
-  replacePlayer:CoachPlayer|null;
-  projectedPayroll:number;
-  canAfford:boolean;
-  offseason:boolean;
-  rosterFull:boolean;
-  onReplaceChange:(id:string)=>void;
-  onSign:()=>void;
+  transferFee:number;
+  buyout:number;
+  transferRequested:boolean;
+  marketWindowActive:boolean;
+  midseason:boolean;
+  sellerCanSell:boolean;
+  onNegotiate:()=>void;
 }) {
   const playerTeam=getTeamById(player.teamId);
   const playerTeamLogo=getTeamLogo(playerTeam?.logo);
+  const freeAgent=player.teamId==="free-agent";
 
   return (
     <>
-      <header className="coach-market__detail-header">
-        <div className="coach-market__detail-team">
-          <div>{playerTeamLogo&&<img src={playerTeamLogo} alt={playerTeam?.name??""}/>}</div>
-          <span>{player.teamId==="free-agent"?"FREE AGENT":playerTeam?.name??"FREE AGENT"}</span>
-        </div>
-
-        <div className="coach-market__detail-player">
-          <div className="coach-market__detail-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
-
+      <header className="coach-market__report-head">
+        <div className="coach-market__report-player">
+          <div className="coach-market__report-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
           <div>
             <span>{getRoleLabel(player.role)} · {player.age} AÑOS</span>
             <h2>{player.ign}</h2>
+            <small>{transferRequested?"SOLICITÓ TRANSFERENCIA":freeAgent?"AGENTE LIBRE":playerTeam?.name??"EQUIPO"}</small>
           </div>
+        </div>
 
-          <div className={`coach-market__detail-overall ${getOverallClass(player.overall)}`}>
-            <strong>{player.overall}</strong>
-            <span>OVR</span>
-          </div>
+        <div className="coach-market__report-overall">
+          <strong>{player.overall}</strong>
+          <span>OVR</span>
+        </div>
+
+        <div className="coach-market__report-team">
+          {playerTeamLogo&&<img src={playerTeamLogo} alt=""/>}
+          <strong>{freeAgent?"FA":playerTeam?.shortName??"TBD"}</strong>
         </div>
       </header>
 
-      <section className="coach-market__attributes">
-        <header>
-          <span>INFORME DE SCOUTING</span>
-          <strong>ATRIBUTOS</strong>
-        </header>
+      <div className="coach-market__report-divider"/>
 
-        <div className="coach-market__stats">
-          <Stat label="AIM" value={player.stats.aim}/>
-          <Stat label="GAME SENSE" value={player.stats.gameSense}/>
-          <Stat label="COMMS" value={player.stats.communication}/>
-          <Stat label="CLUTCH" value={player.stats.clutch}/>
-          <Stat label="CONSISTENCY" value={player.stats.consistency}/>
-          <Stat label="MENTAL" value={player.stats.mental}/>
+      <section className="coach-market__report-summary">
+        <div className="coach-market__summary-stats">
+          <span>SUMMARY</span>
+          <Stat label="Aim" value={player.stats.aim}/>
+          <Stat label="Game Sense" value={player.stats.gameSense}/>
+          <Stat label="Communication" value={player.stats.communication}/>
+          <Stat label="Clutch" value={player.stats.clutch}/>
+          <Stat label="Consistency" value={player.stats.consistency}/>
+          <Stat label="Mental" value={player.stats.mental}/>
+        </div>
+
+        <div className="coach-market__report-meta">
+          <span>PROFILE</span>
+          <div><span>Rol</span><strong>{getRoleLabel(player.role)}</strong></div>
+          <div><span>Edad</span><strong>{player.age}</strong></div>
+          <div><span>Potencial</span><strong>{player.potential}</strong></div>
+          <div><span>Contrato</span><strong>{freeAgent?"—":`${player.contractSeasonsRemaining??0} AÑOS`}</strong></div>
         </div>
       </section>
 
-      <section className="coach-market__contract">
-        <div>
-          <span>{offseason?"SALARIO":"SUELDO SOLICITADO"}</span>
-          <strong>${player.salary.toLocaleString("en-US")}</strong>
-          <small>USD / MES</small>
-        </div>
-
-        <div>
-          <span>ROL</span>
-          <strong>{getRoleLabel(player.role)}</strong>
-        </div>
-
-        {offseason&&(
-          <div>
-            <span>CONTRATO</span>
-            <strong>2 AÑOS</strong>
-          </div>
-        )}
+      <section className="coach-market__financial">
+        <span>FINANCIAL</span>
+        <div><span>Valor</span><strong>${player.marketValue.toLocaleString("en-US")}</strong></div>
+        <div><span>Salario</span><strong>${player.salary.toLocaleString("en-US")}</strong></div>
+        <div><span>Valoración club</span><strong>{freeAgent?"FREE":`$${transferFee.toLocaleString("en-US")}`}</strong></div>
+        <div><span>Buyout</span><strong>{freeAgent?"—":`$${buyout.toLocaleString("en-US")}`}</strong></div>
       </section>
 
-      {(!offseason||rosterFull)&&(
-        <label className="coach-market__replace">
-          <span>{offseason?"PLANTILLA COMPLETA · REEMPLAZAR":"REEMPLAZAR JUGADOR"}</span>
+      <section className="coach-market__availability">
+        <span>{marketWindowActive?"NEGOCIACIÓN":"SCOUTING"}</span>
+        <strong>{!marketWindowActive?"VENTANA CERRADA":!sellerCanSell?"NO DISPONIBLE":freeAgent?"DISPUESTO A NEGOCIAR":"CLUB DISPUESTO A ESCUCHAR"}</strong>
+        <small>{!marketWindowActive?"Puedes seguir evaluando al jugador para futuras ventanas.":!sellerCanSell?"El club no puede vender porque quedaría sin plantilla suficiente.":career.team.roster.length>=MAX_ROSTER_SIZE?"Si cierras el acuerdo deberás liberar un jugador de tu plantilla.":"Tienes espacio disponible en la plantilla."}</small>
+      </section>
 
-          <select value={replacePlayerId} onChange={e=>onReplaceChange(e.target.value)}>
-            <option value="">Selecciona jugador del roster</option>
-
-            {career.team.roster.map(current=>(
-              <option key={current.id} value={current.id}>
-                {current.ign} · {getRoleLabel(current.role)} · ${current.salary.toLocaleString("en-US")}
-              </option>
-            ))}
-          </select>
-        </label>
-      )}
-
-      {offseason&&!rosterFull&&(
-        <div className="coach-market__open-slot">
-          <span>PLANTILLA</span>
-          <strong>SLOT DISPONIBLE</strong>
-          <small>{career.team.roster.length}/{MAX_ROSTER_SIZE} jugadores</small>
-        </div>
-      )}
-
-      {(replacePlayer||offseason)&&(
-        <section className={`coach-market__projection${canAfford?"":" coach-market__projection--error"}`}>
-          <div>
-            <span>NÓMINA PROYECTADA</span>
-            <strong>${projectedPayroll.toLocaleString("en-US")}</strong>
-            <small>USD / MES</small>
-          </div>
-
-          <div>
-            <span>ESTADO</span>
-            <strong>
-              {canAfford
-                ?"DENTRO DEL PRESUPUESTO"
-                :rosterFull&&!replacePlayer
-                  ?"SELECCIONA UN REEMPLAZO"
-                  :"PRESUPUESTO SUPERADO"}
-            </strong>
-          </div>
-        </section>
-      )}
-
-      <button className="coach-market__sign" disabled={!canAfford} onClick={onSign}>
-        <span>
-          <small>{offseason?"CONTRATO · 2 AÑOS":"CONFIRMAR TRANSFERENCIA"}</small>
-          {offseason?"FICHAR AGENTE LIBRE":"FICHAR JUGADOR"}
-        </span>
-
+      <button className="coach-market__sign" disabled={!marketWindowActive||!sellerCanSell} onClick={onNegotiate}>
+        <span><small>{freeAgent?"CONTRATO":"TRANSFERENCIA"}</small>{!marketWindowActive?"MERCADO CERRADO":!sellerCanSell?"NO DISPONIBLE":freeAgent?"NEGOCIAR CONTRATO":midseason?"NEGOCIAR MID-SEASON":"INICIAR NEGOCIACIÓN"}</span>
         <b>→</b>
       </button>
     </>
   );
 }
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function signOffseasonPlayer(career:CoachCareerState,player:CoachPlayer,replacePlayerId?:string):CoachCareerState|null {
-  const offseason=career.offseason;
-  if(!offseason||offseason.phase!=="Market"||offseason.completed)return null;
-
-  const replacePlayer=replacePlayerId
-    ?career.team.roster.find(current=>current.id===replacePlayerId)
-    :undefined;
-
-  if(career.team.roster.length>=MAX_ROSTER_SIZE&&!replacePlayer)return null;
-
-  const projectedPayroll=
-    career.team.finances.currentMonthlyPayroll
-    -(replacePlayer?.salary??0)
-    +player.salary;
-
-  if(projectedPayroll>career.team.finances.monthlyBudget)return null;
-
-  const signedPlayer:CoachPlayer={
-    ...player,
-    teamId:career.team.teamId,
-    starter:career.team.roster.length<MAX_ROSTER_SIZE?true:player.starter,
-    contractSeasonsRemaining:2,
-  };
-
-  const roster=[
-    ...career.team.roster.filter(current=>current.id!==replacePlayerId),
-    signedPlayer,
-  ];
-
-  const playerPool=career.playerPool.map(current=>{
-    if(current.id===player.id)return signedPlayer;
-
-    if(replacePlayer&&current.id===replacePlayer.id){
-      return {
-        ...current,
-        teamId:"free-agent",
-        starter:false,
-        contractSeasonsRemaining:0,
-      };
-    }
-
-    return current;
-  });
-
-  return {
-    ...career,
-    team:{
-      ...career.team,
-      roster,
-      finances:{
-        ...career.team.finances,
-        currentMonthlyPayroll:projectedPayroll,
-      },
-    },
-    playerPool,
-    offseason:{
-      ...offseason,
-      departures:replacePlayer
-        ?[
-            ...offseason.departures,
-            {
-              playerId:replacePlayer.id,
-              playerName:replacePlayer.ign,
-              previousTeamId:career.team.teamId,
-              reason:"Released",
-            },
-          ]
-        :offseason.departures,
-      transfers:[
-        ...offseason.transfers,
-        {
-          playerId:player.id,
-          playerName:player.ign,
-          fromTeamId:"free-agent",
-          toTeamId:career.team.teamId,
-          salary:player.salary,
-        },
-      ],
-      freeAgentIds:[
-        ...offseason.freeAgentIds.filter(id=>id!==player.id),
-        ...(replacePlayer?[replacePlayer.id]:[]),
-      ],
-    },
-  };
-}
-
 function getRenewalSalary(currentSalary:number,seasons:number) {
-  const multiplier=seasons===1?1.05:seasons===2?1.1:1.15;
+  const multiplier=seasons===1?1.05:seasons===2?1.10:1.15;
   return Math.round(currentSalary*multiplier/100)*100;
 }
 
 function Stat({label,value}:{label:string;value:number}) {
   return (
     <div className="coach-market__stat">
-      <div>
-        <span>{label}</span>
-        <strong className={getStatClass(value)}>{value}</strong>
-      </div>
-
-      <div className="coach-market__stat-bar">
-        <span style={{width:`${value}%`}}/>
-      </div>
+      <div><span>{label}</span><strong className={getStatClass(value)}>{value}</strong></div>
+      <div className="coach-market__stat-bar"><span style={{width:`${value}%`}}/></div>
     </div>
   );
 }
@@ -727,4 +459,12 @@ function getStatClass(value:number) {
   if(value>=85)return "coach-market__stat-value--high";
   if(value<70)return "coach-market__stat-value--low";
   return "";
+}
+
+function normalizeMarketPlayer(player:CoachPlayer):CoachPlayer {
+  const marketValue=Number.isFinite(player.marketValue)&&player.marketValue>0
+    ?player.marketValue
+    :getCoachPlayerMarketValue({...player,marketValue:0});
+
+  return {...player,marketValue};
 }

@@ -45,7 +45,20 @@ export type CoachChampionsQualificationMethod="Stage 2"|"Championship Points";
 /* =========================
    STAGE 1 / STAGE 2
 ========================= */
-
+export interface CoachTransferRequest {
+  playerId:string;
+  playerName:string;
+  teamId:string;
+  reason:"Not Starting"|"Seeking Stronger Team"|"Contract Situation"|"Career Ambition";
+}
+export interface CoachMidseasonMarketState {
+  season:number;
+  phase:"Market"|"Complete";
+  transfers:CoachOffseasonTransfer[];
+  transferRequests:CoachTransferRequest[];
+  freeAgentIds:string[];
+  completed:boolean;
+}
 export interface CoachStageStanding {
   teamId:string;
   group:CoachStageGroup;
@@ -341,6 +354,9 @@ export interface CoachPlayer {
   age:number;
   starter:boolean;
   contractSeasonsRemaining?:number;
+  potential:number;
+  peakAge:number;
+  marketValue:number;
 }
 
 export interface CoachTeamFinances {
@@ -366,7 +382,7 @@ export interface CoachOffseasonDeparture {
   playerId:string;
   playerName:string;
   previousTeamId:string;
-  reason:"Contract Expired"|"Released"|"Transfer";
+  reason:"Contract Expired"|"Released"|"Transfer"|"Retired";
 }
 
 export interface CoachOffseasonRenewal {
@@ -382,6 +398,7 @@ export interface CoachOffseasonTransfer {
   fromTeamId:string;
   toTeamId:string;
   salary:number;
+  transferFee:number;
 }
 
 export interface CoachOffseasonState {
@@ -390,6 +407,7 @@ export interface CoachOffseasonState {
   departures:CoachOffseasonDeparture[];
   renewals:CoachOffseasonRenewal[];
   transfers:CoachOffseasonTransfer[];
+  transferRequests:CoachTransferRequest[];
   freeAgentIds:string[];
   completed:boolean;
 }
@@ -402,6 +420,8 @@ export interface CoachCareerState {
   coach:CoachProfile;
   team:CoachTeamState;
   playerPool:CoachPlayer[];
+  cpuFinancesByTeam:Record<string,CoachTeamFinances>;
   seasonState:CoachVCTSeasonState|null;
   offseason?:CoachOffseasonState|null;
+  midseasonMarket?:CoachMidseasonMarketState|null;
 }

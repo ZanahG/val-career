@@ -20,6 +20,8 @@ export type GameScreen =
   | "coachMapVeto"
   | "coachSeason"
   | "coachEventRecap"
-  |"coachOffseasonRecap";
+  | "coachOffseasonRecap"
+  | "coachMidseasonRecap"
+  |"coachTransferNegotiation";
 export type ProfileReturnScreen = "career"|"season"|"vct"|"recap"|"vctRecap";
 export type MarketWindow = "midseason"|"offseason"|null;

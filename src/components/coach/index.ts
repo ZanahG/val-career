@@ -8,3 +8,5 @@ export {CoachTactics} from "./CoachTactics";
 export {CoachTeamSelect} from "./CoachTeamSelect";
 export {CoachEventRecap} from "./CoachEventRecap";
 export {CoachOffseasonRecap} from "./CoachOffseasonRecap";
+export {CoachMidseasonRecap} from "./CoachMidseasonRecap";
+export {CoachTransferNegotiation} from "./CoachTransferNegotiation";

@@ -1,6 +1,6 @@
 import {useEffect,useState} from "react";
 import {CareerDashboard,CareerProfile,CreatePlayer} from "./components/career";
-import {CoachDashboard,CoachEventRecap,CoachMapPool,CoachMapVeto,CoachMarket,CoachOffseasonRecap,CoachRoster,CoachSeason,CoachTactics,CoachTeamSelect} from "./components/coach";
+import {CoachDashboard,CoachEventRecap,CoachMapPool,CoachMapVeto,CoachMarket,CoachMidseasonRecap,CoachOffseasonRecap,CoachRoster,CoachSeason,CoachTactics,CoachTeamSelect,CoachTransferNegotiation} from "./components/coach";
 import {MarketWindowScreen,OfferScreen} from "./components/market";
 import {MatchStatsModal} from "./components/match";
 import {MinigameRenderer} from "./components/minigames";
@@ -26,7 +26,7 @@ import {advanceCoachVCTPhase,createCoachVCTSeason,getNextCoachOpponent,resolveCo
 import {playPlayerKickoffMatchWithScore} from "./logic/kickoffBracket";
 import {playPlayerMastersMatchWithScore} from "./logic/mastersBracket";
 import {playPlayerChampionsMatchWithScore} from "./logic/championsBracket";
-import {beginCoachOffseason,finishCoachSeason,startNextCoachSeason} from "./logic/coachCareerProgression";
+import {beginCoachMidseasonMarket,beginCoachOffseason,clearCoachMidseasonMarket,completeCoachMidseasonMarket,finishCoachSeason,startNextCoachSeason} from "./logic/coachCareerProgression";
 import {createMatchBoxScore} from "./logic/matchBoxScore";
 import {restoreCareerSave} from "./logic/restoreCareerSave";
 import {createSeason,getSortedStandings,playNextMatch} from "./logic/season";
@@ -61,6 +61,7 @@ export default function App() {
   const [coachCareer,setCoachCareer]=useState<CoachCareerState|null>(null);
   const [coachOpponentTeamId,setCoachOpponentTeamId]=useState<string|null>(null);
   const [coachMatchBoxScore,setCoachMatchBoxScore]=useState<MatchBoxScore|null>(null);
+  const [coachNegotiationPlayerId,setCoachNegotiationPlayerId]=useState<string|null>(null);
 
   const {activeMinigame,resetMinigameState,skipMinigame,completeMinigame,queueMinigameAfterMatch,openQueuedMinigame}=useVCTMinigames();
   const {saveAvailable,clearCareerSave}=useCareerSave({player,screen,currentEventId,season,vctSeason,marketWindow,marketOffers,renewalOffer,vctRosters});
@@ -113,6 +114,7 @@ export default function App() {
     setCoachCareer(current=>current?startNextCoachSeason(current):current);
     setCoachOpponentTeamId(null);
     setCoachMatchBoxScore(null);
+    setCoachNegotiationPlayerId(null);
     setScreen("coachDashboard");
   };
 
@@ -126,13 +128,88 @@ export default function App() {
     setScreen("coachMapVeto");
   };
 
-  const enterCoachOffseason=()=>{
-  if(!coachCareer)return;
+  const openCoachTransferNegotiation=(playerId:string)=>{
+    if(!coachCareer)return;
 
-  setCoachCareer(current=>current?beginCoachOffseason(current):current);
+    const target=coachCareer.playerPool.find(player=>player.id===playerId);
+    if(!target)return;
+
+    setCoachNegotiationPlayerId(playerId);
+    setScreen("coachTransferNegotiation");
+  };
+
+  const closeCoachTransferNegotiation=()=>{
+    setCoachNegotiationPlayerId(null);
+    setScreen("coachMarket");
+  };
+
+  const completeCoachTransferNegotiation=()=>{
+    setCoachNegotiationPlayerId(null);
+    setScreen("coachMarket");
+  };
+
+  const enterCoachOffseason=()=>{
+    if(!coachCareer)return;
+
+    setCoachCareer(current=>current?beginCoachOffseason(current):current);
     setCoachOpponentTeamId(null);
     setCoachMatchBoxScore(null);
+    setCoachNegotiationPlayerId(null);
     setScreen("coachMarket");
+  };
+
+  const continueAfterCoachEvent=()=>{
+    if(!coachCareer)return;
+
+    if(coachCareer.midseasonMarket&&!coachCareer.midseasonMarket.completed){
+      setCoachNegotiationPlayerId(null);
+      setScreen("coachMarket");
+      return;
+    }
+
+    setScreen("coachSeason");
+  };
+
+  const handleCoachMarketComplete=()=>{
+    if(!coachCareer)return;
+
+    setCoachNegotiationPlayerId(null);
+
+    if(coachCareer.midseasonMarket&&!coachCareer.midseasonMarket.completed){
+      setCoachCareer(current=>current?completeCoachMidseasonMarket(current):current);
+      setCoachOpponentTeamId(null);
+      setCoachMatchBoxScore(null);
+      setScreen("coachMidseasonRecap");
+      return;
+    }
+
+    setScreen("coachOffseasonRecap");
+  };
+
+  const continueAfterCoachMidseasonRecap=()=>{
+    setCoachCareer(current=>current?clearCoachMidseasonMarket(current):current);
+    setCoachOpponentTeamId(null);
+    setCoachMatchBoxScore(null);
+    setCoachNegotiationPlayerId(null);
+    setScreen("coachSeason");
+  };
+
+  const handleCoachMarketBack=()=>{
+    if(!coachCareer)return;
+
+    setCoachNegotiationPlayerId(null);
+
+    if(coachCareer.midseasonMarket&&!coachCareer.midseasonMarket.completed){
+      setScreen("coachEventRecap");
+      return;
+    }
+
+    if(coachCareer.offseason){
+      setScreen("coachSeason");
+      return;
+    }
+
+    setScreen("coachDashboard");
   };
 
   const advanceCoachSeasonPhase=()=>{
@@ -161,57 +238,27 @@ export default function App() {
     let champions=coachCareer.seasonState.champions;
 
     if(phase==="Kickoff"&&kickoffBracket){
-      kickoffBracket=playPlayerKickoffMatchWithScore(
-        kickoffBracket,
-        simulation.result.won,
-        simulation.result.mapsWon,
-        simulation.result.mapsLost,
-      );
+      kickoffBracket=playPlayerKickoffMatchWithScore(kickoffBracket,simulation.result.won,simulation.result.mapsWon,simulation.result.mapsLost);
     }
 
     if(phase==="Masters 1"&&masters1){
-      masters1=playPlayerMastersMatchWithScore(
-        masters1,
-        simulation.result.won,
-        simulation.result.mapsWon,
-        simulation.result.mapsLost,
-      );
+      masters1=playPlayerMastersMatchWithScore(masters1,simulation.result.won,simulation.result.mapsWon,simulation.result.mapsLost);
     }
 
     if((phase==="Stage 1"||phase==="Stage 1 Playoffs")&&stage1){
-      stage1=playPlayerStageMatchWithScore(
-        stage1,
-        simulation.result.won,
-        simulation.result.mapsWon,
-        simulation.result.mapsLost,
-      );
+      stage1=playPlayerStageMatchWithScore(stage1,simulation.result.won,simulation.result.mapsWon,simulation.result.mapsLost);
     }
 
     if(phase==="Masters 2"&&masters2){
-      masters2=playPlayerMastersMatchWithScore(
-        masters2,
-        simulation.result.won,
-        simulation.result.mapsWon,
-        simulation.result.mapsLost,
-      );
+      masters2=playPlayerMastersMatchWithScore(masters2,simulation.result.won,simulation.result.mapsWon,simulation.result.mapsLost);
     }
 
     if((phase==="Stage 2"||phase==="Stage 2 Playoffs")&&stage2){
-      stage2=playPlayerStageMatchWithScore(
-        stage2,
-        simulation.result.won,
-        simulation.result.mapsWon,
-        simulation.result.mapsLost,
-      );
+      stage2=playPlayerStageMatchWithScore(stage2,simulation.result.won,simulation.result.mapsWon,simulation.result.mapsLost);
     }
 
     if(phase==="Champions"&&champions){
-      champions=playPlayerChampionsMatchWithScore(
-        champions,
-        simulation.result.won,
-        simulation.result.mapsWon,
-        simulation.result.mapsLost,
-      );
+      champions=playPlayerChampionsMatchWithScore(champions,simulation.result.won,simulation.result.mapsWon,simulation.result.mapsLost);
     }
 
     let updatedCareer:CoachCareerState={
@@ -255,6 +302,13 @@ export default function App() {
     if(phase==="Stage 1"||phase==="Stage 1 Playoffs"){
       updatedCareer=syncCoachStage1Phase(updatedCareer);
       updatedCareer=resolveCoachStage1(updatedCareer);
+
+      const stage1PlayoffsComplete=
+        updatedCareer.seasonState?.events["Stage 1 Playoffs"].status==="Complete";
+
+      if(stage1PlayoffsComplete&&!updatedCareer.midseasonMarket){
+        updatedCareer=beginCoachMidseasonMarket(updatedCareer);
+      }
     }
 
     if(phase==="Masters 2"){
@@ -281,6 +335,7 @@ export default function App() {
     setCoachCareer(updatedCareer);
     setCoachMatchBoxScore(simulation.boxScore);
     setCoachOpponentTeamId(null);
+    setCoachNegotiationPlayerId(null);
     setScreen(eventFinished?"coachEventRecap":"coachSeason");
   };
 
@@ -893,18 +948,25 @@ export default function App() {
   };
 
   const openCoachMode=()=>{
+    setCoachNegotiationPlayerId(null);
     setScreen("coachSelect");
   };
 
   const continueCoachCareer=()=>{
     const save=loadCoachCareer();
-
     if(!save)return;
 
     setCoachCareer(save.career);
     setCoachOpponentTeamId(null);
     setCoachMatchBoxScore(null);
-    setScreen(save.screen);
+    setCoachNegotiationPlayerId(null);
+
+    const restoredScreen=
+      save.screen==="coachTransferNegotiation"
+        ?"coachMarket"
+        :save.screen;
+
+    setScreen(restoredScreen);
   };
 
   const handleCreateCoachCareer=(career:CoachCareerState)=>{
@@ -913,23 +975,20 @@ export default function App() {
     setCoachCareer(career);
     setCoachOpponentTeamId(null);
     setCoachMatchBoxScore(null);
+    setCoachNegotiationPlayerId(null);
     setScreen("coachDashboard");
   };
 
   const returnToMainMenu=()=>{
     setCoachOpponentTeamId(null);
     setCoachMatchBoxScore(null);
+    setCoachNegotiationPlayerId(null);
     setScreen("menu");
   };
 
   const renderScreen=()=>{
     if(screen==="menu"){
-      return <GameModeSelect
-        onPlayerCareer={startPlayerCareer}
-        onCoachCareer={openCoachMode}
-        onContinueCoachCareer={continueCoachCareer}
-        hasCoachSave={coachSaveAvailable}
-      />;
+      return <GameModeSelect onPlayerCareer={startPlayerCareer} onCoachCareer={openCoachMode} onContinueCoachCareer={continueCoachCareer} hasCoachSave={coachSaveAvailable}/>;
     }
 
     if(screen==="coachSelect"){
@@ -960,49 +1019,55 @@ export default function App() {
         <CoachMarket
           career={coachCareer}
           onUpdateCareer={setCoachCareer}
-          onBack={()=>setScreen(coachCareer.offseason?"coachSeason":"coachDashboard")}
-          onOffseasonComplete={()=>setScreen("coachOffseasonRecap")}
+          onBack={handleCoachMarketBack}
+          onOffseasonComplete={handleCoachMarketComplete}
+          onNegotiatePlayer={openCoachTransferNegotiation}
+        />
+      );
+    }
+
+    if(screen==="coachTransferNegotiation"&&coachCareer){
+      if(!coachNegotiationPlayerId){
+        return (
+          <CoachMarket
+            career={coachCareer}
+            onUpdateCareer={setCoachCareer}
+            onBack={handleCoachMarketBack}
+            onOffseasonComplete={handleCoachMarketComplete}
+            onNegotiatePlayer={openCoachTransferNegotiation}
+          />
+        );
+      }
+
+      return (
+        <CoachTransferNegotiation
+          career={coachCareer}
+          playerId={coachNegotiationPlayerId}
+          onUpdateCareer={setCoachCareer}
+          onCancel={closeCoachTransferNegotiation}
+          onComplete={completeCoachTransferNegotiation}
         />
       );
     }
 
     if(screen==="coachOffseasonRecap"&&coachCareer){
-      return (
-        <CoachOffseasonRecap
-          career={coachCareer}
-          onContinue={()=>setScreen("coachSeason")}
-        />
-      );
+      return <CoachOffseasonRecap career={coachCareer} onContinue={()=>setScreen("coachSeason")}/>;
+    }
+
+    if(screen==="coachMidseasonRecap"&&coachCareer){
+      return <CoachMidseasonRecap career={coachCareer} onContinue={continueAfterCoachMidseasonRecap}/>;
     }
 
     if(screen==="coachTactics"&&coachCareer){
-      return (
-        <CoachTactics
-          career={coachCareer}
-          onUpdateCareer={setCoachCareer}
-          onBack={()=>setScreen("coachDashboard")}
-        />
-      );
+      return <CoachTactics career={coachCareer} onUpdateCareer={setCoachCareer} onBack={()=>setScreen("coachDashboard")}/>;
     }
 
     if(screen==="coachMapPool"&&coachCareer){
-      return (
-        <CoachMapPool
-          career={coachCareer}
-          onUpdateCareer={setCoachCareer}
-          onBack={()=>setScreen("coachDashboard")}
-          onOpenVeto={()=>setScreen("coachSeason")}
-        />
-      );
+      return <CoachMapPool career={coachCareer} onUpdateCareer={setCoachCareer} onBack={()=>setScreen("coachDashboard")} onOpenVeto={()=>setScreen("coachSeason")}/>;
     }
 
     if(screen==="coachEventRecap"&&coachCareer){
-      return (
-        <CoachEventRecap
-          career={coachCareer}
-          onContinue={()=>setScreen("coachSeason")}
-        />
-      );
+      return <CoachEventRecap career={coachCareer} onContinue={continueAfterCoachEvent}/>;
     }
 
     if(screen==="coachSeason"&&coachCareer){

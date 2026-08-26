@@ -2,14 +2,18 @@
   --bg-1:#07111f;
   --bg-2:#0b1830;
   --bg-3:#10152d;
-  --card:rgba(18,27,46,.52);
-  --card-strong:rgba(18,27,46,.72);
-  --card-hover:rgba(25,40,72,.74);
-  --line:rgba(255,255,255,.10);
-  --line-soft:rgba(255,255,255,.06);
+
+  --card:rgba(17,29,48,.82);
+  --card-strong:rgba(20,34,57,.92);
+  --card-hover:rgba(27,48,78,.96);
+
+  --line:rgba(132,175,215,.22);
+  --line-soft:rgba(132,175,215,.12);
+
   --text:#f5f8ff;
   --muted:#a7b7d6;
   --muted-2:#6f85ac;
+
   --blue:#4aa3ff;
   --blue-2:#78c3ff;
   --blue-glow:rgba(74,163,255,.28);
@@ -54,10 +58,14 @@
 
 .coach-card {
   border:1px solid var(--line);
-  background:var(--card);
+  background:
+    linear-gradient(135deg,rgba(31,53,82,.18),transparent 55%),
+    var(--card);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
-  box-shadow:0 8px 24px rgba(0,0,0,.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    0 10px 26px rgba(0,0,0,.22);
 }
 
 .coach-card--interactive {
@@ -66,9 +74,14 @@
 
 .coach-card--interactive:hover {
   transform:translateY(-2px);
-  border-color:rgba(74,163,255,.44);
-  background:var(--card-hover);
-  box-shadow:0 0 0 1px rgba(74,163,255,.12),0 14px 28px rgba(0,0,0,.22);
+  border-color:rgba(88,180,245,.52);
+  background:
+    linear-gradient(135deg,rgba(74,163,255,.14),transparent 55%),
+    var(--card-hover);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 0 0 1px rgba(74,163,255,.08),
+    0 14px 30px rgba(0,0,0,.30);
 }
 
 .coach-dashboard__topbar {
@@ -90,9 +103,6 @@
   height:52px;
   display:grid;
   place-items:center;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.03);
-  backdrop-filter:blur(8px);
 }
 
 .coach-dashboard__club-mark img {
@@ -146,7 +156,7 @@
   flex-direction:column;
   justify-content:center;
   border:1px solid var(--line);
-  background:rgba(255,255,255,.03);
+  background:rgba(18,29,47,.82);
   text-align:right;
   backdrop-filter:blur(10px);
 }
@@ -169,7 +179,7 @@
   min-height:46px;
   padding:0 14px;
   border:1px solid var(--line);
-  background:rgba(255,255,255,.03);
+  background:rgba(18,29,47,.82);
   color:#fff;
   font-size:10px;
   font-weight:900;
@@ -179,8 +189,8 @@
 }
 
 .coach-dashboard__exit:hover {
-  border-color:rgba(74,163,255,.36);
-  background:rgba(74,163,255,.10);
+  border-color:rgba(74,163,255,.48);
+  background:rgba(35,57,86,.92);
 }
 
 .coach-dashboard__hero {
@@ -196,6 +206,9 @@
   display:flex;
   flex-direction:column;
   justify-content:space-between;
+  background:
+    linear-gradient(135deg,rgba(49,80,116,.16),transparent 60%),
+    var(--card-strong);
 }
 
 .coach-dashboard__eyebrow {
@@ -252,6 +265,9 @@
   text-align:left;
   color:#fff;
   cursor:pointer;
+  background:
+    linear-gradient(135deg,rgba(40,67,103,.16),transparent 55%),
+    var(--card-strong);
 }
 
 .coach-dashboard__season-card-head {
@@ -367,18 +383,22 @@
 .coach-dashboard__menu-tile {
   position:relative;
   min-height:138px;
-  padding:14px;
+  padding:16px;
   text-align:left;
   color:#fff;
   cursor:pointer;
   overflow:hidden;
+  border-color:rgba(132,175,215,.20);
+  background:
+    linear-gradient(145deg,rgba(35,58,88,.18),transparent 60%),
+    rgba(16,28,46,.88);
 }
 
 .coach-dashboard__menu-tile::before {
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(135deg,rgba(74,163,255,0),rgba(74,163,255,.04));
+  background:linear-gradient(135deg,rgba(74,163,255,0),rgba(74,163,255,.08));
   opacity:0;
   transition:opacity .18s ease;
 }
@@ -404,23 +424,41 @@
   background:linear-gradient(90deg,var(--blue),var(--blue-2));
 }
 
+.coach-dashboard__menu-tile:hover {
+  border-color:rgba(74,163,255,.55);
+  background:
+    linear-gradient(145deg,rgba(74,163,255,.15),transparent 55%),
+    rgba(21,39,63,.96);
+}
+
 .coach-dashboard__menu-tile--active {
-  border-color:rgba(74,163,255,.42);
-  background:linear-gradient(135deg,rgba(21,37,67,.68),rgba(25,54,97,.48));
-  box-shadow:0 0 0 1px rgba(74,163,255,.10),0 12px 24px rgba(0,0,0,.18);
+  border-color:rgba(80,214,170,.38);
+  background:
+    linear-gradient(135deg,rgba(80,214,170,.10),transparent 45%),
+    rgba(20,35,56,.96);
+  box-shadow:
+    0 0 0 1px rgba(80,214,170,.08),
+    0 12px 24px rgba(0,0,0,.22);
 }
 
 .coach-dashboard__menu-icon {
-  width:32px;
-  height:32px;
+  width:34px;
+  height:34px;
   display:grid;
   place-items:center;
-  margin-bottom:24px;
-  border:1px solid var(--line-soft);
-  background:rgba(255,255,255,.04);
+  margin-bottom:20px;
+  border:1px solid rgba(120,175,215,.30);
+  background:rgba(24,44,65,.92);
   color:#d7ebff;
   font-size:15px;
   font-weight:900;
+  box-shadow:inset 0 1px rgba(255,255,255,.03);
+}
+
+.coach-dashboard__menu-tile--active .coach-dashboard__menu-icon {
+  border-color:rgba(80,214,170,.35);
+  color:#50d6aa;
+  background:rgba(29,59,60,.72);
 }
 
 .coach-dashboard__menu-tile > span,
@@ -450,7 +488,7 @@
 
 .coach-dashboard__menu-tile p {
   margin:6px 20px 0 0;
-  color:var(--muted);
+  color:#a9bad0;
   font-size:10px;
   line-height:1.35;
 }
@@ -459,6 +497,7 @@
   position:absolute;
   right:12px;
   bottom:10px;
+  color:#dceaff;
   font-size:16px;
 }
 
@@ -471,6 +510,9 @@
 .coach-dashboard__finance-card,
 .coach-dashboard__identity-card {
   padding:16px;
+  background:
+    linear-gradient(135deg,rgba(35,58,88,.15),transparent 60%),
+    var(--card-strong);
 }
 
 .coach-dashboard__section-head {
@@ -531,9 +573,9 @@
 
 .coach-dashboard__finance-progress {
   height:6px;
-  margin:14px 0 14px;
+  margin:14px 0;
   overflow:hidden;
-  background:rgba(255,255,255,.07);
+  background:rgba(255,255,255,.08);
 }
 
 .coach-dashboard__finance-progress div {
@@ -550,8 +592,8 @@
 
 .coach-dashboard__finance-item {
   padding:11px 12px;
-  border:1px solid var(--line-soft);
-  background:rgba(255,255,255,.02);
+  border:1px solid rgba(132,175,215,.16);
+  background:rgba(20,35,55,.72);
 }
 
 .coach-dashboard__finance-item span {
@@ -607,8 +649,8 @@
 .coach-dashboard__style-selector button {
   min-height:32px;
   padding:0 12px;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.03);
+  border:1px solid rgba(132,175,215,.18);
+  background:rgba(20,35,55,.72);
   color:var(--muted);
   font-size:9px;
   font-weight:900;
@@ -619,23 +661,23 @@
 
 .coach-dashboard__style-selector button:hover {
   color:#fff;
-  border-color:rgba(74,163,255,.42);
-  background:rgba(74,163,255,.08);
+  border-color:rgba(74,163,255,.48);
+  background:rgba(40,72,105,.82);
 }
 
 .coach-dashboard__style-selector button.active {
-  border-color:rgba(74,163,255,.52);
-  background:linear-gradient(135deg,rgba(74,163,255,.18),rgba(120,195,255,.12));
+  border-color:rgba(74,163,255,.60);
+  background:linear-gradient(135deg,rgba(74,163,255,.24),rgba(120,195,255,.14));
   color:#fff;
-  box-shadow:0 0 0 1px rgba(74,163,255,.12);
+  box-shadow:0 0 0 1px rgba(74,163,255,.10);
 }
 
 .coach-dashboard__tactics-link {
   margin-top:14px;
   min-height:38px;
   padding:0 14px;
-  border:1px solid rgba(74,163,255,.34);
-  background:linear-gradient(135deg,rgba(74,163,255,.22),rgba(120,195,255,.10));
+  border:1px solid rgba(74,163,255,.42);
+  background:linear-gradient(135deg,rgba(74,163,255,.24),rgba(120,195,255,.12));
   color:#fff;
   font-size:10px;
   font-weight:900;
@@ -644,11 +686,56 @@
 }
 
 .coach-dashboard__tactics-link:hover {
-  background:linear-gradient(135deg,rgba(74,163,255,.30),rgba(120,195,255,.16));
+  background:linear-gradient(135deg,rgba(74,163,255,.34),rgba(120,195,255,.18));
 }
 
 .coach-dashboard__tactics-link span {
   margin-left:10px;
+}
+
+.coach-dashboard__season-card--complete {
+  border-color:rgba(80,214,170,.32);
+  background:
+    radial-gradient(circle at 82% 18%,rgba(80,214,170,.14),transparent 34%),
+    rgba(17,34,48,.92);
+}
+
+.coach-dashboard__season-card--complete .coach-dashboard__season-card-head > div > span {
+  color:#50d6aa;
+}
+
+.coach-dashboard__season-summary {
+  width:100%;
+  margin-top:auto;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.coach-dashboard__season-summary > div {
+  min-width:0;
+  padding:14px 10px 4px;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+
+.coach-dashboard__season-summary > div:last-child {
+  border-right:0;
+}
+
+.coach-dashboard__season-summary span {
+  color:#7180a7;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.09em;
+}
+
+.coach-dashboard__season-summary strong {
+  color:#f5f8ff;
+  font-size:18px;
+  font-weight:900;
 }
 
 @media (max-width:1100px) {
@@ -676,6 +763,24 @@
 
   .coach-dashboard__finance-grid {
     grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:600px) {
+  .coach-dashboard__season-summary {
+    grid-template-columns:1fr;
+  }
+
+  .coach-dashboard__season-summary > div {
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+
+  .coach-dashboard__season-summary > div:last-child {
+    border-bottom:0;
   }
 }
 
@@ -718,77 +823,46 @@
     font-size:16px;
   }
 }
-
-.coach-dashboard__season-card--complete {
-  border-color:rgba(80,214,170,.26);
-  background:
-    radial-gradient(circle at 82% 18%,rgba(80,214,170,.11),transparent 34%),
-    rgba(17,27,48,.58);
+.coach-card {
+  border:1px solid #2a4058;
+  background:#101a28;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  box-shadow:0 10px 26px rgba(0,0,0,.28);
 }
 
-.coach-dashboard__season-card--complete .coach-dashboard__season-card-head > div > span {
-  color:#50d6aa;
+.coach-dashboard__hero-main,
+.coach-dashboard__season-card,
+.coach-dashboard__finance-card,
+.coach-dashboard__identity-card {
+  background:#101a28;
+  border-color:#2a4058;
 }
 
-.coach-dashboard__season-summary {
-  width:100%;
-  margin-top:auto;
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  border-top:1px solid rgba(255,255,255,.07);
+.coach-dashboard__menu-tile {
+  position:relative;
+  min-height:138px;
+  padding:16px;
+  text-align:left;
+  color:#fff;
+  cursor:pointer;
+  overflow:hidden;
+  border:1px solid #2a4058;
+  background:#101a28;
+  box-shadow:0 8px 20px rgba(0,0,0,.24);
 }
 
-.coach-dashboard__season-summary > div {
-  min-width:0;
-  padding:14px 10px 4px;
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-  border-right:1px solid rgba(255,255,255,.06);
-}
-
-.coach-dashboard__season-summary > div:last-child {
-  border-right:0;
-}
-
-.coach-dashboard__season-summary span {
-  color:#7180a7;
-  font-size:7px;
-  font-weight:900;
-  letter-spacing:.09em;
-}
-
-.coach-dashboard__season-summary strong {
-  color:#f5f8ff;
-  font-size:18px;
-  font-weight:900;
+.coach-dashboard__menu-tile:hover {
+  border-color:#4aa3ff;
+  background:#16283a;
 }
 
 .coach-dashboard__menu-tile--active {
-  border-color:rgba(80,214,170,.32);
-  background:
-    linear-gradient(135deg,rgba(80,214,170,.08),transparent 45%),
-    rgba(17,27,48,.56);
+  border-color:#50d6aa;
+  background:#173034;
 }
 
-.coach-dashboard__menu-tile--active .coach-dashboard__menu-icon {
-  color:#50d6aa;
-}
-
-@media (max-width:600px) {
-  .coach-dashboard__season-summary {
-    grid-template-columns:1fr;
-  }
-
-  .coach-dashboard__season-summary > div {
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
-    border-right:0;
-    border-bottom:1px solid rgba(255,255,255,.06);
-  }
-
-  .coach-dashboard__season-summary > div:last-child {
-    border-bottom:0;
-  }
+.coach-dashboard__menu-icon {
+  border:1px solid #385673;
+  background:#182b3e;
 }
