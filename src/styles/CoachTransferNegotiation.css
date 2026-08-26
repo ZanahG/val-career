@@ -582,6 +582,181 @@
   font-weight:900;
 }
 
+.coach-negotiation__dialogue {
+  position:absolute;
+  z-index:9;
+  left:50%;
+  bottom:270px;
+  width:min(900px,66vw);
+  padding:16px 22px;
+  transform:translateX(-50%);
+  border-radius:5px;
+  background:rgba(19,20,29,.90);
+  backdrop-filter:blur(10px);
+  text-align:center;
+}
+
+.coach-negotiation__dialogue span {
+  display:block;
+  color:#8f929c;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+
+.coach-negotiation__dialogue strong {
+  display:block;
+  margin-top:5px;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.coach-negotiation__action-panel {
+  position:absolute;
+  z-index:10;
+  left:50%;
+  bottom:24px;
+  width:min(1050px,72vw);
+  transform:translateX(-50%);
+  border-radius:7px;
+  background:rgba(20,21,30,.96);
+  backdrop-filter:blur(12px);
+  overflow:hidden;
+  box-shadow:0 18px 55px rgba(0,0,0,.32);
+}
+
+.coach-negotiation__action-panel>header {
+  min-height:52px;
+  padding:0 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+
+.coach-negotiation__action-panel>header span {
+  font-size:13px;
+  font-weight:800;
+}
+
+.coach-negotiation__action-panel>header small {
+  color:#999ba3;
+  font-size:9px;
+}
+
+.coach-negotiation__action-values {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border-bottom:1px solid rgba(255,255,255,.09);
+}
+
+.coach-negotiation__action-values>div {
+  min-height:74px;
+  padding:14px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+
+.coach-negotiation__action-values>div:last-child {
+  border-right:0;
+}
+
+.coach-negotiation__action-values span {
+  display:block;
+  color:#9699a1;
+  font-size:9px;
+}
+
+.coach-negotiation__action-values strong {
+  display:block;
+  margin-top:5px;
+  font-size:16px;
+}
+
+.coach-negotiation__counter {
+  min-height:58px;
+  padding:12px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(200,165,78,.09);
+}
+
+.coach-negotiation__counter span {
+  color:#b9a466;
+  font-size:9px;
+  font-weight:900;
+}
+
+.coach-negotiation__counter strong {
+  font-size:15px;
+}
+
+.coach-negotiation__edit-row {
+  min-height:78px;
+  padding:14px 22px;
+  display:grid;
+  grid-template-columns:130px minmax(180px,1fr) auto;
+  align-items:center;
+  gap:20px;
+}
+
+.coach-negotiation__edit-row>span {
+  color:#babcc3;
+  font-size:11px;
+}
+
+.coach-negotiation__edit-row>strong {
+  font-size:24px;
+}
+
+.coach-negotiation__edit-row>div {
+  display:flex;
+  gap:8px;
+}
+
+.coach-negotiation__edit-row button,
+.coach-negotiation__contract-years button {
+  min-height:38px;
+  padding:0 14px;
+  border:1px solid rgba(255,255,255,.16);
+  background:#292b35;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.coach-negotiation__contract-years {
+  padding:14px 22px;
+  display:flex;
+  gap:8px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.coach-negotiation__action-panel footer {
+  min-height:58px;
+  padding:10px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.coach-negotiation__primary,
+.coach-negotiation__secondary {
+  min-height:40px;
+  padding:0 18px;
+  border:1px solid rgba(255,255,255,.17);
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+}
+
 @media (max-width:1000px) {
   .coach-negotiation__sidebar {
     width:240px;

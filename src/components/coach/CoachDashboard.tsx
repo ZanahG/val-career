@@ -1,6 +1,9 @@
 import type {CoachCareerState,CoachTacticalStyle} from "../../types/coach";
 import {getTeamById} from "../../data/teams";
 import {getNextCoachOpponent} from "../../logic/coachVCTSeason";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {formatCurrency} from "../../utils/currency";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
 import "../../styles/CoachDashboard.css";
 
@@ -18,6 +21,9 @@ interface CoachDashboardProps {
 const TACTICAL_STYLES:CoachTacticalStyle[]=["Balanced","Aggressive","Controlled","Reactive","Anti-Strat"];
 
 export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpenMarket,onOpenTactics,onOpenMapPool,onOpenSeason,onExit}:CoachDashboardProps) {
+  const {language,currency}=useGameSettings();
+  const es=language==="es";
+
   const team=getTeamById(career.team.teamId);
   const logo=getTeamLogo(team?.logo);
   const opponent=getNextCoachOpponent(career);
@@ -46,14 +52,15 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
             <div className="coach-dashboard__club-mark">{logo?<img src={logo} alt={team?.name??""}/>:<span>{team?.shortName??"TCV"}</span>}</div>
             <div>
               <span>COACH CAREER</span>
-              <strong>{team?.name??"Sin equipo"}</strong>
+              <strong>{team?.name??(es?"Sin equipo":"No team")}</strong>
               <small>{team?.circuit} · {team?.marketRegion}</small>
             </div>
           </div>
 
           <div className="coach-dashboard__topbar-actions">
-            <div className="coach-dashboard__season-pill"><span>TEMPORADA</span><strong>{career.coach.season}</strong></div>
-            <button className="coach-dashboard__exit" onClick={onExit}>SALIR</button>
+            <GameSettingsControls/>
+            <div className="coach-dashboard__season-pill"><span>{es?"TEMPORADA":"SEASON"}</span><strong>{career.coach.season}</strong></div>
+            <button className="coach-dashboard__exit" onClick={onExit}>{es?"SALIR":"EXIT"}</button>
           </div>
         </header>
 
@@ -62,21 +69,14 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
             <div className="coach-dashboard__coach-profile">
               <span className="coach-dashboard__eyebrow">HEAD COACH</span>
               <h1>{career.coach.name}</h1>
-              <p>{career.coach.nationality} · {career.coach.age} años</p>
-            </div>
-
-            <div className="coach-dashboard__hero-meta">
-              <DashboardStat label="REPUTACIÓN" value={career.coach.reputation}/>
-              <DashboardStat label="QUÍMICA" value={career.team.chemistry}/>
-              <DashboardStat label="FORMA" value={career.team.form}/>
             </div>
           </section>
 
           <button className={`coach-dashboard__season-card coach-card coach-card--interactive${seasonComplete?" coach-dashboard__season-card--complete":""}`} onClick={onOpenSeason}>
             <div className="coach-dashboard__season-card-head">
               <div>
-                <span>{getSeasonCardEyebrow(seasonStarted,seasonComplete)}</span>
-                <strong>{getSeasonCardTitle(seasonStarted,seasonComplete)}</strong>
+                <span>{getSeasonCardEyebrow(seasonStarted,seasonComplete,language)}</span>
+                <strong>{getSeasonCardTitle(seasonStarted,seasonComplete,language)}</strong>
               </div>
               <b>→</b>
             </div>
@@ -105,67 +105,67 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
 
             {seasonInProgress&&!opponent&&(
               <div className="coach-dashboard__season-empty">
-                <span>{getCurrentCompetition(career)}</span>
+                <span>{getCurrentCompetition(career,language)}</span>
                 <strong>{annualRecord.wins}-{annualRecord.losses}</strong>
-                <small>Temporada en curso</small>
+                <small>{es?"Temporada en curso":"Season in progress"}</small>
               </div>
             )}
 
             {seasonComplete&&(
               <div className="coach-dashboard__season-summary">
-                <div><span>RÉCORD</span><strong>{annualRecord.wins}-{annualRecord.losses}</strong></div>
+                <div><span>{es?"RÉCORD":"RECORD"}</span><strong>{annualRecord.wins}-{annualRecord.losses}</strong></div>
                 <div><span>CHAMP. POINTS</span><strong>{championshipPoints}</strong></div>
-                <div><span>TROFEOS</span><strong>{trophiesThisSeason.length}</strong></div>
+                <div><span>{es?"TROFEOS":"TROPHIES"}</span><strong>{trophiesThisSeason.length}</strong></div>
               </div>
             )}
           </button>
         </section>
 
         <section className="coach-dashboard__menu">
-          <MenuTile index="01" title="PLANTILLA" description="Jugadores, roles y estado del equipo." onClick={onOpenRoster} icon="◎"/>
-          <MenuTile index="02" title="MERCADO" description="Fichajes, scouting y oportunidades." onClick={onOpenMarket} icon="↗"/>
-          <MenuTile index="03" title="GESTIÓN TÁCTICA" description="Plan de juego e identidad del equipo." onClick={onOpenTactics} icon="⌁"/>
-          <MenuTile index="04" title="MAP POOL" description="Fortalezas y debilidades por mapa." onClick={onOpenMapPool} icon="◇"/>
-          <MenuTile index="05" title={seasonComplete?"RESUMEN TEMPORADA":"TEMPORADA"} description={seasonComplete?"Resultados, trofeos y cierre del año competitivo.":"Calendario, clasificación y partidos."} onClick={onOpenSeason} icon="▦" active={seasonComplete}/>
+          <MenuTile index="01" title={es?"PLANTILLA":"ROSTER"} description={es?"Jugadores, roles y estado del equipo.":"Players, roles and team status."} onClick={onOpenRoster} icon="◎"/>
+          <MenuTile index="02" title={es?"MERCADO":"MARKET"} description={es?"Fichajes, scouting y oportunidades.":"Transfers, scouting and opportunities."} onClick={onOpenMarket} icon="↗"/>
+          <MenuTile index="03" title={es?"GESTIÓN TÁCTICA":"TACTICAL MANAGEMENT"} description={es?"Plan de juego e identidad del equipo.":"Game plan and team identity."} onClick={onOpenTactics} icon="⌁"/>
+          <MenuTile index="04" title="MAP POOL" description={es?"Fortalezas y debilidades por mapa.":"Strengths and weaknesses on each map."} onClick={onOpenMapPool} icon="◇"/>
+          <MenuTile index="05" title={seasonComplete?(es?"RESUMEN TEMPORADA":"SEASON SUMMARY"):(es?"TEMPORADA":"SEASON")} description={seasonComplete?(es?"Resultados, trofeos y cierre del año competitivo.":"Results, trophies and competitive year summary."):(es?"Calendario, clasificación y partidos.":"Schedule, standings and matches.")} onClick={onOpenSeason} icon="▦" active={seasonComplete}/>
         </section>
 
         <div className="coach-dashboard__lower-grid">
           <section className="coach-dashboard__finance-card coach-card">
             <header className="coach-dashboard__section-head">
-              <div><span>FINANZAS</span><strong>GESTIÓN DEL CLUB</strong></div>
-              <span>{payrollUsage}% NÓMINA</span>
+              <div><span>{es?"FINANZAS":"FINANCES"}</span><strong>{es?"GESTIÓN DEL CLUB":"CLUB MANAGEMENT"}</strong></div>
+              <span>{payrollUsage}% {es?"NÓMINA":"PAYROLL"}</span>
             </header>
 
             <div className="coach-dashboard__finance-main">
-              <div><span>DISPONIBLE MENSUAL</span><strong>${availableBudget.toLocaleString("en-US")}</strong><small>USD</small></div>
+              <div><span>{es?"DISPONIBLE MENSUAL":"MONTHLY AVAILABLE"}</span><strong>{formatCurrency(availableBudget,currency)}</strong><small>{currency}</small></div>
               <div className="coach-dashboard__finance-progress"><div style={{width:`${payrollUsage}%`}}/></div>
             </div>
 
             <div className="coach-dashboard__finance-grid">
-              <FinanceItem label="PRESUPUESTO" value={`$${finances.monthlyBudget.toLocaleString("en-US")}`}/>
-              <FinanceItem label="NÓMINA" value={`$${finances.currentMonthlyPayroll.toLocaleString("en-US")}`}/>
-              <FinanceItem label="FICHAJES" value={`$${finances.transferBudget.toLocaleString("en-US")}`}/>
+              <FinanceItem label={es?"PRESUPUESTO":"BUDGET"} value={formatCurrency(finances.monthlyBudget,currency)}/>
+              <FinanceItem label={es?"NÓMINA":"PAYROLL"} value={formatCurrency(finances.currentMonthlyPayroll,currency)}/>
+              <FinanceItem label={es?"FICHAJES":"TRANSFERS"} value={formatCurrency(finances.transferBudget,currency)}/>
             </div>
           </section>
 
           <section className="coach-dashboard__identity-card coach-card">
             <header className="coach-dashboard__section-head">
-              <div><span>IDENTIDAD TÁCTICA</span><strong>ESTILO DE JUEGO</strong></div>
+              <div><span>{es?"IDENTIDAD TÁCTICA":"TACTICAL IDENTITY"}</span><strong>{es?"ESTILO DE JUEGO":"PLAYSTYLE"}</strong></div>
             </header>
 
             <div className="coach-dashboard__identity-current">
-              <span>ESTILO ACTUAL</span>
-              <strong>{getTacticalStyleLabel(career.team.tacticalStyle)}</strong>
-              <p>{getTacticalStyleDescription(career.team.tacticalStyle)}</p>
+              <span>{es?"ESTILO ACTUAL":"CURRENT STYLE"}</span>
+              <strong>{getTacticalStyleLabel(career.team.tacticalStyle,language)}</strong>
+              <p>{getTacticalStyleDescription(career.team.tacticalStyle,language)}</p>
             </div>
 
             <div className="coach-dashboard__style-selector">
               {TACTICAL_STYLES.map(style=>(
-                <button key={style} className={career.team.tacticalStyle===style?"active":""} onClick={()=>onChangeTacticalStyle(style)}>{getTacticalStyleLabel(style)}</button>
+                <button key={style} className={career.team.tacticalStyle===style?"active":""} onClick={()=>onChangeTacticalStyle(style)}>{getTacticalStyleLabel(style,language)}</button>
               ))}
             </div>
 
-            <button className="coach-dashboard__tactics-link" onClick={onOpenTactics}>CONFIGURAR TÁCTICAS <span>→</span></button>
+            <button className="coach-dashboard__tactics-link" onClick={onOpenTactics}>{es?"CONFIGURAR TÁCTICAS":"CONFIGURE TACTICS"} <span>→</span></button>
           </section>
         </div>
       </div>
@@ -193,16 +193,16 @@ function FinanceItem({label,value}:{label:string;value:string}) {
   return <div className="coach-dashboard__finance-item"><span>{label}</span><strong>{value}</strong></div>;
 }
 
-function getSeasonCardEyebrow(seasonStarted:boolean,seasonComplete:boolean) {
-  if(!seasonStarted)return "PRÓXIMO PASO";
-  if(seasonComplete)return "TEMPORADA FINALIZADA";
-  return "CENTRO DE TEMPORADA";
+function getSeasonCardEyebrow(seasonStarted:boolean,seasonComplete:boolean,language:"es"|"en") {
+  if(!seasonStarted)return language==="es"?"PRÓXIMO PASO":"NEXT STEP";
+  if(seasonComplete)return language==="es"?"TEMPORADA FINALIZADA":"SEASON COMPLETE";
+  return language==="es"?"CENTRO DE TEMPORADA":"SEASON HUB";
 }
 
-function getSeasonCardTitle(seasonStarted:boolean,seasonComplete:boolean) {
-  if(!seasonStarted)return "COMENZAR TEMPORADA";
-  if(seasonComplete)return "VER RESUMEN";
-  return "TEMPORADA";
+function getSeasonCardTitle(seasonStarted:boolean,seasonComplete:boolean,language:"es"|"en") {
+  if(!seasonStarted)return language==="es"?"COMENZAR TEMPORADA":"START SEASON";
+  if(seasonComplete)return language==="es"?"VER RESUMEN":"VIEW SUMMARY";
+  return language==="es"?"TEMPORADA":"SEASON";
 }
 
 function getAnnualRecord(career:CoachCareerState) {
@@ -227,18 +227,20 @@ function getCurrentSeasonTrophies(career:CoachCareerState) {
   return trophies;
 }
 
-function getCurrentCompetition(career:CoachCareerState) {
+function getCurrentCompetition(career:CoachCareerState,language:"es"|"en") {
   const phase=career.seasonState?.phase;
 
   if(!phase)return `VCT ${career.coach.circuit}`;
   if(phase==="Stage 1 Playoffs")return "STAGE 1 PLAYOFFS";
   if(phase==="Stage 2 Playoffs")return "STAGE 2 PLAYOFFS";
-  if(phase==="Complete")return "TEMPORADA COMPLETA";
+  if(phase==="Complete")return language==="es"?"TEMPORADA COMPLETA":"SEASON COMPLETE";
 
   return phase.toUpperCase();
 }
 
-function getTacticalStyleLabel(style:CoachTacticalStyle) {
+function getTacticalStyleLabel(style:CoachTacticalStyle,language:"es"|"en") {
+  if(language==="en")return style.toUpperCase();
+
   if(style==="Balanced")return "BALANCEADO";
   if(style==="Aggressive")return "AGRESIVO";
   if(style==="Controlled")return "CONTROLADO";
@@ -246,7 +248,15 @@ function getTacticalStyleLabel(style:CoachTacticalStyle) {
   return "ANTI-STRAT";
 }
 
-function getTacticalStyleDescription(style:CoachTacticalStyle) {
+function getTacticalStyleDescription(style:CoachTacticalStyle,language:"es"|"en") {
+  if(language==="en"){
+    if(style==="Aggressive")return "Looks to take the initiative, force duels and play rounds with high pressure.";
+    if(style==="Controlled")return "Prioritizes map control, discipline and structured rounds.";
+    if(style==="Reactive")return "Adapts to available information and punishes opponent mistakes.";
+    if(style==="Anti-Strat")return "Prepares specifically to neutralize the opponent.";
+    return "A balance between initiative, structure and adaptation.";
+  }
+
   if(style==="Aggressive")return "Busca tomar la iniciativa, forzar duelos y jugar rondas con presión alta.";
   if(style==="Controlled")return "Prioriza control de mapa, disciplina y rondas estructuradas.";
   if(style==="Reactive")return "Se adapta según la información y castiga errores del rival.";

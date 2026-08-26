@@ -13,7 +13,7 @@ export function getCoachPlayerTransferFee(player:CoachPlayer) {
 
   const fee=player.marketValue*contractMultiplier*potentialMultiplier*ageMultiplier;
 
-  return Math.max(50000,roundTransferValue(fee));
+  return Math.max(2500,roundTransferValue(fee));
 }
 
 export function getCoachPlayerBuyout(player:CoachPlayer) {
@@ -43,7 +43,7 @@ export function getCoachMinimumAcceptedTransferFee(player:CoachPlayer,sellerRost
   const importanceMultiplier=getPlayerImportanceMultiplier(player,sellerRoster);
   const rosterMultiplier=getSellerRosterMultiplier(sellerRoster.length,transferRequested);
   const contractMultiplier=getEffectiveContractSeasons(player)>=3?1.12:1;
-  const requestMultiplier=transferRequested?0.82:1;
+  const requestMultiplier=transferRequested?.82:1;
 
   return Math.min(
     buyout,
@@ -67,12 +67,6 @@ export function willCoachClubAcceptTransfer(player:CoachPlayer,sellerRoster:Coac
 function getEffectiveContractSeasons(player:CoachPlayer) {
   if(player.teamId==="free-agent")return 0;
 
-  /*
-   * Compatibilidad con saves antiguos.
-   * Si el campo ni siquiera existe, asumimos 1 temporada.
-   *
-   * Un 0 explícito sigue significando contrato vencido.
-   */
   return player.contractSeasonsRemaining===undefined
     ?1
     :Math.max(0,player.contractSeasonsRemaining);
@@ -83,7 +77,6 @@ function getContractTransferMultiplier(seasons:number) {
   if(seasons===3)return 1.25;
   if(seasons===2)return 1.10;
   if(seasons===1)return .85;
-
   return 0;
 }
 
@@ -103,22 +96,14 @@ function getAgeTransferMultiplier(age:number) {
   if(age<=27)return 1;
   if(age<=30)return .92;
   if(age<=32)return .82;
-
   return .70;
 }
 
 function getSellerRosterMultiplier(rosterSize:number,transferRequested:boolean) {
   if(rosterSize<=4)return 1.50;
-
-  if(rosterSize===5){
-    return transferRequested?1.12:1.30;
-  }
-
-  if(rosterSize===6){
-    return transferRequested?1:1.12;
-  }
-
-  return transferRequested?0.95:1;
+  if(rosterSize===5)return transferRequested?1.12:1.30;
+  if(rosterSize===6)return transferRequested?1:1.12;
+  return transferRequested?.95:1;
 }
 
 function getPlayerImportanceMultiplier(player:CoachPlayer,roster:CoachPlayer[]) {
@@ -134,8 +119,9 @@ function getPlayerImportanceMultiplier(player:CoachPlayer,roster:CoachPlayer[]) 
 }
 
 function roundTransferValue(value:number) {
-  if(value>=1000000)return Math.round(value/50000)*50000;
-  if(value>=500000)return Math.round(value/25000)*25000;
+  if(value>=100000)return Math.round(value/5000)*5000;
+  if(value>=50000)return Math.round(value/2500)*2500;
+  if(value>=10000)return Math.round(value/1000)*1000;
 
-  return Math.round(value/10000)*10000;
+  return Math.round(value/500)*500;
 }

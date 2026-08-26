@@ -182,7 +182,7 @@
 
 .coach-tactics__fit-badge span {
   color:var(--muted-2);
-  font-size:6px;
+  font-size:10px;
   font-weight:900;
 }
 
@@ -257,7 +257,7 @@
   margin:0;
   padding:0 18px;
   color:var(--muted);
-  font-size:9px;
+  font-size:10px;
   line-height:1.4;
 }
 
@@ -338,7 +338,7 @@
 
 .coach-tactics__preset-list strong {
   margin-top:3px;
-  font-size:7px;
+  font-size:10px;
 }
 
 .coach-tactics__settings {
@@ -381,7 +381,7 @@
   border:1px solid var(--line);
   background:#1d2029;
   color:#92969e;
-  font-size:7px;
+  font-size:12px;
   font-weight:900;
   cursor:pointer;
 }
@@ -697,7 +697,17 @@
   color:var(--muted-2);
   font-size:6px;
 }
-
+.coach-tactics__topbar-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+}
+@media(max-width:900px) {
+  .coach-tactics__topbar-actions {
+    flex-wrap:wrap;
+  }
+}
 @media(max-width:1150px) {
   .coach-tactics__workspace {
     grid-template-columns:1fr;

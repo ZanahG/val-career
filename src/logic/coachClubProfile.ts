@@ -70,11 +70,20 @@ export function getCoachClubFounded(team:TeamDefinition) {
 }
 
 export function getCoachClubValue(team:TeamDefinition) {
-  const tierMultiplier=team.tier===1?1:0.28;
-  const prestigeValue=Math.pow(Math.max(20,team.prestige),2)*18000;
-  const strengthValue=Math.pow(Math.max(50,team.strength),2)*12000;
+  const tierMultiplier=team.tier===1?1:.28;
+
+  const prestigeValue=Math.pow(Math.max(20,team.prestige),2)*275;
+  const strengthValue=Math.pow(Math.max(50,team.strength),2)*200;
 
   return roundClubValue((prestigeValue+strengthValue)*tierMultiplier);
+}
+
+function roundClubValue(value:number) {
+  if(value>=5000000)return Math.round(value/500000)*500000;
+  if(value>=1000000)return Math.round(value/100000)*100000;
+  if(value>=250000)return Math.round(value/50000)*50000;
+
+  return Math.round(value/10000)*10000;
 }
 
 export function getCoachClubStars(team:TeamDefinition) {
@@ -123,11 +132,4 @@ export function getCoachClubStability(team:TeamDefinition):CoachClubLevel {
   if(pressure>=74)return "HIGH";
 
   return "CRUCIAL";
-}
-
-function roundClubValue(value:number) {
-  if(value>=100000000)return Math.round(value/5000000)*5000000;
-  if(value>=10000000)return Math.round(value/1000000)*1000000;
-
-  return Math.round(value/500000)*500000;
 }

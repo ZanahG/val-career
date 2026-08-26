@@ -831,6 +831,28 @@
 .coach-map-veto__map-advantage--neutral span {
   color:#d6dde6;
 }
+
+.coach-map-veto__topbar-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:18px;
+}
+
+.coach-map-veto__topbar-actions .coach-map-veto__team {
+  margin:0;
+}
+@media(max-width:900px) {
+  .coach-map-veto__topbar {
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .coach-map-veto__topbar-actions {
+    width:100%;
+    justify-content:space-between;
+  }
+}
 @media(max-width:1200px) {
   .coach-map-veto__layout {
     grid-template-columns:220px minmax(0,1fr);

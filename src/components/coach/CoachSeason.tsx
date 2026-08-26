@@ -7,6 +7,8 @@ import {getNextCoachOpponent} from "../../logic/coachVCTSeason";
 import {getNextPlayerKickoffMatch} from "../../logic/kickoffBracket";
 import {getNextPlayerMastersMatch} from "../../logic/mastersBracket";
 import {getNextPlayerStageMatch} from "../../logic/coachStage";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
 import kickoffImage from "../../images/season/kickoff.png";
 import masters1Image from "../../images/season/masters1.png";
@@ -28,6 +30,7 @@ interface CoachSeasonProps {
   onBack:()=>void;
 }
 
+type Language="es"|"en";
 type CoachSeasonBannerKey="Kickoff"|"Masters 1"|"Stage 1"|"Masters 2"|"Stage 2"|"Champions";
 type TournamentMatch=CoachMastersMatch|CoachStageMatch|CoachChampionsMatch;
 
@@ -50,7 +53,8 @@ const SEASON_TILES:SeasonTile[]=[
    CHAMPIONS
 ========================================================= */
 
-function ChampionsPanel({champions,playerTeamId}:{champions:CoachChampionsState;playerTeamId:string}) {
+function ChampionsPanel({champions,playerTeamId,language}:{champions:CoachChampionsState;playerTeamId:string;language:Language}) {
+  const es=language==="es";
   const groupMatches=champions.matches.filter(match=>match.stage==="Groups");
   const playoffMatches=champions.matches.filter(match=>match.stage==="Playoffs");
 
@@ -59,33 +63,31 @@ function ChampionsPanel({champions,playerTeamId}:{champions:CoachChampionsState;
       <header className="coach-season__masters-head">
         <div>
           <span className="coach-season__eyebrow">VALORANT CHAMPIONS</span>
-          <h2>{champions.phase==="Groups"?"GROUP STAGE":champions.phase==="Playoffs"?"PLAYOFFS":"EVENTO COMPLETADO"}</h2>
+          <h2>{champions.phase==="Groups"?(es?"FASE DE GRUPOS":"GROUP STAGE"):champions.phase==="Playoffs"?"PLAYOFFS":es?"EVENTO COMPLETADO":"EVENT COMPLETE"}</h2>
         </div>
 
         <div className="coach-season__masters-format">
-          <span>FORMATO</span>
-          <strong>{champions.phase==="Groups"?"4 GRUPOS · GSL":"DOUBLE ELIMINATION"}</strong>
+          <span>{es?"FORMATO":"FORMAT"}</span>
+          <strong>{champions.phase==="Groups"?(es?"4 GRUPOS · GSL":"4 GROUPS · GSL"):"DOUBLE ELIMINATION"}</strong>
         </div>
       </header>
 
       {champions.phase==="Groups"&&(
         <>
-          <ChampionsGroups champions={champions} playerTeamId={playerTeamId}/>
-          <ChampionsGroupMatches matches={groupMatches} playerTeamId={playerTeamId}/>
+          <ChampionsGroups champions={champions} playerTeamId={playerTeamId} language={language}/>
+          <ChampionsGroupMatches matches={groupMatches} playerTeamId={playerTeamId} language={language}/>
         </>
       )}
 
-      {champions.phase==="Playoffs"&&(
-        <ChampionsPlayoffs matches={playoffMatches} playerTeamId={playerTeamId}/>
-      )}
+      {champions.phase==="Playoffs"&&<ChampionsPlayoffs matches={playoffMatches} playerTeamId={playerTeamId} language={language}/>}
 
       {champions.phase==="Complete"&&(
         <>
-          <ChampionsPlayoffs matches={playoffMatches} playerTeamId={playerTeamId}/>
+          <ChampionsPlayoffs matches={playoffMatches} playerTeamId={playerTeamId} language={language}/>
 
           <div className="coach-season__masters-complete">
-            <span>VALORANT CHAMPIONS FINALIZADO</span>
-            <strong>{champions.championTeamId===playerTeamId?"CAMPEÓN DEL MUNDO":"EVENTO COMPLETADO"}</strong>
+            <span>{es?"VALORANT CHAMPIONS FINALIZADO":"VALORANT CHAMPIONS COMPLETE"}</span>
+            <strong>{champions.championTeamId===playerTeamId?(es?"CAMPEÓN DEL MUNDO":"WORLD CHAMPION"):(es?"EVENTO COMPLETADO":"EVENT COMPLETE")}</strong>
           </div>
         </>
       )}
@@ -93,17 +95,19 @@ function ChampionsPanel({champions,playerTeamId}:{champions:CoachChampionsState;
   );
 }
 
-function ChampionsGroups({champions,playerTeamId}:{champions:CoachChampionsState;playerTeamId:string}) {
+function ChampionsGroups({champions,playerTeamId,language}:{champions:CoachChampionsState;playerTeamId:string;language:Language}) {
   return (
     <div className="coach-season__champions-groups">
       {(["A","B","C","D"] as const).map(group=>(
-        <ChampionsGroup key={group} champions={champions} group={group} playerTeamId={playerTeamId}/>
+        <ChampionsGroup key={group} champions={champions} group={group} playerTeamId={playerTeamId} language={language}/>
       ))}
     </div>
   );
 }
 
-function ChampionsGroup({champions,group,playerTeamId}:{champions:CoachChampionsState;group:"A"|"B"|"C"|"D";playerTeamId:string}) {
+function ChampionsGroup({champions,group,playerTeamId,language}:{champions:CoachChampionsState;group:"A"|"B"|"C"|"D";playerTeamId:string;language:Language}) {
+  const es=language==="es";
+
   const standings=champions.groupStandings
     .filter(standing=>standing.group===group)
     .sort((a,b)=>{
@@ -123,7 +127,7 @@ function ChampionsGroup({champions,group,playerTeamId}:{champions:CoachChampions
       <header className="coach-season__subsection-head">
         <div>
           <span>CHAMPIONS</span>
-          <strong>GROUP {group}</strong>
+          <strong>{es?"GRUPO":"GROUP"} {group}</strong>
         </div>
 
         <small>TOP 2 → PLAYOFFS</small>
@@ -146,13 +150,11 @@ function ChampionsGroup({champions,group,playerTeamId}:{champions:CoachChampions
               </div>
 
               <b>{standing.wins}-{standing.losses}</b>
-
               <small>{standing.mapsWon}-{standing.mapsLost}</small>
-
               <span className={diff>0?"positive":diff<0?"negative":""}>{diff>0?"+":""}{diff}</span>
 
               <em className={standing.qualified?"qualified":standing.eliminated?"eliminated":"active"}>
-                {standing.qualified?"PLAYOFFS":standing.eliminated?"OUT":"LIVE"}
+                {standing.qualified?"PLAYOFFS":standing.eliminated?(es?"FUERA":"OUT"):(es?"EN JUEGO":"LIVE")}
               </em>
             </div>
           );
@@ -162,15 +164,16 @@ function ChampionsGroup({champions,group,playerTeamId}:{champions:CoachChampions
   );
 }
 
-function ChampionsGroupMatches({matches,playerTeamId}:{matches:CoachChampionsMatch[];playerTeamId:string}) {
+function ChampionsGroupMatches({matches,playerTeamId,language}:{matches:CoachChampionsMatch[];playerTeamId:string;language:Language}) {
+  const es=language==="es";
   const groups=["A","B","C","D"] as const;
 
   return (
     <section className="coach-season__champions-matches">
       <header className="coach-season__subsection-head">
         <div>
-          <span>GROUP STAGE</span>
-          <strong>PARTIDOS</strong>
+          <span>{es?"FASE DE GRUPOS":"GROUP STAGE"}</span>
+          <strong>{es?"PARTIDOS":"MATCHES"}</strong>
         </div>
 
         <small>OPENING · WINNERS · ELIMINATION · DECIDER</small>
@@ -182,12 +185,10 @@ function ChampionsGroupMatches({matches,playerTeamId}:{matches:CoachChampionsMat
 
           return (
             <div key={group} className="coach-season__champions-match-group">
-              <span>GROUP {group}</span>
+              <span>{es?"GRUPO":"GROUP"} {group}</span>
 
               <div>
-                {groupMatches.map(match=>(
-                  <TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId}/>
-                ))}
+                {groupMatches.map(match=><TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId} language={language}/>)}
               </div>
             </div>
           );
@@ -197,44 +198,31 @@ function ChampionsGroupMatches({matches,playerTeamId}:{matches:CoachChampionsMat
   );
 }
 
-function ChampionsPlayoffs({matches,playerTeamId}:{matches:CoachChampionsMatch[];playerTeamId:string}) {
+function ChampionsPlayoffs({matches,playerTeamId,language}:{matches:CoachChampionsMatch[];playerTeamId:string;language:Language}) {
   return (
     <section className="coach-season__masters-playoffs">
       <header className="coach-season__subsection-head">
-        <div>
-          <span>CHAMPIONS PLAYOFFS</span>
-          <strong>DOUBLE ELIMINATION</strong>
-        </div>
-
+        <div><span>CHAMPIONS PLAYOFFS</span><strong>DOUBLE ELIMINATION</strong></div>
         <small>LOWER FINAL + GRAND FINAL · BO5</small>
       </header>
 
       <div className="coach-season__playoff-groups">
-        <PlayoffSection
-          title="UPPER BRACKET"
-          rounds={["Upper Quarterfinal","Upper Semifinal","Upper Final"]}
-          matches={matches}
-          playerTeamId={playerTeamId}
-        />
-
-        <PlayoffSection
-          title="LOWER BRACKET"
-          rounds={["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"]}
-          matches={matches}
-          playerTeamId={playerTeamId}
-        />
-
-        <PlayoffSection
-          title="GRAND FINAL"
-          rounds={["Grand Final"]}
-          matches={matches}
-          playerTeamId={playerTeamId}
-        />
+        <PlayoffSection title="UPPER BRACKET" rounds={["Upper Quarterfinal","Upper Semifinal","Upper Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
+        <PlayoffSection title="LOWER BRACKET" rounds={["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
+        <PlayoffSection title="GRAND FINAL" rounds={["Grand Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
       </div>
     </section>
   );
 }
+
+/* =========================================================
+   MAIN
+========================================================= */
+
 export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,onEnterOffseason,onNextSeason,onBack}:CoachSeasonProps) {
+  const {language}=useGameSettings();
+  const es=language==="es";
+
   const season=career.seasonState;
   const team=getTeamById(career.team.teamId);
   const teamLogo=getTeamLogo(team?.logo);
@@ -247,7 +235,7 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
 
         <button className="coach-season__floating-back" onClick={onBack}>
           <span>←</span>
-          DASHBOARD
+          {es?"MENÚ":"MENU"}
         </button>
 
         <div className="coach-season__shell">
@@ -256,18 +244,22 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
               <div className="coach-season__club-logo">{teamLogo?<img src={teamLogo} alt={team?.name??""}/>:<span>{team?.shortName??"TBD"}</span>}</div>
               <div><span>VCT {career.coach.circuit}</span><strong>{team?.name} · {career.coach.season}</strong></div>
             </div>
+
+            <GameSettingsControls/>
           </header>
 
           <section className="coach-season__start">
-            <span className="coach-season__eyebrow">TEMPORADA {career.coach.season}</span>
-            <h1>COMENZAR TEMPORADA</h1>
-            <p>Comienza un nuevo año competitivo al mando de {team?.name}.</p>
+            <span className="coach-season__eyebrow">{es?"TEMPORADA":"SEASON"} {career.coach.season}</span>
+            <h1>{es?"COMENZAR TEMPORADA":"START SEASON"}</h1>
+            <p>{es?`Comienza un nuevo año competitivo al mando de ${team?.name}.`:`Begin a new competitive year in charge of ${team?.name}.`}</p>
 
             <div className="coach-season__phase-strip">
-              {SEASON_TILES.map((tile,index)=><SeasonPhaseTile key={tile.phase} tile={tile} state={index===0?"active":"locked"}/>)}
+              {SEASON_TILES.map((tile,index)=><SeasonPhaseTile key={tile.phase} tile={tile} state={index===0?"active":"locked"} language={language}/>)}
             </div>
 
-            <button className="coach-season__start-button" onClick={onStartSeason}>COMENZAR TEMPORADA <span>→</span></button>
+            <button className="coach-season__start-button" onClick={onStartSeason}>
+              {es?"COMENZAR TEMPORADA":"START SEASON"} <span>→</span>
+            </button>
           </section>
         </div>
       </main>
@@ -308,7 +300,7 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
     mastersNextMatch?.round.toUpperCase()??
     stageNextMatch?.round.toUpperCase()??
     championsNextMatch?.round.toUpperCase()??
-    getMatchRoundLabel(season.phase);
+    getMatchRoundLabel(season.phase,language);
 
   const bestOf=
     kickoffNextMatch?.bestOf??
@@ -332,10 +324,7 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
       {season.phase!=="Complete"&&(
         <button className="coach-season__floating-prepare" disabled={!nextOpponent} onClick={onPrepareMatch}>
           {nextOpponentLogo&&<img src={nextOpponentLogo} alt={nextOpponent?.name??""}/>}
-          <span>
-            <small>PRÓXIMO PASO</small>
-            PREPARAR PARTIDO
-          </span>
+          <span>{es?"PREPARAR PARTIDO":"PREPARE MATCH"}</span>
           <b>→</b>
         </button>
       )}
@@ -346,34 +335,24 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
             <div className="coach-season__club-logo">{teamLogo?<img src={teamLogo} alt={team?.name??""}/>:<span>{team?.shortName??"TBD"}</span>}</div>
             <div><span>VCT {season.circuit}</span><strong>{team?.name} · {season.season}</strong></div>
           </div>
+
+          <GameSettingsControls/>
         </header>
-
-        <section className="coach-season__hero">
-          <div>
-            <span className="coach-season__eyebrow">TEMPORADA {season.season}</span>
-            <h1>{getPhaseHeroTitle(season.phase)}</h1>
-            <p>{getPhaseDescription(season.phase)}</p>
-          </div>
-
-          <div className="coach-season__record">
-            <span>RÉCORD ANUAL</span>
-            <strong>{annualWins} - {annualLosses}</strong>
-          </div>
-        </section>
 
         <div className="coach-season__phase-strip">
           {SEASON_TILES.map(tile=>{
             const active=isTileActive(season.phase,tile.phase);
             const completed=isTileCompleted(season.phase,tile.phase);
             const state=active?"active":completed?"complete":"locked";
-            return <SeasonPhaseTile key={tile.phase} tile={tile} state={state}/>;
+
+            return <SeasonPhaseTile key={tile.phase} tile={tile} state={state} language={language}/>;
           })}
         </div>
 
         {season.phase!=="Complete"&&(
           <section className="coach-season__match-center">
             <header className="coach-season__match-center-head">
-              <div><span>{roundLabel}</span><h2>PRÓXIMO PARTIDO</h2></div>
+              <div><span>{roundLabel}</span><h2>{es?"PRÓXIMO PARTIDO":"NEXT MATCH"}</h2></div>
               <div className="coach-season__match-format"><span>{getCompetitionLabel(season.phase)}</span><strong>BO{bestOf}</strong></div>
             </header>
 
@@ -386,16 +365,17 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
                 </div>
 
                 <footer className="coach-season__match-center-footer">
-                  <div><span>TORNEO</span><strong>{getCompetitionLabel(season.phase)}</strong></div>
-                  <div><span>FORMATO</span><strong>Best of {bestOf}</strong></div>
-                  <div><span>REGIÓN</span><strong>{international?"INTERNACIONAL":season.circuit}</strong></div>
-                  <div><span>RÉCORD</span><strong>{annualWins}-{annualLosses}</strong></div>
+                  <div><span>{es?"TORNEO":"TOURNAMENT"}</span><strong>{getCompetitionLabel(season.phase)}</strong></div>
+                  <div><span>{es?"FORMATO":"FORMAT"}</span><strong>Best of {bestOf}</strong></div>
+                  <div><span>{es?"REGIÓN":"REGION"}</span><strong>{international?(es?"INTERNACIONAL":"INTERNATIONAL"):season.circuit}</strong></div>
+                  <div><span>{es?"RÉCORD":"RECORD"}</span><strong>{annualWins}-{annualLosses}</strong></div>
                 </footer>
               </>
             ):(
               <div className="coach-season__match-empty">
                 {getNoOpponentMessage(
                   season.phase,
+                  language,
                   season.kickoffBracket?.playerQualified,
                   season.kickoffBracket?.playerEliminated,
                   currentMasters,
@@ -414,64 +394,63 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
         )}
 
         {(season.phase==="Masters 1"||season.phase==="Masters 2")&&currentMasters&&(
-          <MastersPanel masters={currentMasters} playerTeamId={career.team.teamId}/>
+          <MastersPanel masters={currentMasters} playerTeamId={career.team.teamId} language={language}/>
         )}
 
         {(season.phase==="Stage 1"||season.phase==="Stage 1 Playoffs"||season.phase==="Stage 2"||season.phase==="Stage 2 Playoffs")&&currentStage&&(
-          <StagePanel stage={currentStage} playerTeamId={career.team.teamId}/>
+          <StagePanel stage={currentStage} playerTeamId={career.team.teamId} language={language}/>
         )}
 
         {season.phase==="Champions"&&season.champions&&(
-          <ChampionsPanel champions={season.champions} playerTeamId={career.team.teamId}/>
+          <ChampionsPanel champions={season.champions} playerTeamId={career.team.teamId} language={language}/>
         )}
 
         {season.phase==="Complete"&&(
           <section className="coach-season__complete">
-            <span className="coach-season__eyebrow">FIN DE TEMPORADA</span>
-            <h2>{season.season} COMPLETADO</h2>
+            <span className="coach-season__eyebrow">{es?"FIN DE TEMPORADA":"END OF SEASON"}</span>
+            <h2>{season.season} {es?"COMPLETADO":"COMPLETE"}</h2>
 
             {!seasonArchived&&(
               <>
-                <p>La temporada competitiva ha finalizado. Guarda los resultados del año antes de continuar.</p>
+                <p>{es?"La temporada competitiva ha finalizado. Guarda los resultados del año antes de continuar.":"The competitive season has ended. Save the year's results before continuing."}</p>
 
                 <button className="coach-season__complete-action" onClick={onFinishSeason}>
-                  FINALIZAR TEMPORADA <span>→</span>
+                  {es?"FINALIZAR TEMPORADA":"FINISH SEASON"} <span>→</span>
                 </button>
               </>
             )}
 
             {seasonArchived&&!offseasonStarted&&(
               <>
-                <p>La temporada quedó guardada. Es momento de preparar el plantel para el próximo año.</p>
+                <p>{es?"La temporada quedó guardada. Es momento de preparar el plantel para el próximo año.":"The season has been archived. It is time to prepare the roster for next year."}</p>
 
                 <button className="coach-season__complete-action" onClick={onEnterOffseason}>
-                  ENTRAR A OFFSEASON <span>→</span>
+                  {es?"ENTRAR A OFFSEASON":"ENTER OFFSEASON"} <span>→</span>
                 </button>
               </>
             )}
 
             {seasonArchived&&offseasonStarted&&!offseasonComplete&&(
               <>
-                <p>La offseason está en curso. Revisa contratos y mercado antes de comenzar el próximo año.</p>
+                <p>{es?"La offseason está en curso. Revisa contratos y mercado antes de comenzar el próximo año.":"The offseason is in progress. Review contracts and the market before starting next year."}</p>
 
                 <button className="coach-season__complete-action" onClick={onEnterOffseason}>
-                  CONTINUAR OFFSEASON <span>→</span>
+                  {es?"CONTINUAR OFFSEASON":"CONTINUE OFFSEASON"} <span>→</span>
                 </button>
               </>
             )}
 
             {seasonArchived&&offseasonComplete&&(
               <>
-                <p>El mercado cerró y tu plantilla está preparada para la próxima temporada.</p>
+                <p>{es?"El mercado cerró y tu plantilla está preparada para la próxima temporada.":"The market is closed and your roster is ready for next season."}</p>
 
                 <button className="coach-season__complete-action" onClick={onNextSeason}>
-                  CONTINUAR A {season.season+1} <span>→</span>
+                  {es?"CONTINUAR A":"CONTINUE TO"} {season.season+1} <span>→</span>
                 </button>
               </>
             )}
           </section>
         )}
-
       </div>
     </main>
   );
@@ -481,7 +460,8 @@ export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,
    MASTERS
 ========================================================= */
 
-function MastersPanel({masters,playerTeamId}:{masters:CoachMastersState;playerTeamId:string}) {
+function MastersPanel({masters,playerTeamId,language}:{masters:CoachMastersState;playerTeamId:string;language:Language}) {
+  const es=language==="es";
   const swissMatches=masters.matches.filter(match=>match.stage==="Swiss");
   const playoffMatches=masters.matches.filter(match=>match.stage==="Playoffs");
 
@@ -490,30 +470,31 @@ function MastersPanel({masters,playerTeamId}:{masters:CoachMastersState;playerTe
       <header className="coach-season__masters-head">
         <div>
           <span className="coach-season__eyebrow">{masters.event.toUpperCase()}</span>
-          <h2>{masters.phase==="Swiss"?"SWISS STAGE":masters.phase==="Playoffs"?"PLAYOFFS":"EVENTO COMPLETADO"}</h2>
+          <h2>{masters.phase==="Swiss"?"SWISS STAGE":masters.phase==="Playoffs"?"PLAYOFFS":es?"EVENTO COMPLETADO":"EVENT COMPLETE"}</h2>
         </div>
 
         <div className="coach-season__masters-format">
-          <span>FORMATO</span>
-          <strong>{masters.phase==="Swiss"?"2 VICTORIAS / 2 DERROTAS":"DOUBLE ELIMINATION"}</strong>
+          <span>{es?"FORMATO":"FORMAT"}</span>
+          <strong>{masters.phase==="Swiss"?(es?"2 VICTORIAS / 2 DERROTAS":"2 WINS / 2 LOSSES"):"DOUBLE ELIMINATION"}</strong>
         </div>
       </header>
 
       {masters.phase==="Swiss"&&(
         <>
-          <SwissStandings masters={masters} playerTeamId={playerTeamId}/>
-          <SwissMatches matches={swissMatches} playerTeamId={playerTeamId}/>
+          <SwissStandings masters={masters} playerTeamId={playerTeamId} language={language}/>
+          <SwissMatches matches={swissMatches} playerTeamId={playerTeamId} language={language}/>
         </>
       )}
 
-      {masters.phase==="Playoffs"&&<MastersPlayoffs matches={playoffMatches} playerTeamId={playerTeamId}/>}
+      {masters.phase==="Playoffs"&&<MastersPlayoffs matches={playoffMatches} playerTeamId={playerTeamId} language={language}/>}
 
       {masters.phase==="Complete"&&(
         <>
-          <MastersPlayoffs matches={playoffMatches} playerTeamId={playerTeamId}/>
+          <MastersPlayoffs matches={playoffMatches} playerTeamId={playerTeamId} language={language}/>
+
           <div className="coach-season__masters-complete">
-            <span>{masters.event.toUpperCase()} FINALIZADO</span>
-            <strong>EVENTO COMPLETADO</strong>
+            <span>{masters.event.toUpperCase()} {es?"FINALIZADO":"COMPLETE"}</span>
+            <strong>{es?"EVENTO COMPLETADO":"EVENT COMPLETE"}</strong>
           </div>
         </>
       )}
@@ -521,7 +502,9 @@ function MastersPanel({masters,playerTeamId}:{masters:CoachMastersState;playerTe
   );
 }
 
-function SwissStandings({masters,playerTeamId}:{masters:CoachMastersState;playerTeamId:string}) {
+function SwissStandings({masters,playerTeamId,language}:{masters:CoachMastersState;playerTeamId:string;language:Language}) {
+  const es=language==="es";
+
   const standings=[...masters.swissStandings].sort((a,b)=>{
     if(a.qualified!==b.qualified)return a.qualified?-1:1;
     if(a.eliminated!==b.eliminated)return a.eliminated?1:-1;
@@ -532,22 +515,25 @@ function SwissStandings({masters,playerTeamId}:{masters:CoachMastersState;player
   return (
     <section className="coach-season__swiss">
       <header className="coach-season__subsection-head">
-        <div><span>SWISS STAGE</span><strong>CLASIFICACIÓN</strong></div>
-        <small>2W CLASIFICA · 2L ELIMINA</small>
+        <div><span>SWISS STAGE</span><strong>{es?"CLASIFICACIÓN":"STANDINGS"}</strong></div>
+        <small>{es?"2W CLASIFICA · 2L ELIMINA":"2W QUALIFIES · 2L ELIMINATES"}</small>
       </header>
 
       <div className="coach-season__swiss-table">
         <div className="coach-season__swiss-row coach-season__swiss-row--header">
-          <span>#</span><span>EQUIPO</span><span>RÉCORD</span><span>ESTADO</span>
+          <span>#</span><span>{es?"EQUIPO":"TEAM"}</span><span>{es?"RÉCORD":"RECORD"}</span><span>{es?"ESTADO":"STATUS"}</span>
         </div>
 
-        {standings.map((standing,index)=><SwissStandingRow key={standing.teamId} standing={standing} rank={index+1} player={standing.teamId===playerTeamId}/>)}
+        {standings.map((standing,index)=>(
+          <SwissStandingRow key={standing.teamId} standing={standing} rank={index+1} player={standing.teamId===playerTeamId} language={language}/>
+        ))}
       </div>
     </section>
   );
 }
 
-function SwissStandingRow({standing,rank,player}:{standing:CoachMastersState["swissStandings"][number];rank:number;player:boolean}) {
+function SwissStandingRow({standing,rank,player,language}:{standing:CoachMastersState["swissStandings"][number];rank:number;player:boolean;language:Language}) {
+  const es=language==="es";
   const team=getTeamById(standing.teamId);
   const logo=getTeamLogo(team?.logo);
 
@@ -563,19 +549,20 @@ function SwissStandingRow({standing,rank,player}:{standing:CoachMastersState["sw
       <strong className="coach-season__swiss-record">{standing.wins}-{standing.losses}</strong>
 
       <span className={`coach-season__swiss-status ${standing.qualified?"qualified":standing.eliminated?"eliminated":"active"}`}>
-        {standing.qualified?"PLAYOFFS":standing.eliminated?"ELIMINADO":"EN JUEGO"}
+        {standing.qualified?"PLAYOFFS":standing.eliminated?(es?"ELIMINADO":"ELIMINATED"):(es?"EN JUEGO":"ACTIVE")}
       </span>
     </div>
   );
 }
 
-function SwissMatches({matches,playerTeamId}:{matches:CoachMastersMatch[];playerTeamId:string}) {
+function SwissMatches({matches,playerTeamId,language}:{matches:CoachMastersMatch[];playerTeamId:string;language:Language}) {
+  const es=language==="es";
   const rounds=["Swiss Round 1","Swiss Round 2","Swiss Round 3"];
 
   return (
     <section className="coach-season__swiss-matches">
       <header className="coach-season__subsection-head">
-        <div><span>RESULTADOS</span><strong>PARTIDOS SWISS</strong></div>
+        <div><span>{es?"RESULTADOS":"RESULTS"}</span><strong>{es?"PARTIDOS SWISS":"SWISS MATCHES"}</strong></div>
       </header>
 
       <div className="coach-season__swiss-rounds">
@@ -586,7 +573,7 @@ function SwissMatches({matches,playerTeamId}:{matches:CoachMastersMatch[];player
           return (
             <div key={round} className="coach-season__swiss-round">
               <span>{round.toUpperCase()}</span>
-              <div>{roundMatches.map(match=><TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId}/>)}</div>
+              <div>{roundMatches.map(match=><TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId} language={language}/>)}</div>
             </div>
           );
         })}
@@ -595,7 +582,7 @@ function SwissMatches({matches,playerTeamId}:{matches:CoachMastersMatch[];player
   );
 }
 
-function MastersPlayoffs({matches,playerTeamId}:{matches:CoachMastersMatch[];playerTeamId:string}) {
+function MastersPlayoffs({matches,playerTeamId,language}:{matches:CoachMastersMatch[];playerTeamId:string;language:Language}) {
   return (
     <section className="coach-season__masters-playoffs">
       <header className="coach-season__subsection-head">
@@ -604,9 +591,9 @@ function MastersPlayoffs({matches,playerTeamId}:{matches:CoachMastersMatch[];pla
       </header>
 
       <div className="coach-season__playoff-groups">
-        <PlayoffSection title="UPPER BRACKET" rounds={["Upper Quarterfinal","Upper Semifinal","Upper Final"]} matches={matches} playerTeamId={playerTeamId}/>
-        <PlayoffSection title="LOWER BRACKET" rounds={["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"]} matches={matches} playerTeamId={playerTeamId}/>
-        <PlayoffSection title="GRAND FINAL" rounds={["Grand Final"]} matches={matches} playerTeamId={playerTeamId}/>
+        <PlayoffSection title="UPPER BRACKET" rounds={["Upper Quarterfinal","Upper Semifinal","Upper Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
+        <PlayoffSection title="LOWER BRACKET" rounds={["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
+        <PlayoffSection title="GRAND FINAL" rounds={["Grand Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
       </div>
     </section>
   );
@@ -616,7 +603,8 @@ function MastersPlayoffs({matches,playerTeamId}:{matches:CoachMastersMatch[];pla
    STAGE 1 / STAGE 2
 ========================================================= */
 
-function StagePanel({stage,playerTeamId}:{stage:CoachStageState;playerTeamId:string}) {
+function StagePanel({stage,playerTeamId,language}:{stage:CoachStageState;playerTeamId:string;language:Language}) {
+  const es=language==="es";
   const regularMatches=stage.matches.filter(match=>match.phase==="Regular Season");
   const playoffMatches=stage.matches.filter(match=>match.phase==="Playoffs");
 
@@ -625,32 +613,32 @@ function StagePanel({stage,playerTeamId}:{stage:CoachStageState;playerTeamId:str
       <header className="coach-season__masters-head">
         <div>
           <span className="coach-season__eyebrow">{stage.event.toUpperCase()}</span>
-          <h2>{stage.phase==="Regular Season"?"REGULAR SEASON":stage.phase==="Playoffs"?"PLAYOFFS":"EVENTO COMPLETADO"}</h2>
+          <h2>{stage.phase==="Regular Season"?(es?"TEMPORADA REGULAR":"REGULAR SEASON"):stage.phase==="Playoffs"?"PLAYOFFS":es?"EVENTO COMPLETADO":"EVENT COMPLETE"}</h2>
         </div>
 
         <div className="coach-season__masters-format">
-          <span>FORMATO</span>
-          <strong>{stage.phase==="Regular Season"?"GROUP STAGE · TOP 4":"DOUBLE ELIMINATION"}</strong>
+          <span>{es?"FORMATO":"FORMAT"}</span>
+          <strong>{stage.phase==="Regular Season"?(es?"FASE DE GRUPOS · TOP 4":"GROUP STAGE · TOP 4"):"DOUBLE ELIMINATION"}</strong>
         </div>
       </header>
 
       {stage.phase==="Regular Season"&&(
         <>
-          <StageStandings stage={stage} playerTeamId={playerTeamId}/>
-          <StageSchedule matches={regularMatches} playerTeamId={playerTeamId}/>
+          <StageStandings stage={stage} playerTeamId={playerTeamId} language={language}/>
+          <StageSchedule matches={regularMatches} playerTeamId={playerTeamId} language={language}/>
         </>
       )}
 
-      {stage.phase==="Playoffs"&&<StagePlayoffs matches={playoffMatches} playerTeamId={playerTeamId}/>}
+      {stage.phase==="Playoffs"&&<StagePlayoffs matches={playoffMatches} playerTeamId={playerTeamId} language={language}/>}
 
       {stage.phase==="Complete"&&(
         <>
-          <StageStandings stage={stage} playerTeamId={playerTeamId}/>
-          <StagePlayoffs matches={playoffMatches} playerTeamId={playerTeamId}/>
+          <StageStandings stage={stage} playerTeamId={playerTeamId} language={language}/>
+          <StagePlayoffs matches={playoffMatches} playerTeamId={playerTeamId} language={language}/>
 
           <div className="coach-season__masters-complete">
-            <span>{stage.event.toUpperCase()} FINALIZADO</span>
-            <strong>EVENTO COMPLETADO</strong>
+            <span>{stage.event.toUpperCase()} {es?"FINALIZADO":"COMPLETE"}</span>
+            <strong>{es?"EVENTO COMPLETADO":"EVENT COMPLETE"}</strong>
           </div>
         </>
       )}
@@ -658,22 +646,26 @@ function StagePanel({stage,playerTeamId}:{stage:CoachStageState;playerTeamId:str
   );
 }
 
-function StageStandings({stage,playerTeamId}:{stage:CoachStageState;playerTeamId:string}) {
+function StageStandings({stage,playerTeamId,language}:{stage:CoachStageState;playerTeamId:string;language:Language}) {
   return (
     <div className="coach-season__stage-groups">
-      <StageGroupTable stage={stage} group="Alpha" playerTeamId={playerTeamId}/>
-      <StageGroupTable stage={stage} group="Omega" playerTeamId={playerTeamId}/>
+      <StageGroupTable stage={stage} group="Alpha" playerTeamId={playerTeamId} language={language}/>
+      <StageGroupTable stage={stage} group="Omega" playerTeamId={playerTeamId} language={language}/>
     </div>
   );
 }
 
-function StageGroupTable({stage,group,playerTeamId}:{stage:CoachStageState;group:"Alpha"|"Omega";playerTeamId:string}) {
+function StageGroupTable({stage,group,playerTeamId,language}:{stage:CoachStageState;group:"Alpha"|"Omega";playerTeamId:string;language:Language}) {
+  const es=language==="es";
+
   const standings=stage.standings
     .filter(standing=>standing.group===group)
     .sort((a,b)=>{
       if(b.wins!==a.wins)return b.wins-a.wins;
+
       const diffA=a.mapsWon-a.mapsLost;
       const diffB=b.mapsWon-b.mapsLost;
+
       if(diffB!==diffA)return diffB-diffA;
       return b.mapsWon-a.mapsWon;
     });
@@ -681,13 +673,13 @@ function StageGroupTable({stage,group,playerTeamId}:{stage:CoachStageState;group
   return (
     <section className="coach-season__stage-group">
       <header className="coach-season__subsection-head">
-        <div><span>GROUP</span><strong>{group.toUpperCase()}</strong></div>
+        <div><span>{es?"GRUPO":"GROUP"}</span><strong>{group.toUpperCase()}</strong></div>
         <small>TOP 4 → PLAYOFFS</small>
       </header>
 
       <div className="coach-season__stage-table">
         <div className="coach-season__stage-row coach-season__stage-row--header">
-          <span>#</span><span>EQUIPO</span><span>W-L</span><span>MAPAS</span><span>DIFF</span>
+          <span>#</span><span>{es?"EQUIPO":"TEAM"}</span><span>W-L</span><span>{es?"MAPAS":"MAPS"}</span><span>DIFF</span>
         </div>
 
         {standings.map((standing,index)=>{
@@ -716,7 +708,8 @@ function StageGroupTable({stage,group,playerTeamId}:{stage:CoachStageState;group
   );
 }
 
-function StageSchedule({matches,playerTeamId}:{matches:CoachStageMatch[];playerTeamId:string}) {
+function StageSchedule({matches,playerTeamId,language}:{matches:CoachStageMatch[];playerTeamId:string;language:Language}) {
+  const es=language==="es";
   const [expanded,setExpanded]=useState(false);
   const rounds=Array.from(new Set(matches.map(match=>match.round)));
 
@@ -724,9 +717,9 @@ function StageSchedule({matches,playerTeamId}:{matches:CoachStageMatch[];playerT
     <section className={`coach-season__stage-schedule${expanded?" coach-season__stage-schedule--expanded":""}`}>
       <button className="coach-season__stage-schedule-toggle" onClick={()=>setExpanded(value=>!value)}>
         <div>
-          <span>REGULAR SEASON</span>
-          <strong>CALENDARIO</strong>
-          <small>{expanded?"OCULTAR PARTIDOS":"VER CALENDARIO COMPLETO"}</small>
+          <span>{es?"TEMPORADA REGULAR":"REGULAR SEASON"}</span>
+          <strong>{es?"CALENDARIO":"SCHEDULE"}</strong>
+          <small>{expanded?(es?"OCULTAR PARTIDOS":"HIDE MATCHES"):(es?"VER CALENDARIO COMPLETO":"VIEW FULL SCHEDULE")}</small>
         </div>
 
         <b className={expanded?"expanded":""}>⌄</b>
@@ -740,7 +733,7 @@ function StageSchedule({matches,playerTeamId}:{matches:CoachStageMatch[];playerT
             return (
               <div key={round} className="coach-season__stage-week">
                 <span>{round.toUpperCase()}</span>
-                <div>{roundMatches.map(match=><TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId}/>)}</div>
+                <div>{roundMatches.map(match=><TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId} language={language}/>)}</div>
               </div>
             );
           })}
@@ -750,7 +743,7 @@ function StageSchedule({matches,playerTeamId}:{matches:CoachStageMatch[];playerT
   );
 }
 
-function StagePlayoffs({matches,playerTeamId}:{matches:CoachStageMatch[];playerTeamId:string}) {
+function StagePlayoffs({matches,playerTeamId,language}:{matches:CoachStageMatch[];playerTeamId:string;language:Language}) {
   return (
     <section className="coach-season__masters-playoffs">
       <header className="coach-season__subsection-head">
@@ -759,9 +752,9 @@ function StagePlayoffs({matches,playerTeamId}:{matches:CoachStageMatch[];playerT
       </header>
 
       <div className="coach-season__playoff-groups">
-        <PlayoffSection title="UPPER BRACKET" rounds={["Upper Round 1","Upper Semifinal","Upper Final"]} matches={matches} playerTeamId={playerTeamId}/>
-        <PlayoffSection title="LOWER BRACKET" rounds={["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"]} matches={matches} playerTeamId={playerTeamId}/>
-        <PlayoffSection title="GRAND FINAL" rounds={["Grand Final"]} matches={matches} playerTeamId={playerTeamId}/>
+        <PlayoffSection title="UPPER BRACKET" rounds={["Upper Round 1","Upper Semifinal","Upper Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
+        <PlayoffSection title="LOWER BRACKET" rounds={["Lower Round 1","Lower Round 2","Lower Round 3","Lower Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
+        <PlayoffSection title="GRAND FINAL" rounds={["Grand Final"]} matches={matches} playerTeamId={playerTeamId} language={language}/>
       </div>
     </section>
   );
@@ -771,7 +764,7 @@ function StagePlayoffs({matches,playerTeamId}:{matches:CoachStageMatch[];playerT
    SHARED MATCHES
 ========================================================= */
 
-function PlayoffSection({title,rounds,matches,playerTeamId}:{title:string;rounds:string[];matches:TournamentMatch[];playerTeamId:string}) {
+function PlayoffSection({title,rounds,matches,playerTeamId,language}:{title:string;rounds:string[];matches:TournamentMatch[];playerTeamId:string;language:Language}) {
   return (
     <div className="coach-season__playoff-section">
       <header>{title}</header>
@@ -784,7 +777,7 @@ function PlayoffSection({title,rounds,matches,playerTeamId}:{title:string;rounds
           return (
             <div key={round} className="coach-season__playoff-round">
               <span>{round.toUpperCase()}</span>
-              <div>{roundMatches.map(match=><TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId}/>)}</div>
+              <div>{roundMatches.map(match=><TournamentMatchCard key={match.id} match={match} playerTeamId={playerTeamId} language={language}/>)}</div>
             </div>
           );
         })}
@@ -793,14 +786,15 @@ function PlayoffSection({title,rounds,matches,playerTeamId}:{title:string;rounds
   );
 }
 
-function TournamentMatchCard({match,playerTeamId}:{match:TournamentMatch;playerTeamId:string}) {
+function TournamentMatchCard({match,playerTeamId,language}:{match:TournamentMatch;playerTeamId:string;language:Language}) {
+  const es=language==="es";
   const playerMatch=match.teamAId===playerTeamId||match.teamBId===playerTeamId;
 
   return (
     <article className={`coach-season__masters-match${playerMatch?" coach-season__masters-match--player":""}`}>
       <header>
         <span>BO{match.bestOf}</span>
-        <small>{match.status==="Complete"?"FINAL":match.status==="Ready"?"LISTO":"PENDIENTE"}</small>
+        <small>{match.status==="Complete"?"FINAL":match.status==="Ready"?(es?"LISTO":"READY"):(es?"PENDIENTE":"PENDING")}</small>
       </header>
 
       <TournamentMatchTeam teamId={match.teamAId} score={match.scoreA} winner={Boolean(match.teamAId)&&match.winnerId===match.teamAId}/>
@@ -829,12 +823,18 @@ function TournamentMatchTeam({teamId,score,winner}:{teamId:string|null;score:num
    GENERAL
 ========================================================= */
 
-function SeasonPhaseTile({tile,state}:{tile:SeasonTile;state:"active"|"complete"|"locked"}) {
+function SeasonPhaseTile({tile,state,language}:{tile:SeasonTile;state:"active"|"complete"|"locked";language:Language}) {
+  const es=language==="es";
+
   return (
     <article className={`coach-season__phase-tile coach-season__phase-tile--${state}`}>
       <img src={tile.image} alt={tile.label}/>
       <div className="coach-season__phase-overlay"/>
-      <div className="coach-season__phase-content"><strong>{tile.label}</strong><small>{state==="active"?"ACTIVO":state==="complete"?"COMPLETADO":"BLOQUEADO"}</small></div>
+
+      <div className="coach-season__phase-content">
+        <strong>{tile.label}</strong>
+        <small>{state==="active"?(es?"ACTIVO":"ACTIVE"):state==="complete"?(es?"COMPLETADO":"COMPLETE"):(es?"BLOQUEADO":"LOCKED")}</small>
+      </div>
     </article>
   );
 }
@@ -887,14 +887,24 @@ function getBroadPhase(phase:CoachVCTPhase):CoachSeasonBannerKey {
   return "Champions";
 }
 
-function getPhaseHeroTitle(phase:CoachVCTPhase) {
+function getPhaseHeroTitle(phase:CoachVCTPhase,language:Language) {
   if(phase==="Stage 1 Playoffs")return "STAGE 1";
   if(phase==="Stage 2 Playoffs")return "STAGE 2";
-  if(phase==="Complete")return "TEMPORADA COMPLETA";
+  if(phase==="Complete")return language==="es"?"TEMPORADA COMPLETA":"SEASON COMPLETE";
   return phase.toUpperCase();
 }
 
-function getPhaseDescription(phase:CoachVCTPhase) {
+function getPhaseDescription(phase:CoachVCTPhase,language:Language) {
+  if(language==="en"){
+    if(phase==="Kickoff")return "The first tournament of the year. Three losses mean elimination and the best teams advance to the first Masters.";
+    if(phase==="Masters 1")return "The first international event of the year. Seeds 2 and 3 play through Swiss while regional champions wait in Playoffs.";
+    if(phase==="Stage 1"||phase==="Stage 1 Playoffs")return "The first regional Stage of the season with a regular phase and playoffs.";
+    if(phase==="Masters 2")return "The second international event of the year using the same competitive format as the first Masters.";
+    if(phase==="Stage 2"||phase==="Stage 2 Playoffs")return "The final regional Stage before Champions, featuring a regular phase and playoffs.";
+    if(phase==="Champions")return "The most important tournament of the season. The world champion is crowned here.";
+    return "The competitive season has ended.";
+  }
+
   if(phase==="Kickoff")return "El primer torneo del año. Tres derrotas significan eliminación y los mejores equipos avanzan al primer Masters.";
   if(phase==="Masters 1")return "Primer evento internacional del año. Los seeds 2 y 3 disputan Swiss mientras los campeones regionales esperan en Playoffs.";
   if(phase==="Stage 1"||phase==="Stage 1 Playoffs")return "Primer Stage regional de la temporada con fase regular y playoffs.";
@@ -904,8 +914,8 @@ function getPhaseDescription(phase:CoachVCTPhase) {
   return "La temporada competitiva ha terminado.";
 }
 
-function getMatchRoundLabel(phase:CoachVCTPhase) {
-  if(phase==="Masters 1"||phase==="Masters 2")return "INTERNATIONAL MATCH";
+function getMatchRoundLabel(phase:CoachVCTPhase,language:Language) {
+  if(phase==="Masters 1"||phase==="Masters 2")return language==="es"?"PARTIDO INTERNACIONAL":"INTERNATIONAL MATCH";
   if(phase==="Stage 1")return "STAGE 1";
   if(phase==="Stage 1 Playoffs")return "STAGE 1 PLAYOFFS";
   if(phase==="Stage 2")return "STAGE 2";
@@ -926,33 +936,38 @@ function getCompetitionLabel(phase:CoachVCTPhase) {
 
 function getNoOpponentMessage(
   phase:CoachVCTPhase,
+  language:Language,
   qualified?:boolean,
   eliminated?:boolean,
   masters?:CoachMastersState,
   stage?:CoachStageState,
   playerTeamId?:string,
 ) {
+  const es=language==="es";
+
   if(phase==="Kickoff"){
-    if(qualified)return "Clasificaste a Masters. No quedan partidos pendientes de Kickoff.";
-    if(eliminated)return "Tu equipo fue eliminado del Kickoff.";
-    return "No hay un partido disponible en este momento.";
+    if(qualified)return es?"Clasificaste a Masters. No quedan partidos pendientes de Kickoff.":"You qualified for Masters. There are no remaining Kickoff matches.";
+    if(eliminated)return es?"Tu equipo fue eliminado del Kickoff.":"Your team was eliminated from Kickoff.";
+    return es?"No hay un partido disponible en este momento.":"There is no match available right now.";
   }
 
   if((phase==="Masters 1"||phase==="Masters 2")&&masters){
     const qualifier=masters.qualifiers.find(team=>team.teamId===playerTeamId);
 
-    if(masters.phase==="Swiss"&&qualifier?.seed===1)return "Clasificaste directamente a Playoffs como campeón regional. El Swiss se está disputando.";
-    if(masters.phase==="Complete")return `${masters.event} ha terminado.`;
-    return "No hay un partido disponible en este momento.";
+    if(masters.phase==="Swiss"&&qualifier?.seed===1)return es?"Clasificaste directamente a Playoffs como campeón regional. El Swiss se está disputando.":"You qualified directly to Playoffs as regional champion. The Swiss stage is currently being played.";
+    if(masters.phase==="Complete")return es?`${masters.event} ha terminado.`:`${masters.event} has ended.`;
+
+    return es?"No hay un partido disponible en este momento.":"There is no match available right now.";
   }
 
   if((phase==="Stage 1"||phase==="Stage 1 Playoffs"||phase==="Stage 2"||phase==="Stage 2 Playoffs")&&stage){
-    if(stage.complete)return `${stage.event} ha terminado.`;
-    if(stage.phase==="Playoffs"&&!stage.playoffSeeds.includes(playerTeamId??""))return "Tu equipo no clasificó a los Playoffs.";
-    return "No hay un partido disponible en este momento.";
+    if(stage.complete)return es?`${stage.event} ha terminado.`:`${stage.event} has ended.`;
+    if(stage.phase==="Playoffs"&&!stage.playoffSeeds.includes(playerTeamId??""))return es?"Tu equipo no clasificó a los Playoffs.":"Your team did not qualify for Playoffs.";
+
+    return es?"No hay un partido disponible en este momento.":"There is no match available right now.";
   }
 
-  if(phase==="Champions")return "Champions todavía no está implementado.";
+  if(phase==="Champions")return es?"No hay un partido disponible de Champions en este momento.":"There is no Champions match available right now.";
 
-  return "No hay rival disponible.";
+  return es?"No hay rival disponible.":"No opponent available.";
 }

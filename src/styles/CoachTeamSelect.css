@@ -574,7 +574,24 @@
   color:#6d8295;
   background:#0d141b;
 }
+.coach-team-select__top-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+}
+@media(max-width:900px) {
+  .coach-team-select__top {
+    align-items:flex-start;
+    gap:14px;
+    flex-wrap:wrap;
+  }
 
+  .coach-team-select__top-actions {
+    margin-left:auto;
+    flex-wrap:wrap;
+  }
+}
 @media (max-width:1100px) {
   .coach-team-select {padding:22px;}
   .coach-team-select__club-dashboard {grid-template-columns:1fr 1fr;}

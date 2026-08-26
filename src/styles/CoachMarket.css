@@ -512,12 +512,12 @@
 .coach-market__report-meta>div span,
 .coach-market__financial>div span {
   color:#a8abb4;
-  font-size:10px;
+  font-size:12px;
 }
 
 .coach-market__report-meta>div strong,
 .coach-market__financial>div strong {
-  font-size:10px;
+  font-size:12px;
 }
 
 .coach-market__financial {
@@ -534,7 +534,7 @@
 .coach-market__availability span {
   display:block;
   color:#858a94;
-  font-size:7px;
+  font-size:9px;
   font-weight:900;
   letter-spacing:.1em;
 }
@@ -543,14 +543,14 @@
   display:block;
   margin-top:3px;
   color:var(--green);
-  font-size:10px;
+  font-size:12px;
 }
 
 .coach-market__availability small {
   display:block;
   margin-top:3px;
   color:#8f939d;
-  font-size:8px;
+  font-size:10px;
 }
 
 .coach-market__sign {
@@ -570,7 +570,7 @@
 }
 
 .coach-market__sign span {
-  font-size:10px;
+  font-size:12px;
   font-weight:900;
 }
 

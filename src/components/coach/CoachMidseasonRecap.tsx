@@ -1,5 +1,9 @@
 import type {CoachCareerState} from "../../types/coach";
+import type {GameCurrency} from "../../types/settings";
 import {getTeamById} from "../../data/teams";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
+import {formatCurrency} from "../../utils/currency";
 import {getTeamLogo} from "../../utils/teamLogo";
 import "../../styles/CoachMidseasonRecap.css";
 
@@ -8,7 +12,12 @@ interface CoachMidseasonRecapProps {
   onContinue:()=>void;
 }
 
+type Language="es"|"en";
+
 export function CoachMidseasonRecap({career,onContinue}:CoachMidseasonRecapProps) {
+  const {language,currency}=useGameSettings();
+  const es=language==="es";
+
   const market=career.midseasonMarket;
   const transfers=market?.transfers??[];
   const playerTeamId=career.team.teamId;
@@ -45,46 +54,54 @@ export function CoachMidseasonRecap({career,onContinue}:CoachMidseasonRecapProps
             <div>
               <span>TRANSFER NETWORK</span>
               <strong>MID-SEASON REPORT</strong>
-              <small>{yourTeam?.name??"Tu club"} · {career.coach.season}</small>
+              <small>{yourTeam?.name??(es?"Tu club":"Your club")} · {career.coach.season}</small>
             </div>
           </div>
 
-          <div className="coach-midseason-recap__status">
-            <span>VENTANA</span>
-            <strong>CERRADA</strong>
+          <div className="coach-midseason-recap__topbar-actions">
+            <GameSettingsControls/>
+
+            <div className="coach-midseason-recap__status">
+              <span>{es?"VENTANA":"WINDOW"}</span>
+              <strong>{es?"CERRADA":"CLOSED"}</strong>
+            </div>
           </div>
         </header>
 
         <section className="coach-midseason-recap__hero">
           <div>
             <span>MID-SEASON TRANSFER WINDOW</span>
-            <h1>MERCADO CERRADO</h1>
-            <p>La ventana de mitad de temporada ha terminado. Estos son los movimientos confirmados antes de volver a competir.</p>
+            <h1>{es?"MERCADO CERRADO":"TRANSFER WINDOW CLOSED"}</h1>
+            <p>
+              {es
+                ?"La ventana de mitad de temporada ha terminado. Estos son los movimientos confirmados antes de volver a competir."
+                :"The mid-season transfer window has ended. These are the confirmed moves before returning to competition."}
+            </p>
           </div>
 
           <div className="coach-midseason-recap__hero-badge">
             <span>{transfers.length}</span>
-            <strong>MOVIMIENTOS</strong>
+            <strong>{es?"MOVIMIENTOS":"MOVES"}</strong>
           </div>
         </section>
 
         <section className="coach-midseason-recap__summary">
-          <SummaryCard label="MOVIMIENTOS TOTALES" value={transfers.length}/>
-          <SummaryCard label="ALTAS" value={incomingMoves.length}/>
-          <SummaryCard label="BAJAS" value={outgoingMoves.length}/>
-          <SummaryCard label="GASTADO" value={formatMoney(totalSpent)}/>
-          <SummaryCard label="RECIBIDO" value={formatMoney(totalReceived)}/>
+          <SummaryCard label={es?"MOVIMIENTOS TOTALES":"TOTAL MOVES"} value={transfers.length}/>
+          <SummaryCard label={es?"ALTAS":"ARRIVALS"} value={incomingMoves.length}/>
+          <SummaryCard label={es?"BAJAS":"DEPARTURES"} value={outgoingMoves.length}/>
+          <SummaryCard label={es?"GASTADO":"SPENT"} value={formatCurrency(totalSpent,currency)}/>
+          <SummaryCard label={es?"RECIBIDO":"RECEIVED"} value={formatCurrency(totalReceived,currency)}/>
         </section>
 
         <section className="coach-midseason-recap__main-grid">
           <section className="coach-midseason-recap__panel coach-midseason-recap__panel--club">
             <header className="coach-midseason-recap__panel-head">
               <div>
-                <span>TU CLUB</span>
-                <strong>{yourTeam?.name??"MOVIMIENTOS"}</strong>
+                <span>{es?"TU CLUB":"YOUR CLUB"}</span>
+                <strong>{yourTeam?.name??(es?"MOVIMIENTOS":"MOVES")}</strong>
               </div>
 
-              <small>{yourMoves.length} MOVIMIENTO{yourMoves.length===1?"":"S"}</small>
+              <small>{formatMoveCount(yourMoves.length,language)}</small>
             </header>
 
             <div className="coach-midseason-recap__list">
@@ -93,13 +110,15 @@ export function CoachMidseasonRecap({career,onContinue}:CoachMidseasonRecapProps
                   key={`${transfer.playerId}-${index}`}
                   transfer={transfer}
                   playerTeamId={playerTeamId}
+                  language={language}
+                  currency={currency}
                 />
               ))}
 
               {!yourMoves.length&&(
                 <EmptyState
-                  title="SIN MOVIMIENTOS"
-                  description="Tu club no realizó fichajes ni salidas durante esta ventana."
+                  title={es?"SIN MOVIMIENTOS":"NO MOVES"}
+                  description={es?"Tu club no realizó fichajes ni salidas durante esta ventana.":"Your club made no signings or departures during this window."}
                 />
               )}
             </div>
@@ -108,11 +127,11 @@ export function CoachMidseasonRecap({career,onContinue}:CoachMidseasonRecapProps
           <section className="coach-midseason-recap__panel">
             <header className="coach-midseason-recap__panel-head">
               <div>
-                <span>RESTO DEL VCT</span>
+                <span>{es?"RESTO DEL VCT":"REST OF VCT"}</span>
                 <strong>TRANSFER ACTIVITY</strong>
               </div>
 
-              <small>{cpuMoves.length} MOVIMIENTO{cpuMoves.length===1?"":"S"}</small>
+              <small>{formatMoveCount(cpuMoves.length,language)}</small>
             </header>
 
             <div className="coach-midseason-recap__list coach-midseason-recap__list--cpu">
@@ -121,13 +140,15 @@ export function CoachMidseasonRecap({career,onContinue}:CoachMidseasonRecapProps
                   key={`${transfer.playerId}-${index}`}
                   transfer={transfer}
                   playerTeamId={playerTeamId}
+                  language={language}
+                  currency={currency}
                 />
               ))}
 
               {!cpuMoves.length&&(
                 <EmptyState
-                  title="MERCADO TRANQUILO"
-                  description="No se registraron movimientos entre clubes controlados por la CPU."
+                  title={es?"MERCADO TRANQUILO":"QUIET MARKET"}
+                  description={es?"No se registraron movimientos entre clubes controlados por la CPU.":"No transfers were recorded between CPU-controlled clubs."}
                 />
               )}
             </div>
@@ -136,12 +157,12 @@ export function CoachMidseasonRecap({career,onContinue}:CoachMidseasonRecapProps
 
         <footer className="coach-midseason-recap__footer">
           <div>
-            <span>PRÓXIMO PASO</span>
-            <strong>VOLVER A LA COMPETICIÓN</strong>
+            <span>{es?"PRÓXIMO PASO":"NEXT STEP"}</span>
+            <strong>{es?"VOLVER A LA COMPETICIÓN":"RETURN TO COMPETITION"}</strong>
           </div>
 
           <button onClick={onContinue}>
-            CONTINUAR TEMPORADA <span>→</span>
+            {es?"CONTINUAR TEMPORADA":"CONTINUE SEASON"} <span>→</span>
           </button>
         </footer>
       </div>
@@ -158,14 +179,16 @@ function SummaryCard({label,value}:{label:string;value:string|number}) {
   );
 }
 
-function TransferRow({transfer,playerTeamId}:{transfer:{
+function TransferRow({transfer,playerTeamId,language,currency}:{transfer:{
   playerId:string;
   playerName:string;
   fromTeamId:string;
   toTeamId:string;
   salary:number;
   transferFee:number;
-};playerTeamId:string}) {
+};playerTeamId:string;language:Language;currency:GameCurrency}) {
+  const es=language==="es";
+
   const fromTeam=getTeamById(transfer.fromTeamId);
   const toTeam=getTeamById(transfer.toTeamId);
   const fromLogo=getTeamLogo(fromTeam?.logo);
@@ -180,15 +203,22 @@ function TransferRow({transfer,playerTeamId}:{transfer:{
         <div className="coach-midseason-recap__avatar">{transfer.playerName.slice(0,1).toUpperCase()}</div>
 
         <div>
-          <span>{incoming?"FICHAJE":outgoing?"SALIDA":"TRANSFERENCIA"}</span>
+          <span>
+            {incoming
+              ?es?"FICHAJE":"SIGNING"
+              :outgoing
+                ?es?"SALIDA":"DEPARTURE"
+                :es?"TRANSFERENCIA":"TRANSFER"}
+          </span>
+
           <strong>{transfer.playerName}</strong>
-          <small>{formatMoney(transfer.salary)} / MES</small>
+          <small>{formatCurrency(transfer.salary,currency)} / {es?"MES":"MONTH"}</small>
         </div>
       </div>
 
       <div className="coach-midseason-recap__route">
         <TeamBadge
-          name={transfer.fromTeamId==="free-agent"?"FREE AGENT":fromTeam?.shortName??transfer.fromTeamId}
+          name={transfer.fromTeamId==="free-agent"?(es?"AGENTE LIBRE":"FREE AGENT"):fromTeam?.shortName??transfer.fromTeamId}
           logo={fromLogo}
         />
 
@@ -197,14 +227,14 @@ function TransferRow({transfer,playerTeamId}:{transfer:{
         </div>
 
         <TeamBadge
-          name={transfer.toTeamId==="free-agent"?"FREE AGENT":toTeam?.shortName??transfer.toTeamId}
+          name={transfer.toTeamId==="free-agent"?(es?"AGENTE LIBRE":"FREE AGENT"):toTeam?.shortName??transfer.toTeamId}
           logo={toLogo}
         />
       </div>
 
       <div className="coach-midseason-recap__fee">
         <span>TRANSFER FEE</span>
-        <strong>{transfer.transferFee>0?formatMoney(transfer.transferFee):"FREE"}</strong>
+        <strong>{transfer.transferFee>0?formatCurrency(transfer.transferFee,currency):(es?"GRATIS":"FREE")}</strong>
       </div>
     </article>
   );
@@ -232,6 +262,7 @@ function EmptyState({title,description}:{title:string;description:string}) {
   );
 }
 
-function formatMoney(value:number) {
-  return `$${Math.round(value).toLocaleString("en-US")}`;
+function formatMoveCount(count:number,language:Language) {
+  if(language==="es")return `${count} ${count===1?"MOVIMIENTO":"MOVIMIENTOS"}`;
+  return `${count} ${count===1?"MOVE":"MOVES"}`;
 }

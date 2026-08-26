@@ -237,7 +237,7 @@
 
 .coach-roster__table-head span {
   color:var(--muted-2);
-  font-size:7px;
+  font-size:9px;
   font-weight:900;
   letter-spacing:.08em;
 }
@@ -340,7 +340,7 @@
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
-  font-size:12px;
+  font-size:16px;
 }
 
 .coach-roster__player-name small {
@@ -350,12 +350,12 @@
   white-space:nowrap;
   text-overflow:ellipsis;
   color:var(--muted);
-  font-size:7px;
+  font-size:12px;
 }
 
 .coach-roster__player-row>span {
   color:#b1b4ba;
-  font-size:8px;
+  font-size:12px;
 }
 
 .coach-roster__value {
@@ -688,6 +688,12 @@
 .coach-roster__detail-panel::-webkit-scrollbar-thumb {
   background:#555963;
   border-radius:6px;
+}
+
+.coach-roster__topbar-actions {
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 @media(max-width:1150px) {

@@ -1,6 +1,9 @@
 import {useMemo,useState} from "react";
 import type {CoachCareerState,CoachPlayer} from "../../types/coach";
 import {getTeamById} from "../../data/teams";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
+import {formatCurrency} from "../../utils/currency";
 import {getTeamLogo} from "../../utils/teamLogo";
 import "../../styles/CoachRoster.css";
 
@@ -10,6 +13,9 @@ interface CoachRosterProps {
 }
 
 export function CoachRoster({career,onBack}:CoachRosterProps) {
+  const {language,currency}=useGameSettings();
+  const es=language==="es";
+
   const team=getTeamById(career.team.teamId);
   const logo=getTeamLogo(team?.logo);
 
@@ -19,7 +25,6 @@ export function CoachRoster({career,onBack}:CoachRosterProps) {
   );
 
   const [selectedPlayerId,setSelectedPlayerId]=useState<string|null>(roster[0]?.id??null);
-
   const selectedPlayer=roster.find(player=>player.id===selectedPlayerId)??roster[0]??null;
 
   const payroll=roster.reduce((total,player)=>total+player.salary,0);
@@ -41,25 +46,28 @@ export function CoachRoster({career,onBack}:CoachRosterProps) {
 
             <div>
               <span>COACH CAREER</span>
-              <strong>CENTRO DE PLANTILLA</strong>
-              <small>{team?.name??"Equipo"} · {team?.circuit} · {team?.marketRegion}</small>
+              <strong>{es?"CENTRO DE PLANTILLA":"ROSTER HUB"}</strong>
+              <small>{team?.name??(es?"Equipo":"Team")} · {team?.circuit} · {team?.marketRegion}</small>
             </div>
           </div>
 
-          <button className="coach-roster__back" onClick={onBack}>← DASHBOARD</button>
+          <div className="coach-roster__topbar-actions">
+            <GameSettingsControls/>
+            <button className="coach-roster__back" onClick={onBack}>← {es?"MENÚ":"MENU"}</button>
+          </div>
         </header>
 
         <section className="coach-roster__navigation">
           <div>
-            <span>PRIMER EQUIPO</span>
-            <strong>PLANTILLA</strong>
+            <span>{es?"PRIMER EQUIPO":"FIRST TEAM"}</span>
+            <strong>{es?"PLANTILLA":"ROSTER"}</strong>
           </div>
 
           <div className="coach-roster__nav-summary">
-            <SummaryStat label="JUGADORES" value={roster.length}/>
-            <SummaryStat label="TITULARES" value={starters}/>
-            <SummaryStat label="OVR MEDIO" value={averageOverall}/>
-            <SummaryStat label="MEJOR OVR" value={highestOverall}/>
+            <SummaryStat label={es?"JUGADORES":"PLAYERS"} value={roster.length}/>
+            <SummaryStat label={es?"TITULARES":"STARTERS"} value={starters}/>
+            <SummaryStat label={es?"OVR MEDIO":"AVG OVR"} value={averageOverall}/>
+            <SummaryStat label={es?"MEJOR OVR":"BEST OVR"} value={highestOverall}/>
           </div>
         </section>
 
@@ -67,23 +75,23 @@ export function CoachRoster({career,onBack}:CoachRosterProps) {
           <section className="coach-roster__list-panel">
             <header className="coach-roster__list-head">
               <div>
-                <span>ROSTER ACTUAL</span>
-                <strong>{roster.length} JUGADORES</strong>
+                <span>{es?"ROSTER ACTUAL":"CURRENT ROSTER"}</span>
+                <strong>{roster.length} {es?"JUGADORES":"PLAYERS"}</strong>
               </div>
 
               <div>
-                <span>NÓMINA</span>
-                <strong>${payroll.toLocaleString("en-US")}</strong>
+                <span>{es?"NÓMINA":"PAYROLL"}</span>
+                <strong>{formatCurrency(payroll,currency)}</strong>
               </div>
             </header>
 
             <div className="coach-roster__table-head">
-              <span>ESTADO</span>
-              <span>NOMBRE</span>
-              <span>ROL</span>
+              <span>{es?"ESTADO":"STATUS"}</span>
+              <span>{es?"NOMBRE":"NAME"}</span>
+              <span>{es?"ROL":"ROLE"}</span>
               <span>OVR</span>
-              <span>EDAD</span>
-              <span>CONTRATO</span>
+              <span>{es?"EDAD":"AGE"}</span>
+              <span>{es?"CONTRATO":"CONTRACT"}</span>
             </div>
 
             <div className="coach-roster__players">
@@ -92,6 +100,8 @@ export function CoachRoster({career,onBack}:CoachRosterProps) {
                   key={player.id}
                   player={player}
                   selected={selectedPlayer?.id===player.id}
+                  language={language}
+                  currency={currency}
                   onClick={()=>setSelectedPlayerId(player.id)}
                 />
               ))}
@@ -100,11 +110,11 @@ export function CoachRoster({career,onBack}:CoachRosterProps) {
 
           <aside className="coach-roster__detail-panel">
             {selectedPlayer?(
-              <PlayerDetail player={selectedPlayer}/>
+              <PlayerDetail player={selectedPlayer} language={language} currency={currency}/>
             ):(
               <div className="coach-roster__empty">
-                <strong>SIN JUGADORES</strong>
-                <span>No hay jugadores registrados en la plantilla.</span>
+                <strong>{es?"SIN JUGADORES":"NO PLAYERS"}</strong>
+                <span>{es?"No hay jugadores registrados en la plantilla.":"There are no players registered in the roster."}</span>
               </div>
             )}
           </aside>
@@ -114,12 +124,19 @@ export function CoachRoster({career,onBack}:CoachRosterProps) {
   );
 }
 
-function PlayerRow({player,selected,onClick}:{player:CoachPlayer;selected:boolean;onClick:()=>void}) {
+function PlayerRow({player,selected,language,currency,onClick}:{
+  player:CoachPlayer;
+  selected:boolean;
+  language:"es"|"en";
+  currency:Parameters<typeof formatCurrency>[1];
+  onClick:()=>void;
+}) {
+  const es=language==="es";
+
   return (
     <button className={`coach-roster__player-row${selected?" coach-roster__player-row--selected":""}`} onClick={onClick}>
       <div className="coach-roster__status">
         <span className={player.starter?"coach-roster__status-dot coach-roster__status-dot--starter":"coach-roster__status-dot"}/>
-        <small>{player.starter?"XI":"SUB"}</small>
       </div>
 
       <div className="coach-roster__player-name">
@@ -127,19 +144,25 @@ function PlayerRow({player,selected,onClick}:{player:CoachPlayer;selected:boolea
 
         <div>
           <strong>{player.ign}</strong>
-          <small>${player.salary.toLocaleString("en-US")} / MES</small>
+          <small>{formatCurrency(player.salary,currency)} / {es?"MES":"MONTH"}</small>
         </div>
       </div>
 
-      <span>{getRoleLabel(player.role)}</span>
+      <span>{getRoleLabel(player.role,language)}</span>
       <strong className={getOverallClass(player.overall)}>{player.overall}</strong>
       <span>{player.age}</span>
-      <span>{formatContract(player)}</span>
+      <span>{formatContract(player,language)}</span>
     </button>
   );
 }
 
-function PlayerDetail({player}:{player:CoachPlayer}) {
+function PlayerDetail({player,language,currency}:{
+  player:CoachPlayer;
+  language:"es"|"en";
+  currency:Parameters<typeof formatCurrency>[1];
+}) {
+  const es=language==="es";
+
   const averageStats=Math.round(
     (
       player.stats.aim+
@@ -158,9 +181,9 @@ function PlayerDetail({player}:{player:CoachPlayer}) {
           <div className="coach-roster__detail-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
 
           <div>
-            <span>{getRoleLabel(player.role)}</span>
+            <span>{getRoleLabel(player.role,language)}</span>
             <h2>{player.ign}</h2>
-            <small>{player.starter?"TITULAR":"SUPLENTE"} · {player.age} AÑOS</small>
+            <small>{player.starter?(es?"TITULAR":"STARTER"):(es?"SUPLENTE":"SUBSTITUTE")} · {player.age} {es?"AÑOS":"YEARS OLD"}</small>
           </div>
         </div>
 
@@ -171,62 +194,61 @@ function PlayerDetail({player}:{player:CoachPlayer}) {
       </header>
 
       <section className="coach-roster__profile-grid">
-        <ProfileItem label="POTENCIAL" value={String(player.potential)}/>
-        <ProfileItem label="EDAD" value={String(player.age)}/>
-        <ProfileItem label="ROL" value={getRoleLabel(player.role)}/>
-        <ProfileItem label="CONTRATO" value={formatContract(player)}/>
+        <ProfileItem label={es?"POTENCIAL":"POTENTIAL"} value={String(player.potential)}/>
+        <ProfileItem label={es?"EDAD":"AGE"} value={String(player.age)}/>
+        <ProfileItem label={es?"ROL":"ROLE"} value={getRoleLabel(player.role,language)}/>
+        <ProfileItem label={es?"CONTRATO":"CONTRACT"} value={formatContract(player,language)}/>
       </section>
 
       <section className="coach-roster__radar-section">
         <header>
           <div>
             <span>PLAYER PROFILE</span>
-            <strong>ATRIBUTOS</strong>
+            <strong>{es?"ATRIBUTOS":"ATTRIBUTES"}</strong>
           </div>
 
           <div>
-            <span>MEDIA</span>
+            <span>{es?"MEDIA":"AVERAGE"}</span>
             <strong>{averageStats}</strong>
           </div>
         </header>
 
-        <PlayerRadar player={player}/>
+        <PlayerRadar player={player} language={language}/>
       </section>
 
       <section className="coach-roster__attribute-list">
         <Attribute label="AIM" value={player.stats.aim}/>
         <Attribute label="GAME SENSE" value={player.stats.gameSense}/>
-        <Attribute label="COMMUNICATION" value={player.stats.communication}/>
+        <Attribute label={es?"COMUNICACIÓN":"COMMUNICATION"} value={player.stats.communication}/>
         <Attribute label="CLUTCH" value={player.stats.clutch}/>
-        <Attribute label="CONSISTENCY" value={player.stats.consistency}/>
+        <Attribute label={es?"CONSISTENCIA":"CONSISTENCY"} value={player.stats.consistency}/>
         <Attribute label="MENTAL" value={player.stats.mental}/>
       </section>
 
       <section className="coach-roster__financial">
-        <span>CONTRATO Y VALOR</span>
+        <span>{es?"CONTRATO Y VALOR":"CONTRACT & VALUE"}</span>
 
         <div>
-          <ProfileItem label="SUELDO MENSUAL" value={`$${player.salary.toLocaleString("en-US")}`}/>
-          <ProfileItem label="VALOR MERCADO" value={`$${player.marketValue.toLocaleString("en-US")}`}/>
+          <ProfileItem label={es?"SUELDO MENSUAL":"MONTHLY SALARY"} value={formatCurrency(player.salary,currency)}/>
+          <ProfileItem label={es?"VALOR MERCADO":"MARKET VALUE"} value={formatCurrency(player.marketValue,currency)}/>
         </div>
       </section>
     </>
   );
 }
 
-function PlayerRadar({player}:{player:CoachPlayer}) {
+function PlayerRadar({player,language}:{player:CoachPlayer;language:"es"|"en"}) {
   const stats=[
     {label:"AIM",value:player.stats.aim},
     {label:"GAME",value:player.stats.gameSense},
-    {label:"COMMS",value:player.stats.communication},
+    {label:language==="es"?"COMMS":"COMMS",value:player.stats.communication},
     {label:"CLUTCH",value:player.stats.clutch},
-    {label:"CONS.",value:player.stats.consistency},
+    {label:language==="es"?"CONS.":"CONS.",value:player.stats.consistency},
     {label:"MENTAL",value:player.stats.mental},
   ];
 
   const center=150;
   const radius=105;
-
   const gridLevels=[25,50,75,100];
 
   const points=stats.map((stat,index)=>{
@@ -311,18 +333,24 @@ function getRadarPolygon(count:number,center:number,radius:number) {
   }).join(" ");
 }
 
-function formatContract(player:CoachPlayer) {
+function formatContract(player:CoachPlayer,language:"es"|"en") {
   const years=player.contractSeasonsRemaining??0;
-  if(years<=0)return "EXPIRA";
-  return `${years} ${years===1?"AÑO":"AÑOS"}`;
+
+  if(years<=0)return language==="es"?"EXPIRA":"EXPIRES";
+
+  if(language==="es")return `${years} ${years===1?"AÑO":"AÑOS"}`;
+  return `${years} ${years===1?"YEAR":"YEARS"}`;
 }
 
-function getRoleLabel(role:CoachPlayer["role"]) {
+function getRoleLabel(role:CoachPlayer["role"],language:"es"|"en") {
+  if(language==="en")return role.toUpperCase();
+
   if(role==="Duelist")return "DUELISTA";
   if(role==="Initiator")return "INICIADOR";
   if(role==="Controller")return "CONTROLADOR";
   if(role==="Sentinel")return "CENTINELA";
   if(role==="IGL")return "IGL";
+
   return "FLEX";
 }
 

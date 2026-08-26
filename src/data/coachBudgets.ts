@@ -8,18 +8,18 @@ export function createCoachTeamFinances(team:TeamDefinition):CoachTeamFinances {
     const prestigeProgress=Math.max(0,Math.min(1,(team.prestige-60)/40));
 
     return {
-      monthlyBudget:Math.round(65000+prestigeProgress*85000),
+      monthlyBudget:Math.round(35000+prestigeProgress*110000),
       currentMonthlyPayroll:0,
-      transferBudget:Math.round(1500000+prestigeProgress*5500000),
+      transferBudget:Math.round(100000+prestigeProgress*250000),
     };
   }
 
   const prestigeProgress=Math.max(0,Math.min(1,(team.prestige-30)/40));
 
   return {
-    monthlyBudget:Math.round(12000+prestigeProgress*28000),
+    monthlyBudget:Math.round(8000+prestigeProgress*24000),
     currentMonthlyPayroll:0,
-    transferBudget:Math.round(250000+prestigeProgress*1000000),
+    transferBudget:Math.round(20000+prestigeProgress*60000),
   };
 }
 

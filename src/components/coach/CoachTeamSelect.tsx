@@ -3,7 +3,9 @@ import {TEAMS} from "../../data/teams";
 import {createCoachCareer} from "../../logic/coachCareer";
 import {getCoachClubProfile,type CoachClubExpectation,type CoachClubLevel} from "../../logic/coachClubProfile";
 import {CountrySelect} from "../shared/CountrySelect";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {useGameSettings} from "../../context/GameSettingsContext";
+import {formatCurrency} from "../../utils/currency";
 import type {CoachCareerState} from "../../types/coach";
 import type {CompetitiveCircuit,MarketRegion,TeamDefinition} from "../../types/career";
 import {getTeamLogo} from "../../utils/teamLogo";
@@ -14,12 +16,17 @@ interface CoachTeamSelectProps {
 }
 
 type CoachStageFilter="VCT"|"Tier 2";
+type Language="es"|"en";
+
 const ALL_REGIONS="ALL" as const;
+
 type RegionFilter=CompetitiveCircuit|typeof ALL_REGIONS;
 type SubregionFilter=MarketRegion|typeof ALL_REGIONS;
 
 export function CoachTeamSelect({onStart}:CoachTeamSelectProps) {
-  const {language}=useGameSettings();
+  const {language,currency}=useGameSettings();
+  const es=language==="es";
+
   const [stage,setStage]=useState<CoachStageFilter>("VCT");
   const [region,setRegion]=useState<RegionFilter>(ALL_REGIONS);
   const [subregion,setSubregion]=useState<SubregionFilter>(ALL_REGIONS);
@@ -68,9 +75,7 @@ export function CoachTeamSelect({onStart}:CoachTeamSelectProps) {
       return;
     }
 
-    if(!teams.some(team=>team.id===selectedTeamId)){
-      setSelectedTeamId(teams[0].id);
-    }
+    if(!teams.some(team=>team.id===selectedTeamId))setSelectedTeamId(teams[0].id);
   },[teams,selectedTeamId]);
 
   const changeStage=(nextStage:CoachStageFilter)=>{
@@ -116,18 +121,24 @@ export function CoachTeamSelect({onStart}:CoachTeamSelectProps) {
       <header className="coach-team-select__top">
         <div>
           <span>TUCARRERAVALORANT</span>
-          <h1>SELECCIONAR CLUB</h1>
+          <h1>{es?"SELECCIONAR CLUB":"SELECT CLUB"}</h1>
         </div>
 
-        <nav className="coach-team-select__stage-tabs">
-          <button className={stage==="VCT"?"active":""} onClick={()=>changeStage("VCT")}>VCT</button>
-          <button className={stage==="Tier 2"?"active":""} onClick={()=>changeStage("Tier 2")}>CHALLENGERS</button>
-        </nav>
+        <div className="coach-team-select__top-actions">
+          <nav className="coach-team-select__stage-tabs">
+            <button className={stage==="VCT"?"active":""} onClick={()=>changeStage("VCT")}>VCT</button>
+            <button className={stage==="Tier 2"?"active":""} onClick={()=>changeStage("Tier 2")}>CHALLENGERS</button>
+          </nav>
+
+          <GameSettingsControls/>
+        </div>
       </header>
 
       <section className="coach-team-select__navigation">
         <div className="coach-team-select__region-tabs">
-          <button className={region===ALL_REGIONS?"active":""} onClick={()=>changeRegion(ALL_REGIONS)}>TODAS</button>
+          <button className={region===ALL_REGIONS?"active":""} onClick={()=>changeRegion(ALL_REGIONS)}>
+            {es?"TODAS":"ALL"}
+          </button>
 
           {regions.map(item=>(
             <button key={item} className={region===item?"active":""} onClick={()=>changeRegion(item)}>{item.toUpperCase()}</button>
@@ -136,7 +147,9 @@ export function CoachTeamSelect({onStart}:CoachTeamSelectProps) {
 
         {stage==="Tier 2"&&subregions.length>1&&(
           <div className="coach-team-select__subregion-tabs">
-            <button className={subregion===ALL_REGIONS?"active":""} onClick={()=>changeSubregion(ALL_REGIONS)}>TODAS</button>
+            <button className={subregion===ALL_REGIONS?"active":""} onClick={()=>changeSubregion(ALL_REGIONS)}>
+              {es?"TODAS":"ALL"}
+            </button>
 
             {subregions.map(item=>(
               <button key={item} className={subregion===item?"active":""} onClick={()=>changeSubregion(item)}>{item.toUpperCase()}</button>
@@ -148,38 +161,38 @@ export function CoachTeamSelect({onStart}:CoachTeamSelectProps) {
       {selectedTeam&&profile?(
         <>
           <section className="coach-team-select__club-dashboard">
-            <ClubIdentity team={selectedTeam} stars={profile.stars} onPrevious={()=>changeTeam(-1)} onNext={()=>changeTeam(1)}/>
+            <ClubIdentity team={selectedTeam} stars={profile.stars} language={language} onPrevious={()=>changeTeam(-1)} onNext={()=>changeTeam(1)}/>
 
-            <JerseyPanel team={selectedTeam}/>
+            <JerseyPanel team={selectedTeam} language={language}/>
 
             <section className="coach-team-select__club-information">
               <div className="coach-team-select__founded">
-                <span>FUNDADO</span>
+                <span>{es?"FUNDADO":"FOUNDED"}</span>
                 <strong>{profile.founded??"—"}</strong>
               </div>
 
               <div className="coach-team-select__financial-grid">
-                <InfoStat label="VALOR DEL CLUB" value={formatClubMoney(profile.clubValue)}/>
-                <InfoStat label="PRESUP. TRASPASOS" value={formatClubMoney(profile.transferBudget)}/>
+                <InfoStat label={es?"VALOR DEL CLUB":"CLUB VALUE"} value={formatCurrency(profile.clubValue,currency)}/>
+                <InfoStat label={es?"PRESUP. TRASPASOS":"TRANSFER BUDGET"} value={formatCurrency(profile.transferBudget,currency)}/>
               </div>
 
               <div className="coach-team-select__club-record">
                 <div>
-                  <span>PRESTIGIO</span>
+                  <span>{es?"PRESTIGIO":"PRESTIGE"}</span>
                   <strong>{selectedTeam.prestige}</strong>
                 </div>
 
                 <div>
-                  <span>FUERZA</span>
+                  <span>{es?"FUERZA":"STRENGTH"}</span>
                   <strong>{selectedTeam.strength}</strong>
                 </div>
               </div>
             </section>
 
             <section className="coach-team-select__project">
-              <ProjectCard label="EXPECTATIVAS" value={formatExpectation(profile.expectation)} level={getExpectationLevel(profile.expectation)}/>
-              <ProjectCard label="AFICIÓN" value={formatLevel(profile.fanSupport)} level={profile.fanSupport}/>
-              <ProjectCard label="ESTABILIDAD" value={formatLevel(profile.stability)} level={profile.stability}/>
+              <ProjectCard label={es?"EXPECTATIVAS":"EXPECTATIONS"} value={formatExpectation(profile.expectation,language)} level={getExpectationLevel(profile.expectation)}/>
+              <ProjectCard label={es?"AFICIÓN":"FAN SUPPORT"} value={formatLevel(profile.fanSupport,language)} level={profile.fanSupport}/>
+              <ProjectCard label={es?"ESTABILIDAD":"STABILITY"} value={formatLevel(profile.stability,language)} level={profile.stability}/>
             </section>
           </section>
 
@@ -190,32 +203,36 @@ export function CoachTeamSelect({onStart}:CoachTeamSelectProps) {
           </section>
         </>
       ):(
-        <div className="coach-team-select__empty">No hay clubes disponibles para esta competición.</div>
+        <div className="coach-team-select__empty">
+          {es?"No hay clubes disponibles para esta competición.":"There are no clubs available for this competition."}
+        </div>
       )}
 
       <section className="coach-team-select__coach-setup">
         <label>
-          <span>NOMBRE DEL COACH</span>
+          <span>{es?"NOMBRE DEL COACH":"COACH NAME"}</span>
           <input value={name} maxLength={20} onChange={event=>setName(event.target.value)}/>
         </label>
 
         <div className="coach-team-select__country-field">
-          <span>NACIONALIDAD</span>
+          <span>{es?"NACIONALIDAD":"NATIONALITY"}</span>
+
           <div className="coach-team-select__country-select">
             <CountrySelect value={nationality} language={language} onChange={setNationality}/>
           </div>
         </div>
 
         <label className="coach-team-select__age">
-          <span>EDAD</span>
+          <span>{es?"EDAD":"AGE"}</span>
           <input type="number" min={18} max={70} value={age} onChange={event=>setAge(Math.max(18,Math.min(70,Number(event.target.value))))}/>
         </label>
 
         <button className="coach-team-select__start-button" disabled={!selectedTeam} onClick={startCareer}>
           <span>
-            <small>NUEVA CARRERA</small>
-            COMENZAR COMO COACH
+            <small>{es?"NUEVA CARRERA":"NEW CAREER"}</small>
+            {es?"COMENZAR COMO COACH":"START AS COACH"}
           </span>
+
           <b>→</b>
         </button>
       </section>
@@ -223,12 +240,19 @@ export function CoachTeamSelect({onStart}:CoachTeamSelectProps) {
   );
 }
 
-function ClubIdentity({team,stars,onPrevious,onNext}:{team:TeamDefinition;stars:number;onPrevious:()=>void;onNext:()=>void}) {
+function ClubIdentity({team,stars,language,onPrevious,onNext}:{
+  team:TeamDefinition;
+  stars:number;
+  language:Language;
+  onPrevious:()=>void;
+  onNext:()=>void;
+}) {
+  const es=language==="es";
   const logo=getTeamLogo(team.logo);
 
   return (
     <section className="coach-team-select__identity">
-      <span className="coach-team-select__panel-label">CLUB</span>
+      <span className="coach-team-select__panel-label">{es?"CLUB":"CLUB"}</span>
       <h2>{team.name.toUpperCase()}</h2>
 
       <div className="coach-team-select__logo-wrapper">
@@ -237,24 +261,23 @@ function ClubIdentity({team,stars,onPrevious,onNext}:{team:TeamDefinition;stars:
         <button onClick={onNext}>›</button>
       </div>
 
-      <ClubStars stars={stars}/>
+      <ClubStars stars={stars} language={language}/>
     </section>
   );
 }
 
-function JerseyPanel({team}:{team:TeamDefinition}) {
+function JerseyPanel({team,language}:{team:TeamDefinition;language:Language}) {
+  const es=language==="es";
   const logo=getTeamLogo(team.logo);
 
   return (
     <section className="coach-team-select__jersey-panel">
-      <span className="coach-team-select__panel-label">EQUIPACIÓN</span>
-      <strong>1.ª EQUIPACIÓN</strong>
+      <span className="coach-team-select__panel-label">{es?"EQUIPACIÓN":"KIT"}</span>
+      <strong>{es?"1.ª EQUIPACIÓN":"HOME KIT"}</strong>
 
       <div className="coach-team-select__jersey">
         <div className="coach-team-select__jersey-neck"/>
-        <div className="coach-team-select__jersey-body">
-          {logo&&<img src={logo} alt=""/>}
-        </div>
+        <div className="coach-team-select__jersey-body">{logo&&<img src={logo} alt=""/>}</div>
         <div className="coach-team-select__jersey-left"/>
         <div className="coach-team-select__jersey-right"/>
       </div>
@@ -283,9 +306,9 @@ function ProjectCard({label,value,level}:{label:string;value:string;level:CoachC
   );
 }
 
-function ClubStars({stars}:{stars:number}) {
+function ClubStars({stars,language}:{stars:number;language:Language}) {
   return (
-    <div className="coach-team-select__stars" aria-label={`${stars} estrellas`}>
+    <div className="coach-team-select__stars" aria-label={`${stars} ${language==="es"?"estrellas":"stars"}`}>
       {[1,2,3,4,5].map(star=>{
         const full=stars>=star;
         const half=!full&&stars>=star-.5;
@@ -298,7 +321,6 @@ function ClubStars({stars}:{stars:number}) {
 
 function getCompetitionName(team:TeamDefinition,stage:CoachStageFilter) {
   if(stage==="VCT")return `VCT ${team.circuit}`.toUpperCase();
-
   return `CHALLENGERS ${team.marketRegion}`.toUpperCase();
 }
 
@@ -311,7 +333,16 @@ function getExpectationLevel(expectation:CoachClubExpectation):CoachClubLevel {
   return "LOW";
 }
 
-function formatExpectation(expectation:CoachClubExpectation) {
+function formatExpectation(expectation:CoachClubExpectation,language:Language) {
+  if(language==="en"){
+    if(expectation==="TITLES")return "WIN TITLES";
+    if(expectation==="INTERNATIONAL")return "INTERNATIONAL EVENTS";
+    if(expectation==="PLAYOFFS")return "REACH PLAYOFFS";
+    if(expectation==="COMPETE")return "BE COMPETITIVE";
+
+    return "DEVELOP THE PROJECT";
+  }
+
   if(expectation==="TITLES")return "GANAR TÍTULOS";
   if(expectation==="INTERNATIONAL")return "TORNEOS INTERNACIONALES";
   if(expectation==="PLAYOFFS")return "CLASIFICAR A PLAYOFFS";
@@ -320,18 +351,18 @@ function formatExpectation(expectation:CoachClubExpectation) {
   return "DESARROLLAR EL PROYECTO";
 }
 
-function formatLevel(level:CoachClubLevel) {
+function formatLevel(level:CoachClubLevel,language:Language) {
+  if(language==="en"){
+    if(level==="CRUCIAL")return "CRUCIAL";
+    if(level==="HIGH")return "HIGH";
+    if(level==="MEDIUM")return "MEDIUM";
+
+    return "LOW";
+  }
+
   if(level==="CRUCIAL")return "CRUCIAL";
   if(level==="HIGH")return "ALTA";
   if(level==="MEDIUM")return "MEDIA";
 
   return "BAJA";
-}
-
-function formatClubMoney(value:number) {
-  if(value>=1000000000)return `$${(value/1000000000).toFixed(2)}B`;
-  if(value>=1000000)return `$${(value/1000000).toFixed(value>=10000000?1:2)}M`;
-  if(value>=1000)return `$${Math.round(value/1000)}K`;
-
-  return `$${value}`;
 }

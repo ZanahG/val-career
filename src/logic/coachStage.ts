@@ -10,7 +10,6 @@ export function createCoachStage(career:CoachCareerState,event:CoachStageEvent):
     .sort((a,b)=>{
       const strengthA=getStoredCompetitiveStrength(competitiveStrengthByTeam,a.id);
       const strengthB=getStoredCompetitiveStrength(competitiveStrengthByTeam,b.id);
-
       const varianceA=getStageVariance(`${career.coach.season}:${event}:${a.id}:seed`);
       const varianceB=getStageVariance(`${career.coach.season}:${event}:${b.id}:seed`);
 
@@ -55,6 +54,18 @@ export function createCoachStage2(career:CoachCareerState) {
 }
 
 export function getNextPlayerStageMatch(state:CoachStageState) {
+  if(state.phase==="Regular Season"){
+    const currentRound=getCurrentRegularSeasonRound(state);
+    if(!currentRound)return undefined;
+
+    return state.matches.find(match=>
+      match.phase==="Regular Season"&&
+      match.round===currentRound&&
+      match.status==="Ready"&&
+      (match.teamAId===state.playerTeamId||match.teamBId===state.playerTeamId),
+    );
+  }
+
   return state.matches.find(match=>
     match.status==="Ready"&&
     (match.teamAId===state.playerTeamId||match.teamBId===state.playerTeamId),
@@ -112,8 +123,40 @@ export function getStage1PlayerRecord(state:CoachStageState) {
 export function advanceStageCPU(initial:CoachStageState):CoachStageState {
   let state=updateStage(initial);
 
-  for(let guard=0;guard<150;guard++) {
+  for(let guard=0;guard<150;guard++){
     if(state.complete)return state;
+
+    if(state.phase==="Regular Season"){
+      const currentRound=getCurrentRegularSeasonRound(state);
+
+      if(!currentRound)return updateStage(state);
+
+      const playerMatch=state.matches.find(match=>
+        match.phase==="Regular Season"&&
+        match.round===currentRound&&
+        match.status==="Ready"&&
+        (match.teamAId===state.playerTeamId||match.teamBId===state.playerTeamId),
+      );
+
+      const cpuMatch=state.matches.find(match=>
+        match.phase==="Regular Season"&&
+        match.round===currentRound&&
+        match.status==="Ready"&&
+        match.teamAId!==state.playerTeamId&&
+        match.teamBId!==state.playerTeamId,
+      );
+
+      if(cpuMatch){
+        state=simulateStageCPUMatch(state,cpuMatch);
+        state=updateStage(state);
+        continue;
+      }
+
+      if(playerMatch)return state;
+
+      state=updateStage(state);
+      continue;
+    }
 
     const playerMatch=getNextPlayerStageMatch(state);
     if(playerMatch)return state;
@@ -125,20 +168,8 @@ export function advanceStageCPU(initial:CoachStageState):CoachStageState {
     );
 
     if(!cpuMatch)return updateStage(state);
-    if(!cpuMatch.teamAId||!cpuMatch.teamBId)return state;
 
-    const winnerId=getCPUWinner(state,cpuMatch);
-    const required=Math.ceil(cpuMatch.bestOf/2);
-    const loserMaps=seededNumber(`${state.event}:${cpuMatch.id}:score`)%required;
-
-    state=completeStageMatch(
-      state,
-      cpuMatch.id,
-      winnerId,
-      winnerId===cpuMatch.teamAId?required:loserMaps,
-      winnerId===cpuMatch.teamBId?required:loserMaps,
-    );
-
+    state=simulateStageCPUMatch(state,cpuMatch);
     state=updateStage(state);
   }
 
@@ -147,6 +178,40 @@ export function advanceStageCPU(initial:CoachStageState):CoachStageState {
 
 export function advanceStage1CPU(initial:CoachStageState) {
   return advanceStageCPU(initial);
+}
+
+function simulateStageCPUMatch(state:CoachStageState,match:CoachStage1Match) {
+  if(!match.teamAId||!match.teamBId)return state;
+
+  const winnerId=getCPUWinner(state,match);
+  const required=Math.ceil(match.bestOf/2);
+  const loserMaps=seededNumber(`${state.event}:${match.id}:score`)%required;
+
+  return completeStageMatch(
+    state,
+    match.id,
+    winnerId,
+    winnerId===match.teamAId?required:loserMaps,
+    winnerId===match.teamBId?required:loserMaps,
+  );
+}
+
+function getCurrentRegularSeasonRound(state:CoachStageState) {
+  const regularMatches=state.matches.filter(match=>match.phase==="Regular Season");
+  const rounds=Array.from(new Set(regularMatches.map(match=>match.round))).sort(compareStageRounds);
+
+  return rounds.find(round=>
+    regularMatches.some(match=>match.round===round&&match.status!=="Complete"),
+  );
+}
+
+function compareStageRounds(a:string,b:string) {
+  const numberA=Number(a.match(/\d+/)?.[0]??0);
+  const numberB=Number(b.match(/\d+/)?.[0]??0);
+
+  if(numberA!==numberB)return numberA-numberB;
+
+  return a.localeCompare(b);
 }
 
 function updateStage(state:CoachStageState):CoachStageState {
@@ -290,7 +355,7 @@ function updatePlayoffs(state:CoachStageState):CoachStageState {
   let updated={...state,matches};
   const grandFinal=getMatch(matches,`${prefix}-gf`);
 
-  if(grandFinal?.status==="Complete") {
+  if(grandFinal?.status==="Complete"){
     updated=assignPlayoffPlacements(updated);
 
     return {
@@ -310,7 +375,7 @@ function refreshStandings(state:CoachStageState):CoachStageState {
     let mapsWon=0;
     let mapsLost=0;
 
-    for(const match of state.matches) {
+    for(const match of state.matches){
       if(match.phase!=="Regular Season"||match.status!=="Complete")continue;
       if(match.teamAId!==standing.teamId&&match.teamBId!==standing.teamId)continue;
 
@@ -357,6 +422,7 @@ function compareStanding(state:CoachStageState,aId:string,bId:string) {
   const diffB=b.mapsWon-b.mapsLost;
 
   if(diffB!==diffA)return diffB-diffA;
+
   return b.mapsWon-a.mapsWon;
 }
 
@@ -370,12 +436,12 @@ function createRoundRobin(event:CoachStageEvent,teamIds:string[],group:"Alpha"|"
   const totalRounds=teams.length-1;
   const half=teams.length/2;
 
-  for(let round=0;round<totalRounds;round++) {
-    for(let index=0;index<half;index++) {
+  for(let round=0;round<totalRounds;round++){
+    for(let index=0;index<half;index++){
       const teamAId=teams[index];
       const teamBId=teams[teams.length-1-index];
 
-      if(teamAId&&teamBId) {
+      if(teamAId&&teamBId){
         rounds.push(
           createMatch(
             `${prefix}-${group.toLowerCase()}-r${round+1}-m${index+1}`,
@@ -547,13 +613,14 @@ function getEventPrefix(event:CoachStageEvent) {
 function seededNumber(value:string) {
   let hash=2166136261;
 
-  for(let index=0;index<value.length;index++) {
+  for(let index=0;index<value.length;index++){
     hash^=value.charCodeAt(index);
     hash=Math.imul(hash,16777619);
   }
 
   return hash>>>0;
 }
+
 function getStageVariance(value:string) {
   return (seededNumber(value)%801)/100-4;
 }

@@ -638,7 +638,24 @@
 .coach-map-pool__training--empty .coach-map-pool__training-copy span {
   color:var(--red);
 }
+.coach-map-pool__topbar-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+}
+@media(max-width:800px) {
+  .coach-map-pool__topbar {
+    align-items:flex-start;
+    gap:12px;
+    flex-wrap:wrap;
+  }
 
+  .coach-map-pool__topbar-actions {
+    margin-left:auto;
+    flex-wrap:wrap;
+  }
+}
 @media(max-width:1100px) {
   .coach-map-pool__hero {
     align-items:flex-start;

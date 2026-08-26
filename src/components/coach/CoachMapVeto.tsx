@@ -4,6 +4,8 @@ import type {CoachCareerState,CoachMapName,CoachMapVetoState} from "../../types/
 import {getTeamById} from "../../data/teams";
 import {createInitialCoachMapPool,getMapScore} from "../../logic/coachMapPool";
 import {applyOpponentVetoSelection,applyPlayerVetoSelection,createCoachMapVeto,getCoachVetoSteps,getCurrentVetoStep} from "../../logic/coachMapVeto";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
 import "../../styles/CoachMapVeto.css";
 
@@ -15,9 +17,14 @@ interface CoachMapVetoProps {
   onBack:()=>void;
 }
 
+type Language="es"|"en";
+
 const MAP_IMAGES=import.meta.glob("../../images/maps/*.{png,jpg,jpeg,webp}",{eager:true,query:"?url",import:"default"}) as Record<string,string>;
 
 export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:CoachMapVetoProps) {
+  const {language}=useGameSettings();
+  const es=language==="es";
+
   const team=getTeamById(career.team.teamId);
   const opponent=getTeamById(opponentTeamId);
   const teamLogo=getTeamLogo(team?.logo);
@@ -81,20 +88,17 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
     setVeto(applyPlayerVetoSelection(veto,map));
   };
 
-  const canPick=Boolean(
-    veto&&
-    !veto.completed&&
-    step?.team==="player"
-  );
+  const canPick=Boolean(veto&&!veto.completed&&step?.team==="player");
 
   const title=getMainTitle(
     veto,
     step,
-    team?.shortName??"TU EQUIPO",
-    opponent?.shortName??"RIVAL",
+    team?.shortName??(es?"TU EQUIPO":"YOUR TEAM"),
+    opponent?.shortName??(es?"RIVAL":"OPPONENT"),
+    language,
   );
 
-  const subtitle=getMainSubtitle(veto,step);
+  const subtitle=getMainSubtitle(veto,step,language);
   const activeMaps=veto?.availableMaps??[];
 
   return (
@@ -105,38 +109,38 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
       <div className="coach-map-veto__bg"/>
       <div className="coach-map-veto__overlay"/>
 
-      <button className="coach-map-veto__back" onClick={onBack}>← MENU</button>
+      <button className="coach-map-veto__back" onClick={onBack}>← {es?"MENÚ":"MENU"}</button>
 
       <div className="coach-map-veto__shell">
         <header className="coach-map-veto__topbar">
           <div className="coach-map-veto__team coach-map-veto__team--left">
             <div className="coach-map-veto__team-logo">
-              {teamLogo
-                ?<img src={teamLogo} alt={team?.name??""}/>
-                :<span>{team?.shortName??"TBD"}</span>}
+              {teamLogo?<img src={teamLogo} alt={team?.name??""}/>:<span>{team?.shortName??"TBD"}</span>}
             </div>
 
             <div className="coach-map-veto__team-copy">
               <strong>{team?.shortName??"TEAM"}</strong>
-              <span>{team?.name??"Tu equipo"}</span>
+              <span>{team?.name??(es?"Tu equipo":"Your team")}</span>
             </div>
           </div>
 
           <div className="coach-map-veto__center-status">
             <strong>{String(stepNumber).padStart(2,"0")}</strong>
-            <span>VOTE MAP · BO{bestOf}</span>
+            <span>MAP VETO · BO{bestOf}</span>
           </div>
 
-          <div className="coach-map-veto__team coach-map-veto__team--right">
-            <div className="coach-map-veto__team-copy">
-              <strong>{opponent?.shortName??"RIVAL"}</strong>
-              <span>{opponent?.name??"Rival"}</span>
-            </div>
+          <div className="coach-map-veto__topbar-actions">
+            <GameSettingsControls/>
 
-            <div className="coach-map-veto__team-logo">
-              {opponentLogo
-                ?<img src={opponentLogo} alt={opponent?.name??""}/>
-                :<span>{opponent?.shortName??"TBD"}</span>}
+            <div className="coach-map-veto__team coach-map-veto__team--right">
+              <div className="coach-map-veto__team-copy">
+                <strong>{opponent?.shortName??(es?"RIVAL":"OPPONENT")}</strong>
+                <span>{opponent?.name??(es?"Rival":"Opponent")}</span>
+              </div>
+
+              <div className="coach-map-veto__team-logo">
+                {opponentLogo?<img src={opponentLogo} alt={opponent?.name??""}/>:<span>{opponent?.shortName??"TBD"}</span>}
+              </div>
             </div>
           </div>
         </header>
@@ -150,7 +154,8 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
                 veto={veto}
                 isCurrent={!veto.completed&&index===veto.currentStep}
                 playerShortName={team?.shortName??"TEAM"}
-                opponentShortName={opponent?.shortName??"RIVAL"}
+                opponentShortName={opponent?.shortName??(es?"RIVAL":"OPPONENT")}
+                language={language}
               />
             ))}
           </aside>
@@ -161,10 +166,10 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
 
               <div className={`coach-map-veto__turn${veto?.completed?" coach-map-veto__turn--player":step?.team==="player"?" coach-map-veto__turn--player":" coach-map-veto__turn--opponent"}`}>
                 {veto?.completed
-                  ?"SERIE LISTA"
+                  ?es?"SERIE LISTA":"SERIES READY"
                   :step?.team==="player"
-                    ?"YOUR TEAM"
-                    :"OPPONENT"}
+                    ?es?"TU EQUIPO":"YOUR TEAM"
+                    :es?"RIVAL":"OPPONENT"}
               </div>
             </div>
 
@@ -197,17 +202,15 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
                         <div className="coach-map-veto__map-fade"/>
 
                         <div className={`coach-map-veto__map-advantage${mapDiff>0?" coach-map-veto__map-advantage--positive":mapDiff<0?" coach-map-veto__map-advantage--negative":" coach-map-veto__map-advantage--neutral"}`}>
-                          <span>{getAdvantageLabel(mapDiff)}</span>
+                          <span>{getAdvantageLabel(mapDiff,language)}</span>
                           <strong>{mapDiff>0?`+${mapDiff}`:mapDiff}</strong>
                         </div>
 
-                        <div className="coach-map-veto__map-name">
-                          {map.toUpperCase()}
-                        </div>
+                        <div className="coach-map-veto__map-name">{map.toUpperCase()}</div>
 
                         <div className="coach-map-veto__map-scores">
-                          <span>{team?.shortName??"YOU"} {myMapScore}</span>
-                          <span>{opponent?.shortName??"RIV"} {oppMapScore}</span>
+                          <span>{team?.shortName??(es?"TÚ":"YOU")} {myMapScore}</span>
+                          <span>{opponent?.shortName??(es?"RIV":"OPP")} {oppMapScore}</span>
                         </div>
                       </button>
                     );
@@ -216,23 +219,23 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
 
                 <section className="coach-map-veto__info-bar">
                   <div className="coach-map-veto__info-card">
-                    <span>MAPA EN FOCO</span>
+                    <span>{es?"MAPA EN FOCO":"FOCUSED MAP"}</span>
                     <strong>{displayMap?.toUpperCase()??"-"}</strong>
                   </div>
 
                   <div className="coach-map-veto__info-card">
-                    <span>{team?.shortName??"YOU"}</span>
+                    <span>{team?.shortName??(es?"TÚ":"YOU")}</span>
                     <strong>{myScore}</strong>
                   </div>
 
                   <div className={`coach-map-veto__info-card coach-map-veto__info-card--highlight${difference>0?" coach-map-veto__info-card--positive":difference<0?" coach-map-veto__info-card--negative":" coach-map-veto__info-card--neutral"}`}>
-                    <span>VENTAJA</span>
+                    <span>{es?"VENTAJA":"ADVANTAGE"}</span>
                     <strong>{difference>0?`+${difference}`:difference}</strong>
-                    <small>{getAdvantageLabel(difference)}</small>
+                    <small>{getAdvantageLabel(difference,language)}</small>
                   </div>
 
                   <div className="coach-map-veto__info-card">
-                    <span>{opponent?.shortName??"RIV"}</span>
+                    <span>{opponent?.shortName??(es?"RIV":"OPP")}</span>
                     <strong>{oppScore}</strong>
                   </div>
                 </section>
@@ -242,8 +245,8 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
                     {step?.team==="player"
                       ?step.action==="ban"
                         ?"BAN MAP"
-                        :"CHOOSE MAP"
-                      :"ESPERANDO RIVAL"}
+                        :es?"ELEGIR MAPA":"CHOOSE MAP"
+                      :es?"ESPERANDO RIVAL":"WAITING FOR OPPONENT"}
                   </button>
                 </div>
               </>
@@ -252,10 +255,11 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
             {veto?.completed&&(
               <SeriesResult
                 veto={veto}
-                playerShortName={team?.shortName??"TÚ"}
-                opponentShortName={opponent?.shortName??"RIVAL"}
+                playerShortName={team?.shortName??(es?"TÚ":"YOU")}
+                opponentShortName={opponent?.shortName??(es?"RIVAL":"OPPONENT")}
                 playerPool={career.team.mapPool}
                 opponentPool={opponentPool}
+                language={language}
                 onHover={setHoveredMap}
                 onComplete={()=>onComplete(veto)}
               />
@@ -267,23 +271,17 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
   );
 }
 
-function SeriesResult({
-  veto,
-  playerShortName,
-  opponentShortName,
-  playerPool,
-  opponentPool,
-  onHover,
-  onComplete,
-}:{
+function SeriesResult({veto,playerShortName,opponentShortName,playerPool,opponentPool,language,onHover,onComplete}:{
   veto:CoachMapVetoState;
   playerShortName:string;
   opponentShortName:string;
   playerPool:CoachCareerState["team"]["mapPool"];
   opponentPool:ReturnType<typeof createInitialCoachMapPool>|null;
+  language:Language;
   onHover:(map:CoachMapName|null)=>void;
   onComplete:()=>void;
 }) {
+  const es=language==="es";
   const seriesLength=veto.seriesMaps.length;
   const formatLabel=seriesLength===5?"BEST OF 5":"BEST OF 3";
 
@@ -291,11 +289,11 @@ function SeriesResult({
     <section className="coach-map-veto__series-final">
       <header className="coach-map-veto__series-final-head">
         <div>
-          <span>SERIE DEFINIDA</span>
+          <span>{es?"SERIE DEFINIDA":"SERIES SET"}</span>
           <strong>{formatLabel}</strong>
         </div>
 
-        <small>{seriesLength} MAPAS</small>
+        <small>{seriesLength} {es?"MAPAS":"MAPS"}</small>
       </header>
 
       <div className={`coach-map-veto__series-final-grid coach-map-veto__series-final-grid--${seriesLength}`}>
@@ -307,7 +305,6 @@ function SeriesResult({
           );
 
           const isDecider=!selection;
-
           const myScore=getScoreForMap(playerPool,map);
           const oppScore=opponentPool?getScoreForMap(opponentPool,map):0;
           const diff=myScore-oppScore;
@@ -323,12 +320,10 @@ function SeriesResult({
               <div className="coach-map-veto__series-final-image"/>
               <div className="coach-map-veto__series-final-overlay"/>
 
-              <div className="coach-map-veto__series-final-index">
-                {String(index+1).padStart(2,"0")}
-              </div>
+              <div className="coach-map-veto__series-final-index">{String(index+1).padStart(2,"0")}</div>
 
               <div className={`coach-map-veto__series-final-advantage${diff>0?" coach-map-veto__series-final-advantage--positive":diff<0?" coach-map-veto__series-final-advantage--negative":" coach-map-veto__series-final-advantage--neutral"}`}>
-                <span>{getAdvantageLabel(diff)}</span>
+                <span>{getAdvantageLabel(diff,language)}</span>
                 <strong>{diff>0?`+${diff}`:diff}</strong>
               </div>
 
@@ -343,38 +338,29 @@ function SeriesResult({
 
                 <strong>{map.toUpperCase()}</strong>
 
-                <small>
-                  {playerShortName} {myScore} · {opponentShortName} {oppScore}
-                </small>
+                <small>{playerShortName} {myScore} · {opponentShortName} {oppScore}</small>
               </div>
             </article>
           );
         })}
       </div>
 
-      <button
-        className="coach-map-veto__vote-button coach-map-veto__vote-button--confirm"
-        onClick={onComplete}
-      >
-        JUGAR SERIE
+      <button className="coach-map-veto__vote-button coach-map-veto__vote-button--confirm" onClick={onComplete}>
+        {es?"JUGAR SERIE":"PLAY SERIES"}
       </button>
     </section>
   );
 }
 
-function StepRow({
-  index,
-  veto,
-  isCurrent,
-  playerShortName,
-  opponentShortName,
-}:{
+function StepRow({index,veto,isCurrent,playerShortName,opponentShortName,language}:{
   index:number;
   veto:CoachMapVetoState;
   isCurrent:boolean;
   playerShortName:string;
   opponentShortName:string;
+  language:Language;
 }) {
+  const es=language==="es";
   const steps=getCoachVetoSteps(veto.bestOf);
   const selection=index<steps.length?veto.selections[index]:null;
   const decider=index===steps.length;
@@ -384,10 +370,7 @@ function StepRow({
       ?playerShortName
       :opponentShortName;
 
-  const image=
-    selection
-      ?getMapImage(selection.map)
-      :undefined;
+  const image=selection?getMapImage(selection.map):undefined;
 
   const deciderMap=
     veto.completed
@@ -402,32 +385,28 @@ function StepRow({
       {selection&&<div className="coach-map-veto__step-image"/>}
       {selection&&<div className="coach-map-veto__step-overlay"/>}
 
-      <div className="coach-map-veto__step-number">
-        {String(index+1).padStart(2,"0")}
-      </div>
+      <div className="coach-map-veto__step-number">{String(index+1).padStart(2,"0")}</div>
 
       <div className="coach-map-veto__step-content">
         {decider?(
           <>
             <strong>{deciderMap?.toUpperCase()??"DECIDER"}</strong>
-            <span>MAPA FINAL</span>
+            <span>{es?"MAPA FINAL":"FINAL MAP"}</span>
           </>
         ):selection?(
           <>
             <strong>{selection.map.toUpperCase()}</strong>
-            <span>
-              {actor} · {selection.action==="ban"?"BAN MAP":"CHOOSE MAP"}
-            </span>
+            <span>{actor} · {selection.action==="ban"?"BAN MAP":es?"ELIGE MAPA":"CHOOSE MAP"}</span>
           </>
         ):isCurrent?(
           <>
-            <strong>{getCurrentStepLabel(veto)}</strong>
-            <span>TURNO ACTUAL</span>
+            <strong>{getCurrentStepLabel(veto,language)}</strong>
+            <span>{es?"TURNO ACTUAL":"CURRENT TURN"}</span>
           </>
         ):(
           <>
-            <strong>PENDING</strong>
-            <span>EN ESPERA</span>
+            <strong>{es?"PENDIENTE":"PENDING"}</strong>
+            <span>{es?"EN ESPERA":"WAITING"}</span>
           </>
         )}
       </div>
@@ -447,14 +426,14 @@ function StepRow({
   );
 }
 
-function getCurrentStepLabel(veto:CoachMapVetoState) {
+function getCurrentStepLabel(veto:CoachMapVetoState,language:Language) {
   const step=getCurrentVetoStep(veto);
 
-  if(!step)return "PENDING";
+  if(!step)return language==="es"?"PENDIENTE":"PENDING";
 
   return step.action==="ban"
     ?"BAN MAP"
-    :"CHOOSE MAP";
+    :language==="es"?"ELEGIR MAPA":"CHOOSE MAP";
 }
 
 function getMainTitle(
@@ -462,33 +441,43 @@ function getMainTitle(
   step:{team:"player"|"opponent";action:"ban"|"pick"}|null|undefined,
   playerShortName:string,
   opponentShortName:string,
+  language:Language,
 ) {
-  if(veto?.completed)return "SERIE DEFINIDA";
+  const es=language==="es";
+
+  if(veto?.completed)return es?"SERIE DEFINIDA":"SERIES SET";
   if(!step)return "MAP VETO";
 
   if(step.team==="player"){
-    return `${playerShortName} ${step.action==="ban"?"BANS A MAP":"CHOOSES A MAP"}`;
+    return step.action==="ban"
+      ?es?`${playerShortName} ELIMINA UN MAPA`:`${playerShortName} BANS A MAP`
+      :es?`${playerShortName} ELIGE UN MAPA`:`${playerShortName} CHOOSES A MAP`;
   }
 
-  return `${opponentShortName} ${step.action==="ban"?"BANS A MAP":"CHOOSES A MAP"}`;
+  return step.action==="ban"
+    ?es?`${opponentShortName} ELIMINA UN MAPA`:`${opponentShortName} BANS A MAP`
+    :es?`${opponentShortName} ELIGE UN MAPA`:`${opponentShortName} CHOOSES A MAP`;
 }
 
 function getMainSubtitle(
   veto:CoachMapVetoState|null,
   step:{team:"player"|"opponent";action:"ban"|"pick"}|null|undefined,
+  language:Language,
 ) {
-  if(veto?.completed)return "MAP POOL COMPLETADA";
-  if(!step)return "PREPARACIÓN";
+  const es=language==="es";
+
+  if(veto?.completed)return es?"MAP POOL COMPLETADO":"MAP POOL COMPLETE";
+  if(!step)return es?"PREPARACIÓN":"PREPARATION";
 
   if(step.team==="player"){
     return step.action==="ban"
-      ?"Selecciona el mapa que quieres eliminar"
-      :"Selecciona tu mejor mapa";
+      ?es?"Selecciona el mapa que quieres eliminar":"Select the map you want to ban"
+      :es?"Selecciona tu mejor mapa":"Select your best map";
   }
 
   return step.action==="ban"
-    ?"El rival está eliminando un mapa"
-    :"El rival está eligiendo mapa";
+    ?es?"El rival está eliminando un mapa":"The opponent is banning a map"
+    :es?"El rival está eligiendo un mapa":"The opponent is choosing a map";
 }
 
 function getDisplayMap(
@@ -496,22 +485,13 @@ function getDisplayMap(
   myPool:CoachCareerState["team"]["mapPool"],
   opponentPool:ReturnType<typeof createInitialCoachMapPool>|null,
 ) {
-  if(veto?.completed&&veto.seriesMaps.length){
-    return veto.seriesMaps[0];
-  }
-
-  if(veto?.selections.length){
-    return veto.selections[veto.selections.length-1].map;
-  }
-
-  if(!veto||!opponentPool||!veto.availableMaps.length){
-    return myPool.maps[0]?.map??null;
-  }
+  if(veto?.completed&&veto.seriesMaps.length)return veto.seriesMaps[0];
+  if(veto?.selections.length)return veto.selections[veto.selections.length-1].map;
+  if(!veto||!opponentPool||!veto.availableMaps.length)return myPool.maps[0]?.map??null;
 
   const ranked=[...veto.availableMaps].sort((a,b)=>{
     const diffA=Math.abs(getMapDifference(a,myPool,opponentPool));
     const diffB=Math.abs(getMapDifference(b,myPool,opponentPool));
-
     return diffB-diffA;
   });
 
@@ -531,10 +511,7 @@ function getScoreForMap(
   map:CoachMapName,
 ) {
   const target=pool.maps.find(item=>item.map===map);
-
-  return target
-    ?getMapScore(target)
-    :0;
+  return target?getMapScore(target):0;
 }
 
 function getMapDifference(
@@ -545,26 +522,22 @@ function getMapDifference(
   return getScoreForMap(myPool,map)-getScoreForMap(opponentPool,map);
 }
 
-function getAdvantageLabel(diff:number) {
-  if(diff>=8)return "VENTAJA CLARA";
-  if(diff>=3)return "LIGERA VENTAJA";
-  if(diff<=-8)return "DESVENTAJA CLARA";
-  if(diff<=-3)return "LIGERA DESVENTAJA";
+function getAdvantageLabel(diff:number,language:Language) {
+  const es=language==="es";
 
-  return "EQUILIBRADO";
+  if(diff>=8)return es?"VENTAJA CLARA":"CLEAR ADVANTAGE";
+  if(diff>=3)return es?"LIGERA VENTAJA":"SLIGHT ADVANTAGE";
+  if(diff<=-8)return es?"DESVENTAJA CLARA":"CLEAR DISADVANTAGE";
+  if(diff<=-3)return es?"LIGERA DESVENTAJA":"SLIGHT DISADVANTAGE";
+
+  return es?"EQUILIBRADO":"EVEN";
 }
 
 function getMapImage(map:CoachMapName) {
   const slug=normalizeMapName(map);
 
   const entry=Object.entries(MAP_IMAGES).find(([path])=>{
-    const filename=
-      path
-        .split("/")
-        .pop()
-        ?.replace(/\.(png|jpe?g|webp)$/i,"")
-      ??"";
-
+    const filename=path.split("/").pop()?.replace(/\.(png|jpe?g|webp)$/i,"")??"";
     return normalizeMapName(filename)===slug;
   });
 

@@ -1,6 +1,9 @@
+import type {CSSProperties} from "react";
 import type {CoachCareerState,CoachMapName} from "../../types/coach";
 import {getTeamById} from "../../data/teams";
 import {getBestCoachMaps,getMapScore,trainCoachMap} from "../../logic/coachMapPool";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
 import "../../styles/CoachMapPool.css";
 
@@ -13,7 +16,10 @@ interface CoachMapPoolProps {
 
 const MAP_IMAGES=import.meta.glob("../../images/maps/*.{png,jpg,jpeg,webp}",{eager:true,query:"?url",import:"default"}) as Record<string,string>;
 
-export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapPoolProps) {
+export function CoachMapPool({career,onUpdateCareer,onBack}:CoachMapPoolProps) {
+  const {language}=useGameSettings();
+  const es=language==="es";
+
   const team=getTeamById(career.team.teamId);
   const logo=getTeamLogo(team?.logo);
   const maps=getBestCoachMaps(career.team.mapPool);
@@ -55,44 +61,55 @@ export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapP
 
             <div>
               <span>COACH CAREER</span>
-              <strong>{team?.name??"Equipo"}</strong>
+              <strong>{team?.name??(es?"Equipo":"Team")}</strong>
               <small>{team?.circuit} · {team?.marketRegion}</small>
             </div>
           </div>
 
-          <button className="coach-map-pool__back" onClick={onBack}>← MENU</button>
+          <div className="coach-map-pool__topbar-actions">
+            <GameSettingsControls/>
+            <button className="coach-map-pool__back" onClick={onBack}>← {es?"MENÚ":"MENU"}</button>
+          </div>
         </header>
 
         <section className="coach-map-pool__hero">
           <div>
-            <span className="coach-map-pool__eyebrow">PREPARACIÓN COMPETITIVA</span>
+            <span className="coach-map-pool__eyebrow">{es?"PREPARACIÓN COMPETITIVA":"COMPETITIVE PREPARATION"}</span>
             <h1>MAP POOL</h1>
-            <p>Gestiona la preparación de cada mapa, desarrolla las fortalezas del roster y construye una ventaja para los próximos vetos.</p>
+            <p>
+              {es
+                ?"Gestiona la preparación de cada mapa, desarrolla las fortalezas del roster y construye una ventaja para los próximos vetos."
+                :"Manage each map's preparation, develop your roster's strengths and build an advantage for upcoming veto phases."}
+            </p>
           </div>
 
           <div className="coach-map-pool__summary">
-            <SummaryStat label="MEDIA MAP POOL" value={averageRating}/>
-            <SummaryStat label="MAPAS PREPARADOS" value={preparedMaps}/>
+            <SummaryStat label={es?"MEDIA MAP POOL":"MAP POOL AVERAGE"} value={averageRating}/>
+            <SummaryStat label={es?"MAPAS PREPARADOS":"PREPARED MAPS"} value={preparedMaps}/>
 
             <div className="coach-map-pool__best-summary">
-              <span>MEJOR MAPA</span>
+              <span>{es?"MEJOR MAPA":"BEST MAP"}</span>
               <strong>{bestMap?.map??"-"}</strong>
-              <small>{bestMap?`${getMapScore(bestMap)} RATING`:"SIN DATOS"}</small>
+              <small>{bestMap?`${getMapScore(bestMap)} RATING`:(es?"SIN DATOS":"NO DATA")}</small>
             </div>
           </div>
         </section>
 
         <section className="coach-map-pool__control-bar">
           <div className="coach-map-pool__rotation">
-            <span>MAP POOL ACTUAL</span>
-            <strong>{maps.length} MAPAS EN ROTACIÓN</strong>
+            <span>{es?"MAP POOL ACTUAL":"CURRENT MAP POOL"}</span>
+            <strong>{maps.length} {es?"MAPAS EN ROTACIÓN":"MAPS IN ROTATION"}</strong>
           </div>
 
           <div className={`coach-map-pool__training${career.team.trainingSessions<=0?" coach-map-pool__training--empty":""}`}>
             <div className="coach-map-pool__training-copy">
-              <span>ENTRENAMIENTO SEMANAL</span>
-              <strong>{career.team.trainingSessions} DE 3 SESIONES DISPONIBLES</strong>
-              <small>Se renuevan al comenzar una nueva Week o ronda competitiva.</small>
+              <span>{es?"ENTRENAMIENTO SEMANAL":"WEEKLY TRAINING"}</span>
+              <strong>{career.team.trainingSessions} {es?"DE 3 SESIONES DISPONIBLES":"OF 3 SESSIONS AVAILABLE"}</strong>
+              <small>
+                {es
+                  ?"Se renuevan al comenzar una nueva Week o ronda competitiva."
+                  :"Sessions refresh at the start of a new Week or competitive round."}
+              </small>
             </div>
 
             <div className="coach-map-pool__training-slots">
@@ -113,6 +130,7 @@ export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapP
               rank={index+1}
               best={index===0}
               trainingSessions={career.team.trainingSessions}
+              language={language}
               onTrain={()=>trainMap(map.map)}
             />
           ))}
@@ -122,13 +140,15 @@ export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapP
   );
 }
 
-function MapCard({map,rank,best,trainingSessions,onTrain}:{
+function MapCard({map,rank,best,trainingSessions,language,onTrain}:{
   map:CoachCareerState["team"]["mapPool"]["maps"][number];
   rank:number;
   best:boolean;
   trainingSessions:number;
+  language:"es"|"en";
   onTrain:()=>void;
 }) {
+  const es=language==="es";
   const rating=getMapScore(map);
   const ready=map.preparation>=80;
   const mapImage=getMapImage(map.map);
@@ -137,7 +157,7 @@ function MapCard({map,rank,best,trainingSessions,onTrain}:{
     <article className={`coach-map-card${best?" coach-map-card--best":""}`}>
       <div
         className="coach-map-card__visual"
-        style={mapImage?{"--map-image":`url("${mapImage}")`} as React.CSSProperties:undefined}
+        style={mapImage?{"--map-image":`url("${mapImage}")`} as CSSProperties:undefined}
       >
         <div className="coach-map-card__image"/>
         <div className="coach-map-card__image-overlay"/>
@@ -147,10 +167,10 @@ function MapCard({map,rank,best,trainingSessions,onTrain}:{
           <strong>#{rank}</strong>
         </div>
 
-        {best&&<div className="coach-map-card__badge">★ MEJOR MAPA</div>}
+        {best&&<div className="coach-map-card__badge">★ {es?"MEJOR MAPA":"BEST MAP"}</div>}
 
         <div className="coach-map-card__title">
-          <span>{ready?"PREPARADO":"EN DESARROLLO"}</span>
+          <span>{ready?(es?"PREPARADO":"PREPARED"):(es?"EN DESARROLLO":"IN DEVELOPMENT")}</span>
           <h2>{map.map.toUpperCase()}</h2>
         </div>
 
@@ -162,15 +182,15 @@ function MapCard({map,rank,best,trainingSessions,onTrain}:{
 
       <div className="coach-map-card__body">
         <div className="coach-map-card__stats">
-          <MapStat label="FUERZA" value={map.strength}/>
-          <MapStat label="ATAQUE" value={map.attack}/>
-          <MapStat label="DEFENSA" value={map.defense}/>
-          <MapStat label="PREPARACIÓN" value={map.preparation}/>
+          <MapStat label={es?"FUERZA":"STRENGTH"} value={map.strength}/>
+          <MapStat label={es?"ATAQUE":"ATTACK"} value={map.attack}/>
+          <MapStat label={es?"DEFENSA":"DEFENSE"} value={map.defense}/>
+          <MapStat label={es?"PREPARACIÓN":"PREPARATION"} value={map.preparation}/>
         </div>
 
         <div className="coach-map-card__overall">
           <div>
-            <span>RENDIMIENTO GLOBAL</span>
+            <span>{es?"RENDIMIENTO GLOBAL":"OVERALL PERFORMANCE"}</span>
             <strong>{rating}/100</strong>
           </div>
 
@@ -181,22 +201,23 @@ function MapCard({map,rank,best,trainingSessions,onTrain}:{
 
         <footer className="coach-map-card__footer">
           <div>
-            <span>ESTADO</span>
+            <span>{es?"ESTADO":"STATUS"}</span>
+
             <strong className={ready?"coach-map-card__ready":"coach-map-card__developing"}>
               {map.preparation>=95
-                ?"PREPARACIÓN ÉLITE"
+                ?es?"PREPARACIÓN ÉLITE":"ELITE PREPARATION"
                 :ready
-                  ?"LISTO PARA COMPETIR"
-                  :"REQUIERE TRABAJO"}
+                  ?es?"LISTO PARA COMPETIR":"READY TO COMPETE"
+                  :es?"REQUIERE TRABAJO":"NEEDS WORK"}
             </strong>
           </div>
 
           <button disabled={map.preparation>=95||trainingSessions<=0} onClick={onTrain}>
             {map.preparation>=95
-              ?"PREPARACIÓN ÉLITE"
+              ?es?"PREPARACIÓN ÉLITE":"ELITE PREPARATION"
               :trainingSessions<=0
-                ?"SIN SESIONES"
-                :"ENTRENAR MAPA"}
+                ?es?"SIN SESIONES":"NO SESSIONS"
+                :es?"ENTRENAR MAPA":"TRAIN MAP"}
           </button>
         </footer>
       </div>

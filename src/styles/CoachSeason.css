@@ -958,7 +958,7 @@ body::-webkit-scrollbar,
   background:var(--cyan);
   color:#071214;
   text-align:left;
-  font-size:8px;
+  font-size:12px;
   font-weight:900;
   cursor:pointer;
 }

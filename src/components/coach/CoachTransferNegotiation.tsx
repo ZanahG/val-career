@@ -1,8 +1,12 @@
 import {useMemo,useState} from "react";
 import type {CoachCareerState,CoachPlayer} from "../../types/coach";
+import type {GameCurrency} from "../../types/settings";
 import {getCoachMinimumAcceptedTransferFee,getCoachPlayerBuyout} from "../../logic/coachTransferEconomy";
 import {getCoachPlayerMarketValue} from "../../logic/coachPlayerValue";
 import {getTeamById} from "../../data/teams";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
+import {formatCurrency} from "../../utils/currency";
 import {getTeamLogo} from "../../utils/teamLogo";
 import "../../styles/CoachTransferNegotiation.css";
 
@@ -16,11 +20,15 @@ interface CoachTransferNegotiationProps {
 
 type NegotiationStep="Club"|"Player"|"Squad"|"Complete";
 type NegotiationMood="Neutral"|"Positive"|"Warning"|"Rejected"|"Accepted";
+type Language="es"|"en";
 
 const MAX_ROSTER_SIZE=5;
 const MAX_NEGOTIATION_ROUNDS=3;
 
 export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCancel,onComplete}:CoachTransferNegotiationProps) {
+  const {language,currency}=useGameSettings();
+  const es=language==="es";
+
   const sourcePlayer=useMemo(()=>career.playerPool.find(player=>player.id===playerId)??null,[career.playerPool,playerId]);
   const player=sourcePlayer?normalizeMarketPlayer(sourcePlayer):null;
 
@@ -65,8 +73,8 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
   const [message,setMessage]=useState(
     freeAgent
-      ?"El agente está preparado para escuchar tu propuesta."
-      :"El club está dispuesto a escuchar una oferta.",
+      ?es?"El agente está preparado para escuchar tu propuesta.":"The agent is ready to hear your proposal."
+      :es?"El club está dispuesto a escuchar una oferta.":"The club is willing to hear an offer.",
   );
 
   if(!player){
@@ -74,10 +82,15 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
       <main className="coach-negotiation">
         <div className="coach-negotiation__scene"/>
         <div className="coach-negotiation__overlay"/>
+
+        <header className="coach-negotiation__topbar">
+          <GameSettingsControls/>
+        </header>
+
         <section className="coach-negotiation__missing">
-          <strong>JUGADOR NO DISPONIBLE</strong>
-          <p>El jugador ya no se encuentra disponible para negociar.</p>
-          <button onClick={onCancel}>VOLVER AL MERCADO</button>
+          <strong>{es?"JUGADOR NO DISPONIBLE":"PLAYER UNAVAILABLE"}</strong>
+          <p>{es?"El jugador ya no se encuentra disponible para negociar.":"The player is no longer available for negotiation."}</p>
+          <button onClick={onCancel}>{es?"VOLVER AL MERCADO":"BACK TO MARKET"}</button>
         </section>
       </main>
     );
@@ -130,7 +143,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(buyout>0&&clubOffer>=buyout){
       setAgreedTransferFee(clubOffer);
       setMood("Accepted");
-      setMessage(`Has alcanzado la cláusula de salida. ${currentTeam?.name??"El club"} no puede impedir la negociación.`);
+      setMessage(
+        es
+          ?`Has alcanzado la cláusula de salida. ${currentTeam?.name??"El club"} no puede impedir la negociación.`
+          :`You have met the buyout clause. ${currentTeam?.name??"The club"} cannot block the negotiation.`,
+      );
       setStep("Player");
       return;
     }
@@ -138,7 +155,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(clubOffer>=minimumTransferFee){
       setAgreedTransferFee(clubOffer);
       setMood("Accepted");
-      setMessage(`${currentTeam?.name??"El club"} ha aceptado tu oferta de ${formatMoney(clubOffer)}.`);
+      setMessage(
+        es
+          ?`${currentTeam?.name??"El club"} ha aceptado tu oferta de ${formatCurrency(clubOffer,currency)}.`
+          :`${currentTeam?.name??"The club"} has accepted your offer of ${formatCurrency(clubOffer,currency)}.`,
+      );
       setStep("Player");
       return;
     }
@@ -148,7 +169,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(nextRound>=MAX_NEGOTIATION_ROUNDS&&ratio<.93){
       setClubNegotiationEnded(true);
       setMood("Rejected");
-      setMessage(`${currentTeam?.name??"El club"} considera que las negociaciones no están avanzando y abandona la mesa.`);
+      setMessage(
+        es
+          ?`${currentTeam?.name??"El club"} considera que las negociaciones no están avanzando y abandona la mesa.`
+          :`${currentTeam?.name??"The club"} believes negotiations are not progressing and walks away.`,
+      );
       return;
     }
 
@@ -157,15 +182,24 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
       setClubCounterOffer(counter);
       setMood("Warning");
-      setMessage(`${currentTeam?.name??"El club"} rechaza tu propuesta y responde con una contraoferta de ${formatMoney(counter)}.`);
+      setMessage(
+        es
+          ?`${currentTeam?.name??"El club"} rechaza tu propuesta y responde con una contraoferta de ${formatCurrency(counter,currency)}.`
+          :`${currentTeam?.name??"The club"} rejects your proposal and responds with a counteroffer of ${formatCurrency(counter,currency)}.`,
+      );
       return;
     }
 
     setMood("Rejected");
+
     setMessage(
       nextRound>=MAX_NEGOTIATION_ROUNDS
-        ?`${currentTeam?.name??"El club"} rechaza la oferta y termina las conversaciones.`
-        :`La oferta de ${formatMoney(clubOffer)} está demasiado alejada de la valoración del club.`,
+        ?es
+          ?`${currentTeam?.name??"El club"} rechaza la oferta y termina las conversaciones.`
+          :`${currentTeam?.name??"The club"} rejects the offer and ends negotiations.`
+        :es
+          ?`La oferta de ${formatCurrency(clubOffer,currency)} está demasiado alejada de la valoración del club.`
+          :`The offer of ${formatCurrency(clubOffer,currency)} is too far from the club's valuation.`,
     );
 
     if(nextRound>=MAX_NEGOTIATION_ROUNDS)setClubNegotiationEnded(true);
@@ -178,7 +212,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     setClubOffer(clubCounterOffer);
     setClubCounterOffer(null);
     setMood("Accepted");
-    setMessage(`Acuerdo alcanzado con ${currentTeam?.name??"el club"} por ${formatMoney(clubCounterOffer)}.`);
+    setMessage(
+      es
+        ?`Acuerdo alcanzado con ${currentTeam?.name??"el club"} por ${formatCurrency(clubCounterOffer,currency)}.`
+        :`Agreement reached with ${currentTeam?.name??"the club"} for ${formatCurrency(clubCounterOffer,currency)}.`,
+    );
     setStep("Player");
   };
 
@@ -211,7 +249,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(salaryOffer>=adjustedExpectation){
       setAgreedSalary(salaryOffer);
       setMood("Accepted");
-      setMessage(`${player.ign} acepta un contrato de ${contractYears} ${contractYears===1?"año":"años"} por ${formatMoney(salaryOffer)} mensuales.`);
+      setMessage(
+        es
+          ?`${player.ign} acepta un contrato de ${formatYears(contractYears,language)} por ${formatCurrency(salaryOffer,currency)} mensuales.`
+          :`${player.ign} accepts a ${formatYears(contractYears,language)} contract worth ${formatCurrency(salaryOffer,currency)} per month.`,
+      );
       setStep(rosterFull?"Squad":"Complete");
       return;
     }
@@ -219,7 +261,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(nextRound>=MAX_NEGOTIATION_ROUNDS&&ratio<.93){
       setPlayerNegotiationEnded(true);
       setMood("Rejected");
-      setMessage(`${player.ign} y su agente han decidido terminar las conversaciones.`);
+      setMessage(
+        es
+          ?`${player.ign} y su agente han decidido terminar las conversaciones.`
+          :`${player.ign} and his agent have decided to end negotiations.`,
+      );
       return;
     }
 
@@ -228,7 +274,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
       setPlayerCounterSalary(counterSalary);
       setMood("Warning");
-      setMessage(`${player.ign} está interesado, pero su agente solicita ${formatMoney(counterSalary)} al mes.`);
+      setMessage(
+        es
+          ?`${player.ign} está interesado, pero su agente solicita ${formatCurrency(counterSalary,currency)} al mes.`
+          :`${player.ign} is interested, but his agent is requesting ${formatCurrency(counterSalary,currency)} per month.`,
+      );
       return;
     }
 
@@ -236,8 +286,12 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
     setMessage(
       nextRound>=MAX_NEGOTIATION_ROUNDS
-        ?`${player.ign} considera insuficiente la propuesta y abandona las negociaciones.`
-        :`${player.ign} considera que la propuesta salarial no refleja su valor actual.`,
+        ?es
+          ?`${player.ign} considera insuficiente la propuesta y abandona las negociaciones.`
+          :`${player.ign} considers the proposal insufficient and walks away.`
+        :es
+          ?`${player.ign} considera que la propuesta salarial no refleja su valor actual.`
+          :`${player.ign} believes the salary proposal does not reflect his current value.`,
     );
 
     if(nextRound>=MAX_NEGOTIATION_ROUNDS)setPlayerNegotiationEnded(true);
@@ -250,7 +304,7 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     setSalaryOffer(playerCounterSalary);
     setPlayerCounterSalary(null);
     setMood("Accepted");
-    setMessage(`${player.ign} acepta el contrato propuesto.`);
+    setMessage(es?`${player.ign} acepta el contrato propuesto.`:`${player.ign} accepts the proposed contract.`);
     setStep(rosterFull?"Squad":"Complete");
   };
 
@@ -258,7 +312,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(step!=="Squad"||!replacePlayer)return;
 
     setMood("Positive");
-    setMessage(`${replacePlayer.ign} será liberado para registrar a ${player.ign}.`);
+    setMessage(
+      es
+        ?`${replacePlayer.ign} será liberado para registrar a ${player.ign}.`
+        :`${replacePlayer.ign} will be released to register ${player.ign}.`,
+    );
     setStep("Complete");
   };
 
@@ -277,7 +335,11 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
     if(!updated){
       setMood("Rejected");
-      setMessage("La operación ya no puede completarse. La plantilla, el presupuesto o las condiciones del mercado han cambiado.");
+      setMessage(
+        es
+          ?"La operación ya no puede completarse. La plantilla, el presupuesto o las condiciones del mercado han cambiado."
+          :"The deal can no longer be completed. The roster, budget or market conditions have changed.",
+      );
       return;
     }
 
@@ -293,26 +355,38 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
       <header className="coach-negotiation__topbar">
         <div className="coach-negotiation__budget">
           {yourTeamLogo&&<img src={yourTeamLogo} alt=""/>}
-          <span>PRESUPUESTO</span>
-          <strong>{formatMoney(career.team.finances.transferBudget)}</strong>
+          <span>{es?"PRESUPUESTO":"BUDGET"}</span>
+          <strong>{formatCurrency(career.team.finances.transferBudget,currency)}</strong>
         </div>
 
-        <button className="coach-negotiation__exit" onClick={onCancel}>✕</button>
+        <div className="coach-negotiation__topbar-actions">
+          <GameSettingsControls/>
+          <button className="coach-negotiation__exit" onClick={onCancel}>✕</button>
+        </div>
       </header>
 
       <aside className="coach-negotiation__sidebar">
         <div className="coach-negotiation__tabs">
-          <span className="active">{step==="Club"?"OFERTA":"CONTRATO"}</span>
-          <span>{step==="Club"?"COMPRAR":"NEGOCIAR"}</span>
+          <span className="active">
+            {step==="Club"
+              ?es?"OFERTA":"OFFER"
+              :es?"CONTRATO":"CONTRACT"}
+          </span>
+
+          <span>
+            {step==="Club"
+              ?es?"COMPRAR":"BUY"
+              :es?"NEGOCIAR":"NEGOTIATE"}
+          </span>
         </div>
 
         <div className="coach-negotiation__sidebar-player">
           <div className="coach-negotiation__sidebar-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
 
           <div>
-            <small>Edad: {player.age}</small>
+            <small>{es?"Edad":"Age"}: {player.age}</small>
             <strong>{player.ign}</strong>
-            <span>{getRoleLabel(player.role)} · OVR {player.overall}</span>
+            <span>{getRoleLabel(player.role,language)} · OVR {player.overall}</span>
           </div>
 
           <div className="coach-negotiation__sidebar-team">
@@ -320,13 +394,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
           </div>
         </div>
 
-        <SidebarRow label="SUELDO ACTUAL" value={`${formatMoney(player.salary)} / MES`}/>
-        <SidebarRow label="CONTRATO" value={freeAgent?"SIN CONTRATO":`${player.contractSeasonsRemaining??0} AÑOS`}/>
-        <SidebarRow label="RELEVANCIA" value={player.starter?"CLAVE":"ROTACIÓN"}/>
-        <SidebarRow label="VALOR" value={formatMoney(player.marketValue)}/>
+        <SidebarRow label={es?"SUELDO ACTUAL":"CURRENT SALARY"} value={`${formatCurrency(player.salary,currency)} / ${es?"MES":"MONTH"}`}/>
+        <SidebarRow label={es?"CONTRATO":"CONTRACT"} value={freeAgent?(es?"SIN CONTRATO":"NO CONTRACT"):formatYears(player.contractSeasonsRemaining??0,language)}/>
+        <SidebarRow label={es?"RELEVANCIA":"ROLE STATUS"} value={player.starter?(es?"CLAVE":"KEY PLAYER"):(es?"ROTACIÓN":"ROTATION")}/>
+        <SidebarRow label={es?"VALOR":"VALUE"} value={formatCurrency(player.marketValue,currency)}/>
 
-        {!freeAgent&&<SidebarRow label="BUYOUT" value={formatMoney(buyout)}/>}
-        {transferRequested&&<div className="coach-negotiation__request">TRANSFER REQUEST</div>}
+        {!freeAgent&&<SidebarRow label="BUYOUT" value={formatCurrency(buyout,currency)}/>}
+        {transferRequested&&<div className="coach-negotiation__request">{es?"SOLICITÓ TRANSFERENCIA":"TRANSFER REQUEST"}</div>}
       </aside>
 
       <section className="coach-negotiation__scene-center">
@@ -342,13 +416,22 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
       </section>
 
       <div className={`coach-negotiation__tension coach-negotiation__tension--${tension.toLowerCase()}`}>
-        <span>TENSIÓN</span>
-        <strong>{tension}</strong>
+        <span>{es?"TENSIÓN":"TENSION"}</span>
+        <strong>{getTensionLabel(tension,language)}</strong>
         <div><i/></div>
       </div>
 
       <section className={`coach-negotiation__dialogue coach-negotiation__dialogue--${mood.toLowerCase()}`}>
-        <span>{step==="Club"?"DIRECTOR DEPORTIVO":step==="Player"?"AGENTE":step==="Squad"?"STAFF":"TRANSFER DEPARTMENT"}</span>
+        <span>
+          {step==="Club"
+            ?es?"DIRECTOR DEPORTIVO":"SPORTING DIRECTOR"
+            :step==="Player"
+              ?es?"AGENTE":"AGENT"
+              :step==="Squad"
+                ?"STAFF"
+                :"TRANSFER DEPARTMENT"}
+        </span>
+
         <strong>{message}</strong>
       </section>
 
@@ -362,6 +445,8 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
           rounds={clubRounds}
           ended={clubNegotiationEnded}
           transferBudget={career.team.finances.transferBudget}
+          language={language}
+          currency={currency}
           onChange={changeClubOffer}
           onSubmit={handleClubOffer}
           onAcceptCounter={acceptClubCounter}
@@ -380,6 +465,8 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
           ended={playerNegotiationEnded}
           payroll={career.team.finances.currentMonthlyPayroll}
           monthlyBudget={career.team.finances.monthlyBudget}
+          language={language}
+          currency={currency}
           onSalaryChange={changeSalaryOffer}
           onContractChange={changeContractYears}
           onSubmit={handlePlayerOffer}
@@ -395,6 +482,8 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
           incomingSalary={agreedSalary}
           payroll={career.team.finances.currentMonthlyPayroll}
           monthlyBudget={career.team.finances.monthlyBudget}
+          language={language}
+          currency={currency}
           onChange={setReplacePlayerId}
           onContinue={handleSquadContinue}
         />
@@ -411,6 +500,8 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
           projectedPayroll={projectedPayroll}
           projectedTransferBudget={projectedTransferBudget}
           canConfirm={canConfirm}
+          language={language}
+          currency={currency}
           onConfirm={handleConfirm}
           onCancel={onCancel}
         />
@@ -419,7 +510,7 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
   );
 }
 
-function ClubNegotiation({player,askingPrice,buyout,offer,counterOffer,rounds,ended,transferBudget,onChange,onSubmit,onAcceptCounter,onCancel}:{
+function ClubNegotiation({player,askingPrice,buyout,offer,counterOffer,rounds,ended,transferBudget,language,currency,onChange,onSubmit,onAcceptCounter,onCancel}:{
   player:CoachPlayer;
   askingPrice:number;
   buyout:number;
@@ -428,34 +519,42 @@ function ClubNegotiation({player,askingPrice,buyout,offer,counterOffer,rounds,en
   rounds:number;
   ended:boolean;
   transferBudget:number;
+  language:Language;
+  currency:GameCurrency;
   onChange:(value:number)=>void;
   onSubmit:()=>void;
   onAcceptCounter:()=>void;
   onCancel:()=>void;
 }) {
+  const es=language==="es";
+
   return (
     <section className="coach-negotiation__action-panel">
       <header>
-        <span>PRECIO DEL TRASPASO</span>
-        <small>{ended?"NEGOCIACIÓN TERMINADA":`RONDA ${Math.min(MAX_NEGOTIATION_ROUNDS,rounds+1)} / ${MAX_NEGOTIATION_ROUNDS}`}</small>
+        <span>{es?"PRECIO DEL TRASPASO":"TRANSFER PRICE"}</span>
+        <small>
+          {ended
+            ?es?"NEGOCIACIÓN TERMINADA":"NEGOTIATION ENDED"
+            :`${es?"RONDA":"ROUND"} ${Math.min(MAX_NEGOTIATION_ROUNDS,rounds+1)} / ${MAX_NEGOTIATION_ROUNDS}`}
+        </small>
       </header>
 
       <div className="coach-negotiation__action-values">
-        <CompactValue label="VALOR" value={player.marketValue}/>
-        <CompactValue label="PETICIÓN CLUB" value={askingPrice}/>
-        <CompactValue label="BUYOUT" value={buyout}/>
+        <CompactValue label={es?"VALOR":"VALUE"} value={player.marketValue} currency={currency}/>
+        <CompactValue label={es?"PETICIÓN CLUB":"CLUB ASKING"} value={askingPrice} currency={currency}/>
+        <CompactValue label="BUYOUT" value={buyout} currency={currency}/>
       </div>
 
       {counterOffer!==null&&(
         <div className="coach-negotiation__counter">
-          <span>CONTRAOFERTA</span>
-          <strong>{formatMoney(counterOffer)}</strong>
+          <span>{es?"CONTRAOFERTA":"COUNTEROFFER"}</span>
+          <strong>{formatCurrency(counterOffer,currency)}</strong>
         </div>
       )}
 
       <div className="coach-negotiation__edit-row">
-        <span>OFERTA</span>
-        <strong>{formatMoney(offer)}</strong>
+        <span>{es?"OFERTA":"OFFER"}</span>
+        <strong>{formatCurrency(offer,currency)}</strong>
 
         <div>
           <button disabled={ended} onClick={()=>onChange(offer-250000)}>−250K</button>
@@ -466,21 +565,23 @@ function ClubNegotiation({player,askingPrice,buyout,offer,counterOffer,rounds,en
       </div>
 
       <footer>
-        <button className="coach-negotiation__secondary" onClick={onCancel}>ABANDONAR</button>
+        <button className="coach-negotiation__secondary" onClick={onCancel}>{es?"ABANDONAR":"WALK AWAY"}</button>
 
         {counterOffer!==null&&(
           <button className="coach-negotiation__secondary" disabled={ended||counterOffer>transferBudget} onClick={onAcceptCounter}>
-            ACEPTAR {formatMoney(counterOffer)}
+            {es?"ACEPTAR":"ACCEPT"} {formatCurrency(counterOffer,currency)}
           </button>
         )}
 
-        <button className="coach-negotiation__primary" disabled={ended||offer>transferBudget} onClick={onSubmit}>ENVIAR OFERTA →</button>
+        <button className="coach-negotiation__primary" disabled={ended||offer>transferBudget} onClick={onSubmit}>
+          {es?"ENVIAR OFERTA":"SEND OFFER"} →
+        </button>
       </footer>
     </section>
   );
 }
 
-function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,contractYears,rounds,ended,payroll,monthlyBudget,onSalaryChange,onContractChange,onSubmit,onAcceptCounter,onCancel}:{
+function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,contractYears,rounds,ended,payroll,monthlyBudget,language,currency,onSalaryChange,onContractChange,onSubmit,onAcceptCounter,onCancel}:{
   player:CoachPlayer;
   expectedSalary:number;
   salaryOffer:number;
@@ -490,43 +591,51 @@ function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,cont
   ended:boolean;
   payroll:number;
   monthlyBudget:number;
+  language:Language;
+  currency:GameCurrency;
   onSalaryChange:(value:number)=>void;
   onContractChange:(years:number)=>void;
   onSubmit:()=>void;
   onAcceptCounter:()=>void;
   onCancel:()=>void;
 }) {
+  const es=language==="es";
+
   return (
     <section className="coach-negotiation__action-panel">
       <header>
-        <span>SALARIO Y CONTRATO</span>
-        <small>{ended?"NEGOCIACIÓN TERMINADA":`RONDA ${Math.min(MAX_NEGOTIATION_ROUNDS,rounds+1)} / ${MAX_NEGOTIATION_ROUNDS}`}</small>
+        <span>{es?"SALARIO Y CONTRATO":"SALARY & CONTRACT"}</span>
+        <small>
+          {ended
+            ?es?"NEGOCIACIÓN TERMINADA":"NEGOTIATION ENDED"
+            :`${es?"RONDA":"ROUND"} ${Math.min(MAX_NEGOTIATION_ROUNDS,rounds+1)} / ${MAX_NEGOTIATION_ROUNDS}`}
+        </small>
       </header>
 
       <div className="coach-negotiation__action-values">
-        <CompactValue label="SALARIO ACTUAL" value={player.salary}/>
-        <CompactValue label="ESPACIO SALARIAL" value={Math.max(0,monthlyBudget-payroll)}/>
-        <CompactValue label="OVR" value={player.overall} money={false}/>
+        <CompactValue label={es?"SALARIO ACTUAL":"CURRENT SALARY"} value={player.salary} currency={currency}/>
+        <CompactValue label={es?"ESPACIO SALARIAL":"PAYROLL SPACE"} value={Math.max(0,monthlyBudget-payroll)} currency={currency}/>
+        <CompactValue label="OVR" value={player.overall} currency={currency} money={false}/>
       </div>
 
       <div className="coach-negotiation__contract-years">
         {[1,2,3].map(years=>(
           <button key={years} disabled={ended} className={contractYears===years?"active":""} onClick={()=>onContractChange(years)}>
-            {years} {years===1?"AÑO":"AÑOS"}
+            {formatYears(years,language)}
           </button>
         ))}
       </div>
 
       {counterSalary!==null&&(
         <div className="coach-negotiation__counter">
-          <span>PETICIÓN DEL AGENTE</span>
-          <strong>{formatMoney(counterSalary)} / MES</strong>
+          <span>{es?"PETICIÓN DEL AGENTE":"AGENT REQUEST"}</span>
+          <strong>{formatCurrency(counterSalary,currency)} / {es?"MES":"MONTH"}</strong>
         </div>
       )}
 
       <div className="coach-negotiation__edit-row">
-        <span>SALARIO</span>
-        <strong>{formatMoney(salaryOffer)} / MES</strong>
+        <span>{es?"SALARIO":"SALARY"}</span>
+        <strong>{formatCurrency(salaryOffer,currency)} / {es?"MES":"MONTH"}</strong>
 
         <div>
           <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer-2000)}>−2K</button>
@@ -537,53 +646,74 @@ function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,cont
       </div>
 
       <footer>
-        <button className="coach-negotiation__secondary" onClick={onCancel}>ABANDONAR</button>
+        <button className="coach-negotiation__secondary" onClick={onCancel}>{es?"ABANDONAR":"WALK AWAY"}</button>
 
         {counterSalary!==null&&(
           <button className="coach-negotiation__secondary" disabled={ended} onClick={onAcceptCounter}>
-            ACEPTAR {formatMoney(counterSalary)}
+            {es?"ACEPTAR":"ACCEPT"} {formatCurrency(counterSalary,currency)}
           </button>
         )}
 
-        <button className="coach-negotiation__primary" disabled={ended} onClick={onSubmit}>ENVIAR CONTRATO →</button>
+        <button className="coach-negotiation__primary" disabled={ended} onClick={onSubmit}>
+          {es?"ENVIAR CONTRATO":"SEND CONTRACT"} →
+        </button>
       </footer>
     </section>
   );
 }
 
-function SquadDecision({roster,selectedId,incomingSalary,payroll,monthlyBudget,onChange,onContinue}:{
+function SquadDecision({roster,selectedId,incomingSalary,payroll,monthlyBudget,language,currency,onChange,onContinue}:{
   roster:CoachPlayer[];
   selectedId:string;
   incomingSalary:number;
   payroll:number;
   monthlyBudget:number;
+  language:Language;
+  currency:GameCurrency;
   onChange:(id:string)=>void;
   onContinue:()=>void;
 }) {
+  const es=language==="es";
   const selected=roster.find(player=>player.id===selectedId)??null;
   const projectedPayroll=selected?payroll-selected.salary+incomingSalary:payroll+incomingSalary;
 
   return (
     <section className="coach-negotiation__action-panel">
-      <header><span>LIBERAR CUPO</span><small>{roster.length}/{MAX_ROSTER_SIZE}</small></header>
+      <header>
+        <span>{es?"LIBERAR CUPO":"FREE ROSTER SLOT"}</span>
+        <small>{roster.length}/{MAX_ROSTER_SIZE}</small>
+      </header>
 
       <div className="coach-negotiation__squad-list">
         {roster.map(player=>(
           <button key={player.id} className={selectedId===player.id?"active":""} onClick={()=>onChange(player.id)}>
-            <div><strong>{player.ign}</strong><small>{player.role} · OVR {player.overall}</small></div>
-            <span>{formatMoney(player.salary)} / MES</span>
+            <div>
+              <strong>{player.ign}</strong>
+              <small>{getRoleLabel(player.role,language)} · OVR {player.overall}</small>
+            </div>
+
+            <span>{formatCurrency(player.salary,currency)} / {es?"MES":"MONTH"}</span>
           </button>
         ))}
       </div>
 
-      {selected&&<div className="coach-negotiation__counter"><span>NÓMINA RESULTANTE</span><strong>{formatMoney(projectedPayroll)} / {formatMoney(monthlyBudget)}</strong></div>}
+      {selected&&(
+        <div className="coach-negotiation__counter">
+          <span>{es?"NÓMINA RESULTANTE":"PROJECTED PAYROLL"}</span>
+          <strong>{formatCurrency(projectedPayroll,currency)} / {formatCurrency(monthlyBudget,currency)}</strong>
+        </div>
+      )}
 
-      <footer><button className="coach-negotiation__primary" disabled={!selectedId} onClick={onContinue}>CONFIRMAR SALIDA →</button></footer>
+      <footer>
+        <button className="coach-negotiation__primary" disabled={!selectedId} onClick={onContinue}>
+          {es?"CONFIRMAR SALIDA":"CONFIRM RELEASE"} →
+        </button>
+      </footer>
     </section>
   );
 }
 
-function CompleteAgreement({career,player,transferFee,salary,contractYears,replacePlayer,projectedPayroll,projectedTransferBudget,canConfirm,onConfirm,onCancel}:{
+function CompleteAgreement({career,player,transferFee,salary,contractYears,replacePlayer,projectedPayroll,projectedTransferBudget,canConfirm,language,currency,onConfirm,onCancel}:{
   career:CoachCareerState;
   player:CoachPlayer;
   transferFee:number;
@@ -593,30 +723,45 @@ function CompleteAgreement({career,player,transferFee,salary,contractYears,repla
   projectedPayroll:number;
   projectedTransferBudget:number;
   canConfirm:boolean;
+  language:Language;
+  currency:GameCurrency;
   onConfirm:()=>void;
   onCancel:()=>void;
 }) {
+  const es=language==="es";
+
   return (
     <section className="coach-negotiation__action-panel">
-      <header><span>ACUERDO COMPLETO</span><small>{player.ign}</small></header>
+      <header>
+        <span>{es?"ACUERDO COMPLETO":"DEAL COMPLETE"}</span>
+        <small>{player.ign}</small>
+      </header>
 
       <div className="coach-negotiation__action-values">
-        <CompactValue label="TRANSFER FEE" value={transferFee}/>
-        <CompactValue label="SALARIO" value={salary}/>
-        <CompactValue label="CONTRATO" value={contractYears} money={false} suffix={contractYears===1?" AÑO":" AÑOS"}/>
+        <CompactValue label="TRANSFER FEE" value={transferFee} currency={currency}/>
+        <CompactValue label={es?"SALARIO":"SALARY"} value={salary} currency={currency}/>
+        <CompactValue label={es?"CONTRATO":"CONTRACT"} value={contractYears} currency={currency} money={false} suffix={` ${formatYears(contractYears,language)}`}/>
       </div>
 
       <div className="coach-negotiation__complete-grid">
-        <SidebarRow label="NÓMINA RESULTANTE" value={`${formatMoney(projectedPayroll)} / ${formatMoney(career.team.finances.monthlyBudget)}`}/>
-        <SidebarRow label="BUDGET RESTANTE" value={formatMoney(Math.max(0,projectedTransferBudget))}/>
-        {replacePlayer&&<SidebarRow label="SALE DEL EQUIPO" value={replacePlayer.ign}/>}
+        <SidebarRow label={es?"NÓMINA RESULTANTE":"PROJECTED PAYROLL"} value={`${formatCurrency(projectedPayroll,currency)} / ${formatCurrency(career.team.finances.monthlyBudget,currency)}`}/>
+        <SidebarRow label={es?"BUDGET RESTANTE":"REMAINING BUDGET"} value={formatCurrency(Math.max(0,projectedTransferBudget),currency)}/>
+        {replacePlayer&&<SidebarRow label={es?"SALE DEL EQUIPO":"LEAVING TEAM"} value={replacePlayer.ign}/>}
       </div>
 
-      {!canConfirm&&<div className="coach-negotiation__warning">La operación supera alguno de los límites financieros del club.</div>}
+      {!canConfirm&&(
+        <div className="coach-negotiation__warning">
+          {es
+            ?"La operación supera alguno de los límites financieros del club."
+            :"The deal exceeds one of the club's financial limits."}
+        </div>
+      )}
 
       <footer>
-        <button className="coach-negotiation__secondary" onClick={onCancel}>CANCELAR</button>
-        <button className="coach-negotiation__primary" disabled={!canConfirm} onClick={onConfirm}>CONFIRMAR FICHAJE →</button>
+        <button className="coach-negotiation__secondary" onClick={onCancel}>{es?"CANCELAR":"CANCEL"}</button>
+        <button className="coach-negotiation__primary" disabled={!canConfirm} onClick={onConfirm}>
+          {es?"CONFIRMAR FICHAJE":"CONFIRM SIGNING"} →
+        </button>
       </footer>
     </section>
   );
@@ -631,11 +776,11 @@ function SidebarRow({label,value}:{label:string;value:string}) {
   );
 }
 
-function CompactValue({label,value,money=true,suffix=""}:{label:string;value:number;money?:boolean;suffix?:string}) {
+function CompactValue({label,value,currency,money=true,suffix=""}:{label:string;value:number;currency:GameCurrency;money?:boolean;suffix?:string}) {
   return (
     <div>
       <span>{label}</span>
-      <strong>{money?formatMoney(value):`${value}${suffix}`}</strong>
+      <strong>{money?formatCurrency(value,currency):`${value}${suffix}`}</strong>
     </div>
   );
 }
@@ -801,32 +946,47 @@ function getNegotiationTension({step,clubOffer,minimumTransferFee,salaryOffer,ex
   expectedSalary:number;
   mood:NegotiationMood;
 }) {
-  if(mood==="Rejected")return "ALTA";
-  if(mood==="Warning")return "MEDIA";
-  if(mood==="Accepted"||mood==="Positive")return "BAJA";
+  if(mood==="Rejected")return "High";
+  if(mood==="Warning")return "Medium";
+  if(mood==="Accepted"||mood==="Positive")return "Low";
 
   if(step==="Club"&&minimumTransferFee>0){
     const ratio=clubOffer/minimumTransferFee;
-    if(ratio<.75)return "ALTA";
-    if(ratio<.90)return "MEDIA";
+    if(ratio<.75)return "High";
+    if(ratio<.90)return "Medium";
   }
 
   if(step==="Player"&&expectedSalary>0){
     const ratio=salaryOffer/expectedSalary;
-    if(ratio<.80)return "ALTA";
-    if(ratio<.93)return "MEDIA";
+    if(ratio<.80)return "High";
+    if(ratio<.93)return "Medium";
   }
 
+  return "Low";
+}
+
+function getTensionLabel(value:string,language:Language) {
+  if(language==="en")return value.toUpperCase();
+  if(value==="High")return "ALTA";
+  if(value==="Medium")return "MEDIA";
   return "BAJA";
 }
 
-function getRoleLabel(role:CoachPlayer["role"]) {
+function getRoleLabel(role:CoachPlayer["role"],language:Language) {
+  if(language==="en")return role.toUpperCase();
+
   if(role==="Duelist")return "DUELISTA";
   if(role==="Initiator")return "INICIADOR";
   if(role==="Controller")return "CONTROLADOR";
   if(role==="Sentinel")return "CENTINELA";
   if(role==="IGL")return "IGL";
+
   return "FLEX";
+}
+
+function formatYears(years:number,language:Language) {
+  if(language==="es")return `${years} ${years===1?"AÑO":"AÑOS"}`;
+  return `${years} ${years===1?"YEAR":"YEARS"}`;
 }
 
 function roundTransferFee(value:number) {
@@ -835,10 +995,6 @@ function roundTransferFee(value:number) {
 
 function roundSalary(value:number) {
   return Math.max(1000,Math.round(value/500)*500);
-}
-
-function formatMoney(value:number) {
-  return `$${Math.round(value).toLocaleString("en-US")}`;
 }
 
 function normalizeMarketPlayer(player:CoachPlayer):CoachPlayer {
