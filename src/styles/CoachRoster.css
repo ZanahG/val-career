@@ -1,93 +1,91 @@
 .coach-roster {
-  --roster-card:rgba(17,27,48,.54);
-  --roster-card-strong:rgba(18,29,52,.74);
-  --roster-hover:rgba(27,46,78,.76);
-  --roster-border:rgba(255,255,255,.09);
-  --roster-border-soft:rgba(255,255,255,.055);
-  --roster-text:#f5f8ff;
-  --roster-muted:#9eafcf;
-  --roster-muted-2:#6e82a7;
-  --roster-blue:#4aa3ff;
-  --roster-blue-2:#78c3ff;
-  --roster-green:#50d6aa;
-  --roster-yellow:#e4c96e;
-  --roster-red:#ff7486;
+  --bg:#0d1419;
+  --panel:#171824;
+  --panel-2:#1d1f2b;
+  --panel-3:#222531;
+  --line:#30333e;
+  --line-soft:#282b35;
+  --text:#f5f6f8;
+  --muted:#9a9da6;
+  --muted-2:#727680;
+  --cyan:#22d3d1;
+  --green:#3ad77e;
+  --blue:#5eb8ff;
+  --yellow:#dfc75d;
+  --red:#ef6e78;
 
   position:relative;
   min-height:100vh;
   overflow:hidden;
-  color:var(--roster-text);
-  background:linear-gradient(135deg,#07111f 0%,#0b1830 48%,#10152d 100%);
+  color:var(--text);
+  background:var(--bg);
 }
 
 .coach-roster__bg {
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 84% 12%,rgba(59,115,205,.22),transparent 28%),
-    radial-gradient(circle at 12% 84%,rgba(92,150,255,.11),transparent 31%),
+    radial-gradient(circle at 12% 24%,rgba(26,126,138,.18),transparent 32%),
+    radial-gradient(circle at 86% 78%,rgba(42,78,109,.16),transparent 36%),
     url("../images/season/careerhud.jpg") center/cover no-repeat;
-  opacity:.31;
-  filter:blur(1px);
+  opacity:.24;
+  filter:blur(2px);
   transform:scale(1.03);
-  pointer-events:none;
 }
 
 .coach-roster__overlay {
   position:absolute;
   inset:0;
   background:
-    linear-gradient(180deg,rgba(5,10,19,.31),rgba(5,11,21,.77)),
-    linear-gradient(90deg,rgba(5,11,21,.78),rgba(5,11,21,.38) 52%,rgba(5,11,21,.67));
-  pointer-events:none;
+    linear-gradient(180deg,rgba(9,14,18,.72),rgba(10,16,21,.92)),
+    linear-gradient(90deg,rgba(9,14,18,.82),rgba(9,14,18,.42) 50%,rgba(9,14,18,.78));
 }
 
 .coach-roster__shell {
   position:relative;
   z-index:1;
+  width:min(1480px,calc(100% - 64px));
   min-height:100vh;
-  padding:20px 22px 42px;
-  box-sizing:border-box;
+  margin:0 auto;
+  padding:28px 0 38px;
 }
 
 .coach-roster__topbar {
+  min-height:64px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:18px;
+  gap:24px;
   margin-bottom:20px;
 }
 
 .coach-roster__club {
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:13px;
 }
 
 .coach-roster__club-logo {
-  width:50px;
-  height:50px;
+  width:48px;
+  height:48px;
   display:grid;
   place-items:center;
-  border:1px solid var(--roster-border);
-  background:rgba(255,255,255,.03);
-  backdrop-filter:blur(10px);
 }
 
 .coach-roster__club-logo img {
-  width:40px;
-  height:40px;
+  width:42px;
+  height:42px;
   object-fit:contain;
 }
 
-.coach-roster__club-logo > span {
-  font-size:10px;
+.coach-roster__club-logo span {
+  font-size:9px;
   font-weight:900;
 }
 
-.coach-roster__club > div:last-child > span {
+.coach-roster__club>div:last-child>span {
   display:block;
-  color:var(--roster-blue-2);
+  color:var(--cyan);
   font-size:8px;
   font-weight:900;
   letter-spacing:.15em;
@@ -96,404 +94,748 @@
 .coach-roster__club strong {
   display:block;
   margin-top:2px;
-  font-size:17px;
+  font-size:16px;
   font-weight:900;
 }
 
 .coach-roster__club small {
   display:block;
   margin-top:2px;
-  color:var(--roster-muted);
+  color:var(--muted);
   font-size:9px;
 }
 
 .coach-roster__back {
-  min-height:40px;
-  padding:0 14px;
-  border:1px solid var(--roster-border);
-  background:rgba(255,255,255,.03);
+  min-height:42px;
+  padding:0 15px;
+  border:1px solid var(--line);
+  background:#161923;
   color:#fff;
-  font-size:9px;
+  font-size:8px;
   font-weight:900;
   cursor:pointer;
-  backdrop-filter:blur(10px);
-  transition:background .16s ease,border-color .16s ease;
 }
 
 .coach-roster__back:hover {
-  border-color:rgba(74,163,255,.42);
-  background:rgba(74,163,255,.09);
+  border-color:rgba(34,211,209,.42);
+  background:#1c202a;
 }
 
-.coach-roster__hero {
+.coach-roster__navigation {
+  min-height:80px;
+  padding:0 18px;
   display:flex;
-  align-items:flex-end;
+  align-items:center;
   justify-content:space-between;
-  gap:28px;
-  margin-bottom:14px;
-  padding:18px 20px;
-  border:1px solid var(--roster-border);
-  background:rgba(17,27,48,.48);
-  backdrop-filter:blur(14px);
-  box-shadow:0 10px 28px rgba(0,0,0,.15);
+  gap:24px;
+  margin-bottom:10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel);
 }
 
-.coach-roster__eyebrow {
+.coach-roster__navigation>div:first-child>span {
   display:block;
-  color:var(--roster-blue-2);
+  color:var(--cyan);
   font-size:8px;
   font-weight:900;
-  letter-spacing:.17em;
+  letter-spacing:.13em;
 }
 
-.coach-roster__hero h1 {
-  margin:5px 0 5px;
-  font-size:46px;
-  line-height:.92;
-  font-weight:900;
-  letter-spacing:-.04em;
+.coach-roster__navigation>div:first-child>strong {
+  display:block;
+  margin-top:4px;
+  font-size:20px;
 }
 
-.coach-roster__hero p {
-  max-width:600px;
-  margin:0;
-  color:var(--roster-muted);
-  font-size:11px;
-  line-height:1.45;
-}
-
-.coach-roster__summary {
+.coach-roster__nav-summary {
   display:flex;
   align-items:stretch;
-  flex-shrink:0;
-  border:1px solid var(--roster-border-soft);
-  background:rgba(4,11,24,.25);
+  border-left:1px solid var(--line-soft);
 }
 
-.coach-roster__summary-stat,
-.coach-roster__summary-finance {
-  min-width:82px;
-  padding:10px 13px;
-  border-right:1px solid var(--roster-border-soft);
+.coach-roster__summary-stat {
+  min-width:105px;
+  padding:10px 16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid var(--line-soft);
 }
 
-.coach-roster__summary-finance {
-  min-width:140px;
+.coach-roster__summary-stat:last-child {
   border-right:0;
 }
 
-.coach-roster__summary span {
-  display:block;
-  color:var(--roster-muted-2);
+.coach-roster__summary-stat span {
+  color:var(--muted-2);
   font-size:7px;
   font-weight:900;
-  letter-spacing:.11em;
+  letter-spacing:.1em;
 }
 
-.coach-roster__summary strong {
-  display:block;
+.coach-roster__summary-stat strong {
   margin-top:4px;
-  font-size:21px;
-  line-height:1;
-  font-weight:900;
+  font-size:18px;
 }
 
-.coach-roster__summary-finance strong {
-  font-size:17px;
+.coach-roster__layout {
+  display:grid;
+  grid-template-columns:minmax(560px,.95fr) minmax(520px,1.05fr);
+  gap:10px;
+  min-height:650px;
 }
 
-.coach-roster__summary small {
-  display:block;
-  margin-top:3px;
-  color:var(--roster-muted);
-  font-size:7px;
-  font-weight:700;
-}
-
-.coach-roster__squad {
+.coach-roster__list-panel,
+.coach-roster__detail-panel {
+  min-width:0;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--panel);
   overflow:hidden;
-  border:1px solid var(--roster-border);
-  background:rgba(12,22,41,.47);
-  backdrop-filter:blur(14px);
-  box-shadow:0 14px 36px rgba(0,0,0,.17);
+  box-shadow:0 16px 35px rgba(0,0,0,.16);
 }
 
-.coach-roster__section-header {
+.coach-roster__list-head {
+  min-height:68px;
+  padding:0 18px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:18px;
-  padding:13px 16px;
-  border-bottom:1px solid var(--roster-border-soft);
-  background:rgba(255,255,255,.018);
+  gap:20px;
+  border-bottom:1px solid var(--line-soft);
 }
 
-.coach-roster__section-header > div > span {
+.coach-roster__list-head>div>span {
   display:block;
-  color:var(--roster-blue-2);
-  font-size:7px;
-  font-weight:900;
-  letter-spacing:.14em;
-}
-
-.coach-roster__section-header > div strong {
-  display:block;
-  margin-top:3px;
-  font-size:11px;
-  font-weight:900;
-}
-
-.coach-roster__section-header > span {
-  color:var(--roster-muted-2);
+  color:var(--muted-2);
   font-size:7px;
   font-weight:900;
   letter-spacing:.11em;
 }
 
-.coach-roster__table {
-  min-width:960px;
-}
-
-.coach-roster__row {
-  position:relative;
-  display:grid;
-  grid-template-columns:minmax(190px,1.6fr) 110px 60px repeat(6,minmax(62px,.55fr)) 110px;
-  align-items:center;
-  min-height:60px;
-  padding:0 14px;
-  border-bottom:1px solid var(--roster-border-soft);
-  background:rgba(255,255,255,.008);
-  transition:background .15s ease,border-color .15s ease,transform .15s ease;
-}
-
-.coach-roster__row:last-child {
-  border-bottom:0;
-}
-
-.coach-roster__row:not(.coach-roster__row--header):hover {
-  z-index:2;
-  background:
-    linear-gradient(90deg,rgba(74,163,255,.11),rgba(74,163,255,.025));
-  box-shadow:inset 3px 0 0 var(--roster-blue);
-}
-
-.coach-roster__row--starter::before {
-  content:"";
-  position:absolute;
-  left:0;
-  top:16px;
-  bottom:16px;
-  width:2px;
-  background:rgba(74,163,255,.62);
-}
-
-.coach-roster__row--header {
-  min-height:36px;
-  background:rgba(3,9,21,.38);
-}
-
-.coach-roster__row--header > span {
-  color:var(--roster-muted-2);
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.09em;
-}
-
-.coach-roster__player {
-  display:flex;
-  align-items:center;
-  gap:11px;
-  min-width:0;
-}
-
-.coach-roster__avatar {
-  width:36px;
-  height:36px;
-  flex:0 0 36px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(145deg,rgba(74,163,255,.15),rgba(255,255,255,.02));
-  color:#dceeff;
+.coach-roster__list-head>div>strong {
+  display:block;
+  margin-top:3px;
   font-size:13px;
-  font-weight:900;
 }
 
-.coach-roster__player-info {
-  min-width:0;
+.coach-roster__list-head>div:last-child {
+  text-align:right;
 }
 
-.coach-roster__player-info > div {
-  display:flex;
+.coach-roster__table-head {
+  min-height:38px;
+  padding:0 14px;
+  display:grid;
+  grid-template-columns:68px minmax(180px,1.4fr) 110px 60px 55px 85px;
   align-items:center;
-  gap:7px;
-  min-width:0;
+  gap:8px;
+  border-bottom:1px solid var(--line-soft);
+  background:#151720;
 }
 
-.coach-roster__player-info strong {
-  overflow:hidden;
-  color:#fff;
-  font-size:12px;
-  font-weight:900;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-}
-
-.coach-roster__player-info > div span {
-  padding:3px 5px;
-  border:1px solid rgba(74,163,255,.28);
-  background:rgba(74,163,255,.10);
-  color:#9ed1ff;
-  font-size:6px;
+.coach-roster__table-head span {
+  color:var(--muted-2);
+  font-size:7px;
   font-weight:900;
   letter-spacing:.08em;
 }
 
-.coach-roster__player-info small {
-  display:block;
-  margin-top:3px;
-  color:var(--roster-muted-2);
+.coach-roster__players {
+  max-height:545px;
+  overflow-y:auto;
+}
+
+.coach-roster__player-row {
+  width:100%;
+  min-height:82px;
+  padding:10px 14px;
+  display:grid;
+  grid-template-columns:68px minmax(180px,1.4fr) 110px 60px 55px 85px;
+  align-items:center;
+  gap:8px;
+  border:0;
+  border-bottom:1px solid var(--line-soft);
+  background:#191b26;
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.coach-roster__player-row:last-child {
+  border-bottom:0;
+}
+
+.coach-roster__player-row:hover {
+  background:#20232e;
+}
+
+.coach-roster__player-row--selected {
+  position:relative;
+  z-index:1;
+  background:#1c222c;
+  box-shadow:inset 3px 0 var(--cyan);
+}
+
+.coach-roster__player-row--selected::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(34,211,209,.52);
+  pointer-events:none;
+}
+
+.coach-roster__status {
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.coach-roster__status-dot {
+  width:9px;
+  height:9px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:#636873;
+}
+
+.coach-roster__status-dot--starter {
+  background:var(--green);
+  box-shadow:0 0 8px rgba(58,215,126,.30);
+}
+
+.coach-roster__status small {
+  color:var(--muted);
   font-size:7px;
-  font-weight:800;
-}
-
-.coach-roster__role {
-  width:max-content;
-  padding:5px 7px;
-  border:1px solid rgba(255,255,255,.065);
-  background:rgba(255,255,255,.025);
-  color:#bac7de;
-  font-size:9px;
   font-weight:900;
-  letter-spacing:.06em;
 }
 
-.coach-roster__overall {
-  width:34px;
-  height:34px;
+.coach-roster__player-name {
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.coach-roster__avatar {
+  width:46px;
+  height:56px;
+  flex:0 0 46px;
   display:grid;
   place-items:center;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.025);
-  font-size:13px;
+  background:linear-gradient(180deg,#363944,#262832);
+  color:#aeb3bc;
+  font-size:18px;
   font-weight:900;
 }
 
-.coach-roster__overall--good {
-  border-color:rgba(74,163,255,.28);
-  color:#9cd0ff;
+.coach-roster__player-name>div:last-child {
+  min-width:0;
 }
 
-.coach-roster__overall--star {
-  border-color:rgba(78,214,170,.32);
-  color:#7ce3bd;
-  background:rgba(78,214,170,.07);
+.coach-roster__player-name strong {
+  display:block;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:12px;
 }
 
-.coach-roster__overall--elite {
-  border-color:rgba(228,201,110,.36);
-  color:#f0d77f;
-  background:rgba(228,201,110,.08);
-  box-shadow:0 0 14px rgba(228,201,110,.08);
+.coach-roster__player-name small {
+  display:block;
+  margin-top:3px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  color:var(--muted);
+  font-size:7px;
+}
+
+.coach-roster__player-row>span {
+  color:#b1b4ba;
+  font-size:8px;
+}
+
+.coach-roster__value {
+  color:#e6e8eb;
+  font-size:15px;
+}
+
+.coach-roster__value--good {
+  color:var(--blue);
+}
+
+.coach-roster__value--star {
+  color:var(--green);
+}
+
+.coach-roster__value--elite {
+  color:var(--yellow);
+}
+
+.coach-roster__detail-panel {
+  position:relative;
+  max-height:650px;
+  overflow-y:auto;
+  background:#20212d;
+}
+
+.coach-roster__detail-head {
+  min-height:145px;
+  padding:24px 26px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+.coach-roster__detail-player {
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.coach-roster__detail-avatar {
+  width:92px;
+  height:112px;
+  flex:0 0 92px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(180deg,#3b3e49,#272a34);
+  color:#afb3bc;
+  font-size:38px;
+  font-weight:900;
+}
+
+.coach-roster__detail-player>div:last-child {
+  min-width:0;
+}
+
+.coach-roster__detail-player span {
+  display:block;
+  color:var(--cyan);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.10em;
+}
+
+.coach-roster__detail-player h2 {
+  margin:5px 0 4px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:30px;
+  line-height:.95;
+}
+
+.coach-roster__detail-player small {
+  color:var(--muted);
+  font-size:8px;
+}
+
+.coach-roster__detail-overall {
+  min-width:80px;
+  text-align:right;
+}
+
+.coach-roster__detail-overall strong {
+  display:block;
+  font-size:34px;
+  line-height:1;
+}
+
+.coach-roster__detail-overall span {
+  display:block;
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-roster__profile-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--line-soft);
+}
+
+.coach-roster__profile-item {
+  min-width:0;
+  min-height:64px;
+  padding:11px 14px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid var(--line-soft);
+}
+
+.coach-roster__profile-item:last-child {
+  border-right:0;
+}
+
+.coach-roster__profile-item span {
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.coach-roster__profile-item strong {
+  margin-top:4px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:10px;
+}
+
+.coach-roster__radar-section {
+  padding:20px 24px 12px;
+  border-bottom:1px solid var(--line-soft);
+}
+
+.coach-roster__radar-section>header {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:4px;
+}
+
+.coach-roster__radar-section>header>div:first-child span {
+  display:block;
+  color:var(--cyan);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+
+.coach-roster__radar-section>header>div:first-child strong {
+  display:block;
+  margin-top:3px;
+  font-size:13px;
+}
+
+.coach-roster__radar-section>header>div:last-child {
+  text-align:right;
+}
+
+.coach-roster__radar-section>header>div:last-child span {
+  display:block;
+  color:var(--muted-2);
+  font-size:6px;
+  font-weight:900;
+}
+
+.coach-roster__radar-section>header>div:last-child strong {
+  display:block;
+  margin-top:2px;
+  color:var(--green);
+  font-size:18px;
+}
+
+.coach-roster__radar {
+  width:100%;
+  max-width:330px;
+  margin:0 auto;
+}
+
+.coach-roster__radar svg {
+  width:100%;
+  display:block;
+  overflow:visible;
+}
+
+.coach-roster__radar-grid {
+  fill:none;
+  stroke:rgba(255,255,255,.13);
+  stroke-width:1;
+}
+
+.coach-roster__radar-axis {
+  stroke:rgba(255,255,255,.10);
+  stroke-width:1;
+}
+
+.coach-roster__radar-value {
+  fill:rgba(34,211,209,.15);
+  stroke:var(--cyan);
+  stroke-width:2;
+  filter:drop-shadow(0 0 5px rgba(34,211,209,.18));
+}
+
+.coach-roster__radar-label {
+  fill:#9da1aa;
+  font-size:8px;
+  font-weight:900;
+}
+
+.coach-roster__radar-number {
+  fill:#f5f6f8;
+  font-size:8px;
+  font-weight:900;
+}
+
+.coach-roster__attribute-list {
+  padding:16px 24px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px 18px;
+  border-bottom:1px solid var(--line-soft);
+}
+
+.coach-roster__attribute>div:first-child {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.coach-roster__attribute>div:first-child span {
+  color:#adafb5;
+  font-size:8px;
+  font-weight:800;
 }
 
 .coach-roster__stat {
-  color:#c1cce0;
-  font-size:12px;
-  font-weight:800;
+  color:#e6e8eb;
+  font-size:9px;
 }
 
 .coach-roster__stat--high {
-  color:#8dcaff;
+  color:var(--blue);
 }
 
 .coach-roster__stat--elite {
-  color:#63deb5;
-  font-weight:900;
+  color:var(--green);
 }
 
 .coach-roster__stat--low {
-  color:#df8b97;
+  color:#ef8b6f;
 }
 
-.coach-roster__salary {
-  color:#fff;
-  font-size:10px;
+.coach-roster__attribute-bar {
+  height:4px;
+  margin-top:5px;
+  overflow:hidden;
+  background:#343641;
+}
+
+.coach-roster__attribute-bar span {
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,var(--cyan),#63e9c6);
+}
+
+.coach-roster__financial {
+  padding:16px 24px 22px;
+}
+
+.coach-roster__financial>span {
+  display:block;
+  margin-bottom:10px;
+  color:var(--muted-2);
+  font-size:7px;
   font-weight:900;
+  letter-spacing:.1em;
 }
 
-@media (max-width:1100px) {
-  .coach-roster__hero {
+.coach-roster__financial>div {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border:1px solid var(--line-soft);
+  background:#1a1c26;
+}
+
+.coach-roster__financial .coach-roster__profile-item {
+  min-height:62px;
+}
+
+.coach-roster__empty {
+  min-height:620px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  text-align:center;
+}
+
+.coach-roster__empty strong {
+  color:#fff;
+  font-size:15px;
+}
+
+.coach-roster__empty span {
+  margin-top:4px;
+  font-size:8px;
+}
+
+.coach-roster__players::-webkit-scrollbar,
+.coach-roster__detail-panel::-webkit-scrollbar {
+  width:6px;
+}
+
+.coach-roster__players::-webkit-scrollbar-track,
+.coach-roster__detail-panel::-webkit-scrollbar-track {
+  background:#141620;
+}
+
+.coach-roster__players::-webkit-scrollbar-thumb,
+.coach-roster__detail-panel::-webkit-scrollbar-thumb {
+  background:#555963;
+  border-radius:6px;
+}
+
+@media(max-width:1150px) {
+  .coach-roster__layout {
+    grid-template-columns:1fr;
+  }
+
+  .coach-roster__detail-panel {
+    max-height:none;
+  }
+
+  .coach-roster__players {
+    max-height:460px;
+  }
+}
+
+@media(max-width:900px) {
+  .coach-roster__navigation {
     align-items:flex-start;
     flex-direction:column;
+    padding:16px;
   }
 
-  .coach-roster__summary {
+  .coach-roster__nav-summary {
     width:100%;
+    border-left:0;
+    border-top:1px solid var(--line-soft);
   }
 
-  .coach-roster__summary-stat,
-  .coach-roster__summary-finance {
+  .coach-roster__summary-stat {
     flex:1;
-  }
-
-  .coach-roster__squad {
-    overflow-x:auto;
-  }
-}
-
-@media (max-width:700px) {
-  .coach-roster__shell {
-    padding:16px 12px 28px;
-  }
-
-  .coach-roster__topbar {
-    align-items:flex-start;
-  }
-
-  .coach-roster__hero {
-    padding:15px;
-  }
-
-  .coach-roster__hero h1 {
-    font-size:38px;
-  }
-
-  .coach-roster__summary {
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-
-  .coach-roster__summary-stat,
-  .coach-roster__summary-finance {
     min-width:0;
-    border-right:1px solid var(--roster-border-soft);
-    border-bottom:1px solid var(--roster-border-soft);
-  }
-
-  .coach-roster__summary > :nth-child(even) {
-    border-right:0;
-  }
-
-  .coach-roster__summary-finance {
-    grid-column:1/-1;
-    border-bottom:0;
-    border-right:0;
   }
 }
 
-@media (max-width:460px) {
+@media(max-width:760px) {
+  .coach-roster__shell {
+    width:calc(100% - 24px);
+    padding:18px 0 28px;
+  }
+
+  .coach-roster__table-head {
+    display:none;
+  }
+
+  .coach-roster__player-row {
+    grid-template-columns:55px minmax(150px,1fr) 90px 50px;
+  }
+
+  .coach-roster__player-row>span:nth-of-type(2),
+  .coach-roster__player-row>span:nth-of-type(3) {
+    display:none;
+  }
+
+  .coach-roster__profile-grid {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .coach-roster__profile-item:nth-child(2) {
+    border-right:0;
+  }
+
+  .coach-roster__profile-item:nth-child(-n+2) {
+    border-bottom:1px solid var(--line-soft);
+  }
+
+  .coach-roster__attribute-list {
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:560px) {
+  .coach-roster__shell {
+    width:calc(100% - 18px);
+  }
+
   .coach-roster__club small {
     display:none;
   }
 
-  .coach-roster__back {
-    padding-inline:10px;
-    font-size:8px;
+  .coach-roster__topbar {
+    align-items:flex-start;
+    flex-direction:column;
   }
 
-  .coach-roster__hero h1 {
-    font-size:34px;
+  .coach-roster__back {
+    align-self:stretch;
+  }
+
+  .coach-roster__nav-summary {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .coach-roster__summary-stat {
+    border-bottom:1px solid var(--line-soft);
+  }
+
+  .coach-roster__player-row {
+    grid-template-columns:44px minmax(120px,1fr) 70px;
+  }
+
+  .coach-roster__player-row>strong:nth-of-type(1) {
+    justify-self:end;
+  }
+
+  .coach-roster__player-row>span {
+    display:none;
+  }
+
+  .coach-roster__status small {
+    display:none;
+  }
+
+  .coach-roster__detail-head {
+    padding:18px;
+  }
+
+  .coach-roster__detail-avatar {
+    width:68px;
+    height:84px;
+    flex-basis:68px;
+    font-size:28px;
+  }
+
+  .coach-roster__detail-player h2 {
+    font-size:23px;
+  }
+
+  .coach-roster__detail-overall strong {
+    font-size:28px;
+  }
+
+  .coach-roster__profile-grid {
+    grid-template-columns:1fr;
+  }
+
+  .coach-roster__profile-item,
+  .coach-roster__profile-item:nth-child(2) {
+    border-right:0;
+    border-bottom:1px solid var(--line-soft);
+  }
+
+  .coach-roster__profile-item:last-child {
+    border-bottom:0;
+  }
+
+  .coach-roster__financial>div {
+    grid-template-columns:1fr;
   }
 }

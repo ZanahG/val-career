@@ -43,10 +43,7 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
       <div className="coach-dashboard__shell">
         <header className="coach-dashboard__topbar">
           <div className="coach-dashboard__club-header">
-            <div className="coach-dashboard__club-mark">
-              {logo?<img src={logo} alt={team?.name??""}/>:<span>{team?.shortName??"TCV"}</span>}
-            </div>
-
+            <div className="coach-dashboard__club-mark">{logo?<img src={logo} alt={team?.name??""}/>:<span>{team?.shortName??"TCV"}</span>}</div>
             <div>
               <span>COACH CAREER</span>
               <strong>{team?.name??"Sin equipo"}</strong>
@@ -55,17 +52,13 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
           </div>
 
           <div className="coach-dashboard__topbar-actions">
-            <div className="coach-dashboard__season-pill">
-              <span>TEMPORADA</span>
-              <strong>{career.coach.season}</strong>
-            </div>
-
+            <div className="coach-dashboard__season-pill"><span>TEMPORADA</span><strong>{career.coach.season}</strong></div>
             <button className="coach-dashboard__exit" onClick={onExit}>SALIR</button>
           </div>
         </header>
 
         <section className="coach-dashboard__hero">
-          <div className="coach-dashboard__hero-main coach-card">
+          <section className="coach-dashboard__hero-main coach-card">
             <div className="coach-dashboard__coach-profile">
               <span className="coach-dashboard__eyebrow">HEAD COACH</span>
               <h1>{career.coach.name}</h1>
@@ -77,7 +70,7 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
               <DashboardStat label="QUÍMICA" value={career.team.chemistry}/>
               <DashboardStat label="FORMA" value={career.team.form}/>
             </div>
-          </div>
+          </section>
 
           <button className={`coach-dashboard__season-card coach-card coach-card--interactive${seasonComplete?" coach-dashboard__season-card--complete":""}`} onClick={onOpenSeason}>
             <div className="coach-dashboard__season-card-head">
@@ -85,7 +78,6 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
                 <span>{getSeasonCardEyebrow(seasonStarted,seasonComplete)}</span>
                 <strong>{getSeasonCardTitle(seasonStarted,seasonComplete)}</strong>
               </div>
-
               <b>→</b>
             </div>
 
@@ -103,9 +95,7 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
                   <div>{logo&&<img src={logo} alt={team?.name??""}/>}</div>
                   <strong>{team?.shortName??team?.name}</strong>
                 </div>
-
                 <span>VS</span>
-
                 <div className="coach-dashboard__next-team">
                   <div>{opponentLogo&&<img src={opponentLogo} alt={opponent.name}/>}</div>
                   <strong>{opponent.shortName??opponent.name}</strong>
@@ -123,20 +113,9 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
 
             {seasonComplete&&(
               <div className="coach-dashboard__season-summary">
-                <div>
-                  <span>RÉCORD</span>
-                  <strong>{annualRecord.wins}-{annualRecord.losses}</strong>
-                </div>
-
-                <div>
-                  <span>CHAMP. POINTS</span>
-                  <strong>{championshipPoints}</strong>
-                </div>
-
-                <div>
-                  <span>TROFEOS</span>
-                  <strong>{trophiesThisSeason.length}</strong>
-                </div>
+                <div><span>RÉCORD</span><strong>{annualRecord.wins}-{annualRecord.losses}</strong></div>
+                <div><span>CHAMP. POINTS</span><strong>{championshipPoints}</strong></div>
+                <div><span>TROFEOS</span><strong>{trophiesThisSeason.length}</strong></div>
               </div>
             )}
           </button>
@@ -147,37 +126,19 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
           <MenuTile index="02" title="MERCADO" description="Fichajes, scouting y oportunidades." onClick={onOpenMarket} icon="↗"/>
           <MenuTile index="03" title="GESTIÓN TÁCTICA" description="Plan de juego e identidad del equipo." onClick={onOpenTactics} icon="⌁"/>
           <MenuTile index="04" title="MAP POOL" description="Fortalezas y debilidades por mapa." onClick={onOpenMapPool} icon="◇"/>
-          <MenuTile
-            index="05"
-            title={seasonComplete?"RESUMEN TEMPORADA":"TEMPORADA"}
-            description={seasonComplete?"Resultados, trofeos y cierre del año competitivo.":"Calendario, clasificación y partidos."}
-            onClick={onOpenSeason}
-            icon="▦"
-            active={seasonComplete}
-          />
+          <MenuTile index="05" title={seasonComplete?"RESUMEN TEMPORADA":"TEMPORADA"} description={seasonComplete?"Resultados, trofeos y cierre del año competitivo.":"Calendario, clasificación y partidos."} onClick={onOpenSeason} icon="▦" active={seasonComplete}/>
         </section>
 
         <div className="coach-dashboard__lower-grid">
           <section className="coach-dashboard__finance-card coach-card">
             <header className="coach-dashboard__section-head">
-              <div>
-                <span>FINANZAS</span>
-                <strong>GESTIÓN DEL CLUB</strong>
-              </div>
-
+              <div><span>FINANZAS</span><strong>GESTIÓN DEL CLUB</strong></div>
               <span>{payrollUsage}% NÓMINA</span>
             </header>
 
             <div className="coach-dashboard__finance-main">
-              <div>
-                <span>DISPONIBLE MENSUAL</span>
-                <strong>${availableBudget.toLocaleString("en-US")}</strong>
-                <small>USD</small>
-              </div>
-
-              <div className="coach-dashboard__finance-progress">
-                <div style={{width:`${payrollUsage}%`}}/>
-              </div>
+              <div><span>DISPONIBLE MENSUAL</span><strong>${availableBudget.toLocaleString("en-US")}</strong><small>USD</small></div>
+              <div className="coach-dashboard__finance-progress"><div style={{width:`${payrollUsage}%`}}/></div>
             </div>
 
             <div className="coach-dashboard__finance-grid">
@@ -189,10 +150,7 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
 
           <section className="coach-dashboard__identity-card coach-card">
             <header className="coach-dashboard__section-head">
-              <div>
-                <span>IDENTIDAD TÁCTICA</span>
-                <strong>ESTILO DE JUEGO</strong>
-              </div>
+              <div><span>IDENTIDAD TÁCTICA</span><strong>ESTILO DE JUEGO</strong></div>
             </header>
 
             <div className="coach-dashboard__identity-current">
@@ -203,9 +161,7 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
 
             <div className="coach-dashboard__style-selector">
               {TACTICAL_STYLES.map(style=>(
-                <button key={style} className={career.team.tacticalStyle===style?"active":""} onClick={()=>onChangeTacticalStyle(style)}>
-                  {getTacticalStyleLabel(style)}
-                </button>
+                <button key={style} className={career.team.tacticalStyle===style?"active":""} onClick={()=>onChangeTacticalStyle(style)}>{getTacticalStyleLabel(style)}</button>
               ))}
             </div>
 
@@ -230,21 +186,11 @@ function MenuTile({index,title,description,onClick,icon,active=false}:{index:str
 }
 
 function DashboardStat({label,value}:{label:string;value:number}) {
-  return (
-    <div className="coach-dashboard__hero-stat">
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
+  return <div className="coach-dashboard__hero-stat"><span>{label}</span><strong>{value}</strong></div>;
 }
 
 function FinanceItem({label,value}:{label:string;value:string}) {
-  return (
-    <div className="coach-dashboard__finance-item">
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
+  return <div className="coach-dashboard__finance-item"><span>{label}</span><strong>{value}</strong></div>;
 }
 
 function getSeasonCardEyebrow(seasonStarted:boolean,seasonComplete:boolean) {
@@ -261,13 +207,8 @@ function getSeasonCardTitle(seasonStarted:boolean,seasonComplete:boolean) {
 
 function getAnnualRecord(career:CoachCareerState) {
   if(!career.seasonState)return {wins:0,losses:0};
-
   const matches=Object.values(career.seasonState.events).flatMap(event=>event.matches);
-
-  return {
-    wins:matches.filter(match=>match.won).length,
-    losses:matches.filter(match=>!match.won).length,
-  };
+  return {wins:matches.filter(match=>match.won).length,losses:matches.filter(match=>!match.won).length};
 }
 
 function getCurrentSeasonTrophies(career:CoachCareerState) {

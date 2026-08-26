@@ -1,3 +1,4 @@
+import {useMemo,useState} from "react";
 import type {CoachCareerState,CoachPlayer} from "../../types/coach";
 import {getTeamById} from "../../data/teams";
 import {getTeamLogo} from "../../utils/teamLogo";
@@ -11,7 +12,16 @@ interface CoachRosterProps {
 export function CoachRoster({career,onBack}:CoachRosterProps) {
   const team=getTeamById(career.team.teamId);
   const logo=getTeamLogo(team?.logo);
-  const roster=[...career.team.roster].sort((a,b)=>Number(b.starter)-Number(a.starter)||b.overall-a.overall);
+
+  const roster=useMemo(
+    ()=>[...career.team.roster].sort((a,b)=>Number(b.starter)-Number(a.starter)||b.overall-a.overall),
+    [career.team.roster],
+  );
+
+  const [selectedPlayerId,setSelectedPlayerId]=useState<string|null>(roster[0]?.id??null);
+
+  const selectedPlayer=roster.find(player=>player.id===selectedPlayerId)??roster[0]??null;
+
   const payroll=roster.reduce((total,player)=>total+player.salary,0);
   const averageOverall=roster.length?Math.round(roster.reduce((total,player)=>total+player.overall,0)/roster.length):0;
   const starters=roster.filter(player=>player.starter).length;
@@ -30,98 +40,258 @@ export function CoachRoster({career,onBack}:CoachRosterProps) {
             </div>
 
             <div>
-              <span>GESTIÓN DE PLANTILLA</span>
-              <strong>{team?.name??"Equipo"}</strong>
-              <small>{team?.circuit} · {team?.marketRegion}</small>
+              <span>COACH CAREER</span>
+              <strong>CENTRO DE PLANTILLA</strong>
+              <small>{team?.name??"Equipo"} · {team?.circuit} · {team?.marketRegion}</small>
             </div>
           </div>
 
           <button className="coach-roster__back" onClick={onBack}>← DASHBOARD</button>
         </header>
 
-        <section className="coach-roster__hero">
+        <section className="coach-roster__navigation">
           <div>
-            <span className="coach-roster__eyebrow">PRIMER EQUIPO</span>
-            <h1>PLANTILLA</h1>
-            <p>Evalúa el nivel del roster, roles, estado competitivo y coste mensual de cada jugador.</p>
+            <span>PRIMER EQUIPO</span>
+            <strong>PLANTILLA</strong>
           </div>
 
-          <div className="coach-roster__summary">
+          <div className="coach-roster__nav-summary">
             <SummaryStat label="JUGADORES" value={roster.length}/>
             <SummaryStat label="TITULARES" value={starters}/>
-            <SummaryStat label="MEDIA" value={averageOverall}/>
+            <SummaryStat label="OVR MEDIO" value={averageOverall}/>
             <SummaryStat label="MEJOR OVR" value={highestOverall}/>
-            <div className="coach-roster__summary-finance">
-              <span>NÓMINA MENSUAL</span>
-              <strong>${payroll.toLocaleString("en-US")}</strong>
-              <small>USD</small>
-            </div>
           </div>
         </section>
 
-        <section className="coach-roster__squad">
-          <header className="coach-roster__section-header">
-            <div>
-              <span>ROSTER ACTUAL</span>
-              <strong>{starters} TITULARES · {Math.max(0,roster.length-starters)} SUPLENTES</strong>
-            </div>
+        <div className="coach-roster__layout">
+          <section className="coach-roster__list-panel">
+            <header className="coach-roster__list-head">
+              <div>
+                <span>ROSTER ACTUAL</span>
+                <strong>{roster.length} JUGADORES</strong>
+              </div>
 
-            <span>OVR MEDIO {averageOverall}</span>
-          </header>
+              <div>
+                <span>NÓMINA</span>
+                <strong>${payroll.toLocaleString("en-US")}</strong>
+              </div>
+            </header>
 
-          <div className="coach-roster__table">
-            <div className="coach-roster__row coach-roster__row--header">
-              <span>JUGADOR</span>
+            <div className="coach-roster__table-head">
+              <span>ESTADO</span>
+              <span>NOMBRE</span>
               <span>ROL</span>
               <span>OVR</span>
-              <span>AIM</span>
-              <span>GAME SENSE</span>
-              <span>COMMS</span>
-              <span>CLUTCH</span>
-              <span>CONS.</span>
-              <span>MENTAL</span>
-              <span>SUELDO</span>
+              <span>EDAD</span>
+              <span>CONTRATO</span>
             </div>
 
-            {roster.map(player=><PlayerRow key={player.id} player={player}/>)}
-          </div>
-        </section>
+            <div className="coach-roster__players">
+              {roster.map(player=>(
+                <PlayerRow
+                  key={player.id}
+                  player={player}
+                  selected={selectedPlayer?.id===player.id}
+                  onClick={()=>setSelectedPlayerId(player.id)}
+                />
+              ))}
+            </div>
+          </section>
+
+          <aside className="coach-roster__detail-panel">
+            {selectedPlayer?(
+              <PlayerDetail player={selectedPlayer}/>
+            ):(
+              <div className="coach-roster__empty">
+                <strong>SIN JUGADORES</strong>
+                <span>No hay jugadores registrados en la plantilla.</span>
+              </div>
+            )}
+          </aside>
+        </div>
       </div>
     </main>
   );
 }
 
-function PlayerRow({player}:{player:CoachPlayer}) {
+function PlayerRow({player,selected,onClick}:{player:CoachPlayer;selected:boolean;onClick:()=>void}) {
   return (
-    <article className={`coach-roster__row${player.starter?" coach-roster__row--starter":""}`}>
-      <div className="coach-roster__player">
+    <button className={`coach-roster__player-row${selected?" coach-roster__player-row--selected":""}`} onClick={onClick}>
+      <div className="coach-roster__status">
+        <span className={player.starter?"coach-roster__status-dot coach-roster__status-dot--starter":"coach-roster__status-dot"}/>
+        <small>{player.starter?"XI":"SUB"}</small>
+      </div>
+
+      <div className="coach-roster__player-name">
         <div className="coach-roster__avatar">{player.ign.slice(0,1).toUpperCase()}</div>
 
-        <div className="coach-roster__player-info">
-          <div>
-            <strong>{player.ign}</strong>
-            {player.starter&&<span>TITULAR</span>}
-          </div>
-
-          <small>{player.age} AÑOS</small>
+        <div>
+          <strong>{player.ign}</strong>
+          <small>${player.salary.toLocaleString("en-US")} / MES</small>
         </div>
       </div>
 
-      <span className="coach-roster__role">{getRoleLabel(player.role)}</span>
+      <span>{getRoleLabel(player.role)}</span>
+      <strong className={getOverallClass(player.overall)}>{player.overall}</strong>
+      <span>{player.age}</span>
+      <span>{formatContract(player)}</span>
+    </button>
+  );
+}
 
-      <strong className={`coach-roster__overall ${getOverallClass(player.overall)}`}>
-        {player.overall}
-      </strong>
+function PlayerDetail({player}:{player:CoachPlayer}) {
+  const averageStats=Math.round(
+    (
+      player.stats.aim+
+      player.stats.gameSense+
+      player.stats.communication+
+      player.stats.clutch+
+      player.stats.consistency+
+      player.stats.mental
+    )/6,
+  );
 
-      <StatValue value={player.stats.aim}/>
-      <StatValue value={player.stats.gameSense}/>
-      <StatValue value={player.stats.communication}/>
-      <StatValue value={player.stats.clutch}/>
-      <StatValue value={player.stats.consistency}/>
-      <StatValue value={player.stats.mental}/>
+  return (
+    <>
+      <header className="coach-roster__detail-head">
+        <div className="coach-roster__detail-player">
+          <div className="coach-roster__detail-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
 
-      <strong className="coach-roster__salary">${player.salary.toLocaleString("en-US")}</strong>
-    </article>
+          <div>
+            <span>{getRoleLabel(player.role)}</span>
+            <h2>{player.ign}</h2>
+            <small>{player.starter?"TITULAR":"SUPLENTE"} · {player.age} AÑOS</small>
+          </div>
+        </div>
+
+        <div className="coach-roster__detail-overall">
+          <strong className={getOverallClass(player.overall)}>{player.overall}</strong>
+          <span>OVR</span>
+        </div>
+      </header>
+
+      <section className="coach-roster__profile-grid">
+        <ProfileItem label="POTENCIAL" value={String(player.potential)}/>
+        <ProfileItem label="EDAD" value={String(player.age)}/>
+        <ProfileItem label="ROL" value={getRoleLabel(player.role)}/>
+        <ProfileItem label="CONTRATO" value={formatContract(player)}/>
+      </section>
+
+      <section className="coach-roster__radar-section">
+        <header>
+          <div>
+            <span>PLAYER PROFILE</span>
+            <strong>ATRIBUTOS</strong>
+          </div>
+
+          <div>
+            <span>MEDIA</span>
+            <strong>{averageStats}</strong>
+          </div>
+        </header>
+
+        <PlayerRadar player={player}/>
+      </section>
+
+      <section className="coach-roster__attribute-list">
+        <Attribute label="AIM" value={player.stats.aim}/>
+        <Attribute label="GAME SENSE" value={player.stats.gameSense}/>
+        <Attribute label="COMMUNICATION" value={player.stats.communication}/>
+        <Attribute label="CLUTCH" value={player.stats.clutch}/>
+        <Attribute label="CONSISTENCY" value={player.stats.consistency}/>
+        <Attribute label="MENTAL" value={player.stats.mental}/>
+      </section>
+
+      <section className="coach-roster__financial">
+        <span>CONTRATO Y VALOR</span>
+
+        <div>
+          <ProfileItem label="SUELDO MENSUAL" value={`$${player.salary.toLocaleString("en-US")}`}/>
+          <ProfileItem label="VALOR MERCADO" value={`$${player.marketValue.toLocaleString("en-US")}`}/>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function PlayerRadar({player}:{player:CoachPlayer}) {
+  const stats=[
+    {label:"AIM",value:player.stats.aim},
+    {label:"GAME",value:player.stats.gameSense},
+    {label:"COMMS",value:player.stats.communication},
+    {label:"CLUTCH",value:player.stats.clutch},
+    {label:"CONS.",value:player.stats.consistency},
+    {label:"MENTAL",value:player.stats.mental},
+  ];
+
+  const center=150;
+  const radius=105;
+
+  const gridLevels=[25,50,75,100];
+
+  const points=stats.map((stat,index)=>{
+    const angle=-Math.PI/2+(Math.PI*2*index)/stats.length;
+    const distance=radius*(stat.value/100);
+
+    return `${center+Math.cos(angle)*distance},${center+Math.sin(angle)*distance}`;
+  }).join(" ");
+
+  return (
+    <div className="coach-roster__radar">
+      <svg viewBox="0 0 300 300">
+        {gridLevels.map(level=>(
+          <polygon key={level} className="coach-roster__radar-grid" points={getRadarPolygon(stats.length,center,radius*(level/100))}/>
+        ))}
+
+        {stats.map((_,index)=>{
+          const angle=-Math.PI/2+(Math.PI*2*index)/stats.length;
+          const x=center+Math.cos(angle)*radius;
+          const y=center+Math.sin(angle)*radius;
+
+          return <line key={index} className="coach-roster__radar-axis" x1={center} y1={center} x2={x} y2={y}/>;
+        })}
+
+        <polygon className="coach-roster__radar-value" points={points}/>
+
+        {stats.map((stat,index)=>{
+          const angle=-Math.PI/2+(Math.PI*2*index)/stats.length;
+          const labelRadius=radius+27;
+          const x=center+Math.cos(angle)*labelRadius;
+          const y=center+Math.sin(angle)*labelRadius;
+
+          return (
+            <g key={stat.label}>
+              <text className="coach-roster__radar-label" x={x} y={y-2} textAnchor="middle">{stat.label}</text>
+              <text className="coach-roster__radar-number" x={x} y={y+12} textAnchor="middle">{stat.value}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+function Attribute({label,value}:{label:string;value:number}) {
+  return (
+    <div className="coach-roster__attribute">
+      <div>
+        <span>{label}</span>
+        <strong className={getStatClass(value)}>{value}</strong>
+      </div>
+
+      <div className="coach-roster__attribute-bar">
+        <span style={{width:`${value}%`}}/>
+      </div>
+    </div>
+  );
+}
+
+function ProfileItem({label,value}:{label:string;value:string}) {
+  return (
+    <div className="coach-roster__profile-item">
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
   );
 }
 
@@ -134,8 +304,17 @@ function SummaryStat({label,value}:{label:string;value:number}) {
   );
 }
 
-function StatValue({value}:{value:number}) {
-  return <span className={getStatClass(value)}>{value}</span>;
+function getRadarPolygon(count:number,center:number,radius:number) {
+  return Array.from({length:count},(_,index)=>{
+    const angle=-Math.PI/2+(Math.PI*2*index)/count;
+    return `${center+Math.cos(angle)*radius},${center+Math.sin(angle)*radius}`;
+  }).join(" ");
+}
+
+function formatContract(player:CoachPlayer) {
+  const years=player.contractSeasonsRemaining??0;
+  if(years<=0)return "EXPIRA";
+  return `${years} ${years===1?"AÑO":"AÑOS"}`;
 }
 
 function getRoleLabel(role:CoachPlayer["role"]) {
@@ -148,10 +327,10 @@ function getRoleLabel(role:CoachPlayer["role"]) {
 }
 
 function getOverallClass(overall:number) {
-  if(overall>=90)return "coach-roster__overall--elite";
-  if(overall>=85)return "coach-roster__overall--star";
-  if(overall>=80)return "coach-roster__overall--good";
-  return "";
+  if(overall>=90)return "coach-roster__value coach-roster__value--elite";
+  if(overall>=85)return "coach-roster__value coach-roster__value--star";
+  if(overall>=80)return "coach-roster__value coach-roster__value--good";
+  return "coach-roster__value";
 }
 
 function getStatClass(value:number) {

@@ -11,16 +11,34 @@ interface CoachMapPoolProps {
   onBack:()=>void;
 }
 
+const MAP_IMAGES=import.meta.glob("../../images/maps/*.{png,jpg,jpeg,webp}",{eager:true,query:"?url",import:"default"}) as Record<string,string>;
+
 export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapPoolProps) {
   const team=getTeamById(career.team.teamId);
   const logo=getTeamLogo(team?.logo);
   const maps=getBestCoachMaps(career.team.mapPool);
   const bestMap=maps[0];
-  const averageRating=maps.length?Math.round(maps.reduce((total,map)=>total+getMapScore(map),0)/maps.length):0;
+
+  const averageRating=maps.length
+    ?Math.round(maps.reduce((total,map)=>total+getMapScore(map),0)/maps.length)
+    :0;
+
   const preparedMaps=maps.filter(map=>map.preparation>=80).length;
 
   const trainMap=(map:CoachMapName)=>{
-    onUpdateCareer({...career,team:{...career.team,mapPool:trainCoachMap(career.team.mapPool,map)}});
+    if(career.team.trainingSessions<=0)return;
+
+    const trainedMaps=career.team.trainedMapsThisPeriod??[];
+
+    onUpdateCareer({
+      ...career,
+      team:{
+        ...career.team,
+        trainingSessions:career.team.trainingSessions-1,
+        trainedMapsThisPeriod:trainedMaps.includes(map)?trainedMaps:[...trainedMaps,map],
+        mapPool:trainCoachMap(career.team.mapPool,map),
+      },
+    });
   };
 
   return (
@@ -36,25 +54,26 @@ export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapP
             </div>
 
             <div>
-              <span>PREPARACIÓN COMPETITIVA</span>
+              <span>COACH CAREER</span>
               <strong>{team?.name??"Equipo"}</strong>
               <small>{team?.circuit} · {team?.marketRegion}</small>
             </div>
           </div>
 
-          <button className="coach-map-pool__back" onClick={onBack}>← DASHBOARD</button>
+          <button className="coach-map-pool__back" onClick={onBack}>← MENU</button>
         </header>
 
         <section className="coach-map-pool__hero">
           <div>
-            <span className="coach-map-pool__eyebrow">MAP ANALYSIS</span>
+            <span className="coach-map-pool__eyebrow">PREPARACIÓN COMPETITIVA</span>
             <h1>MAP POOL</h1>
-            <p>Gestiona las fortalezas de tu equipo, mejora la preparación y construye una ventaja para futuros vetos.</p>
+            <p>Gestiona la preparación de cada mapa, desarrolla las fortalezas del roster y construye una ventaja para los próximos vetos.</p>
           </div>
 
           <div className="coach-map-pool__summary">
             <SummaryStat label="MEDIA MAP POOL" value={averageRating}/>
             <SummaryStat label="MAPAS PREPARADOS" value={preparedMaps}/>
+
             <div className="coach-map-pool__best-summary">
               <span>MEJOR MAPA</span>
               <strong>{bestMap?.map??"-"}</strong>
@@ -64,15 +83,38 @@ export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapP
         </section>
 
         <section className="coach-map-pool__control-bar">
-          <div>
+          <div className="coach-map-pool__rotation">
             <span>MAP POOL ACTUAL</span>
-            <strong>{maps.length} MAPAS</strong>
+            <strong>{maps.length} MAPAS EN ROTACIÓN</strong>
+          </div>
+
+          <div className={`coach-map-pool__training${career.team.trainingSessions<=0?" coach-map-pool__training--empty":""}`}>
+            <div className="coach-map-pool__training-copy">
+              <span>ENTRENAMIENTO SEMANAL</span>
+              <strong>{career.team.trainingSessions} DE 3 SESIONES DISPONIBLES</strong>
+              <small>Se renuevan al comenzar una nueva Week o ronda competitiva.</small>
+            </div>
+
+            <div className="coach-map-pool__training-slots">
+              {[0,1,2].map(index=>(
+                <span key={index} className={index<career.team.trainingSessions?"coach-map-pool__training-slot coach-map-pool__training-slot--active":"coach-map-pool__training-slot"}>
+                  <b>{index<career.team.trainingSessions?"✓":"×"}</b>
+                </span>
+              ))}
+            </div>
           </div>
         </section>
 
         <section className="coach-map-pool__grid">
           {maps.map((map,index)=>(
-            <MapCard key={map.map} map={map} rank={index+1} best={index===0} onTrain={()=>trainMap(map.map)}/>
+            <MapCard
+              key={map.map}
+              map={map}
+              rank={index+1}
+              best={index===0}
+              trainingSessions={career.team.trainingSessions}
+              onTrain={()=>trainMap(map.map)}
+            />
           ))}
         </section>
       </div>
@@ -80,20 +122,36 @@ export function CoachMapPool({career,onUpdateCareer,onBack,onOpenVeto}:CoachMapP
   );
 }
 
-function MapCard({map,rank,best,onTrain}:{map:CoachCareerState["team"]["mapPool"]["maps"][number];rank:number;best:boolean;onTrain:()=>void}) {
+function MapCard({map,rank,best,trainingSessions,onTrain}:{
+  map:CoachCareerState["team"]["mapPool"]["maps"][number];
+  rank:number;
+  best:boolean;
+  trainingSessions:number;
+  onTrain:()=>void;
+}) {
   const rating=getMapScore(map);
   const ready=map.preparation>=80;
+  const mapImage=getMapImage(map.map);
 
   return (
     <article className={`coach-map-card${best?" coach-map-card--best":""}`}>
-      <div className="coach-map-card__visual">
-        <div className="coach-map-card__rank">#{rank}</div>
+      <div
+        className="coach-map-card__visual"
+        style={mapImage?{"--map-image":`url("${mapImage}")`} as React.CSSProperties:undefined}
+      >
+        <div className="coach-map-card__image"/>
+        <div className="coach-map-card__image-overlay"/>
 
-        {best&&<div className="coach-map-card__badge">MEJOR MAPA</div>}
+        <div className="coach-map-card__rank">
+          <span>MAP RANK</span>
+          <strong>#{rank}</strong>
+        </div>
+
+        {best&&<div className="coach-map-card__badge">★ MEJOR MAPA</div>}
 
         <div className="coach-map-card__title">
           <span>{ready?"PREPARADO":"EN DESARROLLO"}</span>
-          <h2>{map.map}</h2>
+          <h2>{map.map.toUpperCase()}</h2>
         </div>
 
         <div className="coach-map-card__rating">
@@ -110,22 +168,37 @@ function MapCard({map,rank,best,onTrain}:{map:CoachCareerState["team"]["mapPool"
           <MapStat label="PREPARACIÓN" value={map.preparation}/>
         </div>
 
-        <div className="coach-map-card__rating-bar">
-          <span style={{width:`${rating}%`}}/>
+        <div className="coach-map-card__overall">
+          <div>
+            <span>RENDIMIENTO GLOBAL</span>
+            <strong>{rating}/100</strong>
+          </div>
+
+          <div className="coach-map-card__rating-bar">
+            <span style={{width:`${rating}%`}}/>
+          </div>
         </div>
 
-        <div className="coach-map-card__footer">
+        <footer className="coach-map-card__footer">
           <div>
             <span>ESTADO</span>
             <strong className={ready?"coach-map-card__ready":"coach-map-card__developing"}>
-              {ready?"LISTO PARA COMPETIR":"REQUIERE TRABAJO"}
+              {map.preparation>=95
+                ?"PREPARACIÓN ÉLITE"
+                :ready
+                  ?"LISTO PARA COMPETIR"
+                  :"REQUIERE TRABAJO"}
             </strong>
           </div>
 
-          <button disabled={map.preparation>=100} onClick={onTrain}>
-            {map.preparation>=100?"PREPARACIÓN MÁXIMA":"ENTRENAR MAPA"}
+          <button disabled={map.preparation>=95||trainingSessions<=0} onClick={onTrain}>
+            {map.preparation>=95
+              ?"PREPARACIÓN ÉLITE"
+              :trainingSessions<=0
+                ?"SIN SESIONES"
+                :"ENTRENAR MAPA"}
           </button>
-        </div>
+        </footer>
       </div>
     </article>
   );
@@ -153,4 +226,23 @@ function MapStat({label,value}:{label:string;value:number}) {
       </div>
     </div>
   );
+}
+
+function getMapImage(map:CoachMapName) {
+  const slug=normalizeMapName(map);
+
+  const entry=Object.entries(MAP_IMAGES).find(([path])=>{
+    const filename=path.split("/").pop()?.replace(/\.(png|jpe?g|webp)$/i,"")??"";
+    return normalizeMapName(filename)===slug;
+  });
+
+  return entry?.[1];
+}
+
+function normalizeMapName(value:string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]/g,"");
 }

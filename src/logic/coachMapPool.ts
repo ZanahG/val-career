@@ -25,10 +25,11 @@ export function trainCoachMap(pool:CoachMapPool,mapName:CoachMapName):CoachMapPo
     maps:pool.maps.map(map=>{
       if(map.map!==mapName)return map;
 
+      const preparationGain=getPreparationTrainingGain(map.preparation);
+
       return {
         ...map,
-        strength:clamp(map.strength+1,40,100),
-        preparation:clamp(map.preparation+4,0,100),
+        preparation:clamp(map.preparation+preparationGain,0,95),
       };
     }),
   };
@@ -67,4 +68,12 @@ function clamp(value:number,min:number,max:number) {
 
 export function getCoachMapProfile(pool:CoachMapPool,mapName:CoachMapName) {
   return pool.maps.find(map=>map.map===mapName);
+}
+
+function getPreparationTrainingGain(preparation:number) {
+  if(preparation<70)return 4;
+  if(preparation<80)return 3;
+  if(preparation<90)return 2;
+  if(preparation<95)return 1;
+  return 0;
 }

@@ -26,6 +26,7 @@ export function createCoachCareer(team:TeamDefinition,name:string,nationality:st
       trophies:[],
       careerHistory:[],
     },
+
     team:{
       teamId:team.id,
       roster,
@@ -44,7 +45,12 @@ export function createCoachCareer(team:TeamDefinition,name:string,nationality:st
         operatorUsage:"Situational",
       },
       mapPool:createInitialCoachMapPool(team),
+      playerAssignments:[],
+      trainingSessions:3,
+      trainingPeriod:null,
+      trainedMapsThisPeriod:[],
     },
+
     playerPool,
     cpuFinancesByTeam,
     seasonState:null,

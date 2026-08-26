@@ -21,15 +21,16 @@ import {loadCoachCareer} from "./utils/coachSaveGame";
 import {useVCTMinigames} from "./hooks/useVCTMinigames";
 import {applyCareerEffects,normalizePlayerCosmetics,scaleIntroCareerEffects} from "./logic/careerPlayer";
 import {simulateCoachSeries} from "./logic/coachMatchSimulation";
-import {playPlayerStageMatchWithScore} from "./logic/coachStage";
+import {getNextPlayerStageMatch,playPlayerStageMatchWithScore} from "./logic/coachStage";
 import {advanceCoachVCTPhase,createCoachVCTSeason,getNextCoachOpponent,resolveCoachChampions,resolveCoachKickoff,resolveCoachMasters1,resolveCoachMasters2,resolveCoachStage1,resolveCoachStage2,syncCoachStage1Phase,syncCoachStage2Phase} from "./logic/coachVCTSeason";
-import {playPlayerKickoffMatchWithScore} from "./logic/kickoffBracket";
-import {playPlayerMastersMatchWithScore} from "./logic/mastersBracket";
-import {playPlayerChampionsMatchWithScore} from "./logic/championsBracket";
+import {getNextPlayerKickoffMatch,playPlayerKickoffMatchWithScore} from "./logic/kickoffBracket";
+import {getNextPlayerMastersMatch,playPlayerMastersMatchWithScore} from "./logic/mastersBracket";
+import {getNextPlayerChampionsMatch,playPlayerChampionsMatchWithScore} from "./logic/championsBracket";
 import {beginCoachMidseasonMarket,beginCoachOffseason,clearCoachMidseasonMarket,completeCoachMidseasonMarket,finishCoachSeason,startNextCoachSeason} from "./logic/coachCareerProgression";
 import {createMatchBoxScore} from "./logic/matchBoxScore";
 import {restoreCareerSave} from "./logic/restoreCareerSave";
 import {createSeason,getSortedStandings,playNextMatch} from "./logic/season";
+import {refreshCoachTrainingPeriod} from "./logic/coachTraining";
 import {simulateVCTOffseason} from "./logic/vctRosterMarket";
 import {continueVCTAfterNarrativeEvent,createVCTSeason,getVCTSeasonStats,migrateVCTMastersState,migrateVCTStageState,playNextVCTMatch,resumeVCTAfterMidseasonMarket} from "./logic/vctSeason";
 import type {CareerChoice,CareerEffects,CareerHistoryEntry,CareerPlayer,ContractOffer} from "./types/career";
@@ -96,10 +97,12 @@ export default function App() {
   const startCoachSeason=()=>{
     if(!coachCareer)return;
 
-    setCoachCareer({
+    const startedCareer:CoachCareerState={
       ...coachCareer,
       seasonState:createCoachVCTSeason(coachCareer),
-    });
+    };
+
+    setCoachCareer(refreshCoachTrainingPeriod(startedCareer));
   };
 
   const finishCurrentCoachSeason=()=>{
@@ -323,6 +326,8 @@ export default function App() {
     if(phase==="Champions"){
       updatedCareer=resolveCoachChampions(updatedCareer);
     }
+
+    updatedCareer=refreshCoachTrainingPeriod(updatedCareer);
 
     const eventFinished=
       (phase==="Kickoff"&&kickoffBracket?.complete===true)||
@@ -1090,6 +1095,7 @@ export default function App() {
         <CoachMapVeto
           career={coachCareer}
           opponentTeamId={coachOpponentTeamId}
+          bestOf={getCurrentCoachMatchBestOf(coachCareer)}
           onComplete={handleCoachVetoComplete}
           onBack={()=>{
             setCoachOpponentTeamId(null);
@@ -1171,4 +1177,34 @@ export default function App() {
       {coachMatchBoxScore&&<MatchStatsModal match={coachMatchBoxScore} onClose={()=>setCoachMatchBoxScore(null)}/>}
     </>
   );
+}
+function getCurrentCoachMatchBestOf(career:CoachCareerState):3|5 {
+  const season=career.seasonState;
+  if(!season)return 3;
+
+  if(season.phase==="Kickoff"&&season.kickoffBracket){
+    return getNextPlayerKickoffMatch(season.kickoffBracket)?.bestOf??3;
+  }
+
+  if(season.phase==="Masters 1"&&season.masters1){
+    return getNextPlayerMastersMatch(season.masters1)?.bestOf??3;
+  }
+
+  if(season.phase==="Masters 2"&&season.masters2){
+    return getNextPlayerMastersMatch(season.masters2)?.bestOf??3;
+  }
+
+  if((season.phase==="Stage 1"||season.phase==="Stage 1 Playoffs")&&season.stage1){
+    return getNextPlayerStageMatch(season.stage1)?.bestOf??3;
+  }
+
+  if((season.phase==="Stage 2"||season.phase==="Stage 2 Playoffs")&&season.stage2){
+    return getNextPlayerStageMatch(season.stage2)?.bestOf??3;
+  }
+
+  if(season.phase==="Champions"&&season.champions){
+    return getNextPlayerChampionsMatch(season.champions)?.bestOf??3;
+  }
+
+  return 3;
 }

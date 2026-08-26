@@ -234,7 +234,7 @@ function ChampionsPlayoffs({matches,playerTeamId}:{matches:CoachChampionsMatch[]
     </section>
   );
 }
-export function CoachSeason({career,onStartSeason,onAdvancePhase,onPrepareMatch,onFinishSeason,onEnterOffseason,onNextSeason,onBack}:CoachSeasonProps) {
+export function CoachSeason({career,onStartSeason,onPrepareMatch,onFinishSeason,onEnterOffseason,onNextSeason,onBack}:CoachSeasonProps) {
   const season=career.seasonState;
   const team=getTeamById(career.team.teamId);
   const teamLogo=getTeamLogo(team?.logo);
@@ -242,14 +242,20 @@ export function CoachSeason({career,onStartSeason,onAdvancePhase,onPrepareMatch,
   if(!season){
     return (
       <main className="coach-season">
+        <div className="coach-season__bg"/>
+        <div className="coach-season__overlay"/>
+
+        <button className="coach-season__floating-back" onClick={onBack}>
+          <span>←</span>
+          DASHBOARD
+        </button>
+
         <div className="coach-season__shell">
           <header className="coach-season__topbar">
             <div className="coach-season__club">
               <div className="coach-season__club-logo">{teamLogo?<img src={teamLogo} alt={team?.name??""}/>:<span>{team?.shortName??"TBD"}</span>}</div>
               <div><span>VCT {career.coach.circuit}</span><strong>{team?.name} · {career.coach.season}</strong></div>
             </div>
-
-            <button className="coach-season__back-button" onClick={onBack}>← DASHBOARD</button>
           </header>
 
           <section className="coach-season__start">
@@ -315,14 +321,31 @@ export function CoachSeason({career,onStartSeason,onAdvancePhase,onPrepareMatch,
 
   return (
     <main className="coach-season">
+      <div className="coach-season__bg"/>
+      <div className="coach-season__overlay"/>
+
+      <button className="coach-season__floating-back" onClick={onBack}>
+        <span>←</span>
+        DASHBOARD
+      </button>
+
+      {season.phase!=="Complete"&&(
+        <button className="coach-season__floating-prepare" disabled={!nextOpponent} onClick={onPrepareMatch}>
+          {nextOpponentLogo&&<img src={nextOpponentLogo} alt={nextOpponent?.name??""}/>}
+          <span>
+            <small>PRÓXIMO PASO</small>
+            PREPARAR PARTIDO
+          </span>
+          <b>→</b>
+        </button>
+      )}
+
       <div className="coach-season__shell">
         <header className="coach-season__topbar">
           <div className="coach-season__club">
             <div className="coach-season__club-logo">{teamLogo?<img src={teamLogo} alt={team?.name??""}/>:<span>{team?.shortName??"TBD"}</span>}</div>
             <div><span>VCT {season.circuit}</span><strong>{team?.name} · {season.season}</strong></div>
           </div>
-
-          <button className="coach-season__back-button" onClick={onBack}>← DASHBOARD</button>
         </header>
 
         <section className="coach-season__hero">
@@ -449,14 +472,6 @@ export function CoachSeason({career,onStartSeason,onAdvancePhase,onPrepareMatch,
           </section>
         )}
 
-        {season.phase!=="Complete"&&(
-          <button className="coach-season__prepare-button" disabled={!nextOpponent} onClick={onPrepareMatch}>
-            {nextOpponentLogo&&<img src={nextOpponentLogo} alt={nextOpponent?.name??""}/>}
-            PREPARAR PARTIDO
-          </button>
-        )}
-
-        <button className="coach-season__debug-button" onClick={onAdvancePhase}>DEBUG: AVANZAR FASE</button>
       </div>
     </main>
   );

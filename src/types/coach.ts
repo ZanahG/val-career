@@ -275,6 +275,7 @@ export interface CoachVetoSelection {
 
 export interface CoachMapVetoState {
   opponentTeamId:string;
+  bestOf:3|5;
   availableMaps:CoachMapName[];
   selections:CoachVetoSelection[];
   currentStep:number;
@@ -374,6 +375,17 @@ export interface CoachTeamState {
   tacticalStyle:CoachTacticalStyle;
   tactics:CoachTactics;
   mapPool:CoachMapPool;
+  playerAssignments:CoachPlayerAssignment[];
+  trainingSessions:number;
+  trainingPeriod:string|null;
+  trainedMapsThisPeriod:CoachMapName[];
+}
+
+export type CoachPlayerTacticalRole="Entry"|"Secondary Entry"|"Main Operator"|"IGL"|"Lurker"|"Anchor"|"Flex";
+
+export interface CoachPlayerAssignment {
+  playerId:string;
+  tacticalRole:CoachPlayerTacticalRole;
 }
 
 export type CoachOffseasonPhase="Contracts"|"Market"|"Complete";
