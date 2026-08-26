@@ -45,6 +45,7 @@ export interface VCTBracketState {
   playerQualified: boolean;
   playerEliminated: boolean;
   complete: boolean;
+  competitiveStrengthByTeam?:Record<string,number>;
 }
 
 export interface VCTEventState {

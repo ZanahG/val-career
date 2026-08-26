@@ -1,3 +1,25 @@
-export type GameScreen = "create"|"career"|"offers"|"season"|"vct"|"recap"|"vctRecap"|"profile"|"market"|"vctOffseason"|"leaderboard";
+export type GameScreen =
+  | "menu"
+  | "create"
+  | "career"
+  | "offers"
+  | "season"
+  | "vct"
+  | "recap"
+  | "vctRecap"
+  | "profile"
+  | "market"
+  | "vctOffseason"
+  | "leaderboard"
+  | "coachSelect"
+  | "coachDashboard"
+  | "coachRoster"
+  | "coachMarket"
+  | "coachTactics"
+  | "coachMapPool"
+  | "coachMapVeto"
+  | "coachSeason"
+  | "coachEventRecap"
+  |"coachOffseasonRecap";
 export type ProfileReturnScreen = "career"|"season"|"vct"|"recap"|"vctRecap";
 export type MarketWindow = "midseason"|"offseason"|null;

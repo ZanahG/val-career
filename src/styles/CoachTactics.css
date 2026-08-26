@@ -1,0 +1,562 @@
+.coach-tactics {
+  --tactics-card:rgba(17,27,48,.54);
+  --tactics-card-strong:rgba(18,29,52,.76);
+  --tactics-hover:rgba(27,46,78,.76);
+  --tactics-border:rgba(255,255,255,.09);
+  --tactics-border-soft:rgba(255,255,255,.055);
+  --tactics-text:#f5f8ff;
+  --tactics-muted:#9eafcf;
+  --tactics-muted-2:#6e82a7;
+  --tactics-blue:#4aa3ff;
+  --tactics-blue-2:#78c3ff;
+  --tactics-green:#50d6aa;
+  --tactics-red:#ff7486;
+
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  color:var(--tactics-text);
+  background:linear-gradient(135deg,#07111f 0%,#0b1830 48%,#10152d 100%);
+}
+
+.coach-tactics__bg {
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 84% 10%,rgba(59,115,205,.22),transparent 28%),
+    radial-gradient(circle at 12% 84%,rgba(92,150,255,.11),transparent 31%),
+    url("/images/ui/coach-dashboard-bg.jpg") center/cover no-repeat;
+  opacity:.31;
+  filter:blur(1px);
+  transform:scale(1.03);
+  pointer-events:none;
+}
+
+.coach-tactics__overlay {
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(5,10,19,.31),rgba(5,11,21,.78)),
+    linear-gradient(90deg,rgba(5,11,21,.80),rgba(5,11,21,.36) 50%,rgba(5,11,21,.68));
+  pointer-events:none;
+}
+
+.coach-tactics__shell {
+  position:relative;
+  z-index:1;
+  min-height:100vh;
+  padding:20px 22px 42px;
+  box-sizing:border-box;
+}
+
+.coach-card {
+  border:1px solid var(--tactics-border);
+  background:var(--tactics-card);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 14px 34px rgba(0,0,0,.17);
+}
+
+.coach-tactics__topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.coach-tactics__club {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.coach-tactics__club-logo {
+  width:50px;
+  height:50px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--tactics-border);
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(10px);
+}
+
+.coach-tactics__club-logo img {
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.coach-tactics__club-logo > span {
+  font-size:10px;
+  font-weight:900;
+}
+
+.coach-tactics__club > div:last-child > span {
+  display:block;
+  color:var(--tactics-blue-2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.coach-tactics__club strong {
+  display:block;
+  margin-top:2px;
+  font-size:17px;
+  font-weight:900;
+}
+
+.coach-tactics__club small {
+  display:block;
+  margin-top:2px;
+  color:var(--tactics-muted);
+  font-size:9px;
+}
+
+.coach-tactics__back {
+  min-height:40px;
+  padding:0 14px;
+  border:1px solid var(--tactics-border);
+  background:rgba(255,255,255,.03);
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+  backdrop-filter:blur(10px);
+}
+
+.coach-tactics__back:hover {
+  border-color:rgba(74,163,255,.42);
+  background:rgba(74,163,255,.09);
+}
+
+.coach-tactics__hero {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:28px;
+  margin-bottom:12px;
+  padding:17px 19px;
+  border:1px solid var(--tactics-border);
+  background:var(--tactics-card);
+  backdrop-filter:blur(14px);
+}
+
+.coach-tactics__eyebrow {
+  display:block;
+  color:var(--tactics-blue-2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.17em;
+}
+
+.coach-tactics__hero h1 {
+  margin:5px 0 5px;
+  font-size:46px;
+  line-height:.92;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+
+.coach-tactics__hero p {
+  max-width:650px;
+  margin:0;
+  color:var(--tactics-muted);
+  font-size:11px;
+  line-height:1.45;
+}
+
+.coach-tactics__fit {
+  min-width:132px;
+  padding:12px 15px;
+  border:1px solid var(--tactics-border);
+  background:rgba(255,255,255,.025);
+  text-align:right;
+}
+
+.coach-tactics__fit span {
+  display:block;
+  color:var(--tactics-muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.coach-tactics__fit strong {
+  display:inline-block;
+  margin-top:4px;
+  font-size:30px;
+  line-height:1;
+  font-weight:900;
+}
+
+.coach-tactics__fit small {
+  margin-left:3px;
+  color:var(--tactics-muted);
+  font-size:9px;
+}
+
+.coach-tactics__fit--good strong {
+  color:var(--tactics-green);
+}
+
+.coach-tactics__fit--bad strong {
+  color:var(--tactics-red);
+}
+
+.coach-tactics__identity {
+  margin-bottom:10px;
+  padding:16px;
+}
+
+.coach-tactics__section-head {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:13px;
+}
+
+.coach-tactics__section-head > div span {
+  display:block;
+  color:var(--tactics-blue-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.coach-tactics__section-head > div strong {
+  display:block;
+  margin-top:3px;
+  font-size:14px;
+  font-weight:900;
+}
+
+.coach-tactics__section-head > span {
+  color:var(--tactics-muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+
+.coach-tactics__styles {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px;
+}
+
+.coach-tactics__styles button {
+  position:relative;
+  min-height:102px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  border:1px solid var(--tactics-border-soft);
+  background:rgba(255,255,255,.015);
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  overflow:hidden;
+  transition:background .15s ease,border-color .15s ease,transform .15s ease;
+}
+
+.coach-tactics__styles button::after {
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  height:3px;
+  background:transparent;
+}
+
+.coach-tactics__styles button:hover {
+  transform:translateY(-2px);
+  border-color:rgba(74,163,255,.36);
+  background:rgba(74,163,255,.06);
+}
+
+.coach-tactics__styles button.active {
+  border-color:rgba(74,163,255,.48);
+  background:linear-gradient(135deg,rgba(74,163,255,.16),rgba(120,195,255,.07));
+}
+
+.coach-tactics__styles button.active::after {
+  background:linear-gradient(90deg,var(--tactics-blue),var(--tactics-blue-2));
+}
+
+.coach-tactics__styles button > span {
+  color:var(--tactics-muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-tactics__styles button strong {
+  margin-top:auto;
+  font-size:13px;
+  font-weight:900;
+}
+
+.coach-tactics__styles button small {
+  margin-top:3px;
+  color:var(--tactics-muted);
+  font-size:8px;
+}
+
+.coach-tactics__identity-description {
+  margin-top:11px;
+  padding:11px 12px;
+  border:1px solid var(--tactics-border-soft);
+  background:rgba(5,12,27,.24);
+}
+
+.coach-tactics__identity-description span {
+  display:block;
+  color:var(--tactics-muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.coach-tactics__identity-description p {
+  margin:4px 0 0;
+  color:var(--tactics-muted);
+  font-size:10px;
+  line-height:1.45;
+}
+
+.coach-tactics__layout {
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(300px,.55fr);
+  gap:10px;
+}
+
+.coach-tactics__settings,
+.coach-tactics__summary {
+  padding:16px;
+}
+
+.coach-tactics__setting {
+  display:grid;
+  grid-template-columns:minmax(180px,.8fr) minmax(0,1.2fr);
+  align-items:center;
+  gap:14px;
+  min-height:72px;
+  padding:10px 0;
+  border-top:1px solid var(--tactics-border-soft);
+}
+
+.coach-tactics__setting:first-of-type {
+  border-top:0;
+}
+
+.coach-tactics__setting-info strong {
+  display:block;
+  font-size:10px;
+  font-weight:900;
+}
+
+.coach-tactics__setting-info span {
+  display:block;
+  max-width:300px;
+  margin-top:4px;
+  color:var(--tactics-muted);
+  font-size:8px;
+  line-height:1.4;
+}
+
+.coach-tactics__options {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:6px;
+}
+
+.coach-tactics__options button {
+  min-height:31px;
+  padding:0 11px;
+  border:1px solid var(--tactics-border);
+  background:rgba(255,255,255,.025);
+  color:var(--tactics-muted);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.05em;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.coach-tactics__options button:hover {
+  color:#fff;
+  border-color:rgba(74,163,255,.38);
+  background:rgba(74,163,255,.07);
+}
+
+.coach-tactics__options button.active {
+  color:#fff;
+  border-color:rgba(74,163,255,.48);
+  background:linear-gradient(135deg,rgba(74,163,255,.20),rgba(120,195,255,.10));
+  box-shadow:inset 0 -2px 0 var(--tactics-blue);
+}
+
+.coach-tactics__summary-style {
+  padding:13px;
+  margin-bottom:10px;
+  border:1px solid var(--tactics-border-soft);
+  background:
+    radial-gradient(circle at 80% 20%,rgba(74,163,255,.11),transparent 32%),
+    rgba(255,255,255,.02);
+}
+
+.coach-tactics__summary-style > span {
+  display:block;
+  color:var(--tactics-muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.coach-tactics__summary-style strong {
+  display:block;
+  margin-top:4px;
+  font-size:24px;
+  line-height:1;
+  font-weight:900;
+}
+
+.coach-tactics__summary-style p {
+  margin:5px 0 0;
+  color:var(--tactics-muted);
+  font-size:8px;
+}
+
+.coach-tactics__summary-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+
+.coach-tactics__summary-item {
+  padding:10px;
+  border:1px solid var(--tactics-border-soft);
+  background:rgba(255,255,255,.015);
+}
+
+.coach-tactics__summary-item span {
+  display:block;
+  color:var(--tactics-muted-2);
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-tactics__summary-item strong {
+  display:block;
+  margin-top:4px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.coach-tactics__fit-summary {
+  margin-top:10px;
+  padding:11px;
+  border:1px solid var(--tactics-border-soft);
+  background:rgba(5,12,27,.22);
+}
+
+.coach-tactics__fit-summary > div:first-child {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.coach-tactics__fit-summary span {
+  color:var(--tactics-muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+
+.coach-tactics__fit-summary strong {
+  font-size:13px;
+  font-weight:900;
+}
+
+.coach-tactics__fit-bar {
+  height:5px;
+  margin-top:8px;
+  overflow:hidden;
+  background:rgba(255,255,255,.06);
+}
+
+.coach-tactics__fit-bar span {
+  height:100%;
+  display:block;
+  background:linear-gradient(90deg,var(--tactics-blue),var(--tactics-blue-2));
+  box-shadow:0 0 10px rgba(74,163,255,.24);
+}
+
+@media (max-width:1100px) {
+  .coach-tactics__styles {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .coach-tactics__layout {
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:760px) {
+  .coach-tactics__shell {
+    padding:16px 12px 28px;
+  }
+
+  .coach-tactics__hero {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .coach-tactics__hero h1 {
+    font-size:38px;
+  }
+
+  .coach-tactics__fit {
+    width:100%;
+    box-sizing:border-box;
+  }
+
+  .coach-tactics__styles {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .coach-tactics__setting {
+    grid-template-columns:1fr;
+  }
+
+  .coach-tactics__options {
+    justify-content:flex-start;
+  }
+}
+
+@media (max-width:480px) {
+  .coach-tactics__club small {
+    display:none;
+  }
+
+  .coach-tactics__back {
+    padding-inline:9px;
+    font-size:8px;
+  }
+
+  .coach-tactics__hero h1 {
+    font-size:34px;
+  }
+
+  .coach-tactics__styles {
+    grid-template-columns:1fr;
+  }
+
+  .coach-tactics__summary-grid {
+    grid-template-columns:1fr;
+  }
+}
