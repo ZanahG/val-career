@@ -3,6 +3,8 @@ import {getTeamById} from "../../data/teams";
 import {getCoachKickoffSummary,getCoachMasters1Summary,getCoachMasters2Summary,getCoachStage1Summary,getCoachStage2Summary} from "../../logic/coachVCTSeason";
 import {getChampionsPlacement,getChampionsPlayerRecord} from "../../logic/championsBracket";
 import {getTeamLogo} from "../../utils/teamLogo";
+import {useGameSettings} from "../../context/GameSettingsContext";
+import {GameSettingsControls} from "../shared/GameSettingsControls";
 import kickoffImage from "../../images/season/kickoff.png";
 import masters1Image from "../../images/season/masters1.png";
 import stage1Image from "../../images/season/stage1.png";
@@ -16,6 +18,7 @@ interface CoachEventRecapProps {
   onContinue:()=>void;
 }
 
+type Language="es"|"en";
 type RecapEvent="Kickoff"|"Masters 1"|"Stage 1"|"Masters 2"|"Stage 2"|"Champions";
 
 interface EventRecapData {
@@ -33,11 +36,15 @@ interface EventRecapData {
 }
 
 export function CoachEventRecap({career,onContinue}:CoachEventRecapProps) {
-  const recap=getLatestEventRecap(career);
+  const {language}=useGameSettings();
+  const es=language==="es";
+  const recap=getLatestEventRecap(career,language);
   const team=getTeamById(career.team.teamId);
   const logo=getTeamLogo(team?.logo);
 
   if(!recap)return null;
+
+  const international=recap.event==="Masters 1"||recap.event==="Masters 2"||recap.event==="Champions";
 
   return (
     <main className="coach-event-recap">
@@ -49,93 +56,135 @@ export function CoachEventRecap({career,onContinue}:CoachEventRecapProps) {
 
       <div className="coach-event-recap__shell">
         <header className="coach-event-recap__topbar">
-          <div>
-            <span>{recap.event==="Masters 1"||recap.event==="Masters 2"||recap.event==="Champions"?"INTERNACIONAL":`VCT ${career.coach.circuit}`}</span>
-            <strong>{recap.event.toUpperCase()} {career.coach.season}</strong>
+          <div className="coach-event-recap__brand">
+            <div className="coach-event-recap__brand-mark">
+              {logo?<img src={logo} alt={team?.name??""}/>:<span>{team?.shortName??"TCV"}</span>}
+            </div>
+
+            <div>
+              <span>{international?(es?"EVENTO INTERNACIONAL":"INTERNATIONAL EVENT"):`VCT ${career.coach.circuit}`}</span>
+              <strong>{recap.event.toUpperCase()} · {career.coach.season}</strong>
+            </div>
           </div>
 
-          <span className="coach-event-recap__status">EVENTO FINALIZADO</span>
+          <div className="coach-event-recap__topbar-right">
+            <div className="coach-event-recap__status">
+              <i/>
+              <span>{es?"EVENTO FINALIZADO":"EVENT COMPLETE"}</span>
+            </div>
+
+            <GameSettingsControls/>
+          </div>
         </header>
 
         <section className="coach-event-recap__hero">
-          <span className="coach-event-recap__eyebrow">RESULTADO FINAL</span>
-
-          <div className="coach-event-recap__team-logo">
-            {logo
-              ?<img src={logo} alt={team?.name??""}/>
-              :<span>{team?.shortName??"TBD"}</span>}
+          <div className="coach-event-recap__event-info">
+            <span className="coach-event-recap__eyebrow">{es?"RESULTADO FINAL":"FINAL RESULT"}</span>
+            <strong>{recap.event}</strong>
+            <small>{international?(es?"COMPETENCIA INTERNACIONAL":"INTERNATIONAL COMPETITION"):`VCT ${career.coach.circuit}`}</small>
           </div>
 
-          <strong className="coach-event-recap__team-name">{team?.name}</strong>
+          <div className="coach-event-recap__team">
+            <div className="coach-event-recap__team-logo">
+              {logo?<img src={logo} alt={team?.name??""}/>:<span>{team?.shortName??"TBD"}</span>}
+            </div>
+
+            <div>
+              <span>{es?"TU EQUIPO":"YOUR TEAM"}</span>
+              <strong>{team?.name??"Team"}</strong>
+            </div>
+          </div>
 
           <div className="coach-event-recap__placement">
-            <strong>{formatPlacement(recap.placement)}</strong>
-            <span>POSICIÓN</span>
-          </div>
-
-          <div className="coach-event-recap__record">
-            <div>
-              <strong>{recap.wins}</strong>
-              <span>VICTORIAS</span>
-            </div>
-
-            <div className="coach-event-recap__record-separator"/>
-
-            <div>
-              <strong>{recap.losses}</strong>
-              <span>DERROTAS</span>
-            </div>
+            <span>{es?"POSICIÓN FINAL":"FINAL PLACEMENT"}</span>
+            <strong>{formatPlacement(recap.placement,language)}</strong>
           </div>
         </section>
+
+        <section className="coach-event-recap__metrics">
+          <MetricCard index="01" label={es?"VICTORIAS":"WINS"} value={recap.wins}/>
+          <MetricCard index="02" label={es?"DERROTAS":"LOSSES"} value={recap.losses}/>
+          <MetricCard index="03" label={es?"CHAMPIONSHIP POINTS":"CHAMPIONSHIP POINTS"} value={`+${recap.championshipPoints}`}/>
+        </section>
+
+        <div className="coach-event-recap__section-label">
+          <span>01</span>
+          <strong>{es?"RESUMEN DEL EVENTO":"EVENT SUMMARY"}</strong>
+          <i/>
+        </div>
 
         <section className="coach-event-recap__summary">
-          <div className="coach-event-recap__summary-row">
+          <article className="coach-event-recap__summary-card">
+            <div className="coach-event-recap__summary-icon">CP</div>
+
             <div>
               <span>CHAMPIONSHIP POINTS</span>
+              <strong>+{recap.championshipPoints}</strong>
               <small>{recap.pointsDescription}</small>
             </div>
+          </article>
 
-            <strong className="coach-event-recap__points">
-              +{recap.championshipPoints}
-            </strong>
-          </div>
+          <article className={`coach-event-recap__summary-card ${recap.qualified?"coach-event-recap__summary-card--success":"coach-event-recap__summary-card--danger"}`}>
+            <div className="coach-event-recap__summary-icon">{recap.qualified?"✓":"×"}</div>
 
-          <div className="coach-event-recap__summary-row">
             <div>
               <span>{recap.qualificationLabel}</span>
+              <strong>{recap.qualified?(es?"CLASIFICADO":"QUALIFIED"):(es?"NO CLASIFICADO":"NOT QUALIFIED")}</strong>
               <small>{recap.qualificationText}</small>
             </div>
-
-            <strong className={recap.qualified?"coach-event-recap__qualified":"coach-event-recap__not-qualified"}>
-              {recap.qualified?"CLASIFICADO ✓":"NO CLASIFICADO"}
-            </strong>
-          </div>
-
-          <div className="coach-event-recap__next">
-            <span>PRÓXIMA COMPETICIÓN</span>
-            <strong>{recap.nextCompetition}</strong>
-          </div>
+          </article>
         </section>
 
-        <button className="coach-event-recap__continue" onClick={onContinue}>
-          CONTINUAR <span>→</span>
-        </button>
+        <div className="coach-event-recap__section-label">
+          <span>02</span>
+          <strong>{es?"SIGUIENTE PASO":"WHAT'S NEXT"}</strong>
+          <i/>
+        </div>
+
+        <section className="coach-event-recap__next">
+          <div>
+            <span>{es?"PRÓXIMA COMPETICIÓN":"NEXT COMPETITION"}</span>
+            <strong>{recap.nextCompetition}</strong>
+          </div>
+
+          <div className="coach-event-recap__next-arrow">→</div>
+        </section>
+
+        <footer className="coach-event-recap__footer">
+          <div>
+            <span>{es?"EVENTO COMPLETADO":"EVENT COMPLETE"}</span>
+            <strong>{recap.event} · {formatPlacement(recap.placement,language)}</strong>
+          </div>
+
+          <button className="coach-event-recap__continue" onClick={onContinue}>
+            <span>{es?"CONTINUAR":"CONTINUE"}</span>
+            <b>→</b>
+          </button>
+        </footer>
       </div>
     </main>
   );
 }
 
-function getLatestEventRecap(career:CoachCareerState):EventRecapData|undefined {
+function MetricCard({index,label,value}:{index:string;label:string;value:string|number}) {
+  return (
+    <article className="coach-event-recap__metric">
+      <span>{index}</span>
+
+      <div>
+        <small>{label}</small>
+        <strong>{value}</strong>
+      </div>
+    </article>
+  );
+}
+
+function getLatestEventRecap(career:CoachCareerState,language:Language):EventRecapData|undefined {
   const season=career.seasonState;
   if(!season)return undefined;
 
+  const es=language==="es";
   const teamId=career.team.teamId;
-
-  /*
-   * IMPORTANTE:
-   * Buscamos desde el evento más avanzado hacia atrás porque los
-   * resolvers ya cambian season.phase antes de abrir esta pantalla.
-   */
 
   if(season.events.Champions.status==="Complete"&&season.champions?.complete){
     const placement=getChampionsPlacement(season.champions,teamId);
@@ -148,11 +197,19 @@ function getLatestEventRecap(career:CoachCareerState):EventRecapData|undefined {
       losses:record.losses,
       championshipPoints:0,
       image:championsImage,
-      nextCompetition:"FIN DE TEMPORADA",
+      nextCompetition:es?"FIN DE TEMPORADA":"END OF SEASON",
       qualificationLabel:"VALORANT CHAMPIONS",
-      qualificationText:placement===1?"Campeones del mundo":`Finalizaste Champions en ${formatPlacement(placement)}`,
+      qualificationText:
+        placement===1
+          ?es?"Campeones del mundo":"World Champions"
+          :es
+            ?`Finalizaste Champions en ${formatPlacement(placement,language)}`
+            :`You finished Champions in ${formatPlacement(placement,language)}`,
       qualified:placement===1,
-      pointsDescription:"Champions no entrega Championship Points para esta temporada",
+      pointsDescription:
+        es
+          ?"Champions no entrega Championship Points para esta temporada"
+          :"Champions does not award Championship Points for this season",
     };
   }
 
@@ -170,11 +227,15 @@ function getLatestEventRecap(career:CoachCareerState):EventRecapData|undefined {
       losses:summary.losses,
       championshipPoints:summary.championshipPoints,
       image:stage2Image,
-      nextCompetition:qualifiedToChampions?"CHAMPIONS":"FIN DE TEMPORADA",
+      nextCompetition:qualifiedToChampions?"CHAMPIONS":es?"FIN DE TEMPORADA":"END OF SEASON",
       qualificationLabel:"CHAMPIONS",
-      qualificationText:qualifiedToChampions?"Clasificación asegurada":"Tu temporada competitiva ha terminado",
+      qualificationText:
+        qualifiedToChampions
+          ?es?"Clasificación asegurada":"Qualification secured"
+          :es?"Tu temporada competitiva ha terminado":"Your competitive season has ended",
       qualified:qualifiedToChampions,
-      pointsDescription:"Puntos obtenidos durante Stage 2",
+      pointsDescription:
+        es?"Puntos obtenidos durante Stage 2":"Points earned during Stage 2",
     };
   }
 
@@ -191,9 +252,13 @@ function getLatestEventRecap(career:CoachCareerState):EventRecapData|undefined {
       image:masters2Image,
       nextCompetition:"STAGE 2",
       qualificationLabel:"STAGE 2",
-      qualificationText:"La temporada continúa en el último Stage regional",
+      qualificationText:
+        es
+          ?"La temporada continúa en el último Stage regional"
+          :"The season continues in the final regional Stage",
       qualified:true,
-      pointsDescription:"Puntos obtenidos en Masters 2",
+      pointsDescription:
+        es?"Puntos obtenidos en Masters 2":"Points earned at Masters 2",
     };
   }
 
@@ -212,9 +277,15 @@ function getLatestEventRecap(career:CoachCareerState):EventRecapData|undefined {
       image:stage1Image,
       nextCompetition:qualifiedToMasters2?"MASTERS 2":"STAGE 2",
       qualificationLabel:"MASTERS 2",
-      qualificationText:qualifiedToMasters2?"Clasificación asegurada":"Tu temporada continúa directamente en Stage 2",
+      qualificationText:
+        qualifiedToMasters2
+          ?es?"Clasificación asegurada":"Qualification secured"
+          :es?"Tu temporada continúa directamente en Stage 2":"Your season continues directly into Stage 2",
       qualified:qualifiedToMasters2,
-      pointsDescription:`${summary.regularSeasonWins} por victorias + ${summary.playoffPoints} por Playoffs`,
+      pointsDescription:
+        es
+          ?`${summary.regularSeasonWins} por victorias + ${summary.playoffPoints} por Playoffs`
+          :`${summary.regularSeasonWins} from wins + ${summary.playoffPoints} from Playoffs`,
     };
   }
 
@@ -231,9 +302,13 @@ function getLatestEventRecap(career:CoachCareerState):EventRecapData|undefined {
       image:masters1Image,
       nextCompetition:"STAGE 1",
       qualificationLabel:"STAGE 1",
-      qualificationText:"La temporada continúa en el primer Stage regional",
+      qualificationText:
+        es
+          ?"La temporada continúa en el primer Stage regional"
+          :"The season continues in the first regional Stage",
       qualified:true,
-      pointsDescription:"Puntos obtenidos en Masters 1",
+      pointsDescription:
+        es?"Puntos obtenidos en Masters 1":"Points earned at Masters 1",
     };
   }
 
@@ -250,15 +325,33 @@ function getLatestEventRecap(career:CoachCareerState):EventRecapData|undefined {
       image:kickoffImage,
       nextCompetition:summary.qualifiedToMasters?"MASTERS 1":"STAGE 1",
       qualificationLabel:"MASTERS 1",
-      qualificationText:summary.qualifiedToMasters?"Clasificación asegurada":"Tu temporada continúa en Stage 1",
+      qualificationText:
+        summary.qualifiedToMasters
+          ?es?"Clasificación asegurada":"Qualification secured"
+          :es?"Tu temporada continúa en Stage 1":"Your season continues in Stage 1",
       qualified:summary.qualifiedToMasters,
-      pointsDescription:"Puntos obtenidos en Kickoff",
+      pointsDescription:
+        es?"Puntos obtenidos en Kickoff":"Points earned during Kickoff",
     };
   }
 
   return undefined;
 }
 
-function formatPlacement(placement:number) {
+function formatPlacement(placement:number,language:Language) {
+  if(language==="en"){
+    const mod100=placement%100;
+
+    if(mod100>=11&&mod100<=13)return `${placement}th`;
+
+    const mod10=placement%10;
+
+    if(mod10===1)return `${placement}st`;
+    if(mod10===2)return `${placement}nd`;
+    if(mod10===3)return `${placement}rd`;
+
+    return `${placement}th`;
+  }
+
   return `${placement}º`;
 }
