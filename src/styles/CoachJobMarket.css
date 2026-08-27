@@ -1,0 +1,333 @@
+.coach-job-market {
+  --bg:#0d1017;
+  --panel:#171a22;
+  --panel-2:#1d2029;
+  --line:#30343f;
+  --line-soft:#272b34;
+  --muted:#8f96a3;
+  --muted-2:#68707e;
+  --cyan:#22d3d1;
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  background:var(--bg);
+  color:#fff;
+}
+
+.coach-job-market__bg {
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(255,73,92,.08),transparent 30%),
+    radial-gradient(circle at 85% 70%,rgba(34,211,209,.06),transparent 35%),
+    #0c0f15;
+}
+
+.coach-job-market__overlay {
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg,rgba(9,11,16,.2),rgba(9,11,16,.72));
+}
+
+.coach-job-market__shell {
+  position:relative;
+  z-index:1;
+  width:min(1220px,calc(100% - 60px));
+  margin:0 auto;
+  padding:28px 0 50px;
+}
+
+.coach-job-market__topbar {
+  min-height:68px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border:1px solid var(--line);
+  background:rgba(18,21,28,.92);
+}
+
+.coach-job-market__topbar span {
+  display:block;
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.coach-job-market__topbar strong {
+  display:block;
+  margin-top:4px;
+  font-size:15px;
+}
+
+.coach-job-market__topbar button {
+  min-height:34px;
+  padding:0 14px;
+  border:1px solid var(--line);
+  background:#20232c;
+  color:#fff;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.coach-job-market__dismissal {
+  margin-top:18px;
+  min-height:220px;
+  padding:28px 32px;
+  display:grid;
+  grid-template-columns:130px 1fr;
+  align-items:center;
+  gap:30px;
+  border:1px solid rgba(255,73,92,.3);
+  background:
+    linear-gradient(100deg,rgba(255,73,92,.12),transparent 45%),
+    var(--panel);
+}
+
+.coach-job-market__dismissal-logo {
+  width:120px;
+  height:120px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--line);
+  background:#10131a;
+}
+
+.coach-job-market__dismissal-logo img {
+  width:86px;
+  height:86px;
+  object-fit:contain;
+}
+
+.coach-job-market__dismissal-logo span {
+  font-size:24px;
+  font-weight:900;
+}
+
+.coach-job-market__dismissal-copy>span {
+  color:#ff596b;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.coach-job-market__dismissal-copy h1 {
+  margin:5px 0 8px;
+  font-size:42px;
+  line-height:.95;
+  letter-spacing:-.04em;
+}
+
+.coach-job-market__dismissal-copy>p {
+  margin:0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.coach-job-market__dismissal-meta {
+  margin-top:24px;
+  display:flex;
+  gap:34px;
+  flex-wrap:wrap;
+}
+
+.coach-job-market__dismissal-meta span,
+.coach-job-market__offer-stats span {
+  display:block;
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-job-market__dismissal-meta strong {
+  display:block;
+  margin-top:4px;
+  font-size:16px;
+}
+
+.coach-job-market__content {
+  margin-top:18px;
+  padding:24px;
+  border:1px solid var(--line);
+  background:rgba(18,21,28,.94);
+}
+
+.coach-job-market__heading {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--line-soft);
+}
+
+.coach-job-market__heading span {
+  color:var(--cyan);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.coach-job-market__heading h2 {
+  margin:4px 0 0;
+  font-size:24px;
+}
+
+.coach-job-market__heading p {
+  margin:0;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.coach-job-market__offers {
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.coach-job-market__offer {
+  border:1px solid var(--line);
+  background:var(--panel);
+  overflow:hidden;
+}
+
+.coach-job-market__offer-head {
+  min-height:90px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  border-bottom:1px solid var(--line-soft);
+}
+
+.coach-job-market__offer-logo {
+  width:62px;
+  height:62px;
+  display:grid;
+  place-items:center;
+  background:#10131a;
+}
+
+.coach-job-market__offer-logo img {
+  width:46px;
+  height:46px;
+  object-fit:contain;
+}
+
+.coach-job-market__offer-head span {
+  display:block;
+  color:var(--muted);
+  font-size:7px;
+  font-weight:800;
+}
+
+.coach-job-market__offer-head strong {
+  display:block;
+  margin-top:3px;
+  font-size:19px;
+}
+
+.coach-job-market__offer-stats {
+  padding:14px 16px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.coach-job-market__offer-stats>div {
+  padding:10px;
+  background:var(--panel-2);
+}
+
+.coach-job-market__offer-stats strong {
+  display:block;
+  margin-top:4px;
+  font-size:15px;
+}
+
+.coach-job-market__offer-footer {
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  border-top:1px solid var(--line-soft);
+}
+
+.coach-job-market__offer-footer>span {
+  color:var(--muted);
+  font-size:8px;
+}
+
+.coach-job-market__offer-footer button {
+  min-height:38px;
+  padding:0 15px;
+  border:0;
+  background:var(--cyan);
+  color:#071214;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.coach-job-market__offer-footer button:hover {
+  filter:brightness(1.08);
+}
+
+.coach-job-market__offer-footer b {
+  margin-left:8px;
+}
+
+.coach-job-market__empty {
+  margin-top:18px;
+  min-height:190px;
+  padding:30px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:1px dashed var(--line);
+}
+
+.coach-job-market__empty span {
+  color:#ff596b;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.coach-job-market__empty strong {
+  margin-top:6px;
+  font-size:20px;
+}
+
+.coach-job-market__empty p {
+  max-width:520px;
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.5;
+}
+
+@media(max-width:850px) {
+  .coach-job-market__offers {grid-template-columns:1fr;}
+  .coach-job-market__dismissal {grid-template-columns:1fr;}
+  .coach-job-market__dismissal-logo {width:90px;height:90px;}
+  .coach-job-market__dismissal-logo img {width:65px;height:65px;}
+}
+
+@media(max-width:560px) {
+  .coach-job-market__shell {width:calc(100% - 24px);padding:14px 0 30px;}
+  .coach-job-market__dismissal {padding:20px;}
+  .coach-job-market__dismissal-copy h1 {font-size:32px;}
+  .coach-job-market__heading {align-items:flex-start;flex-direction:column;}
+  .coach-job-market__offer-stats {grid-template-columns:1fr;}
+  .coach-job-market__offer-footer {align-items:flex-start;flex-direction:column;}
+  .coach-job-market__offer-footer button {width:100%;}
+}

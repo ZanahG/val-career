@@ -148,7 +148,7 @@ function PlayerRow({player,selected,language,currency,onClick}:{
         </div>
       </div>
 
-      <span>{getRoleLabel(player.role,language)}</span>
+      <span>{getRoleLabel(player.role,language)}{player.isIGL?" · IGL":""}</span>
       <strong className={getOverallClass(player.overall)}>{player.overall}</strong>
       <span>{player.age}</span>
       <span>{formatContract(player,language)}</span>
@@ -181,7 +181,7 @@ function PlayerDetail({player,language,currency}:{
           <div className="coach-roster__detail-avatar">{player.ign.slice(0,1).toUpperCase()}</div>
 
           <div>
-            <span>{getRoleLabel(player.role,language)}</span>
+            <span>{getRoleLabel(player.role,language)}{player.isIGL?" · IGL":""}</span>
             <h2>{player.ign}</h2>
             <small>{player.starter?(es?"TITULAR":"STARTER"):(es?"SUPLENTE":"SUBSTITUTE")} · {player.age} {es?"AÑOS":"YEARS OLD"}</small>
           </div>
@@ -196,7 +196,7 @@ function PlayerDetail({player,language,currency}:{
       <section className="coach-roster__profile-grid">
         <ProfileItem label={es?"POTENCIAL":"POTENTIAL"} value={String(player.potential)}/>
         <ProfileItem label={es?"EDAD":"AGE"} value={String(player.age)}/>
-        <ProfileItem label={es?"ROL":"ROLE"} value={getRoleLabel(player.role,language)}/>
+        <ProfileItem label={es?"ROL":"ROLE"} value={`${getRoleLabel(player.role,language)}${player.isIGL?" · IGL":""}`}/>
         <ProfileItem label={es?"CONTRATO":"CONTRACT"} value={formatContract(player,language)}/>
       </section>
 
@@ -349,7 +349,6 @@ function getRoleLabel(role:CoachPlayer["role"],language:"es"|"en") {
   if(role==="Initiator")return "INICIADOR";
   if(role==="Controller")return "CONTROLADOR";
   if(role==="Sentinel")return "CENTINELA";
-  if(role==="IGL")return "IGL";
 
   return "FLEX";
 }

@@ -22,6 +22,8 @@ export type GameScreen =
   | "coachEventRecap"
   | "coachOffseasonRecap"
   | "coachMidseasonRecap"
-  |"coachTransferNegotiation";
+  |"coachTransferNegotiation"
+  |"coachJobMarket"
+  |"coachProfile";
 export type ProfileReturnScreen = "career"|"season"|"vct"|"recap"|"vctRecap";
 export type MarketWindow = "midseason"|"offseason"|null;

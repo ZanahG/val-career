@@ -11,9 +11,82 @@ export type CoachRisk="Low"|"Medium"|"High";
 export type CoachAttackStyle="Defaults"|"Executions"|"Map Control"|"Explosive";
 export type CoachDefenseStyle="Passive"|"Standard"|"Aggressive"|"Retake";
 export type CoachOperatorUsage="Rare"|"Situational"|"Priority";
+export type CoachJobSecurity="Secure"|"Stable"|"Under Pressure"|"Critical";
 
 export type CoachMapName="Abyss"|"Ascent"|"Bind"|"Breeze"|"Corrode"|"Haven"|"Icebox"|"Lotus"|"Pearl";
 export type CoachVetoAction="ban"|"pick";
+export type CoachEmploymentStatus="Employed"|"Dismissed";
+export type CoachBoardHistoryType=
+  |"Match"
+  |"Streak"
+  |"Objective"
+  |"Event"
+  |"Season"
+  |"Dismissal";
+
+export interface CoachBoardHistoryEntry {
+  id:string;
+  season:number;
+  type:CoachBoardHistoryType;
+  label:string;
+  confidenceChange:number;
+  confidenceAfter:number;
+}
+
+export interface CoachJobOffer {
+  id:string;
+  teamId:string;
+  season:number;
+  contractYears:number;
+  reputationRequired:number;
+  prestige:number;
+}
+
+export interface CoachJobMarketState {
+  active:boolean;
+  generatedSeason:number;
+  offers:CoachJobOffer[];
+}
+
+export type CoachDismissalReason=
+  |"Critical Confidence"
+  |"Failed Objectives"
+  |"Poor Season";
+
+export interface CoachDismissalState {
+  dismissed:boolean;
+  season:number|null;
+  reason:CoachDismissalReason|null;
+}
+
+export type CoachBoardObjectiveType=
+  |"Reach Stage Playoffs"
+  |"Reach Masters"
+  |"Reach Champions"
+  |"Reach Champions Playoffs"
+  |"Win Regional Event"
+  |"Win International Event";
+
+export type CoachBoardObjectiveStatus="Active"|"Achieved"|"Failed";
+
+export interface CoachBoardObjective {
+  id:string;
+  type:CoachBoardObjectiveType;
+  status:CoachBoardObjectiveStatus;
+  confidenceImpact:number;
+  reputationImpact:number;
+}
+
+export interface CoachBoardState {
+  confidence:number;
+  seasonStartConfidence:number;
+  objectives:CoachBoardObjective[];
+  lastEvaluation:string|null;
+  jobSecurity:CoachJobSecurity;
+  employmentStatus:CoachEmploymentStatus;
+  dismissal:CoachDismissalState;
+  history:CoachBoardHistoryEntry[];
+}
 
 export type CoachVCTPhase=
   |"Kickoff"
@@ -344,25 +417,36 @@ export interface CoachCareerHistory {
    JUGADORES / EQUIPO
 ========================= */
 
+export type CoachContractStatus="Active"|"Expiring"|"FreeAgent";
+export type CoachTransferStatus="NotListed"|"TransferListed";
+
 export interface CoachPlayer {
   id:string;
   ign:string;
   teamId:string;
-  role:PlayerRole|"IGL";
+  role:PlayerRole;
+  isIGL:boolean;
   stats:PlayerStats;
   overall:number;
   salary:number;
   age:number;
   starter:boolean;
-  contractSeasonsRemaining?:number;
   potential:number;
   peakAge:number;
   marketValue:number;
+
+  contractStartSeason:number;
+  contractEndSeason:number;
+  contractSeasonsRemaining:number;
+  contractStatus:CoachContractStatus;
+  transferStatus:CoachTransferStatus;
+  joinedTeamSeason:number;
 }
 
 export interface CoachTeamFinances {
   monthlyBudget:number;
   currentMonthlyPayroll:number;
+  maxMonthlyPayroll:number;
   transferBudget:number;
 }
 
@@ -431,9 +515,11 @@ export interface CoachOffseasonState {
 export interface CoachCareerState {
   coach:CoachProfile;
   team:CoachTeamState;
+  board:CoachBoardState;
   playerPool:CoachPlayer[];
   cpuFinancesByTeam:Record<string,CoachTeamFinances>;
   seasonState:CoachVCTSeasonState|null;
   offseason?:CoachOffseasonState|null;
   midseasonMarket?:CoachMidseasonMarketState|null;
+  jobMarket:CoachJobMarketState|null;
 }

@@ -4,6 +4,7 @@ import {createCoachTeamFinances} from "../data/coachBudgets";
 import {createCoachPlayerPool} from "./coachRoster";
 import {createInitialCoachCPUFinances} from "./coachCPUFinances";
 import {createInitialCoachMapPool} from "./coachMapPool";
+import {createInitialCoachBoardState} from "./coachBoard";
 
 export function createCoachCareer(team:TeamDefinition,name:string,nationality:string,age:number):CoachCareerState {
   const playerPool=createCoachPlayerPool();
@@ -11,6 +12,7 @@ export function createCoachCareer(team:TeamDefinition,name:string,nationality:st
   const finances=createCoachTeamFinances(team);
   const currentMonthlyPayroll=roster.reduce((total,player)=>total+player.salary,0);
   const cpuFinancesByTeam=createInitialCoachCPUFinances(playerPool,team.id);
+  const board=createInitialCoachBoardState(team);
 
   return {
     coach:{
@@ -51,8 +53,10 @@ export function createCoachCareer(team:TeamDefinition,name:string,nationality:st
       trainedMapsThisPeriod:[],
     },
 
+    board,
     playerPool,
     cpuFinancesByTeam,
+    jobMarket:null,
     seasonState:null,
     offseason:null,
     midseasonMarket:null,

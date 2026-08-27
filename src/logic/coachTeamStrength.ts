@@ -76,7 +76,7 @@ function getStarPower(roster:CoachPlayer[]) {
 function getRoleBalance(roster:CoachPlayer[]) {
   type NonIGLRole=Exclude<CoachPlayer["role"],"IGL">;
 
-  const roles:NonIGLRole[]=roster.map(player=>player.role==="IGL"?"Flex":player.role);
+  const roles:NonIGLRole[]=roster.map(player=>player.role);
   const required:NonIGLRole[]=["Duelist","Initiator","Controller","Sentinel"];
 
   let score=65;

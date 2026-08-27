@@ -10,3 +10,5 @@ export {CoachEventRecap} from "./CoachEventRecap";
 export {CoachOffseasonRecap} from "./CoachOffseasonRecap";
 export {CoachMidseasonRecap} from "./CoachMidseasonRecap";
 export {CoachTransferNegotiation} from "./CoachTransferNegotiation";
+export {CoachJobMarket} from "./CoachJobMarket";
+export {CoachProfile} from "./CoachProfile";

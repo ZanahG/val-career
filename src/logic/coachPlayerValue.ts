@@ -8,8 +8,9 @@ export function getCoachPlayerMarketValue(player:CoachPlayer) {
   const ageMultiplier=getAgeMultiplier(player.age);
   const contractMultiplier=getContractMultiplier(player.contractSeasonsRemaining??0);
   const roleMultiplier=getRoleMultiplier(player.role);
+  const iglMultiplier=getIGLMultiplier(player);
 
-  const value=(overallValue+potentialBonus)*ageMultiplier*contractMultiplier*roleMultiplier;
+  const value=(overallValue+potentialBonus)*ageMultiplier*contractMultiplier*roleMultiplier*iglMultiplier;
 
   return Math.min(MAX_MARKET_VALUE,Math.max(2500,roundMarketValue(value)));
 }
@@ -60,10 +61,15 @@ function getContractMultiplier(seasons:number) {
 }
 
 function getRoleMultiplier(role:CoachPlayer["role"]) {
-  if(role==="Duelist")return 1.06;
-  if(role==="IGL")return 1.05;
-  if(role==="Flex")return 1.02;
-  return 1;
+  if(role==="Duelist")return 1.05;
+  if(role==="Controller")return 1.03;
+  if(role==="Initiator")return 1.02;
+  if(role==="Sentinel")return 1;
+  return .98;
+}
+
+function getIGLMultiplier(player:CoachPlayer) {
+  return player.isIGL?1.05:1;
 }
 
 function roundMarketValue(value:number) {

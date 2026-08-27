@@ -5,7 +5,7 @@ import {getCoachPlayerMarketValue} from "./coachPlayerValue";
 import {getEffectiveVCTRoster} from "../data/vctPlayers";
 
 const TIER2_ROLES:PlayerRole[]=["Duelist","Initiator","Controller","Sentinel","Flex"];
-
+const INITIAL_COACH_SEASON=2026;
 export function createInitialCoachRoster(team:TeamDefinition):CoachPlayer[] {
   if(team.tier===1){
     const realRoster=getEffectiveVCTRoster(team.name);
@@ -13,14 +13,17 @@ export function createInitialCoachRoster(team:TeamDefinition):CoachPlayer[] {
     if(realRoster.length>=5){
       return realRoster.slice(0,5).map(player=>{
         const role=normalizeRole(player.role);
+        const isIGL=normalizeIsIGL(player.role);
         const stats={...player.stats};
         const overall=getStatsOverall(stats);
+        const contractLength=getInitialContractLength(player.age);
 
         const coachPlayer:CoachPlayer={
           id:`coach-${team.id}-${player.ign.toLowerCase().replace(/\s+/g,"-")}`,
           ign:player.ign,
           teamId:team.id,
           role,
+          isIGL,
           stats,
           overall,
           potential:getInitialPotential(overall,player.age,true),
@@ -29,6 +32,13 @@ export function createInitialCoachRoster(team:TeamDefinition):CoachPlayer[] {
           age:player.age,
           starter:true,
           marketValue:0,
+
+          contractStartSeason:INITIAL_COACH_SEASON,
+          contractEndSeason:INITIAL_COACH_SEASON+contractLength-1,
+          contractSeasonsRemaining:contractLength,
+          contractStatus:getContractStatus(contractLength),
+          transferStatus:"NotListed",
+          joinedTeamSeason:INITIAL_COACH_SEASON,
         };
 
         return {...coachPlayer,marketValue:getCoachPlayerMarketValue(coachPlayer)};
@@ -60,6 +70,7 @@ export function createCoachRookieClass(season:number):CoachPlayer[] {
       ign:getRookieName(season,index),
       teamId:"free-agent",
       role,
+      isIGL:getRookieIsIGL(season,index),
       stats,
       overall,
       potential,
@@ -67,8 +78,14 @@ export function createCoachRookieClass(season:number):CoachPlayer[] {
       salary:getRookieSalary(overall,potential),
       age,
       starter:false,
-      contractSeasonsRemaining:0,
       marketValue:0,
+
+      contractStartSeason:season,
+      contractEndSeason:season,
+      contractSeasonsRemaining:0,
+      contractStatus:"FreeAgent",
+      transferStatus:"NotListed",
+      joinedTeamSeason:season,
     };
 
     return {...coachPlayer,marketValue:getCoachPlayerMarketValue(coachPlayer)};
@@ -78,15 +95,18 @@ export function createCoachRookieClass(season:number):CoachPlayer[] {
 function createGeneratedTier2Roster(team:TeamDefinition):CoachPlayer[] {
   return TIER2_ROLES.map((role,index)=>{
     const base=team.strength+random(-4,4);
+    const isIGL=getGeneratedIsIGL(team.id,index);
     const stats=createStatsForRole(role,base);
     const overall=getStatsOverall(stats);
     const age=random(18,27);
+    const contractLength=getInitialContractLength(age);
 
     const coachPlayer:CoachPlayer={
       id:`coach-${team.id}-${index}`,
       ign:getGeneratedPlayerName(team.shortName,index),
       teamId:team.id,
       role,
+      isIGL,
       stats,
       overall,
       potential:getInitialPotential(overall,age,false),
@@ -95,10 +115,25 @@ function createGeneratedTier2Roster(team:TeamDefinition):CoachPlayer[] {
       age,
       starter:true,
       marketValue:0,
+
+      contractStartSeason:INITIAL_COACH_SEASON,
+      contractEndSeason:INITIAL_COACH_SEASON+contractLength-1,
+      contractSeasonsRemaining:contractLength,
+      contractStatus:getContractStatus(contractLength),
+      transferStatus:"NotListed",
+      joinedTeamSeason:INITIAL_COACH_SEASON,
     };
 
     return {...coachPlayer,marketValue:getCoachPlayerMarketValue(coachPlayer)};
   });
+}
+
+function getRookieIsIGL(season:number,index:number) {
+  return deterministicNumber(`rookie-igl-${season}-${index}`)%100<18;
+}
+
+function getGeneratedIsIGL(teamId:string,index:number) {
+  return deterministicNumber(`${teamId}-${index}-igl`)%100<20;
 }
 
 function createStatsForRole(role:PlayerRole,base:number):PlayerStats {
@@ -145,10 +180,9 @@ function createDeterministicStatsForRole(role:PlayerRole,base:number,seed:string
   return {aim:stat("aim"),gameSense:stat("gameSense"),communication:stat("communication"),clutch:stat("clutch"),consistency:stat("consistency"),mental:stat("mental")};
 }
 
-function normalizeRole(role:string):PlayerRole|"IGL" {
+function normalizeRole(role:string):PlayerRole {
   const normalized=role.trim().toLowerCase();
 
-  if(normalized==="igl")return "IGL";
   if(normalized.includes("duel"))return "Duelist";
   if(normalized.includes("inici")||normalized.includes("init"))return "Initiator";
   if(normalized.includes("control"))return "Controller";
@@ -157,8 +191,25 @@ function normalizeRole(role:string):PlayerRole|"IGL" {
   return "Flex";
 }
 
+function normalizeIsIGL(role:string) {
+  return role.trim().toLowerCase()==="igl";
+}
+
 function getStatsOverall(stats:PlayerStats) {
   return Math.round((stats.aim+stats.gameSense+stats.communication+stats.clutch+stats.consistency+stats.mental)/6);
+}
+
+function getInitialContractLength(age:number) {
+  if(age<=21)return random(2,4);
+  if(age<=27)return random(1,3);
+  if(age<=31)return random(1,2);
+  return 1;
+}
+
+function getContractStatus(remaining:number):CoachPlayer["contractStatus"] {
+  if(remaining<=0)return "FreeAgent";
+  if(remaining===1)return "Expiring";
+  return "Active";
 }
 
 function getInitialCoachPlayerSalary(overall:number,tier:1|2) {
@@ -191,9 +242,8 @@ function getInitialPotential(overall:number,age:number,tier1:boolean) {
   return clamp(overall+growthRoom+tierBonus,overall,99);
 }
 
-function getInitialPeakAge(age:number,role:PlayerRole|"IGL") {
+function getInitialPeakAge(age:number,role:PlayerRole) {
   const base=
-    role==="IGL"?random(25,29):
     role==="Controller"?random(24,28):
     role==="Initiator"?random(23,27):
     role==="Sentinel"?random(23,27):

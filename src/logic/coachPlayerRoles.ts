@@ -15,7 +15,7 @@ export function cleanCoachPlayerAssignments(assignments:CoachPlayerAssignment[],
 }
 
 export function getDefaultCoachPlayerTacticalRole(player:CoachPlayer):CoachPlayerTacticalRole {
-  if(player.role==="IGL")return "IGL";
+  if(player.isIGL)return "IGL";
 
   if(player.role==="Duelist"){
     if(player.stats.aim>=88)return "Main Operator";
@@ -67,7 +67,7 @@ export function getCoachRoleAssignmentFit(player:CoachPlayer,tacticalRole:CoachP
 
   if(tacticalRole==="IGL"){
     score=gameSense*.35+communication*.35+mental*.15+consistency*.10+clutch*.05;
-    if(player.role==="IGL")score+=6;
+    if(player.isIGL)score+=6;
   }
 
   if(tacticalRole==="Lurker"){

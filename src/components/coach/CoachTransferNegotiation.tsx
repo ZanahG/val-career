@@ -386,7 +386,7 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
           <div>
             <small>{es?"Edad":"Age"}: {player.age}</small>
             <strong>{player.ign}</strong>
-            <span>{getRoleLabel(player.role,language)} · OVR {player.overall}</span>
+            <span>{getRoleLabel(player.role,language)}{player.isIGL?" · IGL":""} · OVR {player.overall}</span>
           </div>
 
           <div className="coach-negotiation__sidebar-team">
@@ -689,7 +689,7 @@ function SquadDecision({roster,selectedId,incomingSalary,payroll,monthlyBudget,l
           <button key={player.id} className={selectedId===player.id?"active":""} onClick={()=>onChange(player.id)}>
             <div>
               <strong>{player.ign}</strong>
-              <small>{getRoleLabel(player.role,language)} · OVR {player.overall}</small>
+              <small>{getRoleLabel(player.role,language)}{player.isIGL?" · IGL":""} · OVR {player.overall}</small>
             </div>
 
             <span>{formatCurrency(player.salary,currency)} / {es?"MES":"MONTH"}</span>
@@ -979,7 +979,6 @@ function getRoleLabel(role:CoachPlayer["role"],language:Language) {
   if(role==="Initiator")return "INICIADOR";
   if(role==="Controller")return "CONTROLADOR";
   if(role==="Sentinel")return "CENTINELA";
-  if(role==="IGL")return "IGL";
 
   return "FLEX";
 }

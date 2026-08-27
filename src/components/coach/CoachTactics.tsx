@@ -268,7 +268,7 @@ function PlayerSeat({player,index,tacticalRole,roleFit,language,onChangeRole}:{
       <div className="coach-tactics__seat-info">
         <span>{String(index+1).padStart(2,"0")}</span>
         <strong>{player.ign}</strong>
-        <small>{getRoleLabel(player.role,language)}</small>
+        <small>{getRoleLabel(player.role,language)}{player.isIGL?" · IGL":""}</small>
       </div>
 
       <div className="coach-tactics__chair">
@@ -517,7 +517,6 @@ function getRoleLabel(role:CoachCareerState["team"]["roster"][number]["role"],la
   if(role==="Initiator")return "INICIADOR";
   if(role==="Controller")return "CONTROLADOR";
   if(role==="Sentinel")return "CENTINELA";
-  if(role==="IGL")return "IGL";
 
   return "FLEX";
 }

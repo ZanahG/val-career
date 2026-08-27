@@ -6,18 +6,22 @@ const TRANSFER_BUDGET_CARRYOVER=.25;
 export function createCoachTeamFinances(team:TeamDefinition):CoachTeamFinances {
   if(team.tier===1){
     const prestigeProgress=Math.max(0,Math.min(1,(team.prestige-60)/40));
+    const monthlyBudget=Math.round(35000+prestigeProgress*110000);
 
     return {
-      monthlyBudget:Math.round(35000+prestigeProgress*110000),
+      monthlyBudget,
+      maxMonthlyPayroll:monthlyBudget,
       currentMonthlyPayroll:0,
       transferBudget:Math.round(100000+prestigeProgress*250000),
     };
   }
 
   const prestigeProgress=Math.max(0,Math.min(1,(team.prestige-30)/40));
+  const monthlyBudget=Math.round(8000+prestigeProgress*24000);
 
   return {
-    monthlyBudget:Math.round(8000+prestigeProgress*24000),
+    monthlyBudget,
+    maxMonthlyPayroll:monthlyBudget,
     currentMonthlyPayroll:0,
     transferBudget:Math.round(20000+prestigeProgress*60000),
   };
@@ -30,6 +34,7 @@ export function renewCoachTeamFinances(team:TeamDefinition,current:CoachTeamFina
 
   return {
     monthlyBudget:base.monthlyBudget,
+    maxMonthlyPayroll:base.maxMonthlyPayroll,
     currentMonthlyPayroll,
     transferBudget:base.transferBudget+carryover,
   };

@@ -5,11 +5,17 @@ import {useGameSettings} from "../../context/GameSettingsContext";
 import {formatCurrency} from "../../utils/currency";
 import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
+import rosterIcon from "../../images/icons/roster.png";
+import marketIcon from "../../images/icons/market.png";
+import tacticsIcon from "../../images/icons/tactics.png";
+import mapPoolIcon from "../../images/icons/map-pool.png";
+import seasonIcon from "../../images/icons/season.png";
 import "../../styles/CoachDashboard.css";
 
 interface CoachDashboardProps {
   career:CoachCareerState;
   onChangeTacticalStyle:(style:CoachTacticalStyle)=>void;
+  onOpenCoachProfile:()=>void;
   onOpenRoster:()=>void;
   onOpenMarket:()=>void;
   onOpenTactics:()=>void;
@@ -20,7 +26,7 @@ interface CoachDashboardProps {
 
 const TACTICAL_STYLES:CoachTacticalStyle[]=["Balanced","Aggressive","Controlled","Reactive","Anti-Strat"];
 
-export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpenMarket,onOpenTactics,onOpenMapPool,onOpenSeason,onExit}:CoachDashboardProps) {
+export function CoachDashboard({career,onChangeTacticalStyle,onOpenCoachProfile,onOpenRoster,onOpenMarket,onOpenTactics,onOpenMapPool,onOpenSeason,onExit}:CoachDashboardProps) {
   const {language,currency}=useGameSettings();
   const es=language==="es";
 
@@ -65,12 +71,40 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
         </header>
 
         <section className="coach-dashboard__hero">
-          <section className="coach-dashboard__hero-main coach-card">
+          <button className="coach-dashboard__hero-main coach-card coach-card--interactive coach-dashboard__coach-button" onClick={onOpenCoachProfile}>
             <div className="coach-dashboard__coach-profile">
               <span className="coach-dashboard__eyebrow">HEAD COACH</span>
               <h1>{career.coach.name}</h1>
+
+              <div className="coach-dashboard__coach-meta">
+                <div>
+                  <span>{es?"REPUTACIÓN":"REPUTATION"}</span>
+                  <strong>{career.coach.reputation}</strong>
+                </div>
+
+                <div>
+                  <span>{es?"CONFIANZA":"CONFIDENCE"}</span>
+                  <strong>{career.board.confidence}</strong>
+                </div>
+
+                <div className={`coach-dashboard__job-status coach-dashboard__job-status--${career.board.jobSecurity.toLowerCase().replace(/\s+/g,"-")}`}>
+                  <span>{es?"ESTADO":"STATUS"}</span>
+                  <strong>{getJobSecurityLabel(career.board.jobSecurity,language)}</strong>
+                </div>
+              </div>
+
+              <div className="coach-dashboard__coach-confidence">
+                <div className="coach-dashboard__coach-confidence-track">
+                  <div
+                    className={`coach-dashboard__coach-confidence-fill coach-dashboard__coach-confidence-fill--${getConfidenceLevel(career.board.confidence)}`}
+                    style={{width:`${career.board.confidence}%`}}
+                  />
+                </div>
+              </div>
             </div>
-          </section>
+
+            <b className="coach-dashboard__coach-arrow">→</b>
+          </button>
 
           <button className={`coach-dashboard__season-card coach-card coach-card--interactive${seasonComplete?" coach-dashboard__season-card--complete":""}`} onClick={onOpenSeason}>
             <div className="coach-dashboard__season-card-head">
@@ -85,7 +119,6 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
               <div className="coach-dashboard__season-empty">
                 <span>VCT {career.coach.circuit}</span>
                 <strong>{career.coach.season}</strong>
-                <small>Kickoff · Masters · Stages · Champions</small>
               </div>
             )}
 
@@ -122,11 +155,11 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
         </section>
 
         <section className="coach-dashboard__menu">
-          <MenuTile index="01" title={es?"PLANTILLA":"ROSTER"} description={es?"Jugadores, roles y estado del equipo.":"Players, roles and team status."} onClick={onOpenRoster} icon="◎"/>
-          <MenuTile index="02" title={es?"MERCADO":"MARKET"} description={es?"Fichajes, scouting y oportunidades.":"Transfers, scouting and opportunities."} onClick={onOpenMarket} icon="↗"/>
-          <MenuTile index="03" title={es?"GESTIÓN TÁCTICA":"TACTICAL MANAGEMENT"} description={es?"Plan de juego e identidad del equipo.":"Game plan and team identity."} onClick={onOpenTactics} icon="⌁"/>
-          <MenuTile index="04" title="MAP POOL" description={es?"Fortalezas y debilidades por mapa.":"Strengths and weaknesses on each map."} onClick={onOpenMapPool} icon="◇"/>
-          <MenuTile index="05" title={seasonComplete?(es?"RESUMEN TEMPORADA":"SEASON SUMMARY"):(es?"TEMPORADA":"SEASON")} description={seasonComplete?(es?"Resultados, trofeos y cierre del año competitivo.":"Results, trophies and competitive year summary."):(es?"Calendario, clasificación y partidos.":"Schedule, standings and matches.")} onClick={onOpenSeason} icon="▦" active={seasonComplete}/>
+          <MenuTile index="01" title={es?"PLANTILLA":"ROSTER"} description={es?"Jugadores, roles y estado del equipo.":"Players, roles and team status."} onClick={onOpenRoster} iconSrc={rosterIcon} iconAlt={es?"Plantilla":"Roster"}/>
+          <MenuTile index="02" title={es?"MERCADO":"MARKET"} description={es?"Fichajes, scouting y oportunidades.":"Transfers, scouting and opportunities."} onClick={onOpenMarket} iconSrc={marketIcon} iconAlt={es?"Mercado":"Market"}/>
+          <MenuTile index="03" title={es?"GESTIÓN TÁCTICA":"TACTICAL MANAGEMENT"} description={es?"Plan de juego e identidad del equipo.":"Game plan and team identity."} onClick={onOpenTactics} iconSrc={tacticsIcon} iconAlt={es?"Gestión táctica":"Tactical management"}/>
+          <MenuTile index="04" title="MAP POOL" description={es?"Fortalezas y debilidades por mapa.":"Strengths and weaknesses on each map."} onClick={onOpenMapPool} iconSrc={mapPoolIcon} iconAlt="Map Pool"/>
+          <MenuTile index="05" title={seasonComplete?(es?"RESUMEN TEMPORADA":"SEASON SUMMARY"):(es?"TEMPORADA":"SEASON")} description={seasonComplete?(es?"Resultados, trofeos y cierre del año competitivo.":"Results, trophies and competitive year summary."):(es?"Calendario, clasificación y partidos.":"Schedule, standings and matches.")} onClick={onOpenSeason} iconSrc={seasonIcon} iconAlt={es?"Temporada":"Season"} active={seasonComplete}/>
         </section>
 
         <div className="coach-dashboard__lower-grid">
@@ -154,7 +187,6 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
             </header>
 
             <div className="coach-dashboard__identity-current">
-              <span>{es?"ESTILO ACTUAL":"CURRENT STYLE"}</span>
               <strong>{getTacticalStyleLabel(career.team.tacticalStyle,language)}</strong>
               <p>{getTacticalStyleDescription(career.team.tacticalStyle,language)}</p>
             </div>
@@ -173,10 +205,10 @@ export function CoachDashboard({career,onChangeTacticalStyle,onOpenRoster,onOpen
   );
 }
 
-function MenuTile({index,title,description,onClick,icon,active=false}:{index:string;title:string;description:string;onClick:()=>void;icon:string;active?:boolean}) {
+function MenuTile({index,title,description,onClick,iconSrc,iconAlt,active=false}:{index:string;title:string;description:string;onClick:()=>void;iconSrc:string;iconAlt:string;active?:boolean}) {
   return (
     <button className={`coach-dashboard__menu-tile coach-card coach-card--interactive${active?" coach-dashboard__menu-tile--active":""}`} onClick={onClick}>
-      <div className="coach-dashboard__menu-icon">{icon}</div>
+      <div className="coach-dashboard__menu-icon"><img src={iconSrc} alt={iconAlt}/></div>
       <span>{index}</span>
       <strong>{title}</strong>
       <p>{description}</p>
@@ -262,4 +294,21 @@ function getTacticalStyleDescription(style:CoachTacticalStyle,language:"es"|"en"
   if(style==="Reactive")return "Se adapta según la información y castiga errores del rival.";
   if(style==="Anti-Strat")return "Prepara el partido específicamente para neutralizar al oponente.";
   return "Equilibrio entre iniciativa, estructura y adaptación.";
+}
+function getJobSecurityLabel(status:CoachCareerState["board"]["jobSecurity"],language:"es"|"en") {
+  if(language==="en")return status.toUpperCase();
+
+  if(status==="Secure")return "SEGURO";
+  if(status==="Stable")return "ESTABLE";
+  if(status==="Under Pressure")return "BAJO PRESIÓN";
+
+  return "CRÍTICO";
+}
+
+function getConfidenceLevel(confidence:number) {
+  if(confidence>=75)return "secure";
+  if(confidence>=50)return "stable";
+  if(confidence>=25)return "pressure";
+
+  return "critical";
 }

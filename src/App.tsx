@@ -1,6 +1,6 @@
 import {useEffect,useState} from "react";
 import {CareerDashboard,CareerProfile,CreatePlayer} from "./components/career";
-import {CoachDashboard,CoachEventRecap,CoachMapPool,CoachMapVeto,CoachMarket,CoachMidseasonRecap,CoachOffseasonRecap,CoachRoster,CoachSeason,CoachTactics,CoachTeamSelect,CoachTransferNegotiation} from "./components/coach";
+import {CoachDashboard,CoachEventRecap,CoachJobMarket,CoachMapPool,CoachMapVeto,CoachMarket,CoachMidseasonRecap,CoachOffseasonRecap,CoachRoster,CoachSeason,CoachTactics,CoachTeamSelect,CoachTransferNegotiation,CoachProfile} from "./components/coach";
 import {MarketWindowScreen,OfferScreen} from "./components/market";
 import {MatchStatsModal} from "./components/match";
 import {MinigameRenderer} from "./components/minigames";
@@ -29,12 +29,14 @@ import {getNextPlayerChampionsMatch,playPlayerChampionsMatchWithScore} from "./l
 import {beginCoachMidseasonMarket,beginCoachOffseason,clearCoachMidseasonMarket,completeCoachMidseasonMarket,finishCoachSeason,startNextCoachSeason} from "./logic/coachCareerProgression";
 import {createMatchBoxScore} from "./logic/matchBoxScore";
 import {restoreCareerSave} from "./logic/restoreCareerSave";
+import {acceptCoachJobOffer} from "./logic/coachJobMarket";
 import {createSeason,getSortedStandings,playNextMatch} from "./logic/season";
 import {refreshCoachTrainingPeriod} from "./logic/coachTraining";
 import {simulateVCTOffseason} from "./logic/vctRosterMarket";
 import {continueVCTAfterNarrativeEvent,createVCTSeason,getVCTSeasonStats,migrateVCTMastersState,migrateVCTStageState,playNextVCTMatch,resumeVCTAfterMidseasonMarket} from "./logic/vctSeason";
 import type {CareerChoice,CareerEffects,CareerHistoryEntry,CareerPlayer,ContractOffer} from "./types/career";
 import type {CoachCareerState,CoachMapVetoState,CoachTacticalStyle} from "./types/coach";
+import {applyCoachBoardEventEvaluation,applyCoachBoardMatchResult,applyCoachBoardStreakPressure,evaluateCoachBoardProgress} from "./logic/coachBoard";
 import type {MatchBoxScore} from "./types/matchStats";
 import type {GameScreen,MarketWindow,ProfileReturnScreen} from "./types/navigation";
 import type {SeasonState} from "./types/season";
@@ -108,7 +110,30 @@ export default function App() {
   const finishCurrentCoachSeason=()=>{
     if(!coachCareer)return;
 
-    setCoachCareer(current=>current?finishCoachSeason(current):current);
+    const finished=finishCoachSeason(coachCareer);
+
+    setCoachCareer(finished);
+    setCoachOpponentTeamId(null);
+    setCoachMatchBoxScore(null);
+    setCoachNegotiationPlayerId(null);
+
+    if(finished.board.employmentStatus==="Dismissed"&&finished.jobMarket?.active){
+      setScreen("coachJobMarket");
+    }
+  };
+
+  const handleAcceptCoachJobOffer=(offerId:string)=>{
+    if(!coachCareer)return;
+
+    const updated=acceptCoachJobOffer(coachCareer,offerId);
+
+    if(updated===coachCareer)return;
+
+    setCoachCareer(updated);
+    setCoachOpponentTeamId(null);
+    setCoachMatchBoxScore(null);
+    setCoachNegotiationPlayerId(null);
+    setScreen("coachDashboard");
   };
 
   const continueToNextCoachSeason=()=>{
@@ -327,6 +352,15 @@ export default function App() {
       updatedCareer=resolveCoachChampions(updatedCareer);
     }
 
+    updatedCareer=applyCoachBoardMatchResult(
+      updatedCareer,
+      coachOpponentTeamId,
+      simulation.result.won,
+    );
+
+    updatedCareer=applyCoachBoardStreakPressure(updatedCareer);
+
+    updatedCareer=evaluateCoachBoardProgress(updatedCareer);
     updatedCareer=refreshCoachTrainingPeriod(updatedCareer);
 
     const eventFinished=
@@ -336,6 +370,10 @@ export default function App() {
       (phase==="Masters 2"&&masters2?.complete===true)||
       ((phase==="Stage 2"||phase==="Stage 2 Playoffs")&&stage2?.complete===true)||
       (phase==="Champions"&&champions?.complete===true);
+
+    if(eventFinished){
+      updatedCareer=applyCoachBoardEventEvaluation(updatedCareer,phase);
+    }  
 
     setCoachCareer(updatedCareer);
     setCoachMatchBoxScore(simulation.boxScore);
@@ -1000,11 +1038,22 @@ export default function App() {
       return <CoachTeamSelect onStart={handleCreateCoachCareer}/>;
     }
 
+    if(screen==="coachJobMarket"&&coachCareer){
+      return (
+        <CoachJobMarket
+          career={coachCareer}
+          onAccept={handleAcceptCoachJobOffer}
+          onExit={returnToMainMenu}
+        />
+      );
+    }
+
     if(screen==="coachDashboard"&&coachCareer){
       return (
         <CoachDashboard
           career={coachCareer}
           onChangeTacticalStyle={updateCoachTacticalStyle}
+          onOpenCoachProfile={()=>setScreen("coachProfile")}
           onOpenRoster={()=>setScreen("coachRoster")}
           onOpenMarket={()=>setScreen("coachMarket")}
           onOpenTactics={()=>setScreen("coachTactics")}
@@ -1013,6 +1062,10 @@ export default function App() {
           onExit={returnToMainMenu}
         />
       );
+    }
+
+    if(screen==="coachProfile"&&coachCareer){
+      return <CoachProfile career={coachCareer} onBack={()=>setScreen("coachDashboard")}/>;
     }
 
     if(screen==="coachRoster"&&coachCareer){

@@ -1,8 +1,10 @@
 import type {CoachCareerState} from "../types/coach";
 import type {GameScreen} from "../types/navigation";
+import {getTeamById} from "../data/teams";
+import {createInitialCoachBoardState} from "../logic/coachBoard";
 
 const COACH_SAVE_KEY="tu-carrera-valorant-coach-career";
-const COACH_SAVE_VERSION=1;
+const COACH_SAVE_VERSION=2;
 
 export type CoachSaveScreen=
   |"coachDashboard"
@@ -41,15 +43,22 @@ export function loadCoachCareer():CoachCareerSave|null {
   try{
     const parsed=JSON.parse(raw) as Partial<CoachCareerSave>;
 
-    if(
-      parsed.version!==COACH_SAVE_VERSION||
-      !parsed.career||
-      !parsed.screen
-    ){
-      return null;
+    if(!parsed.career||!parsed.screen)return null;
+
+    if(parsed.version===COACH_SAVE_VERSION){
+      return parsed as CoachCareerSave;
     }
 
-    return parsed as CoachCareerSave;
+    if(parsed.version===1){
+      const migrated=migrateCoachSaveV1(parsed);
+
+      if(!migrated)return null;
+
+      localStorage.setItem(COACH_SAVE_KEY,JSON.stringify(migrated));
+      return migrated;
+    }
+
+    return null;
   }catch{
     return null;
   }
@@ -61,6 +70,26 @@ export function hasCoachCareerSave() {
 
 export function clearCoachCareerSave() {
   localStorage.removeItem(COACH_SAVE_KEY);
+}
+
+function migrateCoachSaveV1(save:Partial<CoachCareerSave>):CoachCareerSave|null {
+  if(!save.career||!save.screen)return null;
+
+  const team=getTeamById(save.career.team.teamId);
+
+  if(!team)return null;
+
+  const career:CoachCareerState={
+    ...save.career,
+    board:save.career.board??createInitialCoachBoardState(team),
+  };
+
+  return {
+    version:COACH_SAVE_VERSION,
+    savedAt:save.savedAt??new Date().toISOString(),
+    screen:normalizeCoachSaveScreen(save.screen),
+    career,
+  };
 }
 
 function normalizeCoachSaveScreen(screen:GameScreen):CoachSaveScreen {

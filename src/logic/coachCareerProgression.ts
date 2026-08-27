@@ -4,6 +4,10 @@ import {getCoachPlayerMarketValue} from "./coachPlayerValue";
 import {getCoachMinimumAcceptedTransferFee,willCoachClubAcceptTransfer} from "./coachTransferEconomy";
 import {renewCoachTeamFinances} from "../data/coachBudgets";
 import {generateCoachTransferRequests} from "./coachTransferRequests";
+import {getCoachCPUContractDecision} from "../services/coachContractAI";
+import {getCoachBestRosterCutCandidate} from "./coachRosterNeeds";
+import {createCoachJobMarket} from "./coachJobMarket";
+import {evaluateCoachBoardProgress,evaluateCoachDismissal,finalizeCoachBoardSeason,prepareCoachBoardForNextSeason} from "./coachBoard";
 import {chooseBestCoachContractOffer,chooseBestCoachTransferOffer,getCoachMostNeededRole,getCoachTransferTargetScore,negotiateCoachPlayerSalary,type CoachContractOffer,type CoachTransferOffer} from "./coachTransferAI";
 import {getTeamById,TEAMS} from "../data/teams";
 
@@ -14,34 +18,55 @@ export function finishCoachSeason(career:CoachCareerState):CoachCareerState {
   const alreadyFinished=career.coach.careerHistory.some(entry=>entry.season===season.season&&entry.teamId===career.team.teamId);
   if(alreadyFinished)return career;
 
-  const team=getTeamById(career.team.teamId);
+  const evaluatedCareer=evaluateCoachBoardProgress(career);
+
+  const team=getTeamById(evaluatedCareer.team.teamId);
   const matches=Object.values(season.events).flatMap(event=>event.matches);
   const wins=matches.filter(match=>match.won).length;
   const losses=matches.filter(match=>!match.won).length;
-  const trophies=getCoachSeasonTrophies(career);
-  const placement=getCoachSeasonPlacement(career);
-  const reputationGain=getCoachSeasonReputationGain(career);
+  const trophies=getCoachSeasonTrophies(evaluatedCareer);
+  const placement=getCoachSeasonPlacement(evaluatedCareer);
+  const reputationGain=getCoachSeasonReputationGain(evaluatedCareer);
 
   const historyEntry:CoachCareerHistory={
     season:season.season,
-    teamId:career.team.teamId,
-    teamName:team?.name??career.team.teamId,
-    stage:career.coach.stage,
+    teamId:evaluatedCareer.team.teamId,
+    teamName:team?.name??evaluatedCareer.team.teamId,
+    stage:evaluatedCareer.coach.stage,
     wins,
     losses,
     placement,
     trophies,
   };
 
-  return {
-    ...career,
+  const finishedCareer:CoachCareerState={
+    ...evaluatedCareer,
     coach:{
-      ...career.coach,
-      reputation:Math.min(100,career.coach.reputation+reputationGain),
-      trophies:mergeUnique(career.coach.trophies,trophies),
-      careerHistory:[...career.coach.careerHistory,historyEntry],
+      ...evaluatedCareer.coach,
+      reputation:Math.min(100,evaluatedCareer.coach.reputation+reputationGain),
+      trophies:mergeUnique(evaluatedCareer.coach.trophies,trophies),
+      careerHistory:[...evaluatedCareer.coach.careerHistory,historyEntry],
     },
   };
+
+  const boardFinalized=finalizeCoachBoardSeason(finishedCareer);
+  const dismissalEvaluated=evaluateCoachDismissal(boardFinalized);
+
+  if(dismissalEvaluated.board.employmentStatus!=="Dismissed"){
+    return dismissalEvaluated;
+  }
+
+  return {
+    ...dismissalEvaluated,
+    jobMarket:createCoachJobMarket(dismissalEvaluated),
+  };
+}
+
+export function hasActiveCoachJobMarket(career:CoachCareerState) {
+  return Boolean(
+    career.board.employmentStatus==="Dismissed"&&
+    career.jobMarket?.active
+  );
 }
 
 export function beginCoachOffseason(career:CoachCareerState):CoachCareerState {
@@ -71,6 +96,69 @@ export function beginCoachOffseason(career:CoachCareerState):CoachCareerState {
   const rookies=createCoachRookieClass(rookieSeason);
   const playerPool=[...progressedPlayerPool,...rookies];
 
+  const contractDecisionSeason=season.season+1;
+
+  let contractedPlayerPool=[...playerPool];
+  let cpuContractRenewals:CoachOffseasonState["renewals"]=[];
+
+  const cpuTeamIds=getCoachTier1TeamIds().filter(teamId=>teamId!==finished.team.teamId);
+
+  for(const teamId of cpuTeamIds){
+    const roster=contractedPlayerPool.filter(player=>player.teamId===teamId);
+    const finances=finished.cpuFinancesByTeam[teamId];
+
+    if(!finances)continue;
+
+    const expiringPlayers=roster.filter(player=>player.contractStatus==="Expiring"||player.contractSeasonsRemaining===1);
+
+    for(const player of expiringPlayers){
+      const decision=getCoachCPUContractDecision(
+        player,
+        roster,
+        finances,
+        contractDecisionSeason,
+      );
+
+      if(decision.decision==="Renew"){
+        contractedPlayerPool=contractedPlayerPool.map(current=>{
+          if(current.id!==player.id)return current;
+
+          const renewedBase:CoachPlayer={
+            ...current,
+            salary:decision.renewalSalary,
+          };
+
+          return refreshCoachPlayerMarketValue(
+            applyCoachContract(
+              renewedBase,
+              contractDecisionSeason,
+              decision.renewalYears,
+            ),
+          );
+        });
+
+        cpuContractRenewals.push({
+          playerId:player.id,
+          playerName:player.ign,
+          seasons:decision.renewalYears,
+          salary:decision.renewalSalary,
+        });
+
+        continue;
+      }
+
+      if(decision.decision==="Sell"){
+        contractedPlayerPool=contractedPlayerPool.map(current=>
+          current.id===player.id
+            ?{...current,transferStatus:"TransferListed"}
+            :current
+        );
+
+        continue;
+      }
+    }
+  }
+
   const updatedRoster:CoachPlayer[]=[];
   const departures:CoachOffseasonState["departures"]=retiredFromTeam.map(player=>({
     playerId:player.id,
@@ -81,9 +169,10 @@ export function beginCoachOffseason(career:CoachCareerState):CoachCareerState {
   const freeAgentIds:string[]=[];
 
   for(const player of roster){
-    const remaining=Math.max(0,(player.contractSeasonsRemaining??1)-1);
+    const agedPlayer:CoachPlayer={...player,age:player.age+1};
+    const contractedPlayer=advanceCoachContract(agedPlayer);
 
-    if(remaining===0){
+    if(contractedPlayer.contractStatus==="FreeAgent"){
       departures.push({
         playerId:player.id,
         playerName:player.ign,
@@ -95,45 +184,16 @@ export function beginCoachOffseason(career:CoachCareerState):CoachCareerState {
       continue;
     }
 
-    const updatedPlayer:CoachPlayer={
-      ...player,
-      age:player.age+1,
-      contractSeasonsRemaining:remaining,
-    };
-
-    updatedRoster.push(refreshCoachPlayerMarketValue(updatedPlayer));
+    updatedRoster.push(refreshCoachPlayerMarketValue(contractedPlayer));
   }
 
-  const rosterIds=new Set(roster.map(player=>player.id));
-
-  const updatedPool=playerPool.map(player=>{
+  const updatedPool=contractedPlayerPool.map(player=>{
     if(player.id.startsWith(`rookie-${rookieSeason}-`))return player;
 
-    if(rosterIds.has(player.id)){
-      const remaining=Math.max(0,(player.contractSeasonsRemaining??1)-1);
+    const agedPlayer:CoachPlayer={...player,age:player.age+1};
+    const contractedPlayer=advanceCoachContract(agedPlayer);
 
-      const updatedPlayer:CoachPlayer={
-        ...player,
-        teamId:remaining===0?"free-agent":player.teamId,
-        starter:remaining===0?false:player.starter,
-        age:player.age+1,
-        contractSeasonsRemaining:remaining,
-      };
-
-      return refreshCoachPlayerMarketValue(updatedPlayer);
-    }
-
-    const remaining=Math.max(0,(player.contractSeasonsRemaining??2)-1);
-
-    const updatedPlayer:CoachPlayer={
-      ...player,
-      teamId:remaining===0?"free-agent":player.teamId,
-      starter:remaining===0?false:player.starter,
-      age:player.age+1,
-      contractSeasonsRemaining:remaining,
-    };
-
-    return refreshCoachPlayerMarketValue(updatedPlayer);
+    return refreshCoachPlayerMarketValue(contractedPlayer);
   });
 
   const allFreeAgentIds=Array.from(
@@ -172,7 +232,7 @@ export function beginCoachOffseason(career:CoachCareerState):CoachCareerState {
       season:season.season,
       phase:"Contracts",
       departures,
-      renewals:[],
+      renewals:cpuContractRenewals,
       transfers:[],
       transferRequests:[],
       freeAgentIds:allFreeAgentIds,
@@ -188,13 +248,15 @@ export function renewCoachPlayerContract(career:CoachCareerState,playerId:string
   const sourcePlayer=career.playerPool.find(player=>player.id===playerId)||career.team.roster.find(player=>player.id===playerId);
   if(!sourcePlayer)return career;
 
-  const renewed:CoachPlayer={
+  const renewedBase:CoachPlayer={
     ...sourcePlayer,
     teamId:career.team.teamId,
     salary,
-    contractSeasonsRemaining:seasons,
     starter:career.team.roster.length<5?true:sourcePlayer.starter,
+    joinedTeamSeason:sourcePlayer.teamId===career.team.teamId?sourcePlayer.joinedTeamSeason:career.coach.season+1,
   };
+
+  const renewed=applyCoachContract(renewedBase,career.coach.season+1,seasons);
 
   const refreshedRenewed=refreshCoachPlayerMarketValue(renewed);
   const rosterWithout=career.team.roster.filter(player=>player.id!==playerId);
@@ -238,12 +300,7 @@ export function releaseCoachPlayer(career:CoachCareerState,playerId:string):Coac
   const playerPool=career.playerPool.map(item=>{
     if(item.id!==playerId)return item;
 
-    const released:CoachPlayer={
-      ...item,
-      teamId:"free-agent",
-      starter:false,
-      contractSeasonsRemaining:0,
-    };
+    const released=expireCoachContract(item);
 
     return refreshCoachPlayerMarketValue(released);
   });
@@ -333,7 +390,7 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
 
     if(roster.length<5)continue;
 
-    const weakest=[...roster].sort((a,b)=>a.overall-b.overall)[0];
+    const weakest=getCoachBestRosterCutCandidate(roster);
     if(!weakest)continue;
 
     const shouldUpgrade=deterministicNumber(`${teamId}-${career.coach.season}-upgrade`)%100<42;
@@ -354,8 +411,12 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
       .sort((a,b)=>{
         const requestBonusA=transferRequestIds.has(a.id)?18:0;
         const requestBonusB=transferRequestIds.has(b.id)?18:0;
-        const scoreA=getCoachTransferTargetScore(roster,a,teamStrength)+requestBonusA;
-        const scoreB=getCoachTransferTargetScore(roster,b,teamStrength)+requestBonusB;
+
+        const listedBonusA=a.transferStatus==="TransferListed"?22:0;
+        const listedBonusB=b.transferStatus==="TransferListed"?22:0;
+
+        const scoreA=getCoachTransferTargetScore(roster,a,teamStrength)+requestBonusA+listedBonusA;
+        const scoreB=getCoachTransferTargetScore(roster,b,teamStrength)+requestBonusB+listedBonusB;
 
         if(scoreB!==scoreA)return scoreB-scoreA;
 
@@ -370,7 +431,9 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
 
       const currentTeam=getTeamById(target.teamId);
       const currentTeamStrength=currentTeam?.strength??80;
-      const transferRequested=transferRequestIds.has(target.id);
+      const transferRequested=
+        transferRequestIds.has(target.id)||
+        target.transferStatus==="TransferListed";
 
       const minimumTransferFee=getCoachMinimumAcceptedTransferFee(
         target,
@@ -406,7 +469,7 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
         buyerTeamStrength:teamStrength,
         transferFee:offeredTransferFee,
         salary:salaryNegotiation.salary,
-        seasons:getCPUContractLength(target,career.coach.season),
+        seasons:getCPUContractLength(target,career.coach.season+1),
       };
 
       transferOffersByPlayer[target.id]=[
@@ -489,7 +552,7 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
       buyerRosterAfterReplacement,
     ))continue;
 
-    playerPool=movePlayer(playerPool,player.id,bestOffer.buyerTeamId,bestOffer.salary,bestOffer.seasons);
+    playerPool=movePlayer(playerPool,player.id,bestOffer.buyerTeamId,bestOffer.salary,bestOffer.seasons,career.coach.season+1);
     playerPool=movePlayer(playerPool,weakest.id,"free-agent",0);
 
     replacementPriorityTeams.set(sellerTeamId,player.role);
@@ -535,7 +598,7 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
   fillPriorityReplacements(
     playerTeamId,
     replacementPriorityTeams,
-    career.coach.season,
+    career.coach.season+1,
     playerPool,
     cpuFinancesByTeam,
     transfers,
@@ -590,7 +653,7 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
         teamId,
         teamStrength,
         salary:salaryNegotiation.salary,
-        seasons:getCPUContractLength(candidate,career.coach.season),
+        seasons:getCPUContractLength(candidate,career.coach.season+1),
       };
 
       freeAgentOffersByPlayer[candidate.id]=[
@@ -655,6 +718,7 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
       bestOffer.teamId,
       bestOffer.salary,
       bestOffer.seasons,
+      career.coach.season+1,
     );
 
     cpuFinancesByTeam=refreshCPUFinancePayroll(
@@ -717,9 +781,9 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
         if(!salaryNegotiation.accepted)continue;
 
         const salary=salaryNegotiation.salary;
-        const seasons=getCPUContractLength(candidate,career.coach.season);
+        const seasons=getCPUContractLength(candidate,career.coach.season+1);
 
-        playerPool=movePlayer(playerPool,candidate.id,teamId,salary,seasons);
+        playerPool=movePlayer(playerPool,candidate.id,teamId,salary,seasons,career.coach.season+1);
         cpuFinancesByTeam=refreshCPUFinancePayroll(cpuFinancesByTeam,playerPool,teamId);
 
         transfers.push({
@@ -742,7 +806,7 @@ export function simulateCoachCPUOffseason(career:CoachCareerState):CoachCareerSt
   ({playerPool,cpuFinancesByTeam}=ensureCPUMinimumRosters(
     playerTeamId,
     cpuTeamIds,
-    career.coach.season,
+    career.coach.season+1,
     "offseason",
     playerPool,
     cpuFinancesByTeam,
@@ -836,7 +900,7 @@ export function simulateCoachCPUMidseasonMarket(career:CoachCareerState):CoachCa
     const shouldUpgrade=deterministicNumber(`${teamId}-${career.coach.season}-midseason-upgrade`)%100<20;
     if(!shouldUpgrade)continue;
 
-    const weakest=[...roster].sort((a,b)=>a.overall-b.overall)[0];
+    const weakest=getCoachBestRosterCutCandidate(roster);
     if(!weakest)continue;
 
     const team=getTeamById(teamId);
@@ -870,7 +934,9 @@ export function simulateCoachCPUMidseasonMarket(career:CoachCareerState):CoachCa
 
       const currentTeam=getTeamById(target.teamId);
       const currentTeamStrength=currentTeam?.strength??80;
-      const transferRequested=transferRequestIds.has(target.id);
+      const transferRequested=
+        transferRequestIds.has(target.id)||
+        target.transferStatus==="TransferListed";
 
       const minimumTransferFee=getCoachMinimumAcceptedTransferFee(
         target,
@@ -1016,6 +1082,7 @@ export function simulateCoachCPUMidseasonMarket(career:CoachCareerState):CoachCa
       bestOffer.buyerTeamId,
       bestOffer.salary,
       bestOffer.seasons,
+      career.coach.season,
     );
 
     playerPool=movePlayer(
@@ -1199,6 +1266,7 @@ export function simulateCoachCPUMidseasonMarket(career:CoachCareerState):CoachCa
       bestOffer.teamId,
       bestOffer.salary,
       bestOffer.seasons,
+      career.coach.season,
     );
 
     cpuFinancesByTeam=refreshCPUFinancePayroll(
@@ -1279,7 +1347,7 @@ export function startNextCoachSeason(career:CoachCareerState):CoachCareerState {
   if(!season||season.phase!=="Complete")return career;
   if(!offseason?.completed)return career;
 
-  return {
+  const nextCareer:CoachCareerState={
     ...career,
     coach:{
       ...career.coach,
@@ -1295,6 +1363,8 @@ export function startNextCoachSeason(career:CoachCareerState):CoachCareerState {
     offseason:null,
     midseasonMarket:null,
   };
+
+  return prepareCoachBoardForNextSeason(nextCareer);
 }
 
 export function isCoachSeasonFinished(career:CoachCareerState) {
@@ -1376,7 +1446,7 @@ function ensureCPUMinimumRosters(
         const salary=salaryNegotiation.salary;
         const seasons=getCPUContractLength(candidate,season);
 
-        playerPool=movePlayer(playerPool,candidate.id,teamId,salary,seasons);
+        playerPool=movePlayer(playerPool,candidate.id,teamId,salary,seasons,season);
         cpuFinancesByTeam=refreshCPUFinancePayroll(cpuFinancesByTeam,playerPool,teamId);
 
         transfers.push({
@@ -1430,16 +1500,18 @@ function createEmergencyReplacement(teamId:string,role:CoachPlayer["role"],teamS
   const baseOverall=clamp(Math.round(66+(teamStrength-70)*.28+(seed%5)),64,78);
   const potential=clamp(baseOverall+4+(seed%7),baseOverall,88);
   const peakAge=24+(seed%5);
-
+  const isIGL=deterministicNumber(`${teamId}-${season}-${window}-${slot}-emergency-igl`)%100<18;
+  
   const player:CoachPlayer={
     id:`emergency-${season}-${window}-${teamId}-${slot}-${seed.toString(36)}`,
     ign:`Academy${seed%1000}`,
     teamId,
     role,
+    isIGL,
     stats:{
       aim:clamp(baseOverall+(seed%3)-1,40,99),
       gameSense:clamp(baseOverall+((seed>>2)%3)-1,40,99),
-      communication:clamp(baseOverall+(role==="IGL"?3:((seed>>4)%3)-1),40,99),
+      communication:clamp(baseOverall+(isIGL?3:((seed>>4)%3)-1),40,99),
       clutch:clamp(baseOverall+((seed>>6)%3)-1,40,99),
       consistency:clamp(baseOverall+((seed>>8)%3)-1,40,99),
       mental:clamp(baseOverall+((seed>>10)%3)-1,40,99),
@@ -1448,10 +1520,16 @@ function createEmergencyReplacement(teamId:string,role:CoachPlayer["role"],teamS
     salary,
     age,
     starter:false,
-    contractSeasonsRemaining:1,
     potential,
     peakAge,
     marketValue:0,
+
+    contractStartSeason:season,
+    contractEndSeason:season,
+    contractSeasonsRemaining:1,
+    contractStatus:"Expiring",
+    transferStatus:"NotListed",
+    joinedTeamSeason:season,
   };
 
   return refreshCoachPlayerMarketValue(player);
@@ -1560,6 +1638,7 @@ function fillPriorityReplacements(
         teamId,
         salary,
         seasons,
+        season,
       );
 
       cpuFinancesByTeam=refreshCPUFinancePayroll(
@@ -1632,7 +1711,18 @@ function getCoachSeasonReputationGain(career:CoachCareerState) {
 }
 
 function normalizeContract(player:CoachPlayer):CoachPlayer {
-  return {...player,contractSeasonsRemaining:player.contractSeasonsRemaining??2};
+  const remaining=Math.max(0,player.contractSeasonsRemaining??2);
+  const startSeason=player.contractStartSeason??2026;
+
+  return {
+    ...player,
+    contractStartSeason:startSeason,
+    contractEndSeason:player.contractEndSeason??startSeason+Math.max(1,remaining)-1,
+    contractSeasonsRemaining:remaining,
+    contractStatus:getCoachContractStatus(remaining),
+    transferStatus:player.transferStatus??"NotListed",
+    joinedTeamSeason:player.joinedTeamSeason??startSeason,
+  };
 }
 
 function getCoachTier1TeamIds() {
@@ -1693,19 +1783,26 @@ function applyCPUTransferFee(cpuFinancesByTeam:CoachCareerState["cpuFinancesByTe
   };
 }
 
-function movePlayer(playerPool:CoachPlayer[],playerId:string,teamId:string,salary:number,contractSeasonsRemaining?:number) {
+function movePlayer(playerPool:CoachPlayer[],playerId:string,teamId:string,salary:number,contractSeasonsRemaining?:number,season?:number) {
   return playerPool.map(player=>{
     if(player.id!==playerId)return player;
 
-    const movedPlayer:CoachPlayer={
+    if(teamId==="free-agent"){
+      return refreshCoachPlayerMarketValue(expireCoachContract(player));
+    }
+
+    const seasons=contractSeasonsRemaining??player.contractSeasonsRemaining;
+    const contractSeason=season??player.contractStartSeason;
+
+    const movedBase:CoachPlayer={
       ...player,
       teamId,
-      salary:teamId==="free-agent"?player.salary:salary,
+      salary,
       starter:false,
-      contractSeasonsRemaining:teamId==="free-agent"?0:contractSeasonsRemaining??player.contractSeasonsRemaining??2,
+      joinedTeamSeason:contractSeason,
     };
 
-    return refreshCoachPlayerMarketValue(movedPlayer);
+    return refreshCoachPlayerMarketValue(applyCoachContract(movedBase,contractSeason,seasons));
   });
 }
 
@@ -1813,7 +1910,7 @@ function regressVeteranPlayer(player:CoachPlayer,severity:number):CoachPlayer {
   const consistencyLoss=yearsPastPeak>=3?severity:Math.max(0,severity-1);
   const mentalLoss=yearsPastPeak>=5?1:0;
   const gameSenseChange=yearsPastPeak<=2?1:yearsPastPeak<=5?0:-1;
-  const communicationChange=player.role==="IGL"&&yearsPastPeak<=4?1:0;
+  const communicationChange=player.isIGL&&yearsPastPeak<=4?1:0;
 
   const nextStats={
     ...player.stats,
@@ -1838,6 +1935,53 @@ function getStatsOverall(stats:CoachPlayer["stats"]) {
 
 function refreshCoachPlayerMarketValue(player:CoachPlayer):CoachPlayer {
   return {...player,marketValue:getCoachPlayerMarketValue(player)};
+}
+
+function getCoachContractStatus(remaining:number):CoachPlayer["contractStatus"] {
+  if(remaining<=0)return "FreeAgent";
+  if(remaining===1)return "Expiring";
+  return "Active";
+}
+
+function applyCoachContract(player:CoachPlayer,season:number,seasons:number):CoachPlayer {
+  return {
+    ...player,
+    contractStartSeason:season,
+    contractEndSeason:season+seasons-1,
+    contractSeasonsRemaining:seasons,
+    contractStatus:getCoachContractStatus(seasons),
+    transferStatus:"NotListed",
+  };
+}
+
+function expireCoachContract(player:CoachPlayer):CoachPlayer {
+  return {
+    ...player,
+    teamId:"free-agent",
+    starter:false,
+    contractSeasonsRemaining:0,
+    contractStatus:"FreeAgent",
+    transferStatus:"NotListed",
+  };
+}
+
+function advanceCoachContract(player:CoachPlayer):CoachPlayer {
+  if(player.transferStatus==="TransferListed"&&player.contractSeasonsRemaining===1){
+    return {
+      ...player,
+      contractStatus:"Expiring",
+    };
+  }
+
+  const remaining=Math.max(0,player.contractSeasonsRemaining-1);
+
+  if(remaining===0)return expireCoachContract(player);
+
+  return {
+    ...player,
+    contractSeasonsRemaining:remaining,
+    contractStatus:getCoachContractStatus(remaining),
+  };
 }
 
 function deterministicNumber(value:string) {

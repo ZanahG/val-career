@@ -1,6 +1,5 @@
 import type {CoachPlayer} from "../types/coach";
-
-const CORE_ROLES:CoachPlayer["role"][]=["Duelist","Initiator","Controller","Sentinel"];
+import {getCoachMostNeededRosterRole,getCoachRosterNeedForPlayer,getCoachRosterRoleNeedScore} from "./coachRosterNeeds";
 
 export interface CoachContractOffer {
   teamId:string;
@@ -15,53 +14,17 @@ export interface CoachTransferOffer {
   salary:number;
   seasons:number;
 }
+
 export function getCoachRoleNeedScore(roster:CoachPlayer[],role:CoachPlayer["role"]) {
-  if(role==="Flex")return getFlexNeedScore(roster);
-  if(role==="IGL")return getIGLNeedScore(roster);
-
-  const players=roster.filter(player=>player.role===role);
-  const starterQuality=getRoleStarterQuality(players);
-
-  let score=0;
-
-  if(players.length===0)score+=100;
-  else if(players.length===1)score+=35;
-  else score-=20*(players.length-1);
-
-  if(starterQuality<70)score+=50;
-  else if(starterQuality<75)score+=40;
-  else if(starterQuality<80)score+=30;
-  else if(starterQuality<84)score+=20;
-  else if(starterQuality<88)score+=10;
-  else if(starterQuality>=92)score-=20;
-
-  return score;
+  return getCoachRosterRoleNeedScore(roster,role);
 }
 
 export function getCoachMostNeededRole(roster:CoachPlayer[]):CoachPlayer["role"] {
-  const roles:CoachPlayer["role"][]=["Duelist","Initiator","Controller","Sentinel","Flex"];
-
-  return [...roles].sort((a,b)=>{
-    const scoreA=getCoachRoleNeedScore(roster,a);
-    const scoreB=getCoachRoleNeedScore(roster,b);
-
-    if(scoreB!==scoreA)return scoreB-scoreA;
-
-    return a.localeCompare(b);
-  })[0];
+  return getCoachMostNeededRosterRole(roster);
 }
 
 export function getCoachPlayerRoleFitScore(roster:CoachPlayer[],player:CoachPlayer) {
-  const need=getCoachRoleNeedScore(roster,player.role);
-
-  if(player.role==="Flex"){
-    const weakestCoreRole=getCoachMostNeededCoreRole(roster);
-    const weakestNeed=getCoachRoleNeedScore(roster,weakestCoreRole);
-
-    return Math.max(need,weakestNeed*.75);
-  }
-
-  return need;
+  return getCoachRosterNeedForPlayer(roster,player);
 }
 
 export function getCoachTransferTargetScore(roster:CoachPlayer[],player:CoachPlayer,teamStrength:number) {
@@ -73,10 +36,12 @@ export function getCoachTransferTargetScore(roster:CoachPlayer[],player:CoachPla
   const contractScore=getContractScore(player.contractSeasonsRemaining??0);
   const marketValueScore=getMarketValueScore(player.marketValue);
   const levelFitScore=getTeamLevelFitScore(player,teamStrength);
+  const upgradeScore=getUpgradeScore(roster,player);
 
   return (
     roleFit*1.5+
-    overallScore*1.35+
+    upgradeScore*1.4+
+    overallScore*1.2+
     potentialScore+
     ageScore+
     salaryScore+
@@ -84,46 +49,6 @@ export function getCoachTransferTargetScore(roster:CoachPlayer[],player:CoachPla
     marketValueScore+
     levelFitScore
   );
-}
-
-function getCoachMostNeededCoreRole(roster:CoachPlayer[]) {
-  return [...CORE_ROLES].sort((a,b)=>{
-    const scoreA=getCoachRoleNeedScore(roster,a);
-    const scoreB=getCoachRoleNeedScore(roster,b);
-
-    if(scoreB!==scoreA)return scoreB-scoreA;
-
-    return a.localeCompare(b);
-  })[0];
-}
-
-function getRoleStarterQuality(players:CoachPlayer[]) {
-  if(!players.length)return 0;
-
-  return [...players].sort((a,b)=>b.overall-a.overall)[0]?.overall??0;
-}
-
-function getFlexNeedScore(roster:CoachPlayer[]) {
-  const flexPlayers=roster.filter(player=>player.role==="Flex");
-
-  if(roster.length<5)return flexPlayers.length===0?35:10;
-  if(flexPlayers.length===0)return 10;
-
-  return -10*flexPlayers.length;
-}
-
-function getIGLNeedScore(roster:CoachPlayer[]) {
-  const igls=roster.filter(player=>player.role==="IGL");
-
-  if(!igls.length)return 25;
-
-  const bestIGL=Math.max(...igls.map(player=>player.overall));
-
-  if(bestIGL<75)return 25;
-  if(bestIGL<80)return 15;
-  if(bestIGL<85)return 5;
-
-  return -10;
 }
 
 function getOverallScore(overall:number) {
@@ -451,4 +376,46 @@ export function chooseBestCoachTransferOffer(player:CoachPlayer,offers:CoachTran
 
       return b.buyerTeamStrength-a.buyerTeamStrength;
     })[0]??null;
+}
+
+function getCurrentRoleReferencePlayer(roster:CoachPlayer[],player:CoachPlayer) {
+  const sameRole=roster
+    .filter(item=>item.role===player.role)
+    .sort((a,b)=>b.overall-a.overall);
+
+  if(!sameRole.length)return null;
+
+  return sameRole[0];
+}
+
+function getUpgradeScore(roster:CoachPlayer[],player:CoachPlayer) {
+  const current=getCurrentRoleReferencePlayer(roster,player);
+
+  if(!current)return 35;
+
+  const overallDiff=player.overall-current.overall;
+  const potentialDiff=player.potential-current.potential;
+  const ageDiff=current.age-player.age;
+
+  let score=0;
+
+  if(overallDiff>=6)score+=35;
+  else if(overallDiff>=4)score+=28;
+  else if(overallDiff>=2)score+=18;
+  else if(overallDiff===1)score+=8;
+  else if(overallDiff===0)score+=0;
+  else if(overallDiff>=-2)score-=10;
+  else score-=25;
+
+  if(potentialDiff>=8)score+=18;
+  else if(potentialDiff>=4)score+=10;
+  else if(potentialDiff>=2)score+=5;
+
+  if(ageDiff>=6)score+=12;
+  else if(ageDiff>=3)score+=7;
+
+  if(player.salary<current.salary*.8)score+=8;
+  else if(player.salary>current.salary*1.35)score-=8;
+
+  return score;
 }

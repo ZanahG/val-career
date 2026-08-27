@@ -729,7 +729,7 @@ function getPlayerPerformanceBonus(career:CoachCareerState,map:CoachMapProfile|n
 
 function createCoachMapPlayer(player:CoachPlayer,teamId:string,won:boolean,scoreFor:number,scoreAgainst:number,agent:string,performanceBonus:number):MatchPlayerStats {
   const rounds=scoreFor+scoreAgainst;
-  const role=player.role==="IGL"?"Flex":player.role;
+  const role=player.role;
 
   const skillFactor=(player.overall-80)/100;
   const aimFactor=(player.stats.aim-80)/100;
@@ -867,7 +867,7 @@ function getRosterStarPower(roster:CoachPlayer[]) {
 function getRoleBalanceScore(roster:CoachPlayer[]) {
   if(roster.length<5)return 50;
 
-  const normalizedRoles=roster.map(player=>player.role==="IGL"?"Flex":player.role);
+  const normalizedRoles=roster.map(player=>player.role);
   const requiredRoles:Exclude<CoachPlayer["role"],"IGL">[]=["Duelist","Initiator","Controller","Sentinel"];
 
   let score=65;

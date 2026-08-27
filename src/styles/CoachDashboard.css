@@ -188,7 +188,7 @@
 .coach-dashboard__eyebrow {
   display:block;
   color:var(--cyan);
-  font-size:8px;
+  font-size:12px;
   font-weight:900;
   letter-spacing:.15em;
 }
@@ -251,7 +251,7 @@
 .coach-dashboard__season-card-head span {
   display:block;
   color:var(--cyan);
-  font-size:7px;
+  font-size:12px;
   font-weight:900;
   letter-spacing:.14em;
 }
@@ -276,7 +276,7 @@
 
 .coach-dashboard__season-empty span {
   color:var(--cyan);
-  font-size:8px;
+  font-size:12px;
   font-weight:900;
   letter-spacing:.12em;
 }
@@ -290,7 +290,7 @@
 .coach-dashboard__season-empty small {
   margin-top:5px;
   color:var(--muted);
-  font-size:9px;
+  font-size:11px;
 }
 
 .coach-dashboard__next-match {
@@ -418,8 +418,6 @@
   display:grid;
   place-items:center;
   margin-bottom:19px;
-  border:1px solid var(--line);
-  background:#242631;
   color:#dfe4e9;
   font-size:14px;
 }
@@ -477,7 +475,7 @@
 .coach-dashboard__section-head>div span {
   display:block;
   color:var(--cyan);
-  font-size:7px;
+  font-size:12px;
   font-weight:900;
   letter-spacing:.13em;
 }
@@ -642,4 +640,138 @@
   .coach-dashboard__season-summary>div {min-height:58px;border-right:0;border-bottom:1px solid var(--line-soft);}
   .coach-dashboard__season-summary>div:last-child {border-bottom:0;}
   .coach-dashboard__next-match {grid-template-columns:1fr;text-align:center;}
+}
+.coach-dashboard__menu-icon {
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.coach-dashboard__menu-icon img {
+  width:36px;
+  height:36px;
+  object-fit:contain;
+  display:block;
+}
+.coach-dashboard__coach-button {
+  width:100%;
+  border:1px solid var(--line);
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+
+.coach-dashboard__coach-button:hover {
+  border-color:#444b58;
+  transform:translateY(-1px);
+}
+
+.coach-dashboard__coach-button {
+  position:relative;
+}
+
+.coach-dashboard__coach-arrow {
+  position:absolute;
+  top:22px;
+  right:24px;
+  color:#22d3d1;
+  font-size:20px;
+}
+
+.coach-dashboard__coach-meta {
+  margin-top:14px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.coach-dashboard__coach-meta>span {
+  color:#7f8794;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.coach-dashboard__coach-meta strong {
+  margin-left:4px;
+  color:#fff;
+  font-size:10px;
+}
+.coach-dashboard__coach-meta {
+  margin-top:16px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.coach-dashboard__coach-meta>div {
+  min-width:80px;
+}
+
+.coach-dashboard__coach-meta span {
+  display:block;
+  color:#68707e;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-dashboard__coach-meta strong {
+  display:block;
+  margin-top:3px;
+  color:#fff;
+  font-size:13px;
+}
+
+.coach-dashboard__job-status--secure strong {
+  color:#31d6a3;
+}
+
+.coach-dashboard__job-status--stable strong {
+  color:#22d3d1;
+}
+
+.coach-dashboard__job-status--under-pressure strong {
+  color:#f0b84d;
+}
+
+.coach-dashboard__job-status--critical strong {
+  color:#ff596b;
+}
+
+.coach-dashboard__coach-confidence {
+  width:100%;
+  margin-top:14px;
+}
+
+.coach-dashboard__coach-confidence-track {
+  height:5px;
+  overflow:hidden;
+  background:#252a34;
+}
+
+.coach-dashboard__coach-confidence-fill {
+  height:100%;
+  transition:width .3s ease;
+}
+
+.coach-dashboard__coach-confidence-fill--secure {
+  background:#31d6a3;
+}
+
+.coach-dashboard__coach-confidence-fill--stable {
+  background:#22d3d1;
+}
+
+.coach-dashboard__coach-confidence-fill--pressure {
+  background:#f0b84d;
+}
+
+.coach-dashboard__coach-confidence-fill--critical {
+  background:#ff596b;
 }
