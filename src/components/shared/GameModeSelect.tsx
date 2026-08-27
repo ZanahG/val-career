@@ -1,6 +1,10 @@
 import {useState} from "react";
 import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {useGameSettings} from "../../context/GameSettingsContext";
+import playerCareer from "../../images/game-modes/player-career.png";
+import playerSide from "../../images/game-modes/player-side.png";
+import coachCareer from "../../images/game-modes/coach-career.png";
+import coachSide from "../../images/game-modes/coach-side.png";
 import "../../styles/GameModeSelect.css";
 
 interface GameModeSelectProps {
@@ -13,8 +17,8 @@ interface GameModeSelectProps {
 type GameMode="player"|"coach";
 
 const MODE_ART={
-  player:{feature:"/src/images/game-modes/player-career.png",side:"/src/images/game-modes/player-side.png"},
-  coach:{feature:"/src/images/game-modes/coach-career.png",side:"/src/images/game-modes/coach-side.png"},
+  player:{feature:playerCareer,side:playerSide},
+  coach:{feature:coachCareer,side:coachSide},
 };
 
 export function GameModeSelect({onPlayerCareer,onCoachCareer,onContinueCoachCareer,hasCoachSave}:GameModeSelectProps) {
