@@ -1,6 +1,6 @@
 .coach-negotiation {
-  --panel:rgba(25,26,35,.92);
-  --panel-strong:rgba(20,21,29,.97);
+  --panel:rgba(25,26,35,.94);
+  --panel-strong:rgba(20,21,29,.98);
   --line:rgba(255,255,255,.16);
   --line-soft:rgba(255,255,255,.08);
   --text:#f6f7f9;
@@ -53,71 +53,99 @@
   position:absolute;
   inset:0;
   background:
-    linear-gradient(90deg,rgba(10,15,18,.44),transparent 40%,rgba(9,11,14,.20)),
-    linear-gradient(180deg,rgba(4,7,9,.18),rgba(4,6,8,.04) 60%,rgba(5,7,9,.34));
+    linear-gradient(90deg,rgba(10,15,18,.52),transparent 40%,rgba(9,11,14,.26)),
+    linear-gradient(180deg,rgba(4,7,9,.18),rgba(4,6,8,.04) 60%,rgba(5,7,9,.42));
 }
 
 .coach-negotiation__topbar {
   position:absolute;
   z-index:10;
-  top:38px;
-  left:36px;
-  right:36px;
+  top:30px;
+  left:32px;
+  right:32px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:20px;
 }
 
 .coach-negotiation__budget {
-  min-width:280px;
-  min-height:52px;
-  padding:0 15px;
+  min-width:290px;
+  min-height:54px;
+  padding:0 16px;
   display:grid;
-  grid-template-columns:30px 1fr auto;
+  grid-template-columns:32px 1fr auto;
   align-items:center;
-  gap:10px;
-  border-radius:4px;
-  background:rgba(30,31,39,.86);
-  backdrop-filter:blur(9px);
+  gap:11px;
+  border:1px solid var(--line-soft);
+  border-radius:6px;
+  background:rgba(27,29,37,.9);
+  backdrop-filter:blur(10px);
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
 }
 
 .coach-negotiation__budget img {
-  width:28px;
-  height:28px;
+  width:30px;
+  height:30px;
   object-fit:contain;
 }
 
 .coach-negotiation__budget span {
-  color:#bbbcc1;
-  font-size:10px;
+  color:#b9bbc2;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
 }
 
 .coach-negotiation__budget strong {
-  font-size:14px;
+  font-size:15px;
+}
+
+.coach-negotiation__topbar-actions {
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .coach-negotiation__exit {
   width:44px;
   height:44px;
-  border:1px solid rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.12);
   border-radius:50%;
-  background:rgba(25,26,34,.86);
+  background:rgba(25,26,34,.9);
   color:#fff;
   font-size:16px;
   cursor:pointer;
+  transition:.18s ease;
+}
+
+.coach-negotiation__exit:hover {
+  border-color:var(--cyan);
+  background:#202631;
 }
 
 .coach-negotiation__sidebar {
   position:absolute;
   z-index:8;
-  left:36px;
-  top:112px;
-  width:280px;
-  min-height:430px;
+  left:32px;
+  top:102px;
+  width:300px;
+  max-height:calc(100vh - 130px);
+  border:1px solid rgba(255,255,255,.08);
   border-radius:8px;
-  background:rgba(39,40,48,.86);
-  backdrop-filter:blur(12px);
-  overflow:hidden;
+  background:rgba(34,36,44,.9);
+  backdrop-filter:blur(14px);
+  overflow:auto;
+  box-shadow:0 18px 50px rgba(0,0,0,.24);
+}
+
+.coach-negotiation__sidebar::-webkit-scrollbar {
+  width:5px;
+}
+
+.coach-negotiation__sidebar::-webkit-scrollbar-thumb {
+  background:rgba(255,255,255,.12);
+  border-radius:10px;
 }
 
 .coach-negotiation__tabs {
@@ -130,9 +158,10 @@
 }
 
 .coach-negotiation__tabs span {
-  color:#a8a9ae;
-  font-size:11px;
-  font-weight:800;
+  color:#8f9299;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.07em;
 }
 
 .coach-negotiation__tabs span.active {
@@ -143,7 +172,7 @@
   min-height:94px;
   padding:13px 14px;
   display:grid;
-  grid-template-columns:48px minmax(0,1fr) 32px;
+  grid-template-columns:48px minmax(0,1fr) 34px;
   align-items:center;
   gap:10px;
   border-bottom:1px solid rgba(255,255,255,.10);
@@ -154,6 +183,7 @@
   height:58px;
   display:grid;
   place-items:center;
+  border:1px solid rgba(255,255,255,.08);
   background:#4b4c54;
   color:#d2d2d5;
   font-size:20px;
@@ -162,53 +192,114 @@
 
 .coach-negotiation__sidebar-player small {
   display:block;
-  color:#c0c0c4;
-  font-size:9px;
+  color:#92959d;
+  font-size:8px;
 }
 
 .coach-negotiation__sidebar-player strong {
   display:block;
   margin-top:4px;
-  font-size:13px;
+  overflow:hidden;
+  color:#fff;
+  font-size:14px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .coach-negotiation__sidebar-player span {
   display:block;
   margin-top:3px;
   color:#b1b2b7;
-  font-size:9px;
+  font-size:8px;
+}
+
+.coach-negotiation__sidebar-team {
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .coach-negotiation__sidebar-team img {
-  width:29px;
-  height:29px;
+  width:30px;
+  height:30px;
   object-fit:contain;
 }
 
-.coach-negotiation__sidebar-row {
-  min-height:52px;
-  padding:9px 14px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+.coach-negotiation__player-stats {
+  padding:10px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 
+.coach-negotiation__player-stat {
+  min-height:42px;
+  padding:7px 8px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(19,21,28,.58);
+}
+
+.coach-negotiation__player-stat span {
+  display:block;
+  color:#747984;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.06em;
+}
+
+.coach-negotiation__player-stat strong {
+  display:block;
+  margin-top:3px;
+  color:#f0f1f4;
+  font-size:12px;
+}
+
+.coach-negotiation__sidebar-row {
+  min-height:46px;
+  padding:8px 14px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
 .coach-negotiation__sidebar-row span {
-  color:#aaaab0;
-  font-size:9px;
+  color:#878b94;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.06em;
 }
 
 .coach-negotiation__sidebar-row strong {
   margin-top:3px;
-  font-size:12px;
+  color:#f4f5f7;
+  font-size:11px;
 }
 
 .coach-negotiation__request {
-  padding:10px 14px;
+  margin:10px;
+  padding:10px 11px;
+  border:1px solid rgba(57,219,126,.22);
+  background:rgba(57,219,126,.08);
+}
+
+.coach-negotiation__request span {
+  display:block;
   color:#50d6aa;
-  font-size:9px;
+  font-size:7px;
   font-weight:900;
+  letter-spacing:.08em;
+}
+
+.coach-negotiation__request strong {
+  display:block;
+  margin-top:4px;
+  color:#d9fff0;
+  font-size:9px;
 }
 
 .coach-negotiation__scene-center {
@@ -220,15 +311,15 @@
 
 .coach-negotiation__character {
   position:absolute;
-  bottom:90px;
+  bottom:82px;
 }
 
 .coach-negotiation__character--agent {
-  left:37%;
+  left:36%;
 }
 
 .coach-negotiation__character--coach {
-  right:15%;
+  right:12%;
   transform:scale(1.08);
 }
 
@@ -256,24 +347,27 @@
 .coach-negotiation__tension {
   position:absolute;
   z-index:9;
-  top:112px;
-  right:36px;
-  width:140px;
+  top:108px;
+  right:32px;
+  width:150px;
+  padding:8px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(20,20,27,.88);
+  backdrop-filter:blur(8px);
 }
 
 .coach-negotiation__tension>span {
   display:block;
-  padding:4px 8px;
-  background:rgba(20,20,27,.9);
-  color:#ddd;
-  font-size:9px;
+  color:#8e929a;
+  font-size:7px;
   font-weight:900;
+  letter-spacing:.1em;
   text-align:center;
 }
 
 .coach-negotiation__tension>strong {
   display:block;
-  margin-top:3px;
+  margin-top:4px;
   color:#fff;
   font-size:10px;
   text-align:center;
@@ -281,30 +375,45 @@
 
 .coach-negotiation__tension>div {
   height:5px;
-  margin-top:5px;
-  background:rgba(0,0,0,.35);
+  margin-top:7px;
+  overflow:hidden;
+  background:rgba(0,0,0,.38);
 }
 
 .coach-negotiation__tension i {
   display:block;
   height:100%;
+  transition:width .2s ease;
 }
 
-.coach-negotiation__tension--baja i {width:30%;background:var(--green);}
-.coach-negotiation__tension--media i {width:65%;background:var(--yellow);}
-.coach-negotiation__tension--alta i {width:100%;background:var(--red);}
+.coach-negotiation__tension--low i {
+  width:30%;
+  background:var(--green);
+}
+
+.coach-negotiation__tension--medium i {
+  width:65%;
+  background:var(--yellow);
+}
+
+.coach-negotiation__tension--high i {
+  width:100%;
+  background:var(--red);
+}
 
 .coach-negotiation__dialogue {
   position:absolute;
   z-index:9;
   left:50%;
-  bottom:218px;
-  width:min(560px,45vw);
-  padding:12px 15px;
+  bottom:298px;
+  width:min(880px,64vw);
+  padding:14px 20px;
   transform:translateX(-50%);
-  border-radius:4px;
-  background:rgba(19,20,29,.90);
-  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:5px;
+  background:rgba(19,20,29,.93);
+  backdrop-filter:blur(12px);
+  box-shadow:0 12px 30px rgba(0,0,0,.2);
   text-align:center;
 }
 
@@ -318,9 +427,9 @@
 
 .coach-negotiation__dialogue strong {
   display:block;
-  margin-top:4px;
-  font-size:12px;
-  line-height:1.35;
+  margin-top:5px;
+  font-size:13px;
+  line-height:1.4;
 }
 
 .coach-negotiation__dialogue--accepted strong,
@@ -340,44 +449,51 @@
   position:absolute;
   z-index:10;
   left:50%;
-  bottom:25px;
-  width:min(620px,53vw);
+  bottom:20px;
+  width:min(980px,70vw);
   transform:translateX(-50%);
-  border-radius:7px;
-  background:rgba(20,21,30,.94);
-  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;
+  background:rgba(20,21,30,.97);
+  backdrop-filter:blur(14px);
   overflow:hidden;
-  box-shadow:0 14px 45px rgba(0,0,0,.28);
+  box-shadow:0 18px 55px rgba(0,0,0,.34);
 }
 
 .coach-negotiation__action-panel>header {
-  min-height:44px;
-  padding:0 16px;
+  min-height:48px;
+  padding:0 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.13);
+  gap:20px;
+  border-bottom:1px solid rgba(255,255,255,.11);
 }
 
 .coach-negotiation__action-panel>header span {
   font-size:11px;
-  font-weight:800;
+  font-weight:900;
+  letter-spacing:.04em;
 }
 
 .coach-negotiation__action-panel>header small {
-  color:#999ba3;
+  color:#8d919a;
   font-size:8px;
 }
 
 .coach-negotiation__action-values {
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid rgba(255,255,255,.09);
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .coach-negotiation__action-values>div {
-  padding:10px 14px;
-  border-right:1px solid rgba(255,255,255,.08);
+  min-height:64px;
+  padding:12px 16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid rgba(255,255,255,.07);
 }
 
 .coach-negotiation__action-values>div:last-child {
@@ -386,23 +502,31 @@
 
 .coach-negotiation__action-values span {
   display:block;
-  color:#9699a1;
-  font-size:8px;
+  color:#8f939c;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.05em;
 }
 
 .coach-negotiation__action-values strong {
   display:block;
-  margin-top:3px;
-  font-size:12px;
+  margin-top:4px;
+  overflow:hidden;
+  color:#f3f4f7;
+  font-size:14px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .coach-negotiation__counter {
-  padding:10px 15px;
+  min-height:50px;
+  padding:10px 18px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:16px;
   border-bottom:1px solid rgba(255,255,255,.08);
-  background:rgba(200,165,78,.09);
+  background:rgba(200,165,78,.08);
 }
 
 .coach-negotiation__counter span {
@@ -412,87 +536,151 @@
 }
 
 .coach-negotiation__counter strong {
-  font-size:12px;
+  font-size:13px;
 }
 
 .coach-negotiation__edit-row {
-  padding:11px 15px;
+  min-height:88px;
+  padding:14px 18px;
   display:grid;
-  grid-template-columns:90px 1fr auto;
+  grid-template-columns:88px minmax(145px,1fr) 150px auto;
   align-items:center;
   gap:14px;
 }
 
 .coach-negotiation__edit-row>span {
   color:#babcc3;
-  font-size:10px;
+  font-size:9px;
+  font-weight:800;
 }
 
 .coach-negotiation__edit-row>strong {
-  font-size:18px;
+  min-width:0;
+  overflow:hidden;
+  font-size:20px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.coach-negotiation__amount-input {
+  width:100%;
+  height:38px;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:3px;
+  background:#171922;
+  color:#fff;
+  font:inherit;
+  font-size:11px;
+  font-weight:900;
+  outline:none;
+  transition:.18s ease;
+}
+
+.coach-negotiation__amount-input:focus {
+  border-color:var(--cyan);
+  box-shadow:0 0 0 2px rgba(30,209,207,.08);
+}
+
+.coach-negotiation__amount-input:disabled {
+  opacity:.35;
+}
+
+.coach-negotiation__amount-input::-webkit-inner-spin-button,
+.coach-negotiation__amount-input::-webkit-outer-spin-button {
+  opacity:.45;
 }
 
 .coach-negotiation__edit-row>div {
   display:flex;
-  gap:5px;
+  align-items:center;
+  gap:6px;
 }
 
 .coach-negotiation__edit-row button,
 .coach-negotiation__contract-years button {
-  min-height:30px;
-  padding:0 9px;
-  border:1px solid rgba(255,255,255,.16);
+  min-height:36px;
+  padding:0 11px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:3px;
   background:#292b35;
   color:#fff;
   font-size:8px;
   font-weight:900;
   cursor:pointer;
+  transition:.16s ease;
 }
 
 .coach-negotiation__edit-row button:hover:not(:disabled),
 .coach-negotiation__contract-years button:hover:not(:disabled) {
   border-color:var(--cyan);
+  background:#25343b;
+}
+
+.coach-negotiation__edit-row button:disabled,
+.coach-negotiation__contract-years button:disabled {
+  opacity:.3;
+  cursor:not-allowed;
 }
 
 .coach-negotiation__contract-years {
-  padding:10px 15px;
+  padding:11px 18px;
   display:flex;
-  gap:6px;
+  gap:7px;
   border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.coach-negotiation__contract-years button {
+  min-width:92px;
 }
 
 .coach-negotiation__contract-years button.active {
   border-color:var(--cyan);
   background:#193239;
+  box-shadow:inset 0 -2px var(--cyan);
 }
 
 .coach-negotiation__action-panel footer {
-  padding:10px 15px;
+  min-height:54px;
+  padding:9px 18px;
   display:flex;
+  align-items:center;
   justify-content:flex-end;
-  gap:7px;
+  gap:8px;
   border-top:1px solid rgba(255,255,255,.08);
+  background:rgba(10,11,16,.18);
 }
 
 .coach-negotiation__primary,
 .coach-negotiation__secondary {
-  min-height:36px;
+  min-height:38px;
   padding:0 14px;
-  border:1px solid rgba(255,255,255,.17);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:3px;
   font-size:8px;
   font-weight:900;
   cursor:pointer;
+  transition:.16s ease;
 }
 
 .coach-negotiation__primary {
   border-color:var(--cyan);
-  background:#1f8d9d;
+  background:#167f8f;
   color:#fff;
+}
+
+.coach-negotiation__primary:hover:not(:disabled) {
+  background:#199aac;
 }
 
 .coach-negotiation__secondary {
   background:#242630;
   color:#fff;
+}
+
+.coach-negotiation__secondary:hover:not(:disabled) {
+  border-color:rgba(255,255,255,.28);
+  background:#2b2e39;
 }
 
 .coach-negotiation__primary:disabled,
@@ -502,24 +690,31 @@
 }
 
 .coach-negotiation__squad-list {
-  max-height:180px;
-  padding:7px;
+  max-height:190px;
+  padding:8px;
   overflow:auto;
 }
 
 .coach-negotiation__squad-list button {
   width:100%;
-  min-height:44px;
-  margin-bottom:4px;
-  padding:7px 10px;
+  min-height:46px;
+  margin-bottom:5px;
+  padding:8px 11px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  border:1px solid rgba(255,255,255,.10);
+  gap:12px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:3px;
   background:#242630;
   color:#fff;
   text-align:left;
   cursor:pointer;
+  transition:.16s ease;
+}
+
+.coach-negotiation__squad-list button:hover {
+  border-color:rgba(255,255,255,.2);
 }
 
 .coach-negotiation__squad-list button.active {
@@ -542,9 +737,14 @@
   padding:8px 14px;
 }
 
+.coach-negotiation__complete-grid .coach-negotiation__sidebar-row {
+  border:0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
 .coach-negotiation__warning {
   margin:0 14px 10px;
-  padding:8px 10px;
+  padding:9px 11px;
   border:1px solid rgba(255,105,115,.25);
   background:rgba(255,105,115,.08);
   color:#ff8c94;
@@ -559,6 +759,7 @@
   width:min(420px,90vw);
   padding:30px;
   transform:translate(-50%,-50%);
+  border:1px solid rgba(255,255,255,.08);
   background:#171821;
   text-align:center;
 }
@@ -568,216 +769,58 @@
 }
 
 .coach-negotiation__missing p {
+  margin-top:10px;
   color:#a0a3aa;
   font-size:10px;
 }
 
 .coach-negotiation__missing button {
   min-height:38px;
+  margin-top:14px;
   padding:0 14px;
   border:0;
   background:var(--cyan);
   color:#081214;
   font-size:9px;
   font-weight:900;
-}
-
-.coach-negotiation__dialogue {
-  position:absolute;
-  z-index:9;
-  left:50%;
-  bottom:270px;
-  width:min(900px,66vw);
-  padding:16px 22px;
-  transform:translateX(-50%);
-  border-radius:5px;
-  background:rgba(19,20,29,.90);
-  backdrop-filter:blur(10px);
-  text-align:center;
-}
-
-.coach-negotiation__dialogue span {
-  display:block;
-  color:#8f929c;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.11em;
-}
-
-.coach-negotiation__dialogue strong {
-  display:block;
-  margin-top:5px;
-  font-size:14px;
-  line-height:1.4;
-}
-
-.coach-negotiation__action-panel {
-  position:absolute;
-  z-index:10;
-  left:50%;
-  bottom:24px;
-  width:min(1050px,72vw);
-  transform:translateX(-50%);
-  border-radius:7px;
-  background:rgba(20,21,30,.96);
-  backdrop-filter:blur(12px);
-  overflow:hidden;
-  box-shadow:0 18px 55px rgba(0,0,0,.32);
-}
-
-.coach-negotiation__action-panel>header {
-  min-height:52px;
-  padding:0 22px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.13);
-}
-
-.coach-negotiation__action-panel>header span {
-  font-size:13px;
-  font-weight:800;
-}
-
-.coach-negotiation__action-panel>header small {
-  color:#999ba3;
-  font-size:9px;
-}
-
-.coach-negotiation__action-values {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  border-bottom:1px solid rgba(255,255,255,.09);
-}
-
-.coach-negotiation__action-values>div {
-  min-height:74px;
-  padding:14px 20px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  border-right:1px solid rgba(255,255,255,.08);
-}
-
-.coach-negotiation__action-values>div:last-child {
-  border-right:0;
-}
-
-.coach-negotiation__action-values span {
-  display:block;
-  color:#9699a1;
-  font-size:9px;
-}
-
-.coach-negotiation__action-values strong {
-  display:block;
-  margin-top:5px;
-  font-size:16px;
-}
-
-.coach-negotiation__counter {
-  min-height:58px;
-  padding:12px 22px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  background:rgba(200,165,78,.09);
-}
-
-.coach-negotiation__counter span {
-  color:#b9a466;
-  font-size:9px;
-  font-weight:900;
-}
-
-.coach-negotiation__counter strong {
-  font-size:15px;
-}
-
-.coach-negotiation__edit-row {
-  min-height:78px;
-  padding:14px 22px;
-  display:grid;
-  grid-template-columns:130px minmax(180px,1fr) auto;
-  align-items:center;
-  gap:20px;
-}
-
-.coach-negotiation__edit-row>span {
-  color:#babcc3;
-  font-size:11px;
-}
-
-.coach-negotiation__edit-row>strong {
-  font-size:24px;
-}
-
-.coach-negotiation__edit-row>div {
-  display:flex;
-  gap:8px;
-}
-
-.coach-negotiation__edit-row button,
-.coach-negotiation__contract-years button {
-  min-height:38px;
-  padding:0 14px;
-  border:1px solid rgba(255,255,255,.16);
-  background:#292b35;
-  color:#fff;
-  font-size:9px;
-  font-weight:900;
   cursor:pointer;
 }
 
-.coach-negotiation__contract-years {
-  padding:14px 22px;
-  display:flex;
-  gap:8px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.coach-negotiation__action-panel footer {
-  min-height:58px;
-  padding:10px 22px;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:10px;
-  border-top:1px solid rgba(255,255,255,.08);
-}
-
-.coach-negotiation__primary,
-.coach-negotiation__secondary {
-  min-height:40px;
-  padding:0 18px;
-  border:1px solid rgba(255,255,255,.17);
-  font-size:9px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-@media (max-width:1000px) {
+@media (max-width:1200px) {
   .coach-negotiation__sidebar {
-    width:240px;
+    width:270px;
   }
 
   .coach-negotiation__action-panel {
-    width:56vw;
+    width:min(880px,69vw);
+  }
+
+  .coach-negotiation__dialogue {
+    width:min(760px,60vw);
+  }
+
+  .coach-negotiation__edit-row {
+    grid-template-columns:80px minmax(130px,1fr) 135px auto;
+    gap:10px;
+  }
+
+  .coach-negotiation__edit-row button {
+    padding:0 8px;
   }
 
   .coach-negotiation__character--agent {
-    left:35%;
+    left:34%;
   }
 
   .coach-negotiation__character--coach {
-    right:8%;
+    right:7%;
   }
 }
 
-@media (max-width:760px) {
+@media (max-width:980px) {
   .coach-negotiation {
     overflow:auto;
+    padding-bottom:20px;
   }
 
   .coach-negotiation__scene-center {
@@ -795,27 +838,73 @@
     right:auto;
     bottom:auto;
     width:auto;
+    max-height:none;
     transform:none;
   }
 
   .coach-negotiation__topbar {
-    margin:14px;
+    margin:16px;
   }
 
   .coach-negotiation__sidebar {
-    margin:14px;
+    margin:16px;
   }
 
   .coach-negotiation__tension {
-    margin:14px;
+    margin:16px;
   }
 
   .coach-negotiation__dialogue {
-    margin:14px;
+    margin:16px;
   }
 
   .coach-negotiation__action-panel {
-    margin:14px;
+    margin:16px;
+  }
+
+  .coach-negotiation__action-values {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .coach-negotiation__action-values>div:nth-child(2n) {
+    border-right:0;
+  }
+
+  .coach-negotiation__edit-row {
+    grid-template-columns:100px 1fr 150px;
+  }
+
+  .coach-negotiation__edit-row>div {
+    grid-column:1 / -1;
+  }
+}
+
+@media (max-width:620px) {
+  .coach-negotiation__topbar {
+    align-items:flex-start;
+  }
+
+  .coach-negotiation__budget {
+    min-width:0;
+    width:100%;
+  }
+
+  .coach-negotiation__topbar-actions {
+    flex-shrink:0;
+  }
+
+  .coach-negotiation__player-stats {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .coach-negotiation__action-values {
+    grid-template-columns:1fr;
+  }
+
+  .coach-negotiation__action-values>div {
+    min-height:54px;
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.07);
   }
 
   .coach-negotiation__edit-row {
@@ -823,6 +912,29 @@
   }
 
   .coach-negotiation__edit-row>div {
+    grid-column:auto;
     flex-wrap:wrap;
+  }
+
+  .coach-negotiation__amount-input {
+    width:100%;
+  }
+
+  .coach-negotiation__contract-years {
+    flex-wrap:wrap;
+  }
+
+  .coach-negotiation__contract-years button {
+    flex:1;
+    min-width:80px;
+  }
+
+  .coach-negotiation__action-panel footer {
+    flex-wrap:wrap;
+  }
+
+  .coach-negotiation__primary,
+  .coach-negotiation__secondary {
+    flex:1;
   }
 }

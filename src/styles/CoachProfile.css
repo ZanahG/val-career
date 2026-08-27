@@ -409,7 +409,79 @@
   margin-top:4px;
   font-size:10px;
 }
+.coach-profile__board-history {
+  padding:0 14px 14px;
+}
 
+.coach-profile__board-history-row {
+  min-height:58px;
+  display:grid;
+  grid-template-columns:54px 1fr 90px;
+  align-items:center;
+  gap:14px;
+  border-bottom:1px solid #272b34;
+}
+
+.coach-profile__board-history-change {
+  font-size:16px;
+  font-weight:900;
+}
+
+.coach-profile__board-history-change.positive {
+  color:#31d6a3;
+}
+
+.coach-profile__board-history-change.negative {
+  color:#ff596b;
+}
+
+.coach-profile__board-history-change.neutral {
+  color:#8f96a3;
+}
+
+.coach-profile__board-history-main strong {
+  display:block;
+  font-size:10px;
+}
+
+.coach-profile__board-history-main span {
+  display:block;
+  margin-top:3px;
+  color:#68707e;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.coach-profile__board-history-after {
+  text-align:right;
+}
+
+.coach-profile__board-history-after span {
+  display:block;
+  color:#68707e;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.coach-profile__board-history-after strong {
+  display:block;
+  margin-top:3px;
+  font-size:13px;
+}
+
+@media(max-width:600px) {
+  .coach-profile__board-history-row {
+    grid-template-columns:46px 1fr;
+  }
+
+  .coach-profile__board-history-after {
+    grid-column:2;
+    text-align:left;
+    padding-bottom:8px;
+  }
+}
 @media(max-width:600px) {
   .coach-profile__career-details {
     grid-template-columns:1fr;

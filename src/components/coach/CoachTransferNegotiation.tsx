@@ -1,5 +1,5 @@
 import {useMemo,useState} from "react";
-import type {CoachCareerState,CoachPlayer} from "../../types/coach";
+import type {CoachCareerState,CoachPlayer,CoachTransferRequest} from "../../types/coach";
 import type {GameCurrency} from "../../types/settings";
 import {getCoachMinimumAcceptedTransferFee,getCoachPlayerBuyout} from "../../logic/coachTransferEconomy";
 import {getCoachPlayerMarketValue} from "../../logic/coachPlayerValue";
@@ -39,12 +39,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
         ?career.offseason.transferRequests
         :[];
 
-  const transferRequested=Boolean(player&&transferRequests.some(request=>request.playerId===player.id));
+  const transferRequest=player?transferRequests.find(request=>request.playerId===player.id)??null:null;
+  const transferRequested=Boolean(transferRequest);
 
   const sellerRoster=useMemo(()=>{
-    if(!player||player.teamId==="free-agent")return [];
-    return career.playerPool.filter(current=>current.teamId===player.teamId);
-  },[career.playerPool,player]);
+    if(!sourcePlayer||sourcePlayer.teamId==="free-agent")return [];
+    return career.playerPool.filter(current=>current.teamId===sourcePlayer.teamId);
+  },[career.playerPool,sourcePlayer]);
 
   const freeAgent=player?.teamId==="free-agent";
 
@@ -98,6 +99,7 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
   const currentTeam=getTeamById(player.teamId);
   const currentTeamLogo=getTeamLogo(currentTeam?.logo);
+
   const yourTeam=getTeamById(career.team.teamId);
   const yourTeamLogo=getTeamLogo(yourTeam?.logo);
 
@@ -129,6 +131,7 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
   const changeClubOffer=(value:number)=>{
     if(clubNegotiationEnded)return;
+
     setClubOffer(Math.max(0,roundTransferFee(value)));
     setClubCounterOffer(null);
   };
@@ -137,17 +140,20 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(step!=="Club"||clubNegotiationEnded)return;
 
     const nextRound=clubRounds+1;
+
     setClubRounds(nextRound);
     setClubCounterOffer(null);
 
     if(buyout>0&&clubOffer>=buyout){
       setAgreedTransferFee(clubOffer);
       setMood("Accepted");
+
       setMessage(
         es
           ?`Has alcanzado la cláusula de salida. ${currentTeam?.name??"El club"} no puede impedir la negociación.`
           :`You have met the buyout clause. ${currentTeam?.name??"The club"} cannot block the negotiation.`,
       );
+
       setStep("Player");
       return;
     }
@@ -155,11 +161,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(clubOffer>=minimumTransferFee){
       setAgreedTransferFee(clubOffer);
       setMood("Accepted");
+
       setMessage(
         es
           ?`${currentTeam?.name??"El club"} ha aceptado tu oferta de ${formatCurrency(clubOffer,currency)}.`
           :`${currentTeam?.name??"The club"} has accepted your offer of ${formatCurrency(clubOffer,currency)}.`,
       );
+
       setStep("Player");
       return;
     }
@@ -169,11 +177,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(nextRound>=MAX_NEGOTIATION_ROUNDS&&ratio<.93){
       setClubNegotiationEnded(true);
       setMood("Rejected");
+
       setMessage(
         es
           ?`${currentTeam?.name??"El club"} considera que las negociaciones no están avanzando y abandona la mesa.`
           :`${currentTeam?.name??"The club"} believes negotiations are not progressing and walks away.`,
       );
+
       return;
     }
 
@@ -182,11 +192,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
       setClubCounterOffer(counter);
       setMood("Warning");
+
       setMessage(
         es
           ?`${currentTeam?.name??"El club"} rechaza tu propuesta y responde con una contraoferta de ${formatCurrency(counter,currency)}.`
           :`${currentTeam?.name??"The club"} rejects your proposal and responds with a counteroffer of ${formatCurrency(counter,currency)}.`,
       );
+
       return;
     }
 
@@ -212,16 +224,19 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     setClubOffer(clubCounterOffer);
     setClubCounterOffer(null);
     setMood("Accepted");
+
     setMessage(
       es
         ?`Acuerdo alcanzado con ${currentTeam?.name??"el club"} por ${formatCurrency(clubCounterOffer,currency)}.`
         :`Agreement reached with ${currentTeam?.name??"the club"} for ${formatCurrency(clubCounterOffer,currency)}.`,
     );
+
     setStep("Player");
   };
 
   const changeSalaryOffer=(value:number)=>{
     if(playerNegotiationEnded)return;
+
     setSalaryOffer(Math.max(1000,roundSalary(value)));
     setPlayerCounterSalary(null);
   };
@@ -249,11 +264,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(salaryOffer>=adjustedExpectation){
       setAgreedSalary(salaryOffer);
       setMood("Accepted");
+
       setMessage(
         es
           ?`${player.ign} acepta un contrato de ${formatYears(contractYears,language)} por ${formatCurrency(salaryOffer,currency)} mensuales.`
           :`${player.ign} accepts a ${formatYears(contractYears,language)} contract worth ${formatCurrency(salaryOffer,currency)} per month.`,
       );
+
       setStep(rosterFull?"Squad":"Complete");
       return;
     }
@@ -261,11 +278,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(nextRound>=MAX_NEGOTIATION_ROUNDS&&ratio<.93){
       setPlayerNegotiationEnded(true);
       setMood("Rejected");
+
       setMessage(
         es
           ?`${player.ign} y su agente han decidido terminar las conversaciones.`
           :`${player.ign} and his agent have decided to end negotiations.`,
       );
+
       return;
     }
 
@@ -274,11 +293,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
       setPlayerCounterSalary(counterSalary);
       setMood("Warning");
+
       setMessage(
         es
           ?`${player.ign} está interesado, pero su agente solicita ${formatCurrency(counterSalary,currency)} al mes.`
           :`${player.ign} is interested, but his agent is requesting ${formatCurrency(counterSalary,currency)} per month.`,
       );
+
       return;
     }
 
@@ -304,7 +325,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     setSalaryOffer(playerCounterSalary);
     setPlayerCounterSalary(null);
     setMood("Accepted");
-    setMessage(es?`${player.ign} acepta el contrato propuesto.`:`${player.ign} accepts the proposed contract.`);
+
+    setMessage(
+      es
+        ?`${player.ign} acepta el contrato propuesto.`
+        :`${player.ign} accepts the proposed contract.`,
+    );
+
     setStep(rosterFull?"Squad":"Complete");
   };
 
@@ -312,11 +339,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
     if(step!=="Squad"||!replacePlayer)return;
 
     setMood("Positive");
+
     setMessage(
       es
         ?`${replacePlayer.ign} será liberado para registrar a ${player.ign}.`
         :`${replacePlayer.ign} will be released to register ${player.ign}.`,
     );
+
     setStep("Complete");
   };
 
@@ -335,11 +364,13 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
     if(!updated){
       setMood("Rejected");
+
       setMessage(
         es
           ?"La operación ya no puede completarse. La plantilla, el presupuesto o las condiciones del mercado han cambiado."
           :"The deal can no longer be completed. The roster, budget or market conditions have changed.",
       );
+
       return;
     }
 
@@ -367,17 +398,8 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
 
       <aside className="coach-negotiation__sidebar">
         <div className="coach-negotiation__tabs">
-          <span className="active">
-            {step==="Club"
-              ?es?"OFERTA":"OFFER"
-              :es?"CONTRATO":"CONTRACT"}
-          </span>
-
-          <span>
-            {step==="Club"
-              ?es?"COMPRAR":"BUY"
-              :es?"NEGOCIAR":"NEGOTIATE"}
-          </span>
+          <span className="active">{step==="Club"?(es?"OFERTA":"OFFER"):(es?"CONTRATO":"CONTRACT")}</span>
+          <span>{step==="Club"?(es?"COMPRAR":"BUY"):(es?"NEGOCIAR":"NEGOTIATE")}</span>
         </div>
 
         <div className="coach-negotiation__sidebar-player">
@@ -394,13 +416,29 @@ export function CoachTransferNegotiation({career,playerId,onUpdateCareer,onCance
           </div>
         </div>
 
+        <div className="coach-negotiation__player-stats">
+          <PlayerStat label="AIM" value={player.stats.aim}/>
+          <PlayerStat label={es?"LECTURA":"GAME SENSE"} value={player.stats.gameSense}/>
+          <PlayerStat label="COMMS" value={player.stats.communication}/>
+          <PlayerStat label="CLUTCH" value={player.stats.clutch}/>
+          <PlayerStat label={es?"CONST.":"CONSISTENCY"} value={player.stats.consistency}/>
+          <PlayerStat label="MENTAL" value={player.stats.mental}/>
+        </div>
+
+        <SidebarRow label={es?"POTENCIAL":"POTENTIAL"} value={`${player.potential}`}/>
         <SidebarRow label={es?"SUELDO ACTUAL":"CURRENT SALARY"} value={`${formatCurrency(player.salary,currency)} / ${es?"MES":"MONTH"}`}/>
         <SidebarRow label={es?"CONTRATO":"CONTRACT"} value={freeAgent?(es?"SIN CONTRATO":"NO CONTRACT"):formatYears(player.contractSeasonsRemaining??0,language)}/>
         <SidebarRow label={es?"RELEVANCIA":"ROLE STATUS"} value={player.starter?(es?"CLAVE":"KEY PLAYER"):(es?"ROTACIÓN":"ROTATION")}/>
         <SidebarRow label={es?"VALOR":"VALUE"} value={formatCurrency(player.marketValue,currency)}/>
 
         {!freeAgent&&<SidebarRow label="BUYOUT" value={formatCurrency(buyout,currency)}/>}
-        {transferRequested&&<div className="coach-negotiation__request">{es?"SOLICITÓ TRANSFERENCIA":"TRANSFER REQUEST"}</div>}
+
+        {transferRequest&&(
+          <div className="coach-negotiation__request">
+            <span>{es?"SOLICITÓ TRANSFERENCIA":"TRANSFER REQUEST"}</span>
+            <strong>{getTransferRequestReasonLabel(transferRequest.reason,language)}</strong>
+          </div>
+        )}
       </aside>
 
       <section className="coach-negotiation__scene-center">
@@ -527,6 +565,7 @@ function ClubNegotiation({player,askingPrice,buyout,offer,counterOffer,rounds,en
   onCancel:()=>void;
 }) {
   const es=language==="es";
+  const [smallStep,largeStep]=getTransferOfferSteps(Math.max(offer,askingPrice));
 
   return (
     <section className="coach-negotiation__action-panel">
@@ -556,16 +595,30 @@ function ClubNegotiation({player,askingPrice,buyout,offer,counterOffer,rounds,en
         <span>{es?"OFERTA":"OFFER"}</span>
         <strong>{formatCurrency(offer,currency)}</strong>
 
+        <input
+          className="coach-negotiation__amount-input"
+          type="number"
+          min={0}
+          step={smallStep}
+          disabled={ended}
+          value={offer}
+          onChange={event=>onChange(Number(event.target.value))}
+        />
+
         <div>
-          <button disabled={ended} onClick={()=>onChange(offer-250000)}>−250K</button>
-          <button disabled={ended} onClick={()=>onChange(offer-50000)}>−50K</button>
-          <button disabled={ended} onClick={()=>onChange(offer+50000)}>+50K</button>
-          <button disabled={ended} onClick={()=>onChange(offer+250000)}>+250K</button>
+          <button disabled={ended} onClick={()=>onChange(offer-largeStep)}>−{formatCompactAmount(largeStep)}</button>
+          <button disabled={ended} onClick={()=>onChange(offer-smallStep)}>−{formatCompactAmount(smallStep)}</button>
+          <button disabled={ended} onClick={()=>onChange(offer+smallStep)}>+{formatCompactAmount(smallStep)}</button>
+          <button disabled={ended} onClick={()=>onChange(offer+largeStep)}>+{formatCompactAmount(largeStep)}</button>
         </div>
       </div>
 
       <footer>
         <button className="coach-negotiation__secondary" onClick={onCancel}>{es?"ABANDONAR":"WALK AWAY"}</button>
+
+        <button className="coach-negotiation__secondary" disabled={ended||askingPrice>transferBudget} onClick={()=>onChange(askingPrice)}>
+          {es?"IGUALAR PETICIÓN":"MATCH ASKING"}
+        </button>
 
         {counterOffer!==null&&(
           <button className="coach-negotiation__secondary" disabled={ended||counterOffer>transferBudget} onClick={onAcceptCounter}>
@@ -600,6 +653,8 @@ function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,cont
   onCancel:()=>void;
 }) {
   const es=language==="es";
+  const adjustedExpectation=getContractSalaryExpectation(expectedSalary,contractYears);
+  const [smallStep,largeStep]=getSalaryOfferSteps(Math.max(salaryOffer,adjustedExpectation));
 
   return (
     <section className="coach-negotiation__action-panel">
@@ -614,6 +669,7 @@ function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,cont
 
       <div className="coach-negotiation__action-values">
         <CompactValue label={es?"SALARIO ACTUAL":"CURRENT SALARY"} value={player.salary} currency={currency}/>
+        <CompactValue label={es?"EXPECTATIVA":"EXPECTED"} value={adjustedExpectation} currency={currency}/>
         <CompactValue label={es?"ESPACIO SALARIAL":"PAYROLL SPACE"} value={Math.max(0,monthlyBudget-payroll)} currency={currency}/>
         <CompactValue label="OVR" value={player.overall} currency={currency} money={false}/>
       </div>
@@ -637,16 +693,30 @@ function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,cont
         <span>{es?"SALARIO":"SALARY"}</span>
         <strong>{formatCurrency(salaryOffer,currency)} / {es?"MES":"MONTH"}</strong>
 
+        <input
+          className="coach-negotiation__amount-input"
+          type="number"
+          min={1000}
+          step={smallStep}
+          disabled={ended}
+          value={salaryOffer}
+          onChange={event=>onSalaryChange(Number(event.target.value))}
+        />
+
         <div>
-          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer-2000)}>−2K</button>
-          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer-500)}>−500</button>
-          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer+500)}>+500</button>
-          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer+2000)}>+2K</button>
+          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer-largeStep)}>−{formatCompactAmount(largeStep)}</button>
+          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer-smallStep)}>−{formatCompactAmount(smallStep)}</button>
+          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer+smallStep)}>+{formatCompactAmount(smallStep)}</button>
+          <button disabled={ended} onClick={()=>onSalaryChange(salaryOffer+largeStep)}>+{formatCompactAmount(largeStep)}</button>
         </div>
       </div>
 
       <footer>
         <button className="coach-negotiation__secondary" onClick={onCancel}>{es?"ABANDONAR":"WALK AWAY"}</button>
+
+        <button className="coach-negotiation__secondary" disabled={ended} onClick={()=>onSalaryChange(adjustedExpectation)}>
+          {es?"IGUALAR PETICIÓN":"MATCH REQUEST"}
+        </button>
 
         {counterSalary!==null&&(
           <button className="coach-negotiation__secondary" disabled={ended} onClick={onAcceptCounter}>
@@ -654,7 +724,7 @@ function PlayerNegotiation({player,expectedSalary,salaryOffer,counterSalary,cont
           </button>
         )}
 
-        <button className="coach-negotiation__primary" disabled={ended} onClick={onSubmit}>
+        <button className="coach-negotiation__primary" disabled={ended||salaryOffer+payroll>monthlyBudget} onClick={onSubmit}>
           {es?"ENVIAR CONTRATO":"SEND CONTRACT"} →
         </button>
       </footer>
@@ -705,7 +775,7 @@ function SquadDecision({roster,selectedId,incomingSalary,payroll,monthlyBudget,l
       )}
 
       <footer>
-        <button className="coach-negotiation__primary" disabled={!selectedId} onClick={onContinue}>
+        <button className="coach-negotiation__primary" disabled={!selectedId||projectedPayroll>monthlyBudget} onClick={onContinue}>
           {es?"CONFIRMAR SALIDA":"CONFIRM RELEASE"} →
         </button>
       </footer>
@@ -740,7 +810,7 @@ function CompleteAgreement({career,player,transferFee,salary,contractYears,repla
       <div className="coach-negotiation__action-values">
         <CompactValue label="TRANSFER FEE" value={transferFee} currency={currency}/>
         <CompactValue label={es?"SALARIO":"SALARY"} value={salary} currency={currency}/>
-        <CompactValue label={es?"CONTRATO":"CONTRACT"} value={contractYears} currency={currency} money={false} suffix={` ${formatYears(contractYears,language)}`}/>
+        <CompactTextValue label={es?"CONTRATO":"CONTRACT"} value={formatYears(contractYears,language)}/>
       </div>
 
       <div className="coach-negotiation__complete-grid">
@@ -776,11 +846,29 @@ function SidebarRow({label,value}:{label:string;value:string}) {
   );
 }
 
-function CompactValue({label,value,currency,money=true,suffix=""}:{label:string;value:number;currency:GameCurrency;money?:boolean;suffix?:string}) {
+function PlayerStat({label,value}:{label:string;value:number}) {
+  return (
+    <div className="coach-negotiation__player-stat">
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
+  );
+}
+
+function CompactValue({label,value,currency,money=true}:{label:string;value:number;currency:GameCurrency;money?:boolean}) {
   return (
     <div>
       <span>{label}</span>
-      <strong>{money?formatCurrency(value,currency):`${value}${suffix}`}</strong>
+      <strong>{money?formatCurrency(value,currency):value}</strong>
+    </div>
+  );
+}
+
+function CompactTextValue({label,value}:{label:string;value:string}) {
+  return (
+    <div>
+      <span>{label}</span>
+      <strong>{value}</strong>
     </div>
   );
 }
@@ -816,17 +904,41 @@ function completeTransfer(career:CoachCareerState,player:CoachPlayer,transferFee
 
   if(projectedPayroll>career.team.finances.monthlyBudget)return null;
 
-  const signedPlayer:CoachPlayer=normalizeMarketPlayer({...player,teamId:career.team.teamId,salary,starter:true,contractSeasonsRemaining:contractYears});
+  const contractSeason=offseasonMarket?career.coach.season+1:career.coach.season;
+
+  const signedPlayer:CoachPlayer=normalizeMarketPlayer({
+    ...player,
+    teamId:career.team.teamId,
+    salary,
+    starter:true,
+    contractStartSeason:contractSeason,
+    contractEndSeason:contractSeason+contractYears-1,
+    contractSeasonsRemaining:contractYears,
+    contractStatus:contractYears===1?"Expiring":"Active",
+    transferStatus:"NotListed",
+    joinedTeamSeason:contractSeason,
+  });
 
   const releasedPlayer:CoachPlayer|undefined=replacePlayer
-    ?normalizeMarketPlayer({...replacePlayer,teamId:"free-agent",starter:false,contractSeasonsRemaining:0})
+    ?normalizeMarketPlayer({
+      ...replacePlayer,
+      teamId:"free-agent",
+      starter:false,
+      contractSeasonsRemaining:0,
+      contractStatus:"FreeAgent",
+      transferStatus:"NotListed",
+    })
     :undefined;
 
-  const roster=[...career.team.roster.filter(current=>current.id!==replacePlayerId),signedPlayer];
+  const roster=[
+    ...career.team.roster.filter(current=>current.id!==replacePlayerId),
+    signedPlayer,
+  ];
 
   const playerPool=career.playerPool.map(current=>{
     if(current.id===player.id)return signedPlayer;
     if(releasedPlayer&&current.id===releasedPlayer.id)return releasedPlayer;
+
     return current;
   });
 
@@ -836,7 +948,9 @@ function completeTransfer(career:CoachCareerState,player:CoachPlayer,transferFee
     const sellerFinances=cpuFinancesByTeam[previousTeamId];
 
     if(sellerFinances){
-      const sellerPayroll=playerPool.filter(current=>current.teamId===previousTeamId).reduce((total,current)=>total+current.salary,0);
+      const sellerPayroll=playerPool
+        .filter(current=>current.teamId===previousTeamId)
+        .reduce((total,current)=>total+current.salary,0);
 
       cpuFinancesByTeam={
         ...cpuFinancesByTeam,
@@ -849,10 +963,24 @@ function completeTransfer(career:CoachCareerState,player:CoachPlayer,transferFee
     }
   }
 
-  const transfer={playerId:player.id,playerName:player.ign,fromTeamId:previousTeamId,toTeamId:career.team.teamId,salary,transferFee};
+  const transfer={
+    playerId:player.id,
+    playerName:player.ign,
+    fromTeamId:previousTeamId,
+    toTeamId:career.team.teamId,
+    salary,
+    transferFee,
+  };
 
   const releaseTransfer=releasedPlayer
-    ?{playerId:releasedPlayer.id,playerName:releasedPlayer.ign,fromTeamId:career.team.teamId,toTeamId:"free-agent",salary:0,transferFee:0}
+    ?{
+      playerId:releasedPlayer.id,
+      playerName:releasedPlayer.ign,
+      fromTeamId:career.team.teamId,
+      toTeamId:"free-agent",
+      salary:0,
+      transferFee:0,
+    }
     :null;
 
   const sourceFreeAgentIds=offseasonMarket?offseason!.freeAgentIds:midseason!.freeAgentIds;
@@ -883,9 +1011,21 @@ function completeTransfer(career:CoachCareerState,player:CoachPlayer,transferFee
       offseason:{
         ...offseason,
         departures:releasedPlayer
-          ?[...offseason.departures,{playerId:releasedPlayer.id,playerName:releasedPlayer.ign,previousTeamId:career.team.teamId,reason:"Released"}]
+          ?[
+            ...offseason.departures,
+            {
+              playerId:releasedPlayer.id,
+              playerName:releasedPlayer.ign,
+              previousTeamId:career.team.teamId,
+              reason:"Released",
+            },
+          ]
           :offseason.departures,
-        transfers:[...offseason.transfers,transfer,...(releaseTransfer?[releaseTransfer]:[])],
+        transfers:[
+          ...offseason.transfers,
+          transfer,
+          ...(releaseTransfer?[releaseTransfer]:[]),
+        ],
         freeAgentIds:Array.from(new Set(freeAgentIds)),
       },
     };
@@ -896,7 +1036,11 @@ function completeTransfer(career:CoachCareerState,player:CoachPlayer,transferFee
       ...baseCareer,
       midseasonMarket:{
         ...midseason,
-        transfers:[...midseason.transfers,transfer,...(releaseTransfer?[releaseTransfer]:[])],
+        transfers:[
+          ...midseason.transfers,
+          transfer,
+          ...(releaseTransfer?[releaseTransfer]:[]),
+        ],
         freeAgentIds:Array.from(new Set(freeAgentIds)),
       },
     };
@@ -910,31 +1054,74 @@ function getClubAskingPrice(player:CoachPlayer,minimum:number,buyout:number,seas
 
   const roll=deterministicNumber(`${player.id}-${season}-asking-price`)%9;
   const premium=1.05+roll/100;
-  const requestMultiplier=transferRequested?0.96:1;
+  const requestMultiplier=transferRequested?.96:1;
 
-  return roundTransferFee(Math.min(buyout,minimum*premium*requestMultiplier));
+  return roundTransferFee(
+    Math.min(
+      buyout,
+      minimum*premium*requestMultiplier,
+    ),
+  );
 }
 
 function getClubCounterOffer(minimum:number,askingPrice:number,currentOffer:number,round:number) {
-  const target=round===1?askingPrice:round===2?minimum+(askingPrice-minimum)*.40:minimum;
-  return roundTransferFee(Math.max(minimum,Math.min(askingPrice,Math.max(currentOffer,target))));
+  const target=
+    round===1
+      ?askingPrice
+      :round===2
+        ?minimum+(askingPrice-minimum)*.40
+        :minimum;
+
+  return roundTransferFee(
+    Math.max(
+      minimum,
+      Math.min(
+        askingPrice,
+        Math.max(currentOffer,target),
+      ),
+    ),
+  );
 }
 
 function getExpectedSalary(player:CoachPlayer,season:number) {
-  const overallMultiplier=player.overall>=92?1.35:player.overall>=88?1.22:player.overall>=84?1.12:player.overall>=80?1.05:1;
-  const potentialMultiplier=player.age<=21&&player.potential>=90?1.15:player.potential>=88?1.08:1;
-  const seasonVariance=1+((deterministicNumber(`${player.id}-${season}-salary-demand`)%11)-5)/100;
+  const overallMultiplier=
+    player.overall>=92?1.35:
+    player.overall>=88?1.22:
+    player.overall>=84?1.12:
+    player.overall>=80?1.05:
+    1;
 
-  return roundSalary(Math.max(player.salary,player.salary*overallMultiplier*potentialMultiplier*seasonVariance));
+  const potentialMultiplier=
+    player.age<=21&&player.potential>=90?1.15:
+    player.potential>=88?1.08:
+    1;
+
+  const seasonVariance=
+    1+((deterministicNumber(`${player.id}-${season}-salary-demand`)%11)-5)/100;
+
+  return roundSalary(
+    Math.max(
+      player.salary,
+      player.salary*overallMultiplier*potentialMultiplier*seasonVariance,
+    ),
+  );
 }
 
 function getContractSalaryExpectation(baseSalary:number,years:number) {
-  const multiplier=years===1?1.05:years===2?1:.97;
+  const multiplier=
+    years===1?1.05:
+    years===2?1:
+    .97;
+
   return roundSalary(baseSalary*multiplier);
 }
 
 function getPlayerCounterSalary(expectation:number,round:number) {
-  const multiplier=round===1?1.04:round===2?1.02:1;
+  const multiplier=
+    round===1?1.04:
+    round===2?1.02:
+    1;
+
   return roundSalary(expectation*multiplier);
 }
 
@@ -952,12 +1139,14 @@ function getNegotiationTension({step,clubOffer,minimumTransferFee,salaryOffer,ex
 
   if(step==="Club"&&minimumTransferFee>0){
     const ratio=clubOffer/minimumTransferFee;
+
     if(ratio<.75)return "High";
     if(ratio<.90)return "Medium";
   }
 
   if(step==="Player"&&expectedSalary>0){
     const ratio=salaryOffer/expectedSalary;
+
     if(ratio<.80)return "High";
     if(ratio<.93)return "Medium";
   }
@@ -969,6 +1158,7 @@ function getTensionLabel(value:string,language:Language) {
   if(language==="en")return value.toUpperCase();
   if(value==="High")return "ALTA";
   if(value==="Medium")return "MEDIA";
+
   return "BAJA";
 }
 
@@ -983,25 +1173,76 @@ function getRoleLabel(role:CoachPlayer["role"],language:Language) {
   return "FLEX";
 }
 
+function getTransferRequestReasonLabel(reason:CoachTransferRequest["reason"],language:Language) {
+  if(language==="en")return reason;
+
+  if(reason==="Not Starting")return "No es titular";
+  if(reason==="Seeking Stronger Team")return "Busca un equipo más competitivo";
+  if(reason==="Contract Situation")return "Situación contractual";
+  if(reason==="Career Ambition")return "Ambición profesional";
+
+  return reason;
+}
+
 function formatYears(years:number,language:Language) {
   if(language==="es")return `${years} ${years===1?"AÑO":"AÑOS"}`;
+
   return `${years} ${years===1?"YEAR":"YEARS"}`;
 }
 
+function formatCompactAmount(value:number) {
+  if(value>=1000000){
+    const millions=value/1000000;
+    return `${Number.isInteger(millions)?millions:millions.toFixed(1)}M`;
+  }
+
+  if(value>=1000){
+    const thousands=value/1000;
+    return `${Number.isInteger(thousands)?thousands:thousands.toFixed(1)}K`;
+  }
+
+  return `${value}`;
+}
+
 function roundTransferFee(value:number) {
-  return Math.max(0,Math.ceil(value/50000)*50000);
+  if(value>=1000000)return Math.max(0,Math.round(value/5000)*5000);
+  if(value>=100000)return Math.max(0,Math.round(value/2500)*2500);
+  if(value>=10000)return Math.max(0,Math.round(value/1000)*1000);
+
+  return Math.max(0,Math.round(value/500)*500);
+}
+
+function getTransferOfferSteps(value:number):[number,number] {
+  if(value>=5000000)return [100000,500000];
+  if(value>=1000000)return [50000,250000];
+  if(value>=250000)return [10000,50000];
+  if(value>=100000)return [5000,25000];
+
+  return [2500,10000];
+}
+
+function getSalaryOfferSteps(value:number):[number,number] {
+  if(value>=50000)return [1000,5000];
+  if(value>=20000)return [500,2500];
+  if(value>=10000)return [500,1000];
+
+  return [250,500];
 }
 
 function roundSalary(value:number) {
-  return Math.max(1000,Math.round(value/500)*500);
+  return Math.max(1000,Math.round(value/250)*250);
 }
 
 function normalizeMarketPlayer(player:CoachPlayer):CoachPlayer {
-  const marketValue=Number.isFinite(player.marketValue)&&player.marketValue>0
-    ?player.marketValue
-    :getCoachPlayerMarketValue({...player,marketValue:0});
+  const marketValue=
+    Number.isFinite(player.marketValue)&&player.marketValue>0
+      ?player.marketValue
+      :getCoachPlayerMarketValue({...player,marketValue:0});
 
-  return {...player,marketValue};
+  return {
+    ...player,
+    marketValue,
+  };
 }
 
 function deterministicNumber(value:string) {

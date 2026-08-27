@@ -36,7 +36,7 @@ export function createCoachBoardObjectives(team:TeamDefinition):CoachBoardObject
 
   if(team.tier!==1){
     objectives.push(
-      createObjective("Reach Stage Playoffs",15,4),
+      createObjective("Reach Stage Playoffs",5,0),
     );
 
     return objectives;
@@ -44,8 +44,8 @@ export function createCoachBoardObjectives(team:TeamDefinition):CoachBoardObject
 
   if(team.strength>=90){
     objectives.push(
-      createObjective("Reach Champions",18,6),
-      createObjective("Reach Champions Playoffs",12,5),
+      createObjective("Reach Champions",8,0),
+      createObjective("Reach Champions Playoffs",6,0),
     );
 
     return objectives;
@@ -53,8 +53,8 @@ export function createCoachBoardObjectives(team:TeamDefinition):CoachBoardObject
 
   if(team.strength>=85){
     objectives.push(
-      createObjective("Reach Stage Playoffs",12,4),
-      createObjective("Reach Champions",16,6),
+      createObjective("Reach Stage Playoffs",5,0),
+      createObjective("Reach Champions",8,0),
     );
 
     return objectives;
@@ -62,14 +62,14 @@ export function createCoachBoardObjectives(team:TeamDefinition):CoachBoardObject
 
   if(team.strength>=80){
     objectives.push(
-      createObjective("Reach Stage Playoffs",14,5),
+      createObjective("Reach Stage Playoffs",5,0),
     );
 
     return objectives;
   }
 
   objectives.push(
-    createObjective("Reach Stage Playoffs",10,4),
+    createObjective("Reach Stage Playoffs",4,0),
   );
 
   return objectives;
@@ -132,7 +132,6 @@ export function evaluateCoachBoardProgress(career:CoachCareerState):CoachCareerS
 
 export function finalizeCoachBoardSeason(career:CoachCareerState):CoachCareerState {
   let confidence=career.board.confidence;
-  let reputation=career.coach.reputation;
   let changed=false;
 
   const failedNow:CoachBoardObjective[]=[];
@@ -142,9 +141,7 @@ export function finalizeCoachBoardSeason(career:CoachCareerState):CoachCareerSta
 
     changed=true;
     failedNow.push(objective);
-
     confidence-=objective.confidenceImpact;
-    reputation-=Math.max(1,Math.round(objective.reputationImpact*.5));
 
     return {
       ...objective,
@@ -166,16 +163,11 @@ export function finalizeCoachBoardSeason(career:CoachCareerState):CoachCareerSta
   }
 
   const nextConfidence=clamp(confidence,0,100);
-  const nextReputation=clamp(reputation,0,100);
   const actualConfidenceChange=nextConfidence-career.board.confidence;
   const failedLabel=failedNow.map(objective=>objective.type).join(", ");
 
   return {
     ...career,
-    coach:{
-      ...career.coach,
-      reputation:nextReputation,
-    },
     board:{
       ...career.board,
       confidence:nextConfidence,
@@ -306,19 +298,18 @@ export function applyCoachBoardMatchResult(career:CoachCareerState,opponentTeamI
   const strengthGap=opponent.strength-team.strength;
   const phase=season.phase;
 
-  let confidenceChange=won?2:-2;
+  let confidenceChange=won?1:-1;
 
-  if(won&&strengthGap>=8)confidenceChange+=3;
-  else if(won&&strengthGap>=4)confidenceChange+=2;
-  else if(!won&&strengthGap<=-8)confidenceChange-=3;
-  else if(!won&&strengthGap<=-4)confidenceChange-=2;
+  if(won&&strengthGap>=8)confidenceChange+=2;
+  else if(won&&strengthGap>=4)confidenceChange+=1;
+  else if(!won&&strengthGap<=-8)confidenceChange-=2;
+  else if(!won&&strengthGap<=-4)confidenceChange-=1;
 
-  if(phase==="Champions")confidenceChange+=won?2:-2;
+  if(phase==="Champions")confidenceChange+=won?1:-1;
   else if(phase==="Masters 1"||phase==="Masters 2")confidenceChange+=won?1:-1;
   else if(phase==="Stage 1 Playoffs"||phase==="Stage 2 Playoffs")confidenceChange+=won?1:-1;
-  else if(phase==="Kickoff")confidenceChange+=won?1:-1;
 
-  confidenceChange=clamp(confidenceChange,-6,6);
+  confidenceChange=clamp(confidenceChange,-3,3);
 
   const confidence=clamp(career.board.confidence+confidenceChange,0,100);
   const actualConfidenceChange=confidence-career.board.confidence;
@@ -355,13 +346,11 @@ export function applyCoachBoardStreakPressure(career:CoachCareerState):CoachCare
   let confidenceChange=0;
 
   if(latestWon){
-    if(streak===3)confidenceChange=2;
-    else if(streak===4)confidenceChange=1;
-    else if(streak>=5)confidenceChange=2;
+    if(streak===3)confidenceChange=1;
+    else if(streak===5)confidenceChange=1;
   }else{
-    if(streak===3)confidenceChange=-2;
-    else if(streak===4)confidenceChange=-2;
-    else if(streak>=5)confidenceChange=-3;
+    if(streak===3)confidenceChange=-1;
+    else if(streak===5)confidenceChange=-2;
   }
 
   if(confidenceChange===0)return career;
@@ -398,6 +387,12 @@ export function applyCoachBoardEventEvaluation(career:CoachCareerState,phase:str
   if(!event||event.status!=="Complete")return career;
 
   const ambition=getCoachClubAmbition(team.strength,team.prestige);
+  const reputationChange=getCoachEventReputationChange(
+    phase,
+    event.placement,
+    ambition,
+  );
+
   let confidenceChange=0;
 
   if(phase==="Kickoff"){
@@ -521,13 +516,18 @@ export function applyCoachBoardEventEvaluation(career:CoachCareerState,phase:str
       0;
   }
 
-  if(confidenceChange===0)return career;
+  if(confidenceChange===0&&reputationChange===0)return career;
 
   const confidence=clamp(career.board.confidence+confidenceChange,0,100);
+  const reputation=clamp(career.coach.reputation+reputationChange,0,100);
   const actualConfidenceChange=confidence-career.board.confidence;
 
   return {
     ...career,
+    coach:{
+      ...career.coach,
+      reputation,
+    },
     board:{
       ...career.board,
       confidence,
@@ -640,6 +640,39 @@ function getCoachClubAmbition(strength:number,prestige:number):CoachClubAmbition
   if(rating>=80)return "Competitive";
 
   return "Underdog";
+}
+
+function getCoachEventReputationChange(phase:string,placement:number|undefined,ambition:CoachClubAmbition) {
+  if(placement===undefined)return 0;
+
+  if(phase==="Kickoff"||phase==="Stage 1 Playoffs"||phase==="Stage 2 Playoffs"){
+    if(placement===1)return ambition==="Underdog"?7:5;
+    if(placement===2)return ambition==="Underdog"?5:3;
+    if(placement<=4)return ambition==="Underdog"?3:2;
+    if(placement<=6)return ambition==="Underdog"?1:0;
+
+    return ambition==="Elite"?-1:0;
+  }
+
+  if(phase==="Masters 1"||phase==="Masters 2"){
+    if(placement===1)return ambition==="Underdog"?10:8;
+    if(placement===2)return ambition==="Underdog"?8:6;
+    if(placement<=4)return ambition==="Underdog"?6:4;
+    if(placement<=8)return ambition==="Underdog"?3:2;
+
+    return ambition==="Elite"?-1:0;
+  }
+
+  if(phase==="Champions"){
+    if(placement===1)return 12;
+    if(placement===2)return ambition==="Underdog"?10:8;
+    if(placement<=4)return ambition==="Underdog"?8:6;
+    if(placement<=8)return ambition==="Underdog"?5:3;
+
+    return ambition==="Elite"?-2:0;
+  }
+
+  return 0;
 }
 
 function getCurrentCoachSeasonTrophies(career:CoachCareerState) {

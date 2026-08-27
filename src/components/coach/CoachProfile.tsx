@@ -18,6 +18,7 @@ export function CoachProfile({career,onBack}:CoachProfileProps) {
 
   const achieved=career.board.objectives.filter(objective=>objective.status==="Achieved").length;
   const total=career.board.objectives.length;
+  const boardHistory=career.board.history??[];
 
   return (
     <main className="coach-profile">
@@ -41,6 +42,7 @@ export function CoachProfile({career,onBack}:CoachProfileProps) {
               <span>HEAD COACH</span>
               <h1>{career.coach.name}</h1>
               <p>{career.coach.nationality} · {career.coach.age} {es?"años":"years"}</p>
+              <small>{team?.name} · {team?.circuit}</small>
             </div>
           </div>
 
@@ -62,10 +64,7 @@ export function CoachProfile({career,onBack}:CoachProfileProps) {
               </div>
 
               <div className="coach-profile__confidence-track">
-                <div
-                  className={`coach-profile__confidence-fill coach-profile__confidence-fill--${getConfidenceLevel(career.board.confidence)}`}
-                  style={{width:`${career.board.confidence}%`}}
-                />
+                <div className={`coach-profile__confidence-fill coach-profile__confidence-fill--${getConfidenceLevel(career.board.confidence)}`} style={{width:`${career.board.confidence}%`}}/>
               </div>
 
               <div className="coach-profile__confidence-labels">
@@ -83,6 +82,8 @@ export function CoachProfile({career,onBack}:CoachProfileProps) {
             <span>{es?"EVALUACIÓN DE LA DIRECTIVA":"BOARD EVALUATION"}</span>
             <strong>{getBoardEvaluationTitle(career,language)}</strong>
           </div>
+
+          <p>{getBoardEvaluationText(career,language)}</p>
         </section>
 
         <section className="coach-profile__grid">
@@ -160,6 +161,43 @@ export function CoachProfile({career,onBack}:CoachProfileProps) {
           ):(
             <div className="coach-profile__empty">
               {es?"Todavía no hay temporadas completadas.":"No completed seasons yet."}
+            </div>
+          )}
+        </section>
+
+        <section className="coach-profile__card">
+          <header>
+            <div>
+              <span>{es?"DIRECTIVA":"BOARD"}</span>
+              <strong>{es?"HISTORIAL DE CONFIANZA":"BOARD HISTORY"}</strong>
+            </div>
+
+            <small>{boardHistory.length}</small>
+          </header>
+
+          {boardHistory.length?(
+            <div className="coach-profile__board-history">
+              {[...boardHistory].reverse().slice(0,10).map(entry=>(
+                <div key={entry.id} className="coach-profile__board-history-row">
+                  <div className={`coach-profile__board-history-change ${entry.confidenceChange>0?"positive":entry.confidenceChange<0?"negative":"neutral"}`}>
+                    {entry.confidenceChange>0?"+":""}{entry.confidenceChange}
+                  </div>
+
+                  <div className="coach-profile__board-history-main">
+                    <strong>{getBoardHistoryLabel(entry.label,language)}</strong>
+                    <span>{getBoardHistoryTypeLabel(entry.type,language)} · {entry.season}</span>
+                  </div>
+
+                  <div className="coach-profile__board-history-after">
+                    <span>{es?"CONFIANZA":"CONFIDENCE"}</span>
+                    <strong>{entry.confidenceAfter}</strong>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ):(
+            <div className="coach-profile__empty">
+              {es?"Todavía no hay evaluaciones registradas por la directiva.":"No board evaluations recorded yet."}
             </div>
           )}
         </section>
@@ -306,4 +344,86 @@ function getEmploymentStatusLabel(career:CoachCareerState,language:"es"|"en") {
   }
 
   return career.board.employmentStatus==="Dismissed"?"DESTITUIDO":"CONTRATADO";
+}
+
+function getBoardHistoryTypeLabel(type:CoachCareerState["board"]["history"][number]["type"],language:"es"|"en") {
+  if(language==="en"){
+    if(type==="Match")return "MATCH";
+    if(type==="Streak")return "STREAK";
+    if(type==="Objective")return "OBJECTIVE";
+    if(type==="Event")return "EVENT";
+    if(type==="Season")return "SEASON";
+    if(type==="Dismissal")return "DISMISSAL";
+  }
+
+  if(type==="Match")return "PARTIDO";
+  if(type==="Streak")return "RACHA";
+  if(type==="Objective")return "OBJETIVO";
+  if(type==="Event")return "EVENTO";
+  if(type==="Season")return "TEMPORADA";
+
+  return "DESPIDO";
+}
+
+function getBoardHistoryLabel(label:string,language:"es"|"en") {
+  if(language==="en")return label;
+
+  if(label.startsWith("Win vs ")){
+    return `Victoria vs ${label.replace("Win vs ","")}`;
+  }
+
+  if(label.startsWith("Loss vs ")){
+    return `Derrota vs ${label.replace("Loss vs ","")}`;
+  }
+
+  if(label.startsWith("Win streak x")){
+    return `Racha de ${label.replace("Win streak x","")} victorias`;
+  }
+
+  if(label.startsWith("Loss streak x")){
+    return `Racha de ${label.replace("Loss streak x","")} derrotas`;
+  }
+
+  if(label.startsWith("Failed objectives:")){
+    return `Objetivos fallidos: ${translateObjectiveHistoryLabel(label.replace("Failed objectives: ",""))}`;
+  }
+
+  if(label.startsWith("Dismissed:")){
+    const reason=label.replace("Dismissed: ","");
+
+    if(reason==="Critical Confidence")return "Despido por pérdida crítica de confianza";
+    if(reason==="Failed Objectives")return "Despido por objetivos incumplidos";
+    if(reason==="Poor Season")return "Despido por malos resultados";
+
+    return "Destituido por la directiva";
+  }
+
+  if(label.endsWith(" evaluation")){
+    return `${translateEventName(label.replace(" evaluation",""))} · Evaluación`;
+  }
+
+  return translateObjectiveHistoryLabel(label);
+}
+
+function translateObjectiveHistoryLabel(label:string) {
+  return label
+    .replaceAll("Reach Stage Playoffs","Alcanzar Playoffs de Stage")
+    .replaceAll("Reach Masters","Clasificar a Masters")
+    .replaceAll("Reach Champions Playoffs","Alcanzar Playoffs de Champions")
+    .replaceAll("Reach Champions","Clasificar a Champions")
+    .replaceAll("Win Regional Event","Ganar evento regional")
+    .replaceAll("Win International Event","Ganar evento internacional");
+}
+
+function translateEventName(event:string) {
+  if(event==="Kickoff")return "Kickoff";
+  if(event==="Masters 1")return "Masters 1";
+  if(event==="Masters 2")return "Masters 2";
+  if(event==="Stage 1")return "Stage 1";
+  if(event==="Stage 1 Playoffs")return "Stage 1 Playoffs";
+  if(event==="Stage 2")return "Stage 2";
+  if(event==="Stage 2 Playoffs")return "Stage 2 Playoffs";
+  if(event==="Champions")return "Champions";
+
+  return event;
 }
