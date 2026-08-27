@@ -502,7 +502,108 @@
   font-size: 10px;
   white-space: nowrap;
 }
+.vct-topbar-nav__button--retire {
+  opacity:.72;
+}
 
+.vct-topbar-nav__button--retire:hover {
+  opacity:1;
+}
+
+.vct-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(4,8,15,.74);
+  backdrop-filter: blur(8px);
+}
+
+.vct-confirm-modal {
+  width: min(100%,520px);
+  border: 1px solid #2b3442;
+  border-radius: 20px;
+  background: linear-gradient(180deg,#0d1520 0%,#0a1119 100%);
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+  overflow: hidden;
+}
+
+.vct-confirm-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid #202938;
+}
+
+.vct-confirm-modal__close {
+  border: 0;
+  background: transparent;
+  color: #8e9bb0;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.vct-confirm-modal__body {
+  padding: 22px;
+}
+
+.vct-confirm-modal__body h3 {
+  margin: 0 0 10px;
+  color: #f3f6fb;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.vct-confirm-modal__body p {
+  margin: 0;
+  color: #95a3b8;
+  line-height: 1.55;
+}
+
+.vct-confirm-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 22px 22px;
+}
+
+.vct-confirm-modal__button {
+  min-width: 160px;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.vct-confirm-modal__button--secondary {
+  border: 1px solid #334154;
+  background: #121b26;
+  color: #d9e2ef;
+}
+
+.vct-confirm-modal__button--secondary:hover {
+  transform: translateY(-1px);
+  border-color: #46566f;
+}
+
+.vct-confirm-modal__button--danger {
+  border: 1px solid #ff4d67;
+  background: linear-gradient(135deg,#ff4d67 0%,#ff6b7f 100%);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(255,77,103,.28);
+}
+
+.vct-confirm-modal__button--danger:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
 @media (max-width: 900px) {
   .vct-layout {
     grid-template-columns: 1fr;
