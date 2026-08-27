@@ -321,7 +321,7 @@
 .coach-season__subsection-head span {
   display:block;
   color:var(--cyan);
-  font-size:7px;
+  font-size:12px;
   font-weight:900;
   letter-spacing:.11em;
 }
@@ -597,7 +597,7 @@
   padding:10px 12px;
   border-bottom:1px solid var(--line-soft);
   color:var(--muted-2);
-  font-size:7px;
+  font-size:12px;
   font-weight:900;
   letter-spacing:.09em;
 }
@@ -622,7 +622,7 @@
   display:block;
   margin-bottom:6px;
   color:var(--muted-2);
-  font-size:6px;
+  font-size:12px;
   font-weight:900;
 }
 
@@ -653,7 +653,7 @@
 .coach-season__masters-match>header span,
 .coach-season__masters-match>header small {
   color:var(--muted-2);
-  font-size:6px;
+  font-size:10px;
   font-weight:900;
 }
 
