@@ -126,7 +126,7 @@ function createCareerPlayerMapStats(
   const performanceVariation = random(-10,10) / 100;
 
   const rating = clamp(
-    Number((result.playerRating + performanceVariation + (won ? .03 : -.02)).toFixed(2)),
+    Number((result.playerRating+performanceVariation+(won?.08:-.05)).toFixed(2)),
     .55,
     1.85,
   );
@@ -201,16 +201,16 @@ function createVCTMapPlayer(
   const gameSenseFactor = (player.stats.gameSense - 80) / 100;
   const clutchFactor = (player.stats.clutch - 80) / 100;
 
-  const performanceVariation = random(-12,12) / 100;
+  const performanceVariation=random(-10,10)/100;
 
-  const rating = clamp(
+  const rating=clamp(
     Number((
-      .97 +
-      skillFactor * .82 +
-      teamFactor * .28 +
-      gameSenseFactor * .15 +
-      clutchFactor * .10 +
-      (won ? .07 : -.04) +
+      .98+
+      skillFactor*.82+
+      teamFactor*.28+
+      gameSenseFactor*.15+
+      clutchFactor*.10+
+      (won?.13:-.08)+
       performanceVariation
     ).toFixed(2)),
     .48,
@@ -323,13 +323,13 @@ function createCPUMapPlayer(
 
   const effectiveSkill = clamp(strength + random(-9,9),58,97);
   const skillFactor = (effectiveSkill - 80) / 100;
-  const performanceVariation = random(-14,14) / 100;
+  const performanceVariation=random(-11,11)/100;
 
-  const rating = clamp(
+  const rating=clamp(
     Number((
-      .96 +
-      skillFactor * .78 +
-      (won ? .06 : -.04) +
+      .98+
+      skillFactor*.78+
+      (won?.12:-.08)+
       performanceVariation
     ).toFixed(2)),
     .48,

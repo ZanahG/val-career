@@ -1,4 +1,5 @@
 import type {CareerPlayer} from "../../types/career";
+import {useState} from "react";
 import type {VCTPhase,VCTSeasonState} from "../../types/vct";
 import {VCT_EVENT_ORDER,getVCTSeasonDefinition} from "../../data/vctSeasons";
 import {getTeamById} from "../../data/teams";
@@ -35,12 +36,14 @@ interface VCTDashboardProps {
   onFinishSeason:() => void;
   onOpenProfile:() => void;
   onOpenLeaderboard:() => void;
+  onRetire:() => void;
   onChooseEvent:(choice:VCTNarrativeChoice) => void;
   onUpdatePlayer:(player:CareerPlayer) => void;
 }
 
-export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenProfile,onOpenLeaderboard,onChooseEvent,onUpdatePlayer}:VCTDashboardProps) {
+export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenProfile,onOpenLeaderboard,onRetire,onChooseEvent,onUpdatePlayer}:VCTDashboardProps) {
   const {language,t} = useGameSettings();
+  const [retireModalOpen,setRetireModalOpen]=useState(false);
 
   const team = getTeamById(player.currentTeamId);
   const teamLogo = getTeamLogo(team?.logo);
@@ -72,6 +75,13 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
 
   const stageBracketMatch = activeEvent?.stageBracket ? getNextPlayerStageBracketMatch(activeEvent.stageBracket) : undefined;
   const stageBracketOpponentId = stageBracketMatch ? (stageBracketMatch.teamAId === player.currentTeamId ? stageBracketMatch.teamBId : stageBracketMatch.teamAId) : undefined;
+
+  const currentBestOf=
+    kickoffMatch?.bestOf??
+    mastersBracketMatch?.bestOf??
+    championsBracketMatch?.bestOf??
+    stageBracketMatch?.bestOf??
+    3;
 
   const nextOpponentId = kickoffOpponentId ?? mastersSwissOpponentId ?? mastersBracketOpponentId ?? championsGroupOpponentId ?? championsBracketOpponentId ?? stageGroupOpponentId ?? stageBracketOpponentId ?? activeEvent?.schedule[activeEvent.matches.length];
   const nextOpponent = getTeamById(nextOpponentId);
@@ -115,6 +125,11 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
               <small className="vct-topbar-nav__badge">{language==="es" ? "TOP" : "TOP"}</small>
             </button>
           </nav>
+
+          <button className="vct-topbar-nav__button vct-topbar-nav__button--retire" onClick={()=>setRetireModalOpen(true)}>
+            <span className="vct-topbar-nav__icon">⏹</span>
+            <span>{language==="es"?"RETIRARSE":"RETIRE"}</span>
+          </button>
 
           <div className="vct-topbar-settings">
             <GameSettingsControls />
@@ -276,10 +291,46 @@ export function VCTDashboard({player,season,onPlayMatch,onFinishSeason,onOpenPro
 
       {!finished && !narrativeEvent && useFloatingPlay && (nextOpponent || isMastersDirectSeedWaiting || isMastersSwissResolved) && (
         isMastersSwissResolved && !nextOpponent ? (
-          <MatchPlayButton language={language} onClick={onPlayMatch} mode="simulate" simulateLabel={language === "es" ? "SIMULAR SWISS" : "SIMULATE SWISS"} />
+          <MatchPlayButton language={language} onClick={onPlayMatch} mode="simulate" simulateLabel={language === "es" ? "SIMULAR SWISS" : "SIMULATE SWISS"}/>
         ) : (
-          <MatchPlayButton opponentName={nextOpponent?.name} opponentShortName={nextOpponent?.shortName} opponentLogo={nextOpponentLogo} language={language} onClick={onPlayMatch} />
+          <MatchPlayButton opponentName={nextOpponent?.name} opponentShortName={nextOpponent?.shortName} opponentLogo={nextOpponentLogo} language={language} bestOf={currentBestOf} onClick={onPlayMatch}/>
         )
+      )}
+
+      {retireModalOpen&&(
+        <div className="vct-confirm-backdrop" onClick={()=>setRetireModalOpen(false)}>
+          <div className="vct-confirm-modal" onClick={(event)=>event.stopPropagation()}>
+            <div className="vct-confirm-modal__header">
+              <span className="eyebrow">{language==="es"?"FIN DE CARRERA":"CAREER END"}</span>
+              <button className="vct-confirm-modal__close" onClick={()=>setRetireModalOpen(false)}>×</button>
+            </div>
+
+            <div className="vct-confirm-modal__body">
+              <h3>{language==="es"?"¿Retirarte ahora?":"Retire now?"}</h3>
+              <p>
+                {language==="es"
+                  ?"Tu carrera terminará definitivamente y pasarás a la pantalla de carrera para ver tu resumen y compartir tu tarjeta."
+                  :"Your career will end permanently and you will be taken to the career screen to review your summary and share your card."}
+              </p>
+            </div>
+
+            <div className="vct-confirm-modal__actions">
+              <button className="vct-confirm-modal__button vct-confirm-modal__button--secondary" onClick={()=>setRetireModalOpen(false)}>
+                {language==="es"?"CANCELAR":"CANCEL"}
+              </button>
+
+              <button
+                className="vct-confirm-modal__button vct-confirm-modal__button--danger"
+                onClick={()=>{
+                  setRetireModalOpen(false);
+                  onRetire();
+                }}
+              >
+                {language==="es"?"CONFIRMAR RETIRO":"CONFIRM RETIREMENT"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );

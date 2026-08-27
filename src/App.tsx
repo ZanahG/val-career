@@ -38,6 +38,9 @@ import type {CareerChoice,CareerEffects,CareerHistoryEntry,CareerPlayer,Contract
 import type {CoachCareerState,CoachMapVetoState,CoachTacticalStyle} from "./types/coach";
 import {applyCoachBoardEventEvaluation,applyCoachBoardMatchResult,applyCoachBoardStreakPressure,evaluateCoachBoardProgress} from "./logic/coachBoard";
 import type {MatchBoxScore} from "./types/matchStats";
+import {getNextPlayerMastersBracketMatch as getPlayerMastersBracketMatch} from "./logic/mastersFormat";
+import {getNextPlayerChampionsBracketMatch as getPlayerChampionsBracketMatch} from "./logic/championsFormat";
+import {getNextPlayerStageBracketMatch as getPlayerStageBracketMatch} from "./logic/stageFormat";
 import type {GameScreen,MarketWindow,ProfileReturnScreen} from "./types/navigation";
 import type {SeasonState} from "./types/season";
 import type {PlayableVCTPhase,VCTSeasonState} from "./types/vct";
@@ -78,6 +81,59 @@ export default function App() {
   const initialCareerEventsComplete=!currentEvent;
   const hasActiveSeason=Boolean(season||vctSeason);
   const canOpenOffers=initialCareerEventsComplete&&!hasActiveSeason&&!player?.currentTeamId;
+
+  const handleRetirePlayer=()=>{
+    if(!player)return;
+
+    let retiredPlayer=player;
+
+    if(vctSeason){
+      const stats=getVCTSeasonStats(vctSeason);
+      const championsPlacement=vctSeason.events.Champions.placement??0;
+      const championshipPoints=player.currentTeamId?(vctSeason.championshipPointsByTeam[player.currentTeamId]??0):0;
+
+      const vctEvents=Object.entries(vctSeason.events).map(([name,event])=>({
+        name,
+        wins:event.matches.filter(match=>match.won).length,
+        losses:event.matches.filter(match=>!match.won).length,
+        placement:event.placement,
+        status:event.status,
+      }));
+
+      const historyEntry:CareerHistoryEntry={
+        season:player.season,
+        teamId:player.currentTeamId??"free-agent",
+        teamName:player.currentTeam,
+        rosterRole:player.rosterRole,
+        salary:player.salary,
+        wins:stats.wins,
+        losses:stats.losses,
+        placement:championsPlacement,
+        trophies:[],
+        stage:"VCT",
+        vctCircuit:vctSeason.circuit,
+        championshipPoints,
+        vctEvents,
+      };
+
+      retiredPlayer={
+        ...player,
+        history:[...player.history,historyEntry],
+      };
+    }
+
+    setPlayer(retiredPlayer);
+    setSeason(null);
+    setVCTSeason(null);
+    setMarketWindow(null);
+    setMarketOffers([]);
+    setRenewalOffer(null);
+    setMatchBoxScore(null);
+    setPlayerCardEditorOpen(false);
+    resetMinigameState();
+    setProfileReturnScreen("career");
+    setScreen("profile");
+  };
 
   useEffect(()=>{
     saveIntroEventCount(introEventsPlayed);
@@ -779,13 +835,14 @@ export default function App() {
     if(!player||!vctSeason||vctSeason.phase==="Complete")return;
 
     const previousPhase=vctSeason.phase as PlayableVCTPhase;
+    const bestOf=getCurrentPlayerVCTMatchBestOf(player,vctSeason);
     const previousMatchCount=vctSeason.events[previousPhase].matches.length;
     const updatedSeason=playNextVCTMatch(player,vctSeason);
     const updatedEvent=updatedSeason.events[previousPhase];
     const result=updatedEvent.matches.length>previousMatchCount?updatedEvent.matches.at(-1):undefined;
 
     if(result){
-      const boxScore=createMatchBoxScore(player,result,3,vctRosters);
+      const boxScore=createMatchBoxScore(player,result,bestOf,vctRosters);
       if(boxScore)setMatchBoxScore(boxScore);
 
       setPlayer({
@@ -1199,7 +1256,7 @@ export default function App() {
     }
 
     if(screen==="vct"&&vctSeason){
-      return <VCTDashboard player={player} season={vctSeason} onPlayMatch={handlePlayVCTMatch} onFinishSeason={handleFinishVCTSeason} onOpenProfile={()=>openProfile("vct")} onOpenLeaderboard={openLeaderboard} onChooseEvent={handleVCTNarrativeChoice} onUpdatePlayer={setPlayer}/>;
+      return <VCTDashboard player={player} season={vctSeason} onPlayMatch={handlePlayVCTMatch} onFinishSeason={handleFinishVCTSeason} onOpenProfile={()=>openProfile("vct")} onOpenLeaderboard={openLeaderboard} onRetire={handleRetirePlayer} onChooseEvent={handleVCTNarrativeChoice} onUpdatePlayer={setPlayer}/>;
     }
 
     if(screen==="season"&&season){
@@ -1231,6 +1288,31 @@ export default function App() {
     </>
   );
 }
+
+function getCurrentPlayerVCTMatchBestOf(player:CareerPlayer,season:VCTSeasonState):3|5 {
+  if(season.phase==="Complete")return 3;
+
+  const phase=season.phase as PlayableVCTPhase;
+  const event=season.events[phase];
+
+  if(phase==="Kickoff"&&event.bracket){
+    return getNextPlayerKickoffMatch(event.bracket)?.bestOf??3;
+  }
+
+  if((phase==="Masters 1"||phase==="Masters 2")&&event.masters?.bracket&&player.currentTeamId){
+    return getPlayerMastersBracketMatch(event.masters.bracket,player.currentTeamId)?.bestOf??3;
+  }
+
+  if((phase==="Stage 1 Playoffs"||phase==="Stage 2 Playoffs")&&event.stageBracket){
+    return getPlayerStageBracketMatch(event.stageBracket)?.bestOf??3;
+  }
+
+  if(phase==="Champions"&&event.champions?.bracket&&player.currentTeamId){
+    return getPlayerChampionsBracketMatch(event.champions.bracket,player.currentTeamId)?.bestOf??3;
+  }
+
+  return 3;
+}
 function getCurrentCoachMatchBestOf(career:CoachCareerState):3|5 {
   const season=career.seasonState;
   if(!season)return 3;
@@ -1261,3 +1343,4 @@ function getCurrentCoachMatchBestOf(career:CoachCareerState):3|5 {
 
   return 3;
 }
+
