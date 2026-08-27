@@ -1,6 +1,7 @@
 import type {CompetitiveCircuit, TeamDefinition} from "../types/career";
 import type {VCTBracketMatch, VCTBracketState, VCTBracketTeamSlot} from "../types/vct";
-import {TEAMS, getTeamById} from "../data/teams";
+import {getStoredCompetitiveStrength} from "./coachTeamStrength";
+import {TEAMS} from "../data/teams";
 
 const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - .5);
 
@@ -8,12 +9,12 @@ const direct = (teamId: string): VCTBracketTeamSlot => ({teamId});
 const winner = (sourceMatchId: string): VCTBracketTeamSlot => ({sourceMatchId, sourceResult: "Winner"});
 const loser = (sourceMatchId: string): VCTBracketTeamSlot => ({sourceMatchId, sourceResult: "Loser"});
 
-export function createKickoffBracket(circuit: CompetitiveCircuit, playerTeamId: string, season: number): VCTBracketState | undefined {
+export function createKickoffBracket(circuit: CompetitiveCircuit, playerTeamId: string, season: number, competitiveStrengthByTeam?:Record<string,number>,): VCTBracketState | undefined {
   const teams = TEAMS.filter((team) => team.tier === 1 && team.circuit === circuit);
   if (teams.length < 12) return undefined;
 
   const entrants = teams.slice(0,12);
-  const draw = getKickoffDraw(entrants, circuit, season);
+  const draw = getKickoffDraw(entrants,circuit,season,competitiveStrengthByTeam);
 
   const matches: VCTBracketMatch[] = [
     createMatch("u1-1","Upper",1,"Upper Round 1",1,1,direct(draw.firstRound[0][0]),direct(draw.firstRound[0][1])),
@@ -59,7 +60,7 @@ export function createKickoffBracket(circuit: CompetitiveCircuit, playerTeamId: 
     createMatch("lf","Lower",6,"Lower Final",1,30,loser("mf"),winner("l5"),5),
   ];
 
-  return advanceKickoffCPU(updateKickoffBracket({matches, playerTeamId, qualifiedTeamIds: [], playerQualified: false, playerEliminated: false, complete: false}));
+  return advanceKickoffCPU(updateKickoffBracket({matches, playerTeamId, qualifiedTeamIds: [], playerQualified: false, playerEliminated: false, complete: false, competitiveStrengthByTeam,}));
 }
 
 export function getNextPlayerKickoffMatch(bracket: VCTBracketState) {
@@ -77,6 +78,24 @@ export function playPlayerKickoffMatch(bracket: VCTBracketState, playerWon: bool
 
   let updated = completeMatch(bracket, current.id, winnerId);
   updated = updateKickoffBracket(updated);
+
+  return advanceKickoffCPU(updated);
+}
+
+export function playPlayerKickoffMatchWithScore(bracket:VCTBracketState,playerWon:boolean,playerMapsWon:number,playerMapsLost:number) {
+  const current=getNextPlayerKickoffMatch(bracket);
+  if(!current)return bracket;
+
+  const playerIsA=current.teamAId===bracket.playerTeamId;
+  const winnerId=playerWon?bracket.playerTeamId:playerIsA?current.teamBId:current.teamAId;
+
+  if(!winnerId)return bracket;
+
+  const scoreA=playerIsA?playerMapsWon:playerMapsLost;
+  const scoreB=playerIsA?playerMapsLost:playerMapsWon;
+
+  let updated=completeMatchWithScore(bracket,current.id,winnerId,scoreA,scoreB);
+  updated=updateKickoffBracket(updated);
 
   return advanceKickoffCPU(updated);
 }
@@ -108,7 +127,7 @@ function advanceKickoffCPU(bracket: VCTBracketState) {
 
     if (containsPlayer && !current.playerQualified && !current.playerEliminated) break;
 
-    const winnerId = simulateCPUWinner(nextMatch);
+    const winnerId=simulateCPUWinner(current,nextMatch);
     if (!winnerId) break;
 
     current = completeMatch(current, nextMatch.id, winnerId);
@@ -165,6 +184,25 @@ function completeMatch(bracket: VCTBracketState, matchId: string, winnerId: stri
   return {...bracket, matches};
 }
 
+function completeMatchWithScore(bracket:VCTBracketState,matchId:string,winnerId:string,scoreA:number,scoreB:number):VCTBracketState {
+  const matches=bracket.matches.map(match=>{
+    if(match.id!==matchId||!match.teamAId||!match.teamBId)return match;
+
+    const loserId=winnerId===match.teamAId?match.teamBId:match.teamAId;
+
+    return {
+      ...match,
+      scoreA,
+      scoreB,
+      winnerId,
+      loserId,
+      status:"Complete" as const,
+    };
+  });
+
+  return {...bracket,matches};
+}
+
 function resolveSlot(slot: VCTBracketTeamSlot, matches: VCTBracketMatch[]) {
   if (slot.teamId) return slot.teamId;
   if (!slot.sourceMatchId || !slot.sourceResult) return undefined;
@@ -175,24 +213,23 @@ function resolveSlot(slot: VCTBracketTeamSlot, matches: VCTBracketMatch[]) {
   return slot.sourceResult === "Winner" ? source.winnerId : source.loserId;
 }
 
-function simulateCPUWinner(match: VCTBracketMatch) {
-  if (!match.teamAId || !match.teamBId) return undefined;
+function simulateCPUWinner(bracket:VCTBracketState,match:VCTBracketMatch) {
+  if(!match.teamAId||!match.teamBId)return undefined;
 
-  const teamA = getTeamById(match.teamAId);
-  const teamB = getTeamById(match.teamBId);
-  if (!teamA || !teamB) return Math.random() < .5 ? match.teamAId : match.teamBId;
+  const strengthA=getStoredCompetitiveStrength(bracket.competitiveStrengthByTeam,match.teamAId);
+  const strengthB=getStoredCompetitiveStrength(bracket.competitiveStrengthByTeam,match.teamBId);
 
-  const difference = teamA.strength - teamB.strength;
-  const chanceA = Math.max(.18,Math.min(.82,.5 + difference / 80));
+  const difference=strengthA-strengthB;
+  const chanceA=Math.max(.18,Math.min(.82,.5+difference/55));
 
-  return Math.random() < chanceA ? teamA.id : teamB.id;
+  return Math.random()<chanceA?match.teamAId:match.teamBId;
 }
 
 function createMatch(id: string, section: VCTBracketMatch["section"], round: number, roundName: string, order: number, sequence: number, teamA: VCTBracketTeamSlot, teamB: VCTBracketTeamSlot, bestOf: 3 | 5 = 3): VCTBracketMatch {
   return {id, section, round, roundName, order, sequence, bestOf, teamA, teamB, status: "Locked", playerMatch: false};
 }
 
-function getKickoffDraw(teams: TeamDefinition[], circuit: CompetitiveCircuit, season: number) {
+function getKickoffDraw(teams: TeamDefinition[], circuit: CompetitiveCircuit, season: number, competitiveStrengthByTeam?:Record<string,number>,) {
   if (circuit === "Americas" && season === 2026) {
     const required = ["loud","cloud9","envy","evil-geniuses","kru-esports","furia","100-thieves","leviatan","nrg","mibr","sentinels","g2-esports"];
     const hasRealDraw = required.every((id) => teams.some((team) => team.id === id));
@@ -205,7 +242,12 @@ function getKickoffDraw(teams: TeamDefinition[], circuit: CompetitiveCircuit, se
     }
   }
 
-  const seeded = [...teams].sort((a,b) => (b.strength + b.prestige * .25) - (a.strength + a.prestige * .25));
+  const seeded=[...teams].sort((a,b)=>{
+    const strengthA=getStoredCompetitiveStrength(competitiveStrengthByTeam,a.id);
+    const strengthB=getStoredCompetitiveStrength(competitiveStrengthByTeam,b.id);
+
+    return (strengthB+b.prestige*.05)-(strengthA+a.prestige*.05);
+  });
   const byes = seeded.slice(0,4).map((team) => team.id);
   const firstRoundTeams = shuffle(seeded.slice(4,12)).map((team) => team.id);
 

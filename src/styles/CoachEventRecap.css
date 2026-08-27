@@ -1,0 +1,297 @@
+.coach-event-recap {
+  --recap-bg:#091022;
+  --recap-panel:rgba(25,34,66,.84);
+  --recap-border:rgba(255,255,255,.1);
+  --recap-text:#f7f8ff;
+  --recap-muted:#9ca8cf;
+  --recap-accent:#766dff;
+  --recap-accent-2:#4baeff;
+  --recap-success:#4ed8ae;
+  --recap-danger:#ff6680;
+
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  color:var(--recap-text);
+  background:#091022;
+}
+
+.coach-event-recap__background {
+  position:absolute;
+  inset:0;
+}
+
+.coach-event-recap__background img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:blur(2px) brightness(.28) saturate(.65);
+  transform:scale(1.03);
+}
+
+.coach-event-recap__shade {
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(108,89,220,.22),transparent 32%),
+    linear-gradient(120deg,rgba(6,13,29,.93),rgba(15,20,51,.88) 55%,rgba(20,16,48,.94));
+}
+
+.coach-event-recap__shell {
+  position:relative;
+  z-index:2;
+  width:min(100%,1060px);
+  min-height:100vh;
+  margin:0 auto;
+  padding:28px 34px 100px;
+}
+
+.coach-event-recap__topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding-bottom:20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.coach-event-recap__topbar > div span {
+  display:block;
+  color:var(--recap-muted);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+
+.coach-event-recap__topbar > div strong {
+  display:block;
+  margin-top:3px;
+  font-size:18px;
+  font-weight:900;
+}
+
+.coach-event-recap__status {
+  color:#cbc8ff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+
+.coach-event-recap__hero {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:54px 20px 38px;
+  text-align:center;
+}
+
+.coach-event-recap__eyebrow {
+  color:#bbb7ff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.18em;
+}
+
+.coach-event-recap__team-logo {
+  width:112px;
+  height:112px;
+  display:grid;
+  place-items:center;
+  margin:24px 0 14px;
+}
+
+.coach-event-recap__team-logo img {
+  width:100px;
+  height:100px;
+  object-fit:contain;
+}
+
+.coach-event-recap__team-logo span {
+  font-size:18px;
+  font-weight:900;
+}
+
+.coach-event-recap__team-name {
+  font-size:24px;
+  font-weight:900;
+}
+
+.coach-event-recap__placement {
+  margin-top:28px;
+}
+
+.coach-event-recap__placement strong {
+  display:block;
+  font-size:80px;
+  line-height:.82;
+  font-weight:900;
+  letter-spacing:-.06em;
+  background:linear-gradient(135deg,#fff,#aaa8ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.coach-event-recap__placement span {
+  display:block;
+  margin-top:12px;
+  color:var(--recap-muted);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.18em;
+}
+
+.coach-event-recap__record {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+  margin-top:32px;
+}
+
+.coach-event-recap__record > div:not(.coach-event-recap__record-separator) {
+  min-width:100px;
+}
+
+.coach-event-recap__record strong {
+  display:block;
+  font-size:28px;
+  font-weight:900;
+}
+
+.coach-event-recap__record span {
+  display:block;
+  margin-top:4px;
+  color:var(--recap-muted);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.13em;
+}
+
+.coach-event-recap__record-separator {
+  width:1px;
+  height:38px;
+  background:rgba(255,255,255,.1);
+}
+
+.coach-event-recap__summary {
+  overflow:hidden;
+  border:1px solid var(--recap-border);
+  background:linear-gradient(135deg,rgba(33,42,82,.88),rgba(19,28,59,.92));
+  box-shadow:0 20px 50px rgba(0,0,0,.24);
+}
+
+.coach-event-recap__summary-row {
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:16px 20px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.coach-event-recap__summary-row span {
+  display:block;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-event-recap__summary-row small {
+  display:block;
+  margin-top:5px;
+  color:var(--recap-muted);
+  font-size:10px;
+}
+
+.coach-event-recap__points {
+  color:#cbc8ff;
+  font-size:27px;
+  font-weight:900;
+}
+
+.coach-event-recap__qualified {
+  color:var(--recap-success);
+  font-size:13px;
+  font-weight:900;
+}
+
+.coach-event-recap__not-qualified {
+  color:var(--recap-danger);
+  font-size:13px;
+  font-weight:900;
+}
+
+.coach-event-recap__next {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:17px 20px;
+  background:rgba(7,13,32,.36);
+}
+
+.coach-event-recap__next span {
+  color:var(--recap-muted);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.13em;
+}
+
+.coach-event-recap__next strong {
+  font-size:15px;
+  font-weight:900;
+}
+
+.coach-event-recap__continue {
+  position:fixed;
+  z-index:5;
+  right:30px;
+  bottom:26px;
+  min-width:220px;
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  border:0;
+  background:linear-gradient(135deg,var(--recap-accent),var(--recap-accent-2));
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 18px 40px rgba(70,83,220,.3);
+  transition:transform .16s ease,filter .16s ease;
+}
+
+.coach-event-recap__continue:hover {
+  transform:translateY(-2px);
+  filter:brightness(1.08);
+}
+
+@media (max-width:700px) {
+  .coach-event-recap__shell {
+    padding:20px 16px 90px;
+  }
+
+  .coach-event-recap__hero {
+    padding-top:38px;
+  }
+
+  .coach-event-recap__placement strong {
+    font-size:64px;
+  }
+
+  .coach-event-recap__summary-row {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .coach-event-recap__continue {
+    left:14px;
+    right:14px;
+    bottom:14px;
+    width:auto;
+  }
+}

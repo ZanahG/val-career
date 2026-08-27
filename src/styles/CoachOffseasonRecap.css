@@ -1,0 +1,401 @@
+.coach-offseason-recap {
+  --card:rgba(17,27,48,.54);
+  --border:rgba(255,255,255,.09);
+  --text:#f5f8ff;
+  --muted:#9eafcf;
+  --muted-2:#6e82a7;
+  --blue:#4aa3ff;
+  --blue-2:#78c3ff;
+  --green:#50d6aa;
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  background:#050b15;
+  color:var(--text);
+}
+
+.coach-offseason-recap__bg {
+  position:fixed;
+  inset:-3%;
+  background:
+    radial-gradient(circle at 84% 10%,rgba(59,115,205,.22),transparent 28%),
+    radial-gradient(circle at 12% 84%,rgba(92,150,255,.11),transparent 31%),
+    url("/images/ui/coach-dashboard-bg.jpg") center/cover no-repeat;
+  opacity:.31;
+  filter:blur(1px);
+}
+
+.coach-offseason-recap__overlay {
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(5,10,19,.31),rgba(5,11,21,.78)),
+    linear-gradient(90deg,rgba(5,11,21,.80),rgba(5,11,21,.36) 50%,rgba(5,11,21,.68));
+}
+
+.coach-offseason-recap__shell {
+  position:relative;
+  z-index:1;
+  width:min(1400px,calc(100% - 40px));
+  min-height:100vh;
+  margin:0 auto;
+  padding:22px 0 36px;
+}
+
+.coach-offseason-recap__topbar {
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.coach-offseason-recap__club {
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.coach-offseason-recap__club > div:first-child {
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.035);
+}
+
+.coach-offseason-recap__club img {
+  width:30px;
+  height:30px;
+  object-fit:contain;
+}
+
+.coach-offseason-recap__club > div:last-child {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.coach-offseason-recap__club span,
+.coach-offseason-recap__club small {
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-offseason-recap__club strong {
+  font-size:13px;
+}
+
+.coach-offseason-recap__status {
+  padding:7px 10px;
+  border:1px solid rgba(80,214,170,.28);
+  background:rgba(80,214,170,.08);
+  color:var(--green);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-offseason-recap__hero {
+  min-height:160px;
+  padding:25px 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:30px;
+  border:1px solid var(--border);
+  background:var(--card);
+  backdrop-filter:blur(14px);
+}
+
+.coach-offseason-recap__eyebrow {
+  color:var(--blue-2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.coach-offseason-recap__hero h1 {
+  margin:6px 0;
+  font-size:30px;
+  line-height:1;
+}
+
+.coach-offseason-recap__hero p {
+  max-width:650px;
+  margin:0;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.6;
+}
+
+.coach-offseason-recap__summary {
+  display:grid;
+  grid-template-columns:repeat(3,90px);
+}
+
+.coach-offseason-recap__summary > div {
+  min-height:70px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border-left:1px solid rgba(255,255,255,.07);
+}
+
+.coach-offseason-recap__summary span {
+  color:var(--muted-2);
+  font-size:6px;
+  font-weight:900;
+}
+
+.coach-offseason-recap__summary strong {
+  font-size:23px;
+}
+
+.coach-offseason-recap__grid {
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  align-items:start;
+}
+
+.coach-offseason-recap__column {
+  display:grid;
+  gap:10px;
+}
+
+.coach-offseason-recap__section {
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--card);
+  backdrop-filter:blur(14px);
+}
+
+.coach-offseason-recap__section > header {
+  min-height:52px;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.coach-offseason-recap__section > header span {
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-offseason-recap__section > header strong {
+  font-size:10px;
+}
+
+.coach-offseason-recap__section-content,
+.coach-offseason-recap__transfer-feed {
+  display:grid;
+}
+
+.coach-offseason-recap__renewal,
+.coach-offseason-recap__transfer {
+  min-height:60px;
+  padding:9px 12px;
+  display:grid;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.coach-offseason-recap__renewal {
+  grid-template-columns:34px 1fr auto;
+}
+
+.coach-offseason-recap__transfer {
+  grid-template-columns:34px minmax(100px,1fr) 86px 18px 86px;
+}
+
+.coach-offseason-recap__renewal:last-child,
+.coach-offseason-recap__transfer:last-child {
+  border-bottom:0;
+}
+
+.coach-offseason-recap__player-avatar {
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(74,163,255,.2);
+  background:rgba(74,163,255,.08);
+  color:var(--blue-2);
+  font-size:10px;
+  font-weight:900;
+}
+
+.coach-offseason-recap__renewal > div:nth-child(2),
+.coach-offseason-recap__renewal > div:nth-child(3),
+.coach-offseason-recap__transfer-player {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.coach-offseason-recap__renewal > div:nth-child(3) {
+  text-align:right;
+}
+
+.coach-offseason-recap__renewal span,
+.coach-offseason-recap__transfer-player span {
+  color:var(--muted-2);
+  font-size:6px;
+  font-weight:800;
+}
+
+.coach-offseason-recap__renewal strong,
+.coach-offseason-recap__transfer-player strong {
+  font-size:9px;
+}
+
+.coach-offseason-recap__team-badge {
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.coach-offseason-recap__team-badge > div {
+  width:25px;
+  height:25px;
+  display:grid;
+  place-items:center;
+}
+
+.coach-offseason-recap__team-badge img {
+  width:22px;
+  height:22px;
+  object-fit:contain;
+}
+
+.coach-offseason-recap__team-badge span,
+.coach-offseason-recap__team-badge strong {
+  font-size:7px;
+}
+
+.coach-offseason-recap__arrow {
+  color:var(--blue);
+  font-weight:900;
+  text-align:center;
+}
+
+.coach-offseason-recap__roster {
+  display:grid;
+}
+
+.coach-offseason-recap__roster article {
+  min-height:54px;
+  padding:8px 12px;
+  display:grid;
+  grid-template-columns:34px minmax(90px,1fr) 45px 70px;
+  align-items:center;
+  gap:9px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.coach-offseason-recap__roster article:last-child {
+  border-bottom:0;
+}
+
+.coach-offseason-recap__roster article > div:nth-child(2),
+.coach-offseason-recap__roster article > div:last-child {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.coach-offseason-recap__roster article > div:last-child {
+  text-align:right;
+}
+
+.coach-offseason-recap__roster span {
+  color:var(--muted-2);
+  font-size:6px;
+}
+
+.coach-offseason-recap__roster strong {
+  font-size:9px;
+}
+
+.coach-offseason-recap__overall {
+  color:var(--blue-2);
+  font-size:16px!important;
+}
+
+.coach-offseason-recap__empty {
+  min-height:75px;
+  display:grid;
+  place-items:center;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.coach-offseason-recap__continue {
+  width:100%;
+  min-height:50px;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  border:1px solid rgba(74,163,255,.38);
+  background:rgba(74,163,255,.13);
+  color:#fff;
+  font-family:inherit;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.1em;
+  cursor:pointer;
+}
+
+.coach-offseason-recap__continue:hover {
+  border-color:var(--blue-2);
+  background:rgba(74,163,255,.2);
+}
+
+.coach-offseason-recap__continue span {
+  color:var(--blue-2);
+  font-size:15px;
+}
+
+@media (max-width:900px) {
+  .coach-offseason-recap__grid {
+    grid-template-columns:1fr;
+  }
+
+  .coach-offseason-recap__hero {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .coach-offseason-recap__summary {
+    width:100%;
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media (max-width:600px) {
+  .coach-offseason-recap__shell {
+    width:min(100% - 20px,1400px);
+  }
+
+  .coach-offseason-recap__transfer {
+    grid-template-columns:30px 1fr;
+  }
+
+  .coach-offseason-recap__team-badge,
+  .coach-offseason-recap__arrow {
+    display:none;
+  }
+}

@@ -1,0 +1,889 @@
+.coach-market {
+  --panel:#171824;
+  --panel-2:#1d1f2c;
+  --panel-3:#222432;
+  --line:#323544;
+  --line-soft:#292c38;
+  --text:#f6f7fb;
+  --muted:#a0a2ad;
+  --muted-2:#737784;
+  --cyan:#22d3d1;
+  --green:#39d678;
+  --yellow:#e0c85d;
+  --red:#ff7b86;
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  color:var(--text);
+  background:#0f151a;
+}
+
+.coach-market__bg {
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 12% 22%,rgba(31,120,132,.22),transparent 34%),
+    radial-gradient(circle at 87% 88%,rgba(35,72,102,.18),transparent 36%),
+    url("../images/season/careerhud.jpg") center/cover no-repeat;
+  opacity:.30;
+  filter:blur(2px);
+  transform:scale(1.03);
+}
+
+.coach-market__overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(11,17,21,.72),rgba(12,20,26,.88));
+}
+
+.coach-market__shell {
+  position:relative;
+  z-index:1;
+  min-height:100vh;
+  max-width:1500px;
+  margin:0 auto;
+  padding:28px 34px 34px;
+}
+
+.coach-market__topbar {
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+}
+
+.coach-market__nav-brand {
+  display:flex;
+  align-items:center;
+  gap:26px;
+}
+
+.coach-market__club-logo {
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border:2px solid rgba(255,255,255,.7);
+  border-radius:50%;
+}
+
+.coach-market__club-logo img {
+  width:38px;
+  height:38px;
+  object-fit:contain;
+}
+
+.coach-market__club-logo span {
+  font-size:9px;
+  font-weight:900;
+}
+
+.coach-market__nav-muted {
+  color:#767b80;
+  font-size:14px;
+  font-weight:700;
+}
+
+.coach-market__nav-brand strong {
+  padding-left:24px;
+  border-left:1px solid rgba(255,255,255,.24);
+  font-size:22px;
+  font-weight:900;
+}
+
+.coach-market__club-budget {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.coach-market__club-mini {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#a9adb2;
+  font-size:12px;
+}
+
+.coach-market__club-mini img {
+  width:26px;
+  height:26px;
+  object-fit:contain;
+}
+
+.coach-market__budget-bar {
+  width:140px;
+  height:7px;
+  background:#4a4c50;
+}
+
+.coach-market__budget-bar span {
+  display:block;
+  height:100%;
+  background:var(--green);
+}
+
+.coach-market__club-budget>strong {
+  min-width:90px;
+  font-size:12px;
+}
+
+.coach-market__club-budget button {
+  min-height:36px;
+  padding:0 12px;
+  border:1px solid #444954;
+  background:#171a20;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.coach-market__subnav {
+  min-height:60px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:30px;
+  margin:4px 0 14px;
+}
+
+.coach-market__window-copy span {
+  display:block;
+  color:#7b7f87;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.coach-market__window-copy strong {
+  display:block;
+  margin-top:3px;
+  font-size:14px;
+}
+
+.coach-market__filters {
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.coach-market__filters button {
+  min-height:34px;
+  padding:0 13px;
+  border:0;
+  background:transparent;
+  color:#7c8087;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.coach-market__filters button.active {
+  color:#fff;
+}
+
+.coach-market__filters button:hover {
+  color:#d9dce2;
+}
+
+.coach-market__payroll-mini {
+  text-align:right;
+}
+
+.coach-market__payroll-mini span {
+  display:block;
+  color:#777b84;
+  font-size:7px;
+  font-weight:900;
+}
+
+.coach-market__payroll-mini strong {
+  font-size:15px;
+}
+
+.coach-market__layout {
+  display:grid;
+  grid-template-columns:minmax(500px,.98fr) minmax(520px,1.02fr);
+  gap:10px;
+  min-height:620px;
+}
+
+.coach-market__results-panel,
+.coach-market__report-panel {
+  border:1px solid #222531;
+  border-radius:12px;
+  background:rgba(22,23,33,.98);
+  overflow:hidden;
+  box-shadow:0 16px 35px rgba(0,0,0,.18);
+}
+
+.coach-market__panel-head {
+  min-height:72px;
+  padding:16px 18px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line-soft);
+}
+
+.coach-market__panel-head span {
+  display:block;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+}
+
+.coach-market__panel-head strong {
+  display:block;
+  margin-top:4px;
+  color:#747985;
+  font-size:9px;
+}
+
+.coach-market__panel-head small {
+  color:#777b85;
+  font-size:8px;
+}
+
+.coach-market__results-grid {
+  max-height:548px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  overflow-y:auto;
+}
+
+.coach-market__result-card {
+  position:relative;
+  min-height:110px;
+  padding:14px 16px;
+  display:grid;
+  grid-template-columns:56px minmax(0,1fr) auto;
+  align-items:center;
+  gap:12px;
+  border:0;
+  border-right:1px solid var(--line-soft);
+  border-bottom:1px solid var(--line-soft);
+  background:#171824;
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+}
+
+.coach-market__result-card:nth-child(2n) {
+  border-right:0;
+}
+
+.coach-market__result-card:hover {
+  background:#1d202b;
+}
+
+.coach-market__result-card--active {
+  z-index:2;
+  outline:2px solid var(--cyan);
+  outline-offset:-2px;
+  background:#1b1d28;
+}
+
+.coach-market__result-avatar {
+  width:54px;
+  height:68px;
+  display:grid;
+  place-items:center;
+  align-self:end;
+  background:linear-gradient(180deg,#343743,#20232d);
+  color:#9fa5b2;
+  font-size:24px;
+  font-weight:900;
+}
+
+.coach-market__result-main {
+  min-width:0;
+}
+
+.coach-market__result-main span {
+  display:block;
+  color:#969aa4;
+  font-size:8px;
+}
+
+.coach-market__result-main strong {
+  display:block;
+  margin-top:2px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:14px;
+  font-weight:900;
+}
+
+.coach-market__result-main small {
+  display:block;
+  margin-top:8px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  color:#a1a4ac;
+  font-size:8px;
+}
+
+.coach-market__result-side {
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.coach-market__result-side img {
+  width:26px;
+  height:26px;
+  object-fit:contain;
+}
+
+.coach-market__result-side strong {
+  color:var(--green);
+  font-size:19px;
+}
+
+.coach-market__overall--good {color:#6db5ff!important;}
+.coach-market__overall--star {color:#47d582!important;}
+.coach-market__overall--elite {color:#e2cb5d!important;}
+
+.coach-market__report-panel {
+  position:relative;
+  max-height:620px;
+  overflow:auto;
+  background:#20212d;
+}
+
+.coach-market__report-head {
+  min-height:170px;
+  padding:28px 30px 20px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:end;
+  gap:22px;
+}
+
+.coach-market__report-player {
+  display:flex;
+  align-items:flex-end;
+  gap:18px;
+}
+
+.coach-market__report-avatar {
+  width:118px;
+  height:134px;
+  display:grid;
+  place-items:center;
+  margin-bottom:-20px;
+  background:linear-gradient(180deg,#3b3f49,#242631);
+  color:#a9aeb7;
+  font-size:52px;
+  font-weight:900;
+}
+
+.coach-market__report-player span {
+  color:#a8abb4;
+  font-size:10px;
+}
+
+.coach-market__report-player h2 {
+  margin:4px 0 4px;
+  font-size:29px;
+  line-height:1;
+}
+
+.coach-market__report-player small {
+  color:#8d919b;
+  font-size:8px;
+}
+
+.coach-market__report-overall {
+  display:flex;
+  align-items:baseline;
+  gap:7px;
+  padding-bottom:18px;
+}
+
+.coach-market__report-overall strong {
+  color:var(--green);
+  font-size:29px;
+}
+
+.coach-market__report-overall span {
+  color:#a2a5ae;
+  font-size:12px;
+}
+
+.coach-market__report-team {
+  min-width:70px;
+  padding-bottom:13px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+.coach-market__report-team img {
+  width:46px;
+  height:46px;
+  object-fit:contain;
+}
+
+.coach-market__report-team strong {
+  font-size:10px;
+}
+
+.coach-market__report-divider {
+  height:1px;
+  margin:0 28px;
+  background:#686a73;
+}
+
+.coach-market__report-summary {
+  display:grid;
+  grid-template-columns:1fr .75fr;
+  gap:24px;
+  padding:28px 30px 10px;
+}
+
+.coach-market__summary-stats>span,
+.coach-market__report-meta>span,
+.coach-market__financial>span {
+  display:block;
+  margin-bottom:14px;
+  color:#dfe1e5;
+  font-size:11px;
+}
+
+.coach-market__summary-stats {
+  padding-right:22px;
+  border-right:1px solid #666872;
+}
+
+.coach-market__stat {
+  margin-bottom:9px;
+}
+
+.coach-market__stat>div:first-child {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.coach-market__stat>div:first-child span {
+  color:#aaaeb7;
+  font-size:11px;
+}
+
+.coach-market__stat>div:first-child strong {
+  font-size:11px;
+}
+
+.coach-market__stat-bar {
+  height:3px;
+  margin-top:4px;
+  background:#373946;
+}
+
+.coach-market__stat-bar span {
+  display:block;
+  height:100%;
+  background:var(--cyan);
+}
+
+.coach-market__stat-value--elite {color:#48d982;}
+.coach-market__stat-value--high {color:#63b4ff;}
+.coach-market__stat-value--low {color:#f08a67;}
+
+.coach-market__report-meta>div,
+.coach-market__financial>div {
+  min-height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.coach-market__report-meta>div span,
+.coach-market__financial>div span {
+  color:#a8abb4;
+  font-size:12px;
+}
+
+.coach-market__report-meta>div strong,
+.coach-market__financial>div strong {
+  font-size:12px;
+}
+
+.coach-market__financial {
+  padding:12px 30px 20px;
+}
+
+.coach-market__availability {
+  margin:0 30px 16px;
+  padding:13px 15px;
+  border:1px solid #3b3e49;
+  background:#191b25;
+}
+
+.coach-market__availability span {
+  display:block;
+  color:#858a94;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.coach-market__availability strong {
+  display:block;
+  margin-top:3px;
+  color:var(--green);
+  font-size:12px;
+}
+
+.coach-market__availability small {
+  display:block;
+  margin-top:3px;
+  color:#8f939d;
+  font-size:10px;
+}
+
+.coach-market__sign {
+  width:calc(100% - 60px);
+  min-height:48px;
+  margin:0 30px 28px;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border:0;
+  border-radius:4px;
+  background:var(--green);
+  color:#08120c;
+  text-align:left;
+  cursor:pointer;
+}
+
+.coach-market__sign span {
+  font-size:12px;
+  font-weight:900;
+}
+
+.coach-market__sign small {
+  display:block;
+  margin-bottom:2px;
+  color:rgba(0,0,0,.55);
+  font-size:7px;
+}
+
+.coach-market__sign b {
+  font-size:20px;
+}
+
+.coach-market__sign:disabled {
+  opacity:.25;
+  cursor:not-allowed;
+}
+
+.coach-market__footer-bar {
+  min-height:58px;
+  margin-top:10px;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  gap:28px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.coach-market__footer-bar>div span {
+  display:block;
+  color:#7a7f87;
+  font-size:7px;
+  font-weight:900;
+}
+
+.coach-market__footer-bar>div strong {
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+}
+
+.coach-market__close-market {
+  margin-left:auto;
+  min-height:38px;
+  padding:0 14px;
+  border:1px solid #3d424b;
+  background:#171a20;
+  color:#fff;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.coach-market__close-market:disabled {
+  opacity:.3;
+  cursor:not-allowed;
+}
+
+.coach-market__empty,
+.coach-market__no-results {
+  min-height:240px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#848993;
+  text-align:center;
+}
+
+.coach-market__empty span {
+  color:#8f939d;
+  font-size:8px;
+}
+
+.coach-market__empty strong {
+  margin-top:5px;
+  color:#fff;
+  font-size:16px;
+}
+
+.coach-market__empty p {
+  max-width:260px;
+  color:#858a94;
+  font-size:9px;
+}
+
+.coach-market__no-results {
+  grid-column:1/-1;
+  font-size:10px;
+}
+
+/* CONTRACTS */
+
+.coach-market__contracts-panel {
+  border:1px solid #292c36;
+  border-radius:12px;
+  background:#171824;
+  overflow:hidden;
+}
+
+.coach-market__contracts-head {
+  min-height:70px;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line-soft);
+}
+
+.coach-market__contracts-head span,
+.coach-market__contracts-head small {
+  color:#858994;
+  font-size:8px;
+  font-weight:900;
+}
+
+.coach-market__contracts-head strong {
+  display:block;
+  margin-top:3px;
+  font-size:14px;
+}
+
+.coach-market__contracts-list {
+  padding:10px;
+  display:grid;
+  gap:8px;
+}
+
+.coach-market__contract-player {
+  min-height:88px;
+  padding:12px 14px;
+  display:grid;
+  grid-template-columns:minmax(180px,1fr) 130px minmax(300px,1.4fr);
+  align-items:center;
+  gap:16px;
+  border:1px solid #2d303a;
+  background:#1c1e29;
+}
+
+.coach-market__contract-player--renewed {
+  border-color:rgba(57,214,120,.35);
+}
+
+.coach-market__contract-player-main {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.coach-market__player-avatar {
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  background:#2b2e39;
+  font-size:12px;
+  font-weight:900;
+}
+
+.coach-market__contract-player-main>div:last-child {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.coach-market__contract-player-main span,
+.coach-market__contract-player-main small,
+.coach-market__contract-old span,
+.coach-market__contract-renewed span,
+.coach-market__contract-renewed small {
+  color:#838791;
+  font-size:7px;
+}
+
+.coach-market__contract-player-main strong,
+.coach-market__contract-old strong {
+  color:#fff;
+  font-size:12px;
+}
+
+.coach-market__contract-renewed strong {
+  color:var(--green);
+  font-size:12px;
+}
+
+.coach-market__contract-options {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
+
+.coach-market__contract-options button {
+  min-height:58px;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  border:1px solid #373a45;
+  background:#232530;
+  color:#fff;
+  cursor:pointer;
+}
+
+.coach-market__contract-options button:hover:not(:disabled) {
+  border-color:var(--cyan);
+}
+
+.coach-market__contract-options button:disabled {
+  opacity:.3;
+}
+
+.coach-market__contract-options span,
+.coach-market__contract-options small {
+  color:#868a94;
+  font-size:6px;
+}
+
+.coach-market__contract-options strong {
+  font-size:10px;
+}
+
+.coach-market__contracts-empty {
+  min-height:180px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.coach-market__contracts-empty>span {
+  color:var(--green);
+  font-size:24px;
+}
+
+.coach-market__contracts-empty p {
+  color:#858994;
+  font-size:9px;
+}
+
+.coach-market__contracts-footer {
+  min-height:64px;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid var(--line-soft);
+}
+
+.coach-market__contracts-footer span {
+  color:#858994;
+  font-size:7px;
+}
+
+.coach-market__contracts-footer strong {
+  display:block;
+  margin-top:3px;
+  font-size:14px;
+}
+
+.coach-market__contracts-footer button {
+  min-height:40px;
+  padding:0 16px;
+  border:0;
+  background:var(--green);
+  color:#08120c;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.coach-market__results-grid::-webkit-scrollbar,
+.coach-market__report-panel::-webkit-scrollbar {
+  width:6px;
+}
+
+.coach-market__results-grid::-webkit-scrollbar-thumb,
+.coach-market__report-panel::-webkit-scrollbar-thumb {
+  background:#666a72;
+  border-radius:6px;
+}
+
+@media (max-width:1100px) {
+  .coach-market__layout {grid-template-columns:1fr;}
+  .coach-market__results-panel,.coach-market__report-panel {max-height:none;}
+  .coach-market__report-panel {overflow:visible;}
+}
+
+@media (max-width:760px) {
+  .coach-market__shell {padding:18px 12px 26px;}
+  .coach-market__topbar {align-items:flex-start;flex-direction:column;}
+  .coach-market__club-budget {width:100%;flex-wrap:wrap;}
+  .coach-market__subnav {grid-template-columns:1fr;}
+  .coach-market__filters {overflow-x:auto;}
+  .coach-market__results-grid {grid-template-columns:1fr;}
+  .coach-market__result-card {border-right:0;}
+  .coach-market__report-head {grid-template-columns:1fr auto;}
+  .coach-market__report-team {display:none;}
+  .coach-market__report-summary {grid-template-columns:1fr;}
+  .coach-market__summary-stats {padding-right:0;border-right:0;}
+  .coach-market__contract-player {grid-template-columns:1fr;}
+}
+
+@media (max-width:520px) {
+  .coach-market__nav-muted {display:none;}
+  .coach-market__nav-brand strong {padding-left:0;border-left:0;font-size:17px;}
+  .coach-market__budget-bar {width:100px;}
+  .coach-market__report-head {padding:20px 16px 16px;}
+  .coach-market__report-avatar {width:84px;height:100px;font-size:38px;}
+  .coach-market__report-player h2 {font-size:22px;}
+  .coach-market__report-summary,.coach-market__financial {padding-left:16px;padding-right:16px;}
+  .coach-market__availability {margin-left:16px;margin-right:16px;}
+  .coach-market__sign {width:calc(100% - 32px);margin-left:16px;margin-right:16px;}
+  .coach-market__contract-options {grid-template-columns:1fr;}
+}

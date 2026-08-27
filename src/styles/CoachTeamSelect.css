@@ -1,0 +1,653 @@
+.coach-team-select {
+  min-height:100vh;
+  padding:28px 42px 38px;
+  color:#f5f7fa;
+  background:
+    radial-gradient(circle at 8% 35%,rgba(18,113,112,.16),transparent 32%),
+    radial-gradient(circle at 94% 16%,rgba(255,70,85,.09),transparent 28%),
+    #090e14;
+}
+
+.coach-team-select__top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:30px;
+  max-width:1500px;
+  margin:0 auto;
+  padding-bottom:22px;
+  border-bottom:1px solid #26313b;
+}
+
+.coach-team-select__top>div>span {
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.2em;
+  color:#67859f;
+}
+
+.coach-team-select__top h1 {
+  margin:5px 0 0;
+  font-size:34px;
+  line-height:1;
+  letter-spacing:.02em;
+}
+
+.coach-team-select__stage-tabs {
+  display:flex;
+  gap:4px;
+}
+
+.coach-team-select__stage-tabs button {
+  min-width:150px;
+  padding:13px 22px;
+  border:1px solid #273440;
+  background:#0e151d;
+  color:#75899d;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.1em;
+  cursor:pointer;
+}
+
+.coach-team-select__stage-tabs button.active {
+  border-color:#1ba8a0;
+  color:#fff;
+  background:#102526;
+  box-shadow:inset 0 -2px #24c5b8;
+}
+
+.coach-team-select__navigation {
+  max-width:1500px;
+  margin:14px auto 0;
+}
+
+.coach-team-select__region-tabs,
+.coach-team-select__subregion-tabs {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  overflow-x:auto;
+}
+
+.coach-team-select__subregion-tabs {
+  margin-top:7px;
+  padding-top:7px;
+  border-top:1px solid #1d2731;
+}
+
+.coach-team-select__region-tabs button,
+.coach-team-select__subregion-tabs button {
+  flex:0 0 auto;
+  padding:9px 15px;
+  border:0;
+  border-bottom:2px solid transparent;
+  background:transparent;
+  color:#697c8f;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.09em;
+  cursor:pointer;
+}
+
+.coach-team-select__region-tabs button.active,
+.coach-team-select__subregion-tabs button.active {
+  color:#f3f7fa;
+  border-bottom-color:#20c7b5;
+}
+
+.coach-team-select__club-dashboard {
+  max-width:1500px;
+  min-height:470px;
+  margin:18px auto 0;
+  display:grid;
+  grid-template-columns:1.2fr .85fr 1.3fr .8fr;
+  gap:6px;
+}
+
+.coach-team-select__identity,
+.coach-team-select__jersey-panel,
+.coach-team-select__club-information,
+.coach-team-select__project {
+  border:1px solid #26313d;
+  background:rgba(15,21,29,.94);
+}
+
+.coach-team-select__identity {
+  position:relative;
+  min-width:0;
+  padding:28px 25px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+}
+
+.coach-team-select__identity::before {
+  content:"";
+  position:absolute;
+  inset:auto -20% -50% -20%;
+  height:65%;
+  background:radial-gradient(circle,rgba(19,176,163,.11),transparent 65%);
+  pointer-events:none;
+}
+
+.coach-team-select__panel-label {
+  align-self:flex-start;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.16em;
+  color:#6888a2;
+}
+
+.coach-team-select__identity h2 {
+  min-height:46px;
+  margin:10px 0 5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  line-height:1.15;
+}
+
+.coach-team-select__logo-wrapper {
+  width:100%;
+  flex:1;
+  display:grid;
+  grid-template-columns:38px 1fr 38px;
+  align-items:center;
+  gap:12px;
+}
+
+.coach-team-select__logo-wrapper button {
+  width:38px;
+  height:48px;
+  border:0;
+  background:transparent;
+  color:#a4b3bf;
+  font-size:40px;
+  line-height:1;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.coach-team-select__logo-wrapper button:hover {
+  color:#fff;
+  transform:scale(1.12);
+}
+
+.coach-team-select__main-logo {
+  height:250px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.coach-team-select__main-logo img {
+  max-width:210px;
+  max-height:210px;
+  object-fit:contain;
+  filter:drop-shadow(0 20px 24px rgba(0,0,0,.35));
+}
+
+.coach-team-select__main-logo span {
+  font-size:48px;
+  font-weight:900;
+}
+
+.coach-team-select__stars {
+  position:relative;
+  z-index:1;
+  display:flex;
+  gap:4px;
+  font-size:22px;
+}
+
+.coach-team-select__stars span {
+  color:#35404b;
+}
+
+.coach-team-select__stars span.full,
+.coach-team-select__stars span.half {
+  color:#bea75b;
+}
+
+.coach-team-select__jersey-panel {
+  padding:27px 22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.coach-team-select__jersey-panel>strong {
+  align-self:flex-start;
+  margin-top:7px;
+  font-size:15px;
+}
+
+.coach-team-select__jersey-panel>small {
+  margin-top:auto;
+  color:#65798b;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.18em;
+}
+
+.coach-team-select__jersey {
+  position:relative;
+  width:220px;
+  height:265px;
+  margin:auto;
+  filter:drop-shadow(0 20px 25px rgba(0,0,0,.34));
+}
+
+.coach-team-select__jersey-body {
+  position:absolute;
+  left:45px;
+  top:39px;
+  width:130px;
+  height:205px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding-top:52px;
+  border-radius:16px 16px 24px 24px;
+  background:
+    linear-gradient(125deg,rgba(255,255,255,.07),transparent 40%),
+    #202934;
+  border:1px solid #3b4754;
+  clip-path:polygon(12% 0,36% 7%,64% 7%,88% 0,100% 18%,91% 100%,9% 100%,0 18%);
+}
+
+.coach-team-select__jersey-body img {
+  position:relative;
+  z-index:2;
+  width:56px;
+  height:56px;
+  object-fit:contain;
+}
+
+.coach-team-select__jersey-neck {
+  position:absolute;
+  z-index:3;
+  top:39px;
+  left:92px;
+  width:36px;
+  height:19px;
+  border-radius:0 0 22px 22px;
+  border:4px solid #596775;
+  border-top:0;
+}
+
+.coach-team-select__jersey-left,
+.coach-team-select__jersey-right {
+  position:absolute;
+  top:47px;
+  width:68px;
+  height:75px;
+  background:#202934;
+  border:1px solid #3b4754;
+}
+
+.coach-team-select__jersey-left {
+  left:7px;
+  transform:rotate(21deg);
+  clip-path:polygon(40% 0,100% 7%,85% 100%,0 78%);
+}
+
+.coach-team-select__jersey-right {
+  right:7px;
+  transform:rotate(-21deg);
+  clip-path:polygon(0 7%,60% 0,100% 78%,15% 100%);
+}
+
+.coach-team-select__club-information {
+  display:grid;
+  grid-template-rows:1.15fr .8fr .8fr;
+}
+
+.coach-team-select__founded {
+  padding:25px 28px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  border-bottom:1px solid #29343f;
+}
+
+.coach-team-select__founded span,
+.coach-team-select__info-stat span,
+.coach-team-select__club-record span {
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.13em;
+  color:#71869a;
+}
+
+.coach-team-select__founded strong {
+  margin-top:7px;
+  font-size:52px;
+  line-height:1;
+}
+
+.coach-team-select__financial-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border-bottom:1px solid #29343f;
+}
+
+.coach-team-select__info-stat {
+  padding:22px 25px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.coach-team-select__info-stat:first-child {
+  border-right:1px solid #29343f;
+}
+
+.coach-team-select__info-stat strong {
+  margin-top:6px;
+  font-size:20px;
+}
+
+.coach-team-select__club-record {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.coach-team-select__club-record>div {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.coach-team-select__club-record>div:first-child {
+  border-right:1px solid #29343f;
+}
+
+.coach-team-select__club-record strong {
+  margin-top:5px;
+  font-size:26px;
+}
+
+.coach-team-select__project {
+  display:grid;
+  grid-template-rows:repeat(3,1fr);
+  gap:5px;
+  border:0;
+  background:transparent;
+}
+
+.coach-team-select__project-card {
+  position:relative;
+  overflow:hidden;
+  padding:25px 22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border:1px solid #2b3540;
+  background:
+    radial-gradient(circle at 100% 100%,rgba(24,177,164,.08),transparent 58%),
+    #111821;
+}
+
+.coach-team-select__project-card::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.38;
+  background:linear-gradient(135deg,transparent 45%,rgba(228,67,77,.27));
+}
+
+.coach-team-select__project-card>span,
+.coach-team-select__project-card>strong,
+.coach-team-select__project-meter {
+  position:relative;
+  z-index:1;
+}
+
+.coach-team-select__project-card>span {
+  margin-bottom:14px;
+  font-size:10px;
+  color:#9ba9b5;
+}
+
+.coach-team-select__project-card>strong {
+  font-size:15px;
+  line-height:1.2;
+}
+
+.coach-team-select__project-meter {
+  height:3px;
+  margin-top:14px;
+  background:#2b3641;
+}
+
+.coach-team-select__project-meter i {
+  display:block;
+  height:100%;
+  background:#d8dfe5;
+}
+
+.coach-team-select__project-card--low .coach-team-select__project-meter i {width:25%;}
+.coach-team-select__project-card--medium .coach-team-select__project-meter i {width:50%;}
+.coach-team-select__project-card--high .coach-team-select__project-meter i {width:75%;}
+.coach-team-select__project-card--crucial .coach-team-select__project-meter i {width:100%;}
+
+.coach-team-select__competition-banner {
+  position:relative;
+  max-width:1500px;
+  margin:6px auto 0;
+  min-height:70px;
+  padding:14px 28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #26313d;
+  background:
+    linear-gradient(105deg,rgba(16,133,128,.14),transparent 35%),
+    #0e151d;
+}
+
+.coach-team-select__competition-banner::after {
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-1px;
+  width:160px;
+  height:2px;
+  transform:translateX(-50%);
+  background:#22c6b4;
+}
+
+.coach-team-select__competition-banner>span {
+  position:absolute;
+  left:27px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.16em;
+  color:#5d839d;
+}
+
+.coach-team-select__competition-banner strong {
+  font-size:23px;
+  letter-spacing:.06em;
+}
+
+.coach-team-select__competition-banner small {
+  position:absolute;
+  right:27px;
+  color:#64788b;
+  font-weight:800;
+}
+
+.coach-team-select__coach-setup {
+  max-width:1500px;
+  margin:14px auto 0;
+  display:grid;
+  grid-template-columns:1fr 1fr 150px 1.35fr;
+  border:1px solid #26313d;
+  background:#0d141b;
+}
+
+.coach-team-select__coach-setup label {
+  min-width:0;
+  padding:15px 18px;
+  border-right:1px solid #26313d;
+}
+
+.coach-team-select__coach-setup label>span {
+  display:block;
+  margin-bottom:6px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+  color:#657d91;
+}
+
+.coach-team-select__coach-setup input {
+  width:100%;
+  padding:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+}
+
+.coach-team-select__start-button {
+  min-height:68px;
+  padding:0 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border:0;
+  background:#197bb7;
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.coach-team-select__start-button:hover:not(:disabled) {
+  background:#218bc9;
+}
+
+.coach-team-select__start-button:disabled {
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+.coach-team-select__start-button span {
+  display:flex;
+  flex-direction:column;
+  font-size:14px;
+  font-weight:900;
+}
+
+.coach-team-select__start-button small {
+  margin-bottom:2px;
+  font-size:8px;
+  letter-spacing:.13em;
+  opacity:.7;
+}
+
+.coach-team-select__start-button b {
+  font-size:24px;
+}
+
+.coach-team-select__empty {
+  max-width:1500px;
+  min-height:420px;
+  margin:18px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #26313d;
+  color:#6d8295;
+  background:#0d141b;
+}
+.coach-team-select__top-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+}
+@media(max-width:900px) {
+  .coach-team-select__top {
+    align-items:flex-start;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+
+  .coach-team-select__top-actions {
+    margin-left:auto;
+    flex-wrap:wrap;
+  }
+}
+@media (max-width:1100px) {
+  .coach-team-select {padding:22px;}
+  .coach-team-select__club-dashboard {grid-template-columns:1fr 1fr;}
+  .coach-team-select__project {grid-template-columns:repeat(3,1fr);grid-template-rows:none;}
+  .coach-team-select__coach-setup {grid-template-columns:1fr 1fr;}
+  .coach-team-select__coach-setup label {border-bottom:1px solid #26313d;}
+}
+
+@media (max-width:700px) {
+  .coach-team-select {padding:14px;}
+  .coach-team-select__top {align-items:flex-start;flex-direction:column;}
+  .coach-team-select__stage-tabs {width:100%;}
+  .coach-team-select__stage-tabs button {flex:1;min-width:0;}
+  .coach-team-select__club-dashboard {grid-template-columns:1fr;}
+  .coach-team-select__project {grid-template-columns:1fr;}
+  .coach-team-select__coach-setup {grid-template-columns:1fr;}
+  .coach-team-select__coach-setup label {border-right:0;}
+  .coach-team-select__main-logo {height:210px;}
+  .coach-team-select__competition-banner strong {font-size:17px;}
+  .coach-team-select__competition-banner>span {display:none;}
+}
+
+.coach-team-select__country-field {
+  min-width:0;
+  padding:15px 18px;
+  border-right:1px solid #26313d;
+}
+
+.coach-team-select__country-field>span {
+  display:block;
+  margin-bottom:6px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+  color:#657d91;
+}
+
+.coach-team-select__country-select {
+  position:relative;
+}
+
+.coach-team-select__country-select .country-select {
+  width:100%;
+}
+
+.coach-team-select__country-select .country-select__trigger {
+  min-height:28px;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+
+.coach-team-select__country-select .country-select__menu {
+  top:auto;
+  bottom:calc(100% + 12px);
+  max-height:300px;
+  overflow-y:auto;
+  z-index:300;
+}
