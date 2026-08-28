@@ -26,13 +26,13 @@ export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestO
   const mapWinners = createSeriesPattern(result.won,bestOf);
   const mapNames = shuffle(MAP_POOL).slice(0,mapWinners.length);
 
-  const useRealVCTRosters = playerTeam.tier === 1 && opponent.tier === 1;
+  const playerVCTRoster=getEffectiveVCTRoster(playerTeam.name,player,vctRosters);
+  const opponentVCTRoster=getEffectiveVCTRoster(opponent.name,undefined,vctRosters);
 
-  const playerVCTRoster = useRealVCTRosters ? getEffectiveVCTRoster(playerTeam.name,player,vctRosters) : [];
-  const opponentVCTRoster = useRealVCTRosters ? getEffectiveVCTRoster(opponent.name,undefined,vctRosters) : [];
+  const useRealRosters=playerVCTRoster.length>=5&&opponentVCTRoster.length>=5;
 
-  const realAllies = playerVCTRoster.filter((rosterPlayer) => !rosterPlayer.isCareerPlayer);
-  const realEnemies = opponentVCTRoster;
+  const realAllies=useRealRosters?playerVCTRoster.filter(rosterPlayer=>!rosterPlayer.isCareerPlayer):[];
+  const realEnemies=useRealRosters?opponentVCTRoster:[];
 
   const maps:MatchMapStats[] = mapWinners.map((playerWon,index) => {
     const score = createMapScore(playerWon);
@@ -43,7 +43,7 @@ export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestO
     const playerAgent = pickPlayerAgent(player,index,allyTaken);
     const playerRow = createCareerPlayerMapStats(player,result,score.for,score.against,playerWon,playerAgent);
 
-    const allies = useRealVCTRosters && realAllies.length >= 4
+    const allies=useRealRosters&&realAllies.length>=4
       ? realAllies.slice(0,4).map((rosterPlayer) => {
           const role = normalizeVCTRole(rosterPlayer.role);
           const agent = pickAgentForRole(role,allyTaken);
@@ -55,7 +55,7 @@ export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestO
           return createCPUMapPlayer(`${playerTeam.shortName} Player ${playerIndex + 1}`,`${playerTeam.id}-cpu-${playerIndex + 1}`,playerTeam.id,playerTeam.strength,playerWon,score.for,score.against,role,agent);
         });
 
-    const enemies = useRealVCTRosters && realEnemies.length >= 5
+    const enemies=useRealRosters&&realEnemies.length>=5
       ? realEnemies.slice(0,5).map((rosterPlayer) => {
           const role = normalizeVCTRole(rosterPlayer.role);
           const agent = pickAgentForRole(role,enemyTaken);

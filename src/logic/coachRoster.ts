@@ -6,44 +6,43 @@ import {getEffectiveVCTRoster} from "../data/vctPlayers";
 
 const TIER2_ROLES:PlayerRole[]=["Duelist","Initiator","Controller","Sentinel","Flex"];
 const INITIAL_COACH_SEASON=2026;
+
 export function createInitialCoachRoster(team:TeamDefinition):CoachPlayer[] {
-  if(team.tier===1){
-    const realRoster=getEffectiveVCTRoster(team.name);
+  const realRoster=getEffectiveVCTRoster(team.name);
 
-    if(realRoster.length>=5){
-      return realRoster.slice(0,5).map(player=>{
-        const role=normalizeRole(player.role);
-        const isIGL=normalizeIsIGL(player.role);
-        const stats={...player.stats};
-        const overall=getStatsOverall(stats);
-        const contractLength=getInitialContractLength(player.age);
+  if(realRoster.length>=5){
+    return realRoster.slice(0,5).map(player=>{
+      const role=normalizeRole(player.role);
+      const isIGL=normalizeIsIGL(player.role);
+      const stats={...player.stats};
+      const overall=getStatsOverall(stats);
+      const contractLength=getInitialContractLength(player.age);
 
-        const coachPlayer:CoachPlayer={
-          id:`coach-${team.id}-${player.ign.toLowerCase().replace(/\s+/g,"-")}`,
-          ign:player.ign,
-          teamId:team.id,
-          role,
-          isIGL,
-          stats,
-          overall,
-          potential:getInitialPotential(overall,player.age,true),
-          peakAge:getInitialPeakAge(player.age,role),
-          salary:getInitialCoachPlayerSalary(overall,team.tier),
-          age:player.age,
-          starter:true,
-          marketValue:0,
+      const coachPlayer:CoachPlayer={
+        id:`coach-${team.id}-${normalizePlayerId(player.ign)}`,
+        ign:player.ign,
+        teamId:team.id,
+        role,
+        isIGL,
+        stats,
+        overall,
+        potential:getInitialPotential(overall,player.age,team.tier===1),
+        peakAge:getInitialPeakAge(player.age,role),
+        salary:getInitialCoachPlayerSalary(overall,team.tier),
+        age:player.age,
+        starter:true,
+        marketValue:0,
 
-          contractStartSeason:INITIAL_COACH_SEASON,
-          contractEndSeason:INITIAL_COACH_SEASON+contractLength-1,
-          contractSeasonsRemaining:contractLength,
-          contractStatus:getContractStatus(contractLength),
-          transferStatus:"NotListed",
-          joinedTeamSeason:INITIAL_COACH_SEASON,
-        };
+        contractStartSeason:INITIAL_COACH_SEASON,
+        contractEndSeason:INITIAL_COACH_SEASON+contractLength-1,
+        contractSeasonsRemaining:contractLength,
+        contractStatus:getContractStatus(contractLength),
+        transferStatus:"NotListed",
+        joinedTeamSeason:INITIAL_COACH_SEASON,
+      };
 
-        return {...coachPlayer,marketValue:getCoachPlayerMarketValue(coachPlayer)};
-      });
-    }
+      return {...coachPlayer,marketValue:getCoachPlayerMarketValue(coachPlayer)};
+    });
   }
 
   return createGeneratedTier2Roster(team);
@@ -140,44 +139,114 @@ function createStatsForRole(role:PlayerRole,base:number):PlayerStats {
   const stat=()=>clamp(base+random(-5,5),50,92);
 
   if(role==="Duelist"){
-    return {aim:clamp(base+6,50,94),gameSense:stat(),communication:clamp(base-5,50,90),clutch:clamp(base+3,50,93),consistency:stat(),mental:stat()};
+    return {
+      aim:clamp(base+6,50,94),
+      gameSense:stat(),
+      communication:clamp(base-5,50,90),
+      clutch:clamp(base+3,50,93),
+      consistency:stat(),
+      mental:stat(),
+    };
   }
 
   if(role==="Initiator"){
-    return {aim:stat(),gameSense:clamp(base+4,50,94),communication:clamp(base+5,50,94),clutch:stat(),consistency:stat(),mental:stat()};
+    return {
+      aim:stat(),
+      gameSense:clamp(base+4,50,94),
+      communication:clamp(base+5,50,94),
+      clutch:stat(),
+      consistency:stat(),
+      mental:stat(),
+    };
   }
 
   if(role==="Controller"){
-    return {aim:stat(),gameSense:clamp(base+5,50,94),communication:clamp(base+4,50,94),clutch:stat(),consistency:clamp(base+4,50,94),mental:stat()};
+    return {
+      aim:stat(),
+      gameSense:clamp(base+5,50,94),
+      communication:clamp(base+4,50,94),
+      clutch:stat(),
+      consistency:clamp(base+4,50,94),
+      mental:stat(),
+    };
   }
 
   if(role==="Sentinel"){
-    return {aim:stat(),gameSense:clamp(base+4,50,94),communication:stat(),clutch:clamp(base+2,50,94),consistency:clamp(base+5,50,94),mental:stat()};
+    return {
+      aim:stat(),
+      gameSense:clamp(base+4,50,94),
+      communication:stat(),
+      clutch:clamp(base+2,50,94),
+      consistency:clamp(base+5,50,94),
+      mental:stat(),
+    };
   }
 
-  return {aim:stat(),gameSense:stat(),communication:stat(),clutch:stat(),consistency:stat(),mental:stat()};
+  return {
+    aim:stat(),
+    gameSense:stat(),
+    communication:stat(),
+    clutch:stat(),
+    consistency:stat(),
+    mental:stat(),
+  };
 }
 
 function createDeterministicStatsForRole(role:PlayerRole,base:number,seed:string):PlayerStats {
   const stat=(name:string,offset=0)=>clamp(base+offset+randomDeterministic(-4,4,`${seed}-${name}`),45,94);
 
   if(role==="Duelist"){
-    return {aim:stat("aim",6),gameSense:stat("gameSense"),communication:stat("communication",-4),clutch:stat("clutch",3),consistency:stat("consistency"),mental:stat("mental")};
+    return {
+      aim:stat("aim",6),
+      gameSense:stat("gameSense"),
+      communication:stat("communication",-4),
+      clutch:stat("clutch",3),
+      consistency:stat("consistency"),
+      mental:stat("mental"),
+    };
   }
 
   if(role==="Initiator"){
-    return {aim:stat("aim"),gameSense:stat("gameSense",4),communication:stat("communication",4),clutch:stat("clutch"),consistency:stat("consistency"),mental:stat("mental")};
+    return {
+      aim:stat("aim"),
+      gameSense:stat("gameSense",4),
+      communication:stat("communication",4),
+      clutch:stat("clutch"),
+      consistency:stat("consistency"),
+      mental:stat("mental"),
+    };
   }
 
   if(role==="Controller"){
-    return {aim:stat("aim"),gameSense:stat("gameSense",5),communication:stat("communication",3),clutch:stat("clutch"),consistency:stat("consistency",3),mental:stat("mental")};
+    return {
+      aim:stat("aim"),
+      gameSense:stat("gameSense",5),
+      communication:stat("communication",3),
+      clutch:stat("clutch"),
+      consistency:stat("consistency",3),
+      mental:stat("mental"),
+    };
   }
 
   if(role==="Sentinel"){
-    return {aim:stat("aim"),gameSense:stat("gameSense",4),communication:stat("communication"),clutch:stat("clutch",2),consistency:stat("consistency",4),mental:stat("mental")};
+    return {
+      aim:stat("aim"),
+      gameSense:stat("gameSense",4),
+      communication:stat("communication"),
+      clutch:stat("clutch",2),
+      consistency:stat("consistency",4),
+      mental:stat("mental"),
+    };
   }
 
-  return {aim:stat("aim"),gameSense:stat("gameSense"),communication:stat("communication"),clutch:stat("clutch"),consistency:stat("consistency"),mental:stat("mental")};
+  return {
+    aim:stat("aim"),
+    gameSense:stat("gameSense"),
+    communication:stat("communication"),
+    clutch:stat("clutch"),
+    consistency:stat("consistency"),
+    mental:stat("mental"),
+  };
 }
 
 function normalizeRole(role:string):PlayerRole {
@@ -195,20 +264,35 @@ function normalizeIsIGL(role:string) {
   return role.trim().toLowerCase()==="igl";
 }
 
+function normalizePlayerId(ign:string) {
+  return ign.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+
 function getStatsOverall(stats:PlayerStats) {
-  return Math.round((stats.aim+stats.gameSense+stats.communication+stats.clutch+stats.consistency+stats.mental)/6);
+  return Math.round(
+    (
+      stats.aim+
+      stats.gameSense+
+      stats.communication+
+      stats.clutch+
+      stats.consistency+
+      stats.mental
+    )/6,
+  );
 }
 
 function getInitialContractLength(age:number) {
   if(age<=21)return random(2,4);
   if(age<=27)return random(1,3);
   if(age<=31)return random(1,2);
+
   return 1;
 }
 
 function getContractStatus(remaining:number):CoachPlayer["contractStatus"] {
   if(remaining<=0)return "FreeAgent";
   if(remaining===1)return "Expiring";
+
   return "Active";
 }
 
@@ -218,6 +302,7 @@ function getInitialCoachPlayerSalary(overall:number,tier:1|2) {
     if(overall>=90)return random(15000,22000);
     if(overall>=85)return random(11000,18000);
     if(overall>=80)return random(7500,14000);
+
     return random(5000,9000);
   }
 

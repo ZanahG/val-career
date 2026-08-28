@@ -68,9 +68,9 @@ export const TEAMS: TeamDefinition[] = [
   },
 
   {
-    id: "farenvehn",
-    name: "Farenvehn",
-    shortName: "FAR",
+    id: "university",
+    name: "University War",
+    shortName: "UWR",
     country: "Chile",
     region: "LATAM",
     marketRegion: "LATAM",
@@ -80,7 +80,7 @@ export const TEAMS: TeamDefinition[] = [
     strength: 61,
     salaryMin: 500,
     salaryMax: 1400,
-    logo: "latam/farenvehn.png",
+    logo: "latam/university.png",
   },
 
   {
@@ -98,7 +98,6 @@ export const TEAMS: TeamDefinition[] = [
     salaryMax: 1500,
     logo: "latam/rebirth.png",
   },
-
   {
     id: "bestia",
     name: "BESTIA",
@@ -114,7 +113,6 @@ export const TEAMS: TeamDefinition[] = [
     salaryMax: 2300,
     logo: "latam/bestia.png",
   },
-
   {
     id: "kru-spark",
     name: "KRÜ Spark",

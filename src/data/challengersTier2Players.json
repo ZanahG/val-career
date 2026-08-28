@@ -1,0 +1,3157 @@
+{
+  "snapshot": "VCL 2026 LATAM South Stage 2",
+  "source": "VLR.gg",
+  "notes": "Roster identities are based on VLR's 2026 LATAM South Stage 2 listings. Roles, ages and simulator stats are balancing estimates for TuCarreraValorant, not official VLR data.",
+  "players": [
+    {
+      "ign": "tunaso",
+      "teamId": "leviatan-academy",
+      "team": "LEVIATÁN Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 79,
+        "clutch": 77,
+        "gameSense": 82,
+        "communication": 81,
+        "consistency": 80,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Kramz",
+      "teamId": "leviatan-academy",
+      "team": "LEVIATÁN Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Flex",
+      "age": 20,
+      "stats": {
+        "aim": 80,
+        "clutch": 78,
+        "gameSense": 81,
+        "communication": 79,
+        "consistency": 79,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "mrtnssj",
+      "teamId": "leviatan-academy",
+      "team": "LEVIATÁN Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 78,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 79,
+        "consistency": 82,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "deev",
+      "teamId": "leviatan-academy",
+      "team": "LEVIATÁN Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 80,
+        "clutch": 79,
+        "gameSense": 82,
+        "communication": 80,
+        "consistency": 81,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Lolo",
+      "teamId": "leviatan-academy",
+      "team": "LEVIATÁN Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Duelista",
+      "age": 19,
+      "stats": {
+        "aim": 84,
+        "clutch": 79,
+        "gameSense": 78,
+        "communication": 76,
+        "consistency": 80,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "vaiZ",
+      "teamId": "shinden",
+      "team": "ShindeN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "IGL",
+      "age": 22,
+      "stats": {
+        "aim": 79,
+        "clutch": 81,
+        "gameSense": 85,
+        "communication": 86,
+        "consistency": 82,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "nx1",
+      "teamId": "shinden",
+      "team": "ShindeN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Controlador",
+      "age": 19,
+      "stats": {
+        "aim": 84,
+        "clutch": 82,
+        "gameSense": 87,
+        "communication": 85,
+        "consistency": 88,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "leadssj",
+      "teamId": "shinden",
+      "team": "ShindeN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 81,
+        "clutch": 79,
+        "gameSense": 84,
+        "communication": 83,
+        "consistency": 82,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "adverso",
+      "teamId": "shinden",
+      "team": "ShindeN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 23,
+      "stats": {
+        "aim": 82,
+        "clutch": 83,
+        "gameSense": 85,
+        "communication": 82,
+        "consistency": 85,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "rubkkoide",
+      "teamId": "shinden",
+      "team": "ShindeN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Duelista",
+      "age": 20,
+      "stats": {
+        "aim": 86,
+        "clutch": 81,
+        "gameSense": 80,
+        "communication": 78,
+        "consistency": 83,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "MiradaNinja",
+      "teamId": "9z-team",
+      "team": "9z Team",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 80,
+        "clutch": 81,
+        "gameSense": 84,
+        "communication": 85,
+        "consistency": 82,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "Kimbo",
+      "teamId": "9z-team",
+      "team": "9z Team",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Duelista",
+      "age": 20,
+      "stats": {
+        "aim": 84,
+        "clutch": 79,
+        "gameSense": 78,
+        "communication": 77,
+        "consistency": 80,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "skyppervz",
+      "teamId": "9z-team",
+      "team": "9z Team",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 81,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 82,
+        "consistency": 81,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "Tuli",
+      "teamId": "9z-team",
+      "team": "9z Team",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Controlador",
+      "age": 21,
+      "stats": {
+        "aim": 80,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 82,
+        "consistency": 82,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "M1key",
+      "teamId": "9z-team",
+      "team": "9z Team",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 82,
+        "clutch": 82,
+        "gameSense": 84,
+        "communication": 80,
+        "consistency": 83,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "neto",
+      "teamId": "oxen",
+      "team": "OXEN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 78,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 85,
+        "consistency": 80,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "deigara",
+      "teamId": "oxen",
+      "team": "OXEN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 82,
+        "clutch": 78,
+        "gameSense": 78,
+        "communication": 76,
+        "consistency": 79,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "Klaus",
+      "teamId": "oxen",
+      "team": "OXEN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 24,
+      "stats": {
+        "aim": 79,
+        "clutch": 81,
+        "gameSense": 84,
+        "communication": 83,
+        "consistency": 81,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "mta",
+      "teamId": "oxen",
+      "team": "OXEN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 80,
+        "clutch": 80,
+        "gameSense": 82,
+        "communication": 82,
+        "consistency": 82,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "Cebando",
+      "teamId": "oxen",
+      "team": "OXEN",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 21,
+      "stats": {
+        "aim": 80,
+        "clutch": 81,
+        "gameSense": 82,
+        "communication": 79,
+        "consistency": 80,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "Melser",
+      "teamId": "bestia",
+      "team": "BESTIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "IGL",
+      "age": 25,
+      "stats": {
+        "aim": 83,
+        "clutch": 84,
+        "gameSense": 87,
+        "communication": 88,
+        "consistency": 85,
+        "mental": 86
+      }
+    },
+    {
+      "ign": "chubizin",
+      "teamId": "bestia",
+      "team": "BESTIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 86,
+        "clutch": 82,
+        "gameSense": 81,
+        "communication": 79,
+        "consistency": 84,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "david",
+      "teamId": "bestia",
+      "team": "BESTIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 22,
+      "stats": {
+        "aim": 82,
+        "clutch": 82,
+        "gameSense": 85,
+        "communication": 84,
+        "consistency": 84,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "Tacolilla",
+      "teamId": "bestia",
+      "team": "BESTIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 24,
+      "stats": {
+        "aim": 84,
+        "clutch": 85,
+        "gameSense": 86,
+        "communication": 82,
+        "consistency": 85,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "Loss",
+      "teamId": "bestia",
+      "team": "BESTIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Controlador",
+      "age": 21,
+      "stats": {
+        "aim": 83,
+        "clutch": 82,
+        "gameSense": 84,
+        "communication": 83,
+        "consistency": 83,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "benG",
+      "teamId": "kru-spark",
+      "team": "KRÜ Spark",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "IGL",
+      "age": 21,
+      "stats": {
+        "aim": 81,
+        "clutch": 82,
+        "gameSense": 86,
+        "communication": 88,
+        "consistency": 84,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "mont1",
+      "teamId": "kru-spark",
+      "team": "KRÜ Spark",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 87,
+        "clutch": 83,
+        "gameSense": 81,
+        "communication": 79,
+        "consistency": 85,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "phc",
+      "teamId": "kru-spark",
+      "team": "KRÜ Spark",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Controlador",
+      "age": 21,
+      "stats": {
+        "aim": 81,
+        "clutch": 82,
+        "gameSense": 85,
+        "communication": 83,
+        "consistency": 84,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "NagZ",
+      "teamId": "kru-spark",
+      "team": "KRÜ Spark",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 24,
+      "stats": {
+        "aim": 84,
+        "clutch": 84,
+        "gameSense": 86,
+        "communication": 83,
+        "consistency": 85,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "jotinha",
+      "teamId": "kru-spark",
+      "team": "KRÜ Spark",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 83,
+        "clutch": 80,
+        "gameSense": 84,
+        "communication": 82,
+        "consistency": 83,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "KNZY",
+      "teamId": "university-war",
+      "team": "University War",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Controlador",
+      "age": 21,
+      "stats": {
+        "aim": 81,
+        "clutch": 81,
+        "gameSense": 84,
+        "communication": 83,
+        "consistency": 82,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "alca",
+      "teamId": "university-war",
+      "team": "University War",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "IGL",
+      "age": 22,
+      "stats": {
+        "aim": 79,
+        "clutch": 80,
+        "gameSense": 84,
+        "communication": 85,
+        "consistency": 81,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "Mathi",
+      "teamId": "university-war",
+      "team": "University War",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Duelista",
+      "age": 20,
+      "stats": {
+        "aim": 85,
+        "clutch": 81,
+        "gameSense": 80,
+        "communication": 79,
+        "consistency": 82,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "ruso",
+      "teamId": "university-war",
+      "team": "University War",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 82,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 82,
+        "consistency": 82,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "Mystizip",
+      "teamId": "university-war",
+      "team": "University War",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 21,
+      "stats": {
+        "aim": 84,
+        "clutch": 83,
+        "gameSense": 85,
+        "communication": 81,
+        "consistency": 84,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "alca",
+      "teamId": "rebirth-esports",
+      "team": "Rebirth Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 83,
+        "clutch": 80,
+        "gameSense": 79,
+        "communication": 78,
+        "consistency": 81,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "ganter",
+      "teamId": "rebirth-esports",
+      "team": "Rebirth Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Flex",
+      "age": 20,
+      "stats": {
+        "aim": 82,
+        "clutch": 80,
+        "gameSense": 82,
+        "communication": 82,
+        "consistency": 81,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "Mystizip",
+      "teamId": "rebirth-esports",
+      "team": "Rebirth Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Controlador",
+      "age": 21,
+      "stats": {
+        "aim": 80,
+        "clutch": 80,
+        "gameSense": 84,
+        "communication": 83,
+        "consistency": 82,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "KNZY",
+      "teamId": "rebirth-esports",
+      "team": "Rebirth Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Centinela",
+      "age": 21,
+      "stats": {
+        "aim": 84,
+        "clutch": 82,
+        "gameSense": 83,
+        "communication": 81,
+        "consistency": 83,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "ruso",
+      "teamId": "rebirth-esports",
+      "team": "Rebirth Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 80,
+        "clutch": 81,
+        "gameSense": 84,
+        "communication": 83,
+        "consistency": 82,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "NaturE",
+      "teamId":"shopify-rebellion",
+      "team":"Shopify Rebellion",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 20,
+      "stats": {
+        "aim": 80,
+        "clutch": 78,
+        "gameSense": 83,
+        "communication": 89,
+        "consistency": 83,
+        "mental": 87
+      }
+    },
+    {
+      "ign": "zander",
+      "teamId":"shopify-rebellion",
+      "team":"Shopify Rebellion",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 19,
+      "stats": {
+        "aim": 85,
+        "clutch": 83,
+        "gameSense": 82,
+        "communication": 80,
+        "consistency": 79,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "Smoke",
+      "teamId":"shopify-rebellion",
+      "team":"Shopify Rebellion",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 81,
+        "clutch": 78,
+        "gameSense": 85,
+        "communication": 86,
+        "consistency": 79,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "satellite",
+      "teamId":"shopify-rebellion",
+      "team":"Shopify Rebellion",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 19,
+      "stats": {
+        "aim": 79,
+        "clutch": 83,
+        "gameSense": 82,
+        "communication": 81,
+        "consistency": 82,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "exa",
+      "teamId":"shopify-rebellion",
+      "team":"Shopify Rebellion",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 24,
+      "stats": {
+        "aim": 82,
+        "clutch": 82,
+        "gameSense": 84,
+        "communication": 84,
+        "consistency": 82,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "welyy",
+      "teamId": "sad-esports",
+      "team": "SaD Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 20,
+      "stats": {
+        "aim": 75,
+        "clutch": 77,
+        "gameSense": 87,
+        "communication": 81,
+        "consistency": 80,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Pa1nt",
+      "teamId": "sad-esports",
+      "team": "SaD Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 25,
+      "stats": {
+        "aim": 86,
+        "clutch": 77,
+        "gameSense": 80,
+        "communication": 74,
+        "consistency": 81,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "payne",
+      "teamId": "sad-esports",
+      "team": "SaD Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 23,
+      "stats": {
+        "aim": 80,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 82,
+        "consistency": 77,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "zaj",
+      "teamId": "sad-esports",
+      "team": "SaD Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 24,
+      "stats": {
+        "aim": 78,
+        "clutch": 83,
+        "gameSense": 80,
+        "communication": 78,
+        "consistency": 82,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "vita",
+      "teamId": "sad-esports",
+      "team": "SaD Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 78,
+        "clutch": 84,
+        "gameSense": 84,
+        "communication": 81,
+        "consistency": 83,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "Derrek",
+      "teamId": "qor",
+      "team": "QoR",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 21,
+      "stats": {
+        "aim": 76,
+        "clutch": 76,
+        "gameSense": 84,
+        "communication": 81,
+        "consistency": 77,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "flyuh",
+      "teamId": "qor",
+      "team": "QoR",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 81,
+        "clutch": 76,
+        "gameSense": 74,
+        "communication": 77,
+        "consistency": 76,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "moose",
+      "teamId": "qor",
+      "team": "QoR",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 78,
+        "clutch": 79,
+        "gameSense": 76,
+        "communication": 81,
+        "consistency": 77,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "infiltrator",
+      "teamId": "qor",
+      "team": "QoR",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 24,
+      "stats": {
+        "aim": 74,
+        "clutch": 80,
+        "gameSense": 78,
+        "communication": 76,
+        "consistency": 76,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "kumi",
+      "teamId": "qor",
+      "team": "QoR",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 21,
+      "stats": {
+        "aim": 75,
+        "clutch": 79,
+        "gameSense": 80,
+        "communication": 74,
+        "consistency": 82,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Ange",
+      "teamId": "nrg-academy",
+      "team": "NRG Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 25,
+      "stats": {
+        "aim": 78,
+        "clutch": 77,
+        "gameSense": 79,
+        "communication": 84,
+        "consistency": 80,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "renz",
+      "teamId": "nrg-academy",
+      "team": "NRG Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 25,
+      "stats": {
+        "aim": 79,
+        "clutch": 78,
+        "gameSense": 79,
+        "communication": 73,
+        "consistency": 75,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "geeza",
+      "teamId": "nrg-academy",
+      "team": "NRG Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 24,
+      "stats": {
+        "aim": 78,
+        "clutch": 78,
+        "gameSense": 79,
+        "communication": 82,
+        "consistency": 76,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "Shondex",
+      "teamId": "nrg-academy",
+      "team": "NRG Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 75,
+        "clutch": 79,
+        "gameSense": 83,
+        "communication": 75,
+        "consistency": 77,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "haeyoday",
+      "teamId": "nrg-academy",
+      "team": "NRG Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 21,
+      "stats": {
+        "aim": 79,
+        "clutch": 81,
+        "gameSense": 78,
+        "communication": 78,
+        "consistency": 81,
+        "mental": 78
+      }
+    },
+    {
+      "ign": "bdog",
+      "teamId": "evil-geniuses-academy",
+      "team": "Evil Geniuses Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 25,
+      "stats": {
+        "aim": 70,
+        "clutch": 78,
+        "gameSense": 83,
+        "communication": 79,
+        "consistency": 75,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Dark3st",
+      "teamId": "evil-geniuses-academy",
+      "team": "Evil Geniuses Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 22,
+      "stats": {
+        "aim": 80,
+        "clutch": 74,
+        "gameSense": 76,
+        "communication": 76,
+        "consistency": 73,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "jakee",
+      "teamId": "evil-geniuses-academy",
+      "team": "Evil Geniuses Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 75,
+        "clutch": 75,
+        "gameSense": 75,
+        "communication": 80,
+        "consistency": 73,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "moobs",
+      "teamId": "evil-geniuses-academy",
+      "team": "Evil Geniuses Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 24,
+      "stats": {
+        "aim": 73,
+        "clutch": 76,
+        "gameSense": 75,
+        "communication": 75,
+        "consistency": 78,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "Recoil",
+      "teamId": "evil-geniuses-academy",
+      "team": "Evil Geniuses Academy",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 25,
+      "stats": {
+        "aim": 77,
+        "clutch": 78,
+        "gameSense": 78,
+        "communication": 75,
+        "consistency": 81,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "sorex",
+      "teamId": "sleepers",
+      "team": "sleepers",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 25,
+      "stats": {
+        "aim": 74,
+        "clutch": 73,
+        "gameSense": 79,
+        "communication": 79,
+        "consistency": 73,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "solada",
+      "teamId": "sleepers",
+      "team": "sleepers",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 24,
+      "stats": {
+        "aim": 75,
+        "clutch": 73,
+        "gameSense": 76,
+        "communication": 75,
+        "consistency": 75,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "ducq",
+      "teamId": "sleepers",
+      "team": "sleepers",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 22,
+      "stats": {
+        "aim": 76,
+        "clutch": 72,
+        "gameSense": 77,
+        "communication": 73,
+        "consistency": 77,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "Leo",
+      "teamId": "sleepers",
+      "team": "sleepers",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 18,
+      "stats": {
+        "aim": 77,
+        "clutch": 75,
+        "gameSense": 75,
+        "communication": 75,
+        "consistency": 75,
+        "mental": 72
+      }
+    },
+    {
+      "ign": "tonza",
+      "teamId": "sleepers",
+      "team": "sleepers",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 24,
+      "stats": {
+        "aim": 72,
+        "clutch": 74,
+        "gameSense": 80,
+        "communication": 72,
+        "consistency": 78,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "NiSMO",
+      "teamId": "m80",
+      "team": "M80",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 82,
+        "clutch": 79,
+        "gameSense": 86,
+        "communication": 86,
+        "consistency": 84,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "Spaz",
+      "teamId": "m80",
+      "team": "M80",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 88,
+        "clutch": 84,
+        "gameSense": 85,
+        "communication": 83,
+        "consistency": 83,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "alvinboy",
+      "teamId": "m80",
+      "team": "M80",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 23,
+      "stats": {
+        "aim": 81,
+        "clutch": 82,
+        "gameSense": 88,
+        "communication": 82,
+        "consistency": 82,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "Boni",
+      "teamId": "m80",
+      "team": "M80",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 24,
+      "stats": {
+        "aim": 84,
+        "clutch": 85,
+        "gameSense": 82,
+        "communication": 81,
+        "consistency": 82,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "Kyu",
+      "teamId": "m80",
+      "team": "M80",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 22,
+      "stats": {
+        "aim": 86,
+        "clutch": 87,
+        "gameSense": 86,
+        "communication": 80,
+        "consistency": 86,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "299",
+      "teamId": "evictix",
+      "team": "Evictix",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "IGL",
+      "age": 19,
+      "stats": {
+        "aim": 72,
+        "clutch": 70,
+        "gameSense": 75,
+        "communication": 77,
+        "consistency": 75,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "Fair",
+      "teamId": "evictix",
+      "team": "Evictix",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 20,
+      "stats": {
+        "aim": 77,
+        "clutch": 75,
+        "gameSense": 75,
+        "communication": 68,
+        "consistency": 75,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "RayUndaunted",
+      "teamId": "evictix",
+      "team": "Evictix",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 23,
+      "stats": {
+        "aim": 76,
+        "clutch": 74,
+        "gameSense": 76,
+        "communication": 77,
+        "consistency": 72,
+        "mental": 71
+      }
+    },
+    {
+      "ign": "taiga",
+      "teamId": "evictix",
+      "team": "Evictix",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 23,
+      "stats": {
+        "aim": 73,
+        "clutch": 71,
+        "gameSense": 75,
+        "communication": 71,
+        "consistency": 76,
+        "mental": 73
+      }
+    },
+    {
+      "ign": "Slammed",
+      "teamId": "evictix",
+      "team": "Evictix",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 71,
+        "clutch": 72,
+        "gameSense": 75,
+        "communication": 74,
+        "consistency": 74,
+        "mental": 76
+      }
+    },
+        {
+      "ign": "sonofcar",
+      "teamId": "nightblood-gaming",
+      "team": "Nightblood Gaming",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 19,
+      "stats": {
+        "aim": 72,
+        "clutch": 70,
+        "gameSense": 75,
+        "communication": 77,
+        "consistency": 75,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "stellar",
+      "teamId": "nightblood-gaming",
+      "team": "Nightblood Gaming",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 77,
+        "clutch": 75,
+        "gameSense": 75,
+        "communication": 68,
+        "consistency": 75,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "Leo",
+      "teamId": "nightblood-gaming",
+      "team": "Nightblood Gaming",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Duelista",
+      "age": 23,
+      "stats": {
+        "aim": 76,
+        "clutch": 74,
+        "gameSense": 76,
+        "communication": 77,
+        "consistency": 72,
+        "mental": 71
+      }
+    },
+    {
+      "ign": "toozy",
+      "teamId": "nightblood-gaming",
+      "team": "Nightblood Gaming",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Controlador",
+      "age": 23,
+      "stats": {
+        "aim": 73,
+        "clutch": 71,
+        "gameSense": 75,
+        "communication": 71,
+        "consistency": 76,
+        "mental": 73
+      }
+    },
+    {
+      "ign": "stunna",
+      "teamId": "nightblood-gaming",
+      "team": "Nightblood Gaming",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "North America",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 71,
+        "clutch": 72,
+        "gameSense": 75,
+        "communication": 74,
+        "consistency": 74,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "frz",
+      "teamId": "2game-esports",
+      "team": "2Game Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 21,
+      "stats": {
+        "aim": 79,
+        "clutch": 84,
+        "gameSense": 85,
+        "communication": 87,
+        "consistency": 83,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "qck",
+      "teamId": "2game-esports",
+      "team": "2Game Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 25,
+      "stats": {
+        "aim": 87,
+        "clutch": 80,
+        "gameSense": 79,
+        "communication": 77,
+        "consistency": 81,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "gobera",
+      "teamId": "2game-esports",
+      "team": "2Game Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 83,
+        "clutch": 79,
+        "gameSense": 82,
+        "communication": 81,
+        "consistency": 79,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "xenom",
+      "teamId": "2game-esports",
+      "team": "2Game Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 23,
+      "stats": {
+        "aim": 85,
+        "clutch": 84,
+        "gameSense": 85,
+        "communication": 82,
+        "consistency": 85,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Brinks",
+      "teamId": "2game-esports",
+      "team": "2Game Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 22,
+      "stats": {
+        "aim": 79,
+        "clutch": 83,
+        "gameSense": 81,
+        "communication": 78,
+        "consistency": 82,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "GuhRVN",
+      "teamId": "team-solid",
+      "team": "Team Solid",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 18,
+      "stats": {
+        "aim": 79,
+        "clutch": 80,
+        "gameSense": 84,
+        "communication": 85,
+        "consistency": 81,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "liazzi",
+      "teamId": "team-solid",
+      "team": "Team Solid",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 22,
+      "stats": {
+        "aim": 82,
+        "clutch": 82,
+        "gameSense": 82,
+        "communication": 78,
+        "consistency": 83,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "havoc",
+      "teamId": "team-solid",
+      "team": "Team Solid",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 79,
+        "clutch": 78,
+        "gameSense": 85,
+        "communication": 83,
+        "consistency": 83,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "raafa",
+      "teamId": "team-solid",
+      "team": "Team Solid",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 81,
+        "clutch": 83,
+        "gameSense": 81,
+        "communication": 78,
+        "consistency": 81,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "nevoy",
+      "teamId": "team-solid",
+      "team": "Team Solid",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 25,
+      "stats": {
+        "aim": 79,
+        "clutch": 81,
+        "gameSense": 84,
+        "communication": 81,
+        "consistency": 82,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "prozin",
+      "teamId": "red-canids",
+      "team": "RED Canids",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 20,
+      "stats": {
+        "aim": 79,
+        "clutch": 77,
+        "gameSense": 82,
+        "communication": 84,
+        "consistency": 77,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "RgLMeister",
+      "teamId": "red-canids",
+      "team": "RED Canids",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 25,
+      "stats": {
+        "aim": 83,
+        "clutch": 78,
+        "gameSense": 77,
+        "communication": 76,
+        "consistency": 82,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Urango",
+      "teamId": "red-canids",
+      "team": "RED Canids",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 18,
+      "stats": {
+        "aim": 78,
+        "clutch": 75,
+        "gameSense": 80,
+        "communication": 81,
+        "consistency": 76,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "forbanz",
+      "teamId": "red-canids",
+      "team": "RED Canids",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 18,
+      "stats": {
+        "aim": 76,
+        "clutch": 79,
+        "gameSense": 83,
+        "communication": 79,
+        "consistency": 76,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "sw",
+      "teamId": "red-canids",
+      "team": "RED Canids",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 22,
+      "stats": {
+        "aim": 81,
+        "clutch": 78,
+        "gameSense": 82,
+        "communication": 77,
+        "consistency": 81,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "v1nny",
+      "teamId": "elevate",
+      "team": "ELEVATE",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 73,
+        "clutch": 77,
+        "gameSense": 79,
+        "communication": 78,
+        "consistency": 76,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "nicksz",
+      "teamId": "elevate",
+      "team": "ELEVATE",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 23,
+      "stats": {
+        "aim": 78,
+        "clutch": 75,
+        "gameSense": 73,
+        "communication": 74,
+        "consistency": 78,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "Tiezzi",
+      "teamId": "elevate",
+      "team": "ELEVATE",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 23,
+      "stats": {
+        "aim": 76,
+        "clutch": 74,
+        "gameSense": 80,
+        "communication": 77,
+        "consistency": 73,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "kramarick",
+      "teamId": "elevate",
+      "team": "ELEVATE",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 19,
+      "stats": {
+        "aim": 78,
+        "clutch": 73,
+        "gameSense": 79,
+        "communication": 78,
+        "consistency": 75,
+        "mental": 73
+      }
+    },
+    {
+      "ign": "artru",
+      "teamId": "elevate",
+      "team": "ELEVATE",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 18,
+      "stats": {
+        "aim": 77,
+        "clutch": 78,
+        "gameSense": 74,
+        "communication": 74,
+        "consistency": 75,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "Siduzord",
+      "teamId": "intz",
+      "team": "INTZ",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 25,
+      "stats": {
+        "aim": 76,
+        "clutch": 77,
+        "gameSense": 79,
+        "communication": 78,
+        "consistency": 75,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "guuih",
+      "teamId": "intz",
+      "team": "INTZ",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 81,
+        "clutch": 76,
+        "gameSense": 77,
+        "communication": 74,
+        "consistency": 79,
+        "mental": 73
+      }
+    },
+    {
+      "ign": "Tisora",
+      "teamId": "intz",
+      "team": "INTZ",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 24,
+      "stats": {
+        "aim": 73,
+        "clutch": 76,
+        "gameSense": 76,
+        "communication": 75,
+        "consistency": 73,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "PxS",
+      "teamId": "intz",
+      "team": "INTZ",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 79,
+        "clutch": 78,
+        "gameSense": 75,
+        "communication": 77,
+        "consistency": 73,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Askia",
+      "teamId": "intz",
+      "team": "INTZ",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 22,
+      "stats": {
+        "aim": 77,
+        "clutch": 74,
+        "gameSense": 77,
+        "communication": 77,
+        "consistency": 80,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "murizzz",
+      "teamId": "tbk-esports",
+      "team": "TBK Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 22,
+      "stats": {
+        "aim": 73,
+        "clutch": 76,
+        "gameSense": 79,
+        "communication": 82,
+        "consistency": 72,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "kon4n",
+      "teamId": "tbk-esports",
+      "team": "TBK Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 18,
+      "stats": {
+        "aim": 77,
+        "clutch": 74,
+        "gameSense": 76,
+        "communication": 73,
+        "consistency": 72,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "Zap",
+      "teamId": "tbk-esports",
+      "team": "TBK Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 78,
+        "clutch": 73,
+        "gameSense": 75,
+        "communication": 75,
+        "consistency": 77,
+        "mental": 72
+      }
+    },
+    {
+      "ign": "snw",
+      "teamId": "tbk-esports",
+      "team": "TBK Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 73,
+        "clutch": 74,
+        "gameSense": 77,
+        "communication": 76,
+        "consistency": 76,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "maestr0",
+      "teamId": "tbk-esports",
+      "team": "TBK Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 21,
+      "stats": {
+        "aim": 74,
+        "clutch": 74,
+        "gameSense": 75,
+        "communication": 71,
+        "consistency": 76,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "shion",
+      "teamId": "f4tality",
+      "team": "F4TALITY",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 76,
+        "clutch": 75,
+        "gameSense": 84,
+        "communication": 79,
+        "consistency": 76,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "pollo",
+      "teamId": "f4tality",
+      "team": "F4TALITY",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 81,
+        "clutch": 73,
+        "gameSense": 78,
+        "communication": 74,
+        "consistency": 78,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "duhT",
+      "teamId": "f4tality",
+      "team": "F4TALITY",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 23,
+      "stats": {
+        "aim": 78,
+        "clutch": 73,
+        "gameSense": 81,
+        "communication": 80,
+        "consistency": 76,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Loweed",
+      "teamId": "f4tality",
+      "team": "F4TALITY",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 19,
+      "stats": {
+        "aim": 75,
+        "clutch": 75,
+        "gameSense": 82,
+        "communication": 79,
+        "consistency": 80,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "znajder",
+      "teamId": "f4tality",
+      "team": "F4TALITY",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 25,
+      "stats": {
+        "aim": 77,
+        "clutch": 78,
+        "gameSense": 82,
+        "communication": 78,
+        "consistency": 80,
+        "mental": 78
+      }
+    },
+    {
+      "ign": "desire",
+      "teamId": "peek",
+      "team": "PEEK",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 24,
+      "stats": {
+        "aim": 73,
+        "clutch": 70,
+        "gameSense": 75,
+        "communication": 79,
+        "consistency": 73,
+        "mental": 73
+      }
+    },
+    {
+      "ign": "lowz",
+      "teamId": "peek",
+      "team": "PEEK",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 20,
+      "stats": {
+        "aim": 79,
+        "clutch": 74,
+        "gameSense": 74,
+        "communication": 71,
+        "consistency": 74,
+        "mental": 71
+      }
+    },
+    {
+      "ign": "lilo",
+      "teamId": "peek",
+      "team": "PEEK",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 75,
+        "clutch": 71,
+        "gameSense": 75,
+        "communication": 72,
+        "consistency": 72,
+        "mental": 71
+      }
+    },
+    {
+      "ign": "HiiiK",
+      "teamId": "peek",
+      "team": "PEEK",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 18,
+      "stats": {
+        "aim": 77,
+        "clutch": 76,
+        "gameSense": 74,
+        "communication": 73,
+        "consistency": 75,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "mxnor",
+      "teamId": "peek",
+      "team": "PEEK",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 77,
+        "clutch": 76,
+        "gameSense": 77,
+        "communication": 72,
+        "consistency": 77,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "tuyz",
+      "teamId": "la-masia",
+      "team": "LA MASIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 18,
+      "stats": {
+        "aim": 80,
+        "clutch": 78,
+        "gameSense": 88,
+        "communication": 85,
+        "consistency": 80,
+        "mental": 86
+      }
+    },
+    {
+      "ign": "Zanatsu",
+      "teamId": "la-masia",
+      "team": "LA MASIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 23,
+      "stats": {
+        "aim": 85,
+        "clutch": 84,
+        "gameSense": 84,
+        "communication": 80,
+        "consistency": 83,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "mazin",
+      "teamId": "la-masia",
+      "team": "LA MASIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 83,
+        "clutch": 83,
+        "gameSense": 83,
+        "communication": 84,
+        "consistency": 81,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "jzz",
+      "teamId": "la-masia",
+      "team": "LA MASIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 79,
+        "clutch": 83,
+        "gameSense": 85,
+        "communication": 83,
+        "consistency": 80,
+        "mental": 84
+      }
+    },
+    {
+      "ign": "Palla",
+      "teamId": "la-masia",
+      "team": "LA MASIA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 24,
+      "stats": {
+        "aim": 81,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 78,
+        "consistency": 84,
+        "mental": 85
+      }
+    },
+    {
+      "ign": "kramarick",
+      "teamId": "murizzz-e-capangas",
+      "team": "Murizzz e Capangas",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "IGL",
+      "age": 19,
+      "stats": {
+        "aim": 74,
+        "clutch": 71,
+        "gameSense": 80,
+        "communication": 81,
+        "consistency": 74,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "murizzz",
+      "teamId": "murizzz-e-capangas",
+      "team": "Murizzz e Capangas",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Duelista",
+      "age": 22,
+      "stats": {
+        "aim": 78,
+        "clutch": 75,
+        "gameSense": 73,
+        "communication": 74,
+        "consistency": 71,
+        "mental": 71
+      }
+    },
+    {
+      "ign": "phc",
+      "teamId": "murizzz-e-capangas",
+      "team": "Murizzz e Capangas",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 71,
+        "clutch": 74,
+        "gameSense": 77,
+        "communication": 76,
+        "consistency": 73,
+        "mental": 72
+      }
+    },
+    {
+      "ign": "raised",
+      "teamId": "murizzz-e-capangas",
+      "team": "Murizzz e Capangas",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Controlador",
+      "age": 18,
+      "stats": {
+        "aim": 74,
+        "clutch": 72,
+        "gameSense": 79,
+        "communication": 73,
+        "consistency": 74,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "gbz",
+      "teamId": "murizzz-e-capangas",
+      "team": "Murizzz e Capangas",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "Brazil",
+      "role": "Centinela",
+      "age": 22,
+      "stats": {
+        "aim": 75,
+        "clutch": 73,
+        "gameSense": 78,
+        "communication": 74,
+        "consistency": 78,
+        "mental": 72
+      }
+    },
+    {
+      "ign": "aproto",
+      "teamId": "contra",
+      "team": "Contra",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 20,
+      "stats": {
+        "aim": 78,
+        "clutch": 83,
+        "gameSense": 84,
+        "communication": 84,
+        "consistency": 79,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "ScrewFace",
+      "teamId": "contra",
+      "team": "Contra",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 19,
+      "stats": {
+        "aim": 82,
+        "clutch": 77,
+        "gameSense": 77,
+        "communication": 79,
+        "consistency": 83,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "theory",
+      "teamId": "contra",
+      "team": "Contra",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 24,
+      "stats": {
+        "aim": 83,
+        "clutch": 78,
+        "gameSense": 81,
+        "communication": 80,
+        "consistency": 78,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Peloncito",
+      "teamId": "contra",
+      "team": "Contra",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 79,
+        "clutch": 81,
+        "gameSense": 82,
+        "communication": 84,
+        "consistency": 80,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "CRUNCH",
+      "teamId": "contra",
+      "team": "Contra",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 20,
+      "stats": {
+        "aim": 83,
+        "clutch": 80,
+        "gameSense": 80,
+        "communication": 82,
+        "consistency": 86,
+        "mental": 81
+      }
+    },
+    {
+      "ign": "Feniz",
+      "teamId": "lyon",
+      "team": "LYON",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 22,
+      "stats": {
+        "aim": 74,
+        "clutch": 76,
+        "gameSense": 81,
+        "communication": 83,
+        "consistency": 77,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "Kess",
+      "teamId": "lyon",
+      "team": "LYON",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 82,
+        "clutch": 76,
+        "gameSense": 81,
+        "communication": 79,
+        "consistency": 79,
+        "mental": 76
+      }
+    },
+    {
+      "ign": "Jow",
+      "teamId": "lyon",
+      "team": "LYON",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 22,
+      "stats": {
+        "aim": 80,
+        "clutch": 79,
+        "gameSense": 84,
+        "communication": 83,
+        "consistency": 81,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "Mephisto",
+      "teamId": "lyon",
+      "team": "LYON",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 23,
+      "stats": {
+        "aim": 78,
+        "clutch": 76,
+        "gameSense": 81,
+        "communication": 76,
+        "consistency": 76,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "Dragon",
+      "teamId": "lyon",
+      "team": "LYON",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 19,
+      "stats": {
+        "aim": 82,
+        "clutch": 81,
+        "gameSense": 84,
+        "communication": 81,
+        "consistency": 79,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "Javiierh",
+      "teamId": "fuego",
+      "team": "FUEGO",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 75,
+        "clutch": 81,
+        "gameSense": 84,
+        "communication": 87,
+        "consistency": 77,
+        "mental": 82
+      }
+    },
+    {
+      "ign": "Sabortzz",
+      "teamId": "fuego",
+      "team": "FUEGO",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 18,
+      "stats": {
+        "aim": 85,
+        "clutch": 82,
+        "gameSense": 79,
+        "communication": 79,
+        "consistency": 79,
+        "mental": 78
+      }
+    },
+    {
+      "ign": "ezznap",
+      "teamId": "fuego",
+      "team": "FUEGO",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 78,
+        "clutch": 80,
+        "gameSense": 83,
+        "communication": 82,
+        "consistency": 77,
+        "mental": 83
+      }
+    },
+    {
+      "ign": "GeneralSteak",
+      "teamId": "fuego",
+      "team": "FUEGO",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 78,
+        "clutch": 83,
+        "gameSense": 85,
+        "communication": 78,
+        "consistency": 78,
+        "mental": 80
+      }
+    },
+    {
+      "ign": "Hada",
+      "teamId": "fuego",
+      "team": "FUEGO",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 22,
+      "stats": {
+        "aim": 83,
+        "clutch": 82,
+        "gameSense": 85,
+        "communication": 80,
+        "consistency": 84,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Cfax",
+      "teamId": "chivas-esports",
+      "team": "Chivas Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 24,
+      "stats": {
+        "aim": 70,
+        "clutch": 74,
+        "gameSense": 79,
+        "communication": 80,
+        "consistency": 78,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "clutchz",
+      "teamId": "chivas-esports",
+      "team": "Chivas Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 18,
+      "stats": {
+        "aim": 79,
+        "clutch": 73,
+        "gameSense": 73,
+        "communication": 72,
+        "consistency": 75,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "otaQ",
+      "teamId": "chivas-esports",
+      "team": "Chivas Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 23,
+      "stats": {
+        "aim": 75,
+        "clutch": 74,
+        "gameSense": 76,
+        "communication": 77,
+        "consistency": 77,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "Clewy",
+      "teamId": "chivas-esports",
+      "team": "Chivas Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 18,
+      "stats": {
+        "aim": 78,
+        "clutch": 78,
+        "gameSense": 75,
+        "communication": 76,
+        "consistency": 72,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "solution",
+      "teamId": "chivas-esports",
+      "team": "Chivas Esports",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 23,
+      "stats": {
+        "aim": 75,
+        "clutch": 73,
+        "gameSense": 74,
+        "communication": 74,
+        "consistency": 76,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "gioØ2x",
+      "teamId": "fusion",
+      "team": "FUSION",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 25,
+      "stats": {
+        "aim": 70,
+        "clutch": 75,
+        "gameSense": 76,
+        "communication": 79,
+        "consistency": 73,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "ScrewFace",
+      "teamId": "fusion",
+      "team": "FUSION",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 19,
+      "stats": {
+        "aim": 76,
+        "clutch": 71,
+        "gameSense": 71,
+        "communication": 73,
+        "consistency": 77,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "aproto",
+      "teamId": "fusion",
+      "team": "FUSION",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 20,
+      "stats": {
+        "aim": 75,
+        "clutch": 77,
+        "gameSense": 76,
+        "communication": 75,
+        "consistency": 73,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "Weegle",
+      "teamId": "fusion",
+      "team": "FUSION",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 22,
+      "stats": {
+        "aim": 75,
+        "clutch": 74,
+        "gameSense": 77,
+        "communication": 76,
+        "consistency": 77,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "vandals",
+      "teamId": "fusion",
+      "team": "FUSION",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 24,
+      "stats": {
+        "aim": 73,
+        "clutch": 79,
+        "gameSense": 78,
+        "communication": 75,
+        "consistency": 78,
+        "mental": 73
+      }
+    },
+    {
+      "ign": "Mited",
+      "teamId": "lazer",
+      "team": "LAZER",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 24,
+      "stats": {
+        "aim": 74,
+        "clutch": 73,
+        "gameSense": 75,
+        "communication": 81,
+        "consistency": 76,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Fresht",
+      "teamId": "lazer",
+      "team": "LAZER",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 23,
+      "stats": {
+        "aim": 78,
+        "clutch": 71,
+        "gameSense": 76,
+        "communication": 74,
+        "consistency": 72,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "Bull3tZ",
+      "teamId": "lazer",
+      "team": "LAZER",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 24,
+      "stats": {
+        "aim": 74,
+        "clutch": 73,
+        "gameSense": 78,
+        "communication": 78,
+        "consistency": 72,
+        "mental": 71
+      }
+    },
+    {
+      "ign": "Xhowi",
+      "teamId": "lazer",
+      "team": "LAZER",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 19,
+      "stats": {
+        "aim": 75,
+        "clutch": 74,
+        "gameSense": 75,
+        "communication": 74,
+        "consistency": 73,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "MiniNiwde",
+      "teamId": "lazer",
+      "team": "LAZER",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 18,
+      "stats": {
+        "aim": 75,
+        "clutch": 74,
+        "gameSense": 73,
+        "communication": 72,
+        "consistency": 78,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "Levi",
+      "teamId": "streamer-arena",
+      "team": "STREAMER ARENA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 70,
+        "clutch": 75,
+        "gameSense": 79,
+        "communication": 82,
+        "consistency": 74,
+        "mental": 75
+      }
+    },
+    {
+      "ign": "Yarwiz",
+      "teamId": "streamer-arena",
+      "team": "STREAMER ARENA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 21,
+      "stats": {
+        "aim": 82,
+        "clutch": 77,
+        "gameSense": 77,
+        "communication": 73,
+        "consistency": 74,
+        "mental": 74
+      }
+    },
+    {
+      "ign": "Snapss",
+      "teamId": "streamer-arena",
+      "team": "STREAMER ARENA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 21,
+      "stats": {
+        "aim": 77,
+        "clutch": 72,
+        "gameSense": 76,
+        "communication": 80,
+        "consistency": 76,
+        "mental": 79
+      }
+    },
+    {
+      "ign": "Matkazeta",
+      "teamId": "streamer-arena",
+      "team": "STREAMER ARENA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 21,
+      "stats": {
+        "aim": 73,
+        "clutch": 76,
+        "gameSense": 81,
+        "communication": 79,
+        "consistency": 78,
+        "mental": 78
+      }
+    },
+    {
+      "ign": "Dlasqx1",
+      "teamId": "streamer-arena",
+      "team": "STREAMER ARENA",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 19,
+      "stats": {
+        "aim": 78,
+        "clutch": 80,
+        "gameSense": 80,
+        "communication": 73,
+        "consistency": 76,
+        "mental": 77
+      }
+    },
+    {
+      "ign": "LiNLiN",
+      "teamId": "stray-cats",
+      "team": "Stray Cats",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "IGL",
+      "age": 23,
+      "stats": {
+        "aim": 68,
+        "clutch": 70,
+        "gameSense": 72,
+        "communication": 75,
+        "consistency": 73,
+        "mental": 70
+      }
+    },
+    {
+      "ign": "Xalleby",
+      "teamId": "stray-cats",
+      "team": "Stray Cats",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Duelista",
+      "age": 22,
+      "stats": {
+        "aim": 71,
+        "clutch": 71,
+        "gameSense": 72,
+        "communication": 68,
+        "consistency": 73,
+        "mental": 73
+      }
+    },
+    {
+      "ign": "clapie",
+      "teamId": "stray-cats",
+      "team": "Stray Cats",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Iniciador",
+      "age": 18,
+      "stats": {
+        "aim": 69,
+        "clutch": 68,
+        "gameSense": 70,
+        "communication": 75,
+        "consistency": 72,
+        "mental": 68
+      }
+    },
+    {
+      "ign": "DrealeXJ",
+      "teamId": "stray-cats",
+      "team": "Stray Cats",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Controlador",
+      "age": 20,
+      "stats": {
+        "aim": 74,
+        "clutch": 71,
+        "gameSense": 74,
+        "communication": 68,
+        "consistency": 74,
+        "mental": 68
+      }
+    },
+    {
+      "ign": "Roses",
+      "teamId": "stray-cats",
+      "team": "Stray Cats",
+      "tier": 2,
+      "circuit": "Americas",
+      "region": "LATAM North",
+      "role": "Centinela",
+      "age": 25,
+      "stats": {
+        "aim": 72,
+        "clutch": 75,
+        "gameSense": 73,
+        "communication": 68,
+        "consistency": 73,
+        "mental": 69
+      }
+    }
+  ]
+}
