@@ -5,7 +5,7 @@
             "ign": "tex",
             "team": "MIBR",
             "region": "VCT Americas",
-            "role": "IGL",
+            "role": "Centinela",
             "age": 26,
             "stats": {
                 "aim": 79,
@@ -35,7 +35,7 @@
             "ign": "Mazino",
             "team": "MIBR",
             "region": "VCT Americas",
-            "role": "Controlador",
+            "role": "Flex",
             "age": 24,
             "stats": {
                 "aim": 89,
@@ -65,7 +65,7 @@
             "ign": "Verno",
             "team": "MIBR",
             "region": "VCT Americas",
-            "role": "Centinela",
+            "role": "Flex",
             "age": 19,
             "stats": {
                 "aim": 94,
@@ -92,10 +92,10 @@
             }
         },
         {
-            "ign": "penny",
+            "ign": "Jackk",
             "team": "Cloud9",
             "region": "VCT Americas",
-            "role": "Duelista",
+            "role": "Iniciador",
             "age": 22,
             "stats": {
                 "aim": 86,
@@ -107,10 +107,10 @@
             }
         },
         {
-            "ign": "Xeppaa",
+            "ign": "FireBallOps",
             "team": "Cloud9",
             "region": "VCT Americas",
-            "role": "Controlador",
+            "role": "Centinela",
             "age": 25,
             "stats": {
                 "aim": 84,
@@ -125,7 +125,7 @@
             "ign": "v1c",
             "team": "Cloud9",
             "region": "VCT Americas",
-            "role": "Iniciador",
+            "role": "Controlador",
             "age": 21,
             "stats": {
                 "aim": 91,
@@ -140,7 +140,7 @@
             "ign": "OXY",
             "team": "Cloud9",
             "region": "VCT Americas",
-            "role": "Centinela",
+            "role": "Duelista",
             "age": 20,
             "stats": {
                 "aim": 90,
@@ -170,7 +170,7 @@
             "ign": "blowz",
             "team": "LEVIATÁN",
             "region": "VCT Americas",
-            "role": "Duelista",
+            "role": "Iniciador",
             "age": 18,
             "stats": {
                 "aim": 87,
@@ -185,7 +185,7 @@
             "ign": "Sato",
             "team": "LEVIATÁN",
             "region": "VCT Americas",
-            "role": "Controlador",
+            "role": "Duelista",
             "age": 18,
             "stats": {
                 "aim": 94,
@@ -200,7 +200,7 @@
             "ign": "spike",
             "team": "LEVIATÁN",
             "region": "VCT Americas",
-            "role": "Iniciador",
+            "role": "Duelista",
             "age": 18,
             "stats": {
                 "aim": 92,
@@ -230,8 +230,8 @@
             "ign": "brawk",
             "team": "NRG",
             "region": "VCT Americas",
-            "role": "IGL",
-            "age": 18,
+            "role": "Iniciador",
+            "age": 26,
             "stats": {
                 "aim": 81,
                 "clutch": 81,
@@ -246,7 +246,7 @@
             "team": "NRG",
             "region": "VCT Americas",
             "role": "Duelista",
-            "age": 20,
+            "age": 22,
             "stats": {
                 "aim": 88,
                 "clutch": 85,
@@ -261,7 +261,7 @@
             "team": "NRG",
             "region": "VCT Americas",
             "role": "Controlador",
-            "age": 19,
+            "age": 23,
             "stats": {
                 "aim": 93,
                 "clutch": 75,
@@ -275,7 +275,7 @@
             "ign": "Ethan",
             "team": "NRG",
             "region": "VCT Americas",
-            "role": "Iniciador",
+            "role": "IGL",
             "age": 25,
             "stats": {
                 "aim": 87,
@@ -290,8 +290,8 @@
             "ign": "keiko",
             "team": "NRG",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 20,
+            "role": "Flex",
+            "age": 22,
             "stats": {
                 "aim": 91,
                 "clutch": 79,
@@ -302,10 +302,10 @@
             }
         },
         {
-            "ign": "Virtyy",
+            "ign": "tkzin",
             "team": "LOUD",
             "region": "VCT Americas",
-            "role": "IGL",
+            "role": "Duelista",
             "age": 18,
             "stats": {
                 "aim": 86,
@@ -317,10 +317,10 @@
             }
         },
         {
-            "ign": "cauanzin",
+            "ign": "DaviH",
             "team": "LOUD",
             "region": "VCT Americas",
-            "role": "Duelista",
+            "role": "Iniciador",
             "age": 22,
             "stats": {
                 "aim": 83,
@@ -336,7 +336,7 @@
             "team": "LOUD",
             "region": "VCT Americas",
             "role": "Controlador",
-            "age": 19,
+            "age": 21,
             "stats": {
                 "aim": 82,
                 "clutch": 82,
@@ -350,8 +350,8 @@
             "ign": "lukxo",
             "team": "LOUD",
             "region": "VCT Americas",
-            "role": "Iniciador",
-            "age": 23,
+            "role": "Flex",
+            "age": 19,
             "stats": {
                 "aim": 83,
                 "clutch": 90,
@@ -365,8 +365,8 @@
             "ign": "erde",
             "team": "LOUD",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 22,
+            "role": "IGL",
+            "age": 18,
             "stats": {
                 "aim": 85,
                 "clutch": 91,
@@ -377,11 +377,11 @@
             }
         },
         {
-            "ign": "nerve",
+            "ign": "C0M",
             "team": "FURIA",
             "region": "VCT Americas",
-            "role": "IGL",
-            "age": 23,
+            "role": "Iniciador",
+            "age": 26,
             "stats": {
                 "aim": 86,
                 "clutch": 90,
@@ -392,11 +392,11 @@
             }
         },
         {
-            "ign": "eeiu",
+            "ign": "Basic",
             "team": "FURIA",
             "region": "VCT Americas",
-            "role": "Duelista",
-            "age": 24,
+            "role": "Flex",
+            "age": 20,
             "stats": {
                 "aim": 92,
                 "clutch": 79,
@@ -410,8 +410,8 @@
             "ign": "koalanoob",
             "team": "FURIA",
             "region": "VCT Americas",
-            "role": "Controlador",
-            "age": 21,
+            "role": "Duelista",
+            "age": 23,
             "stats": {
                 "aim": 86,
                 "clutch": 89,
@@ -425,8 +425,8 @@
             "ign": "artzin",
             "team": "FURIA",
             "region": "VCT Americas",
-            "role": "Iniciador",
-            "age": 25,
+            "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 83,
                 "clutch": 75,
@@ -437,11 +437,11 @@
             }
         },
         {
-            "ign": "alym",
+            "ign": "Shyy",
             "team": "FURIA",
             "region": "VCT Americas",
             "role": "Centinela",
-            "age": 23,
+            "age": 21,
             "stats": {
                 "aim": 90,
                 "clutch": 91,
@@ -455,8 +455,8 @@
             "ign": "Asuna",
             "team": "100 Thieves",
             "region": "VCT Americas",
-            "role": "IGL",
-            "age": 22,
+            "role": "Flex",
+            "age": 23,
             "stats": {
                 "aim": 76,
                 "clutch": 84,
@@ -470,8 +470,8 @@
             "ign": "bang",
             "team": "100 Thieves",
             "region": "VCT Americas",
-            "role": "Duelista",
-            "age": 21,
+            "role": "Controlador",
+            "age": 22,
             "stats": {
                 "aim": 94,
                 "clutch": 94,
@@ -485,7 +485,7 @@
             "ign": "Cryocells",
             "team": "100 Thieves",
             "region": "VCT Americas",
-            "role": "Controlador",
+            "role": "Flex",
             "age": 23,
             "stats": {
                 "aim": 86,
@@ -500,7 +500,7 @@
             "ign": "vora",
             "team": "100 Thieves",
             "region": "VCT Americas",
-            "role": "Iniciador",
+            "role": "IGL",
             "age": 21,
             "stats": {
                 "aim": 89,
@@ -515,8 +515,8 @@
             "ign": "Timotino",
             "team": "100 Thieves",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 21,
+            "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 87,
                 "clutch": 75,
@@ -527,11 +527,11 @@
             }
         },
         {
-            "ign": "C0M",
+            "ign": "zerona",
             "team": "Evil Geniuses",
             "region": "VCT Americas",
-            "role": "IGL",
-            "age": 26,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 82,
                 "clutch": 90,
@@ -545,8 +545,8 @@
             "ign": "supamen",
             "team": "Evil Geniuses",
             "region": "VCT Americas",
-            "role": "Duelista",
-            "age": 26,
+            "role": "Controlador",
+            "age": 29,
             "stats": {
                 "aim": 79,
                 "clutch": 86,
@@ -560,8 +560,8 @@
             "ign": "Paincakes",
             "team": "Evil Geniuses",
             "region": "VCT Americas",
-            "role": "Controlador",
-            "age": 20,
+            "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 78,
                 "clutch": 83,
@@ -572,11 +572,11 @@
             }
         },
         {
-            "ign": "Okeanos",
+            "ign": "Bao",
             "team": "Evil Geniuses",
             "region": "VCT Americas",
-            "role": "Iniciador",
-            "age": 25,
+            "role": "Centinela",
+            "age": 19,
             "stats": {
                 "aim": 87,
                 "clutch": 83,
@@ -590,8 +590,8 @@
             "ign": "dgzin",
             "team": "Evil Geniuses",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 25,
+            "role": "Duelista",
+            "age": 26,
             "stats": {
                 "aim": 91,
                 "clutch": 85,
@@ -605,8 +605,8 @@
             "ign": "johnqt",
             "team": "Sentinels",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 26,
+            "role": "IGL",
+            "age": 27,
             "stats": {
                 "aim": 91,
                 "clutch": 85,
@@ -620,7 +620,7 @@
             "ign": "JonahP",
             "team": "Sentinels",
             "region": "VCT Americas",
-            "role": "Duelista",
+            "role": "Iniciador",
             "age": 26,
             "stats": {
                 "aim": 83,
@@ -635,8 +635,8 @@
             "ign": "cortezia",
             "team": "Sentinels",
             "region": "VCT Americas",
-            "role": "Controlador",
-            "age": 19,
+            "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 84,
                 "clutch": 81,
@@ -650,8 +650,8 @@
             "ign": "Reduxx",
             "team": "Sentinels",
             "region": "VCT Americas",
-            "role": "Iniciador",
-            "age": 25,
+            "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 82,
                 "clutch": 91,
@@ -665,8 +665,8 @@
             "ign": "Jerrwin",
             "team": "Sentinels",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 20,
+            "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 82,
                 "clutch": 88,
@@ -681,7 +681,7 @@
             "team": "KRÜ Esports",
             "region": "VCT Americas",
             "role": "IGL",
-            "age": 28,
+            "age": 29,
             "stats": {
                 "aim": 91,
                 "clutch": 76,
@@ -695,8 +695,8 @@
             "ign": "mwzera",
             "team": "KRÜ Esports",
             "region": "VCT Americas",
-            "role": "Duelista",
-            "age": 24,
+            "role": "Flex",
+            "age": 25,
             "stats": {
                 "aim": 96,
                 "clutch": 77,
@@ -711,7 +711,7 @@
             "team": "KRÜ Esports",
             "region": "VCT Americas",
             "role": "Controlador",
-            "age": 20,
+            "age": 21,
             "stats": {
                 "aim": 74,
                 "clutch": 79,
@@ -722,10 +722,10 @@
             }
         },
         {
-            "ign": "silentzz",
+            "ign": "Heat",
             "team": "KRÜ Esports",
             "region": "VCT Americas",
-            "role": "Iniciador",
+            "role": "Flex",
             "age": 23,
             "stats": {
                 "aim": 86,
@@ -740,8 +740,8 @@
             "ign": "Dantedeu5",
             "team": "KRÜ Esports",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 25,
+            "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 91,
                 "clutch": 76,
@@ -755,8 +755,8 @@
             "ign": "BABYBAY",
             "team": "G2 Esports",
             "region": "VCT Americas",
-            "role": "IGL",
-            "age": 30,
+            "role": "Centinela",
+            "age": 31,
             "stats": {
                 "aim": 86,
                 "clutch": 82,
@@ -785,8 +785,8 @@
             "ign": "jawgemo",
             "team": "G2 Esports",
             "region": "VCT Americas",
-            "role": "Controlador",
-            "age": 26,
+            "role": "Duelista",
+            "age": 27,
             "stats": {
                 "aim": 76,
                 "clutch": 76,
@@ -800,7 +800,7 @@
             "ign": "leaf",
             "team": "G2 Esports",
             "region": "VCT Americas",
-            "role": "Iniciador",
+            "role": "Flex",
             "age": 22,
             "stats": {
                 "aim": 82,
@@ -815,7 +815,7 @@
             "ign": "trent",
             "team": "G2 Esports",
             "region": "VCT Americas",
-            "role": "Centinela",
+            "role": "Iniciador",
             "age": 21,
             "stats": {
                 "aim": 93,
@@ -831,7 +831,7 @@
             "team": "ENVY",
             "region": "VCT Americas",
             "role": "IGL",
-            "age": 22,
+            "age": 23,
             "stats": {
                 "aim": 91,
                 "clutch": 87,
@@ -842,26 +842,26 @@
             }
         },
         {
-            "ign": "keznit",
+            "ign": "keznitdeuS",
             "team": "ENVY",
             "region": "VCT Americas",
             "role": "Duelista",
-            "age": 24,
+            "age": 25,
             "stats": {
-                "aim": 89,
+                "aim": 90,
                 "clutch": 81,
-                "gameSense": 80,
+                "gameSense": 89,
                 "communication": 90,
-                "consistency": 83,
-                "mental": 71
+                "consistency": 86,
+                "mental": 80
             }
         },
         {
-            "ign": "P0PPIN",
+            "ign": "GLYPH",
             "team": "ENVY",
             "region": "VCT Americas",
-            "role": "Controlador",
-            "age": 23,
+            "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 78,
                 "clutch": 81,
@@ -875,7 +875,7 @@
             "ign": "Demon1",
             "team": "ENVY",
             "region": "VCT Americas",
-            "role": "Iniciador",
+            "role": "Flex",
             "age": 23,
             "stats": {
                 "aim": 78,
@@ -887,11 +887,11 @@
             }
         },
         {
-            "ign": "Eggsterr",
+            "ign": "nightz",
             "team": "ENVY",
             "region": "VCT Americas",
-            "role": "Centinela",
-            "age": 25,
+            "role": "Flex",
+            "age": 18,
             "stats": {
                 "aim": 82,
                 "clutch": 79,
@@ -906,7 +906,7 @@
             "team": "BBL Esports",
             "region": "VCT EMEA",
             "role": "IGL",
-            "age": 21,
+            "age": 22,
             "stats": {
                 "aim": 89,
                 "clutch": 87,
@@ -920,8 +920,8 @@
             "ign": "Crewen",
             "team": "BBL Esports",
             "region": "VCT EMEA",
-            "role": "Duelista",
-            "age": 20,
+            "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 79,
                 "clutch": 91,
@@ -950,8 +950,8 @@
             "ign": "Lar0k",
             "team": "BBL Esports",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 22,
+            "role": "Flex",
+            "age": 18,
             "stats": {
                 "aim": 80,
                 "clutch": 77,
@@ -965,8 +965,8 @@
             "ign": "lovers rock",
             "team": "BBL Esports",
             "region": "VCT EMEA",
-            "role": "Centinela",
-            "age": 23,
+            "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 92,
                 "clutch": 79,
@@ -980,7 +980,7 @@
             "ign": "crashies",
             "team": "FNATIC",
             "region": "VCT EMEA",
-            "role": "IGL",
+            "role": "Flex",
             "age": 28,
             "stats": {
                 "aim": 84,
@@ -996,7 +996,7 @@
             "team": "FNATIC",
             "region": "VCT EMEA",
             "role": "IGL",
-            "age": 30,
+            "age": 31,
             "stats": {
                 "aim": 71,
                 "clutch": 94,
@@ -1010,8 +1010,8 @@
             "ign": "kaajak",
             "team": "FNATIC",
             "region": "VCT EMEA",
-            "role": "Controlador",
-            "age": 21,
+            "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 90,
                 "clutch": 77,
@@ -1025,8 +1025,8 @@
             "ign": "Alfajer",
             "team": "FNATIC",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 20,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 78,
                 "clutch": 84,
@@ -1037,7 +1037,7 @@
             }
         },
         {
-            "ign": "CyvOph",
+            "ign": "Cloud",
             "team": "FNATIC",
             "region": "VCT EMEA",
             "role": "Centinela",
@@ -1055,8 +1055,8 @@
             "ign": "Chronicle",
             "team": "Team Vitality",
             "region": "VCT EMEA",
-            "role": "IGL",
-            "age": 23,
+            "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 73,
@@ -1071,7 +1071,7 @@
             "team": "Team Vitality",
             "region": "VCT EMEA",
             "role": "Duelista",
-            "age": 22,
+            "age": 23,
             "stats": {
                 "aim": 79,
                 "clutch": 79,
@@ -1086,7 +1086,7 @@
             "team": "Team Vitality",
             "region": "VCT EMEA",
             "role": "Controlador",
-            "age": 25,
+            "age": 22,
             "stats": {
                 "aim": 91,
                 "clutch": 81,
@@ -1100,8 +1100,8 @@
             "ign": "Jamppi",
             "team": "Team Vitality",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 24,
+            "role": "IGL",
+            "age": 25,
             "stats": {
                 "aim": 82,
                 "clutch": 81,
@@ -1115,8 +1115,8 @@
             "ign": "Sayonara",
             "team": "Team Vitality",
             "region": "VCT EMEA",
-            "role": "Centinela",
-            "age": 21,
+            "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 79,
                 "clutch": 85,
@@ -1127,11 +1127,11 @@
             }
         },
         {
-            "ign": "Cloud",
+            "ign": "neT",
             "team": "GIANTX",
             "region": "VCT EMEA",
-            "role": "IGL",
-            "age": 22,
+            "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 93,
                 "clutch": 75,
@@ -1142,11 +1142,11 @@
             }
         },
         {
-            "ign": "grubinho",
+            "ign": "Jesse",
             "team": "GIANTX",
             "region": "VCT EMEA",
-            "role": "Duelista",
-            "age": 21,
+            "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 83,
                 "clutch": 76,
@@ -1160,7 +1160,7 @@
             "ign": "Flickless",
             "team": "GIANTX",
             "region": "VCT EMEA",
-            "role": "Controlador",
+            "role": "IGL",
             "age": 18,
             "stats": {
                 "aim": 93,
@@ -1175,7 +1175,7 @@
             "ign": "ara",
             "team": "GIANTX",
             "region": "VCT EMEA",
-            "role": "Iniciador",
+            "role": "Duelista",
             "age": 18,
             "stats": {
                 "aim": 88,
@@ -1217,10 +1217,10 @@
             }
         },
         {
-            "ign": "GLYPH",
+            "ign": "Proxh",
             "team": "Gentle Mates",
             "region": "VCT EMEA",
-            "role": "Duelista",
+            "role": "Controlador",
             "age": 22,
             "stats": {
                 "aim": 84,
@@ -1235,7 +1235,7 @@
             "ign": "marteen",
             "team": "Gentle Mates",
             "region": "VCT EMEA",
-            "role": "Controlador",
+            "role": "Duelista",
             "age": 21,
             "stats": {
                 "aim": 93,
@@ -1247,10 +1247,10 @@
             }
         },
         {
-            "ign": "bipo",
+            "ign": "H1ber",
             "team": "Gentle Mates",
             "region": "VCT EMEA",
-            "role": "Iniciador",
+            "role": "Centinela",
             "age": 18,
             "stats": {
                 "aim": 90,
@@ -1265,7 +1265,7 @@
             "ign": "Minny",
             "team": "Gentle Mates",
             "region": "VCT EMEA",
-            "role": "Centinela",
+            "role": "Flex",
             "age": 20,
             "stats": {
                 "aim": 81,
@@ -1295,7 +1295,7 @@
             "ign": "RieNs",
             "team": "Team Heretics",
             "region": "VCT EMEA",
-            "role": "Duelista",
+            "role": "Iniciador",
             "age": 21,
             "stats": {
                 "aim": 91,
@@ -1310,7 +1310,7 @@
             "ign": "Wo0t",
             "team": "Team Heretics",
             "region": "VCT EMEA",
-            "role": "Controlador",
+            "role": "Flex",
             "age": 20,
             "stats": {
                 "aim": 80,
@@ -1325,8 +1325,8 @@
             "ign": "koshmaras",
             "team": "Team Heretics",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 21,
+            "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 80,
                 "clutch": 76,
@@ -1341,7 +1341,7 @@
             "team": "Team Heretics",
             "region": "VCT EMEA",
             "role": "Centinela",
-            "age": 21,
+            "age": 22,
             "stats": {
                 "aim": 99,
                 "clutch": 73,
@@ -1356,7 +1356,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "IGL",
-            "age": 22,
+            "age": 30,
             "stats": {
                 "aim": 84,
                 "clutch": 84,
@@ -1370,7 +1370,7 @@
             "ign": "yetujey",
             "team": "FUT Esports",
             "region": "VCT EMEA",
-            "role": "Duelista",
+            "role": "Flex",
             "age": 20,
             "stats": {
                 "aim": 92,
@@ -1385,8 +1385,8 @@
             "ign": "xeus",
             "team": "FUT Esports",
             "region": "VCT EMEA",
-            "role": "Controlador",
-            "age": 22,
+            "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 78,
                 "clutch": 74,
@@ -1401,7 +1401,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "Iniciador",
-            "age": 24,
+            "age": 20,
             "stats": {
                 "aim": 89,
                 "clutch": 79,
@@ -1416,7 +1416,7 @@
             "team": "FUT Esports",
             "region": "VCT EMEA",
             "role": "Centinela",
-            "age": 21,
+            "age": 18,
             "stats": {
                 "aim": 88,
                 "clutch": 90,
@@ -1427,11 +1427,11 @@
             }
         },
         {
-            "ign": "Filu",
+            "ign": "ExiT",
             "team": "Natus Vincere",
             "region": "VCT EMEA",
-            "role": "IGL",
-            "age": 21,
+            "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 88,
                 "clutch": 90,
@@ -1445,8 +1445,8 @@
             "ign": "chloric",
             "team": "Natus Vincere",
             "region": "VCT EMEA",
-            "role": "Duelista",
-            "age": 23,
+            "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 94,
                 "clutch": 86,
@@ -1461,7 +1461,7 @@
             "team": "Natus Vincere",
             "region": "VCT EMEA",
             "role": "Controlador",
-            "age": 25,
+            "age": 22,
             "stats": {
                 "aim": 87,
                 "clutch": 89,
@@ -1475,8 +1475,8 @@
             "ign": "hiro",
             "team": "Natus Vincere",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 21,
+            "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 87,
                 "clutch": 83,
@@ -1490,8 +1490,8 @@
             "ign": "Kolosha",
             "team": "Natus Vincere",
             "region": "VCT EMEA",
-            "role": "Centinela",
-            "age": 24,
+            "role": "Flex",
+            "age": 18,
             "stats": {
                 "aim": 92,
                 "clutch": 89,
@@ -1505,8 +1505,8 @@
             "ign": "SUYGETSU",
             "team": "Karmine Corp",
             "region": "VCT EMEA",
-            "role": "IGL",
-            "age": 23,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 83,
                 "clutch": 81,
@@ -1520,8 +1520,8 @@
             "ign": "Avez",
             "team": "Karmine Corp",
             "region": "VCT EMEA",
-            "role": "Duelista",
-            "age": 19,
+            "role": "IGL",
+            "age": 21,
             "stats": {
                 "aim": 81,
                 "clutch": 85,
@@ -1536,7 +1536,7 @@
             "team": "Karmine Corp",
             "region": "VCT EMEA",
             "role": "Controlador",
-            "age": 24,
+            "age": 22,
             "stats": {
                 "aim": 85,
                 "clutch": 75,
@@ -1550,8 +1550,8 @@
             "ign": "LewN",
             "team": "Karmine Corp",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 20,
+            "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 92,
                 "clutch": 83,
@@ -1565,7 +1565,7 @@
             "ign": "N4RRATE",
             "team": "Karmine Corp",
             "region": "VCT EMEA",
-            "role": "Centinela",
+            "role": "Flex",
             "age": 23,
             "stats": {
                 "aim": 90,
@@ -1580,8 +1580,8 @@
             "ign": "nAts",
             "team": "Team Liquid",
             "region": "VCT EMEA",
-            "role": "Centinela",
-            "age": 23,
+            "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 91,
                 "clutch": 83,
@@ -1596,7 +1596,7 @@
             "team": "Team Liquid",
             "region": "VCT EMEA",
             "role": "Duelista",
-            "age": 21,
+            "age": 23,
             "stats": {
                 "aim": 82,
                 "clutch": 80,
@@ -1610,8 +1610,8 @@
             "ign": "kamo",
             "team": "Team Liquid",
             "region": "VCT EMEA",
-            "role": "Controlador",
-            "age": 22,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 76,
                 "clutch": 75,
@@ -1622,10 +1622,10 @@
             }
         },
         {
-            "ign": "MiniBoo",
+            "ign": "Kicks",
             "team": "Team Liquid",
             "region": "VCT EMEA",
-            "role": "Iniciador",
+            "role": "Controlador",
             "age": 20,
             "stats": {
                 "aim": 82,
@@ -1637,11 +1637,11 @@
             }
         },
         {
-            "ign": "wayne",
+            "ign": "Trexx",
             "team": "Team Liquid",
             "region": "VCT EMEA",
-            "role": "Centinela",
-            "age": 19,
+            "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 81,
                 "clutch": 80,
@@ -1652,11 +1652,11 @@
             }
         },
         {
-            "ign": "Izzy",
+            "ign": "Spear",
             "team": "Eternal Fire",
             "region": "VCT EMEA",
-            "role": "IGL",
-            "age": 23,
+            "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 81,
                 "clutch": 92,
@@ -1670,8 +1670,8 @@
             "ign": "nekky",
             "team": "Eternal Fire",
             "region": "VCT EMEA",
-            "role": "Duelista",
-            "age": 23,
+            "role": "IGL",
+            "age": 21,
             "stats": {
                 "aim": 82,
                 "clutch": 89,
@@ -1686,7 +1686,7 @@
             "team": "Eternal Fire",
             "region": "VCT EMEA",
             "role": "Controlador",
-            "age": 21,
+            "age": 20,
             "stats": {
                 "aim": 87,
                 "clutch": 87,
@@ -1700,8 +1700,8 @@
             "ign": "Favian",
             "team": "Eternal Fire",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 23,
+            "role": "Flex",
+            "age": 20,
             "stats": {
                 "aim": 78,
                 "clutch": 89,
@@ -1716,7 +1716,7 @@
             "team": "Eternal Fire",
             "region": "VCT EMEA",
             "role": "Centinela",
-            "age": 24,
+            "age": 18,
             "stats": {
                 "aim": 92,
                 "clutch": 77,
@@ -1727,26 +1727,26 @@
             }
         },
         {
-            "ign": "cNed",
+            "ign": "Waddle",
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
-            "role": "Duelista",
-            "age": 23,
+            "role": "Iniciador",
+            "age": 25,
             "stats": {
-                "aim": 88,
-                "clutch": 89,
-                "gameSense": 92,
+                "aim": 85,
+                "clutch": 85,
+                "gameSense": 80,
                 "communication": 81,
-                "consistency": 88,
-                "mental": 90
+                "consistency": 82,
+                "mental": 85
             }
         },
         {
             "ign": "al0rante",
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
-            "role": "Duelista",
-            "age": 20,
+            "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 86,
                 "clutch": 78,
@@ -1760,7 +1760,7 @@
             "ign": "qpert",
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
-            "role": "Controlador",
+            "role": "IGL",
             "age": 23,
             "stats": {
                 "aim": 82,
@@ -1775,8 +1775,8 @@
             "ign": "seven",
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
-            "role": "Iniciador",
-            "age": 19,
+            "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 82,
                 "clutch": 77,
@@ -1790,8 +1790,8 @@
             "ign": "NINJA",
             "team": "PCIFIC Esports",
             "region": "VCT EMEA",
-            "role": "Centinela",
-            "age": 19,
+            "role": "Flex",
+            "age": 20,
             "stats": {
                 "aim": 83,
                 "clutch": 84,
@@ -1805,8 +1805,8 @@
             "ign": "Meiy",
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
-            "role": "IGL",
-            "age": 22,
+            "role": "Duelista",
+            "age": 23,
             "stats": {
                 "aim": 84,
                 "clutch": 91,
@@ -1820,8 +1820,8 @@
             "ign": "Akame",
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
-            "role": "Duelista",
-            "age": 21,
+            "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 86,
                 "clutch": 91,
@@ -1835,8 +1835,8 @@
             "ign": "SSeeS",
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 25,
+            "role": "IGL",
+            "age": 29,
             "stats": {
                 "aim": 79,
                 "clutch": 79,
@@ -1850,7 +1850,7 @@
             "ign": "Caedye",
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
-            "role": "Iniciador",
+            "role": "Centinela",
             "age": 19,
             "stats": {
                 "aim": 86,
@@ -1865,8 +1865,8 @@
             "ign": "yatsuka",
             "team": "DetonatioN FocusMe",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 25,
+            "role": "Flex",
+            "age": 19,
             "stats": {
                 "aim": 93,
                 "clutch": 83,
@@ -1880,8 +1880,8 @@
             "ign": "free1ng",
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
-            "role": "IGL",
-            "age": 23,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 80,
                 "clutch": 84,
@@ -1896,7 +1896,7 @@
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
             "role": "Controlador",
-            "age": 23,
+            "age": 24,
             "stats": {
                 "aim": 92,
                 "clutch": 93,
@@ -1910,8 +1910,8 @@
             "ign": "BeYN",
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 23,
+            "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 82,
                 "clutch": 80,
@@ -1925,8 +1925,8 @@
             "ign": "HYUNMIN",
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
-            "role": "Iniciador",
-            "age": 19,
+            "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 82,
                 "clutch": 75,
@@ -1941,7 +1941,7 @@
             "team": "KIWOOM DRX",
             "region": "VCT Pacific",
             "role": "Centinela",
-            "age": 23,
+            "age": 18,
             "stats": {
                 "aim": 81,
                 "clutch": 75,
@@ -1952,11 +1952,11 @@
             }
         },
         {
-            "ign": "Crws",
+            "ign": "Leviathan",
             "team": "FULL SENSE",
             "region": "VCT Pacific",
-            "role": "IGL",
-            "age": 29,
+            "role": "Controlador",
+            "age": 23,
             "stats": {
                 "aim": 82,
                 "clutch": 78,
@@ -1970,8 +1970,8 @@
             "ign": "Killua",
             "team": "FULL SENSE",
             "region": "VCT Pacific",
-            "role": "Duelista",
-            "age": 24,
+            "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 94,
                 "clutch": 84,
@@ -1985,8 +1985,8 @@
             "ign": "JitBoyS",
             "team": "FULL SENSE",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 23,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 99,
                 "clutch": 79,
@@ -2000,8 +2000,8 @@
             "ign": "primmie",
             "team": "FULL SENSE",
             "region": "VCT Pacific",
-            "role": "Iniciador",
-            "age": 20,
+            "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 93,
                 "clutch": 76,
@@ -2012,11 +2012,11 @@
             }
         },
         {
-            "ign": "Leviathan",
+            "ign": "seph1roth",
             "team": "FULL SENSE",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 20,
+            "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 82,
                 "clutch": 85,
@@ -2027,7 +2027,7 @@
             }
         },
         {
-            "ign": "Lakia",
+            "ign": "Efina",
             "team": "Gen.G",
             "region": "VCT Pacific",
             "role": "IGL",
@@ -2045,8 +2045,8 @@
             "ign": "t3xture",
             "team": "Gen.G",
             "region": "VCT Pacific",
-            "role": "Duelista",
-            "age": 26,
+            "role": "Flex",
+            "age": 27,
             "stats": {
                 "aim": 89,
                 "clutch": 82,
@@ -2057,11 +2057,11 @@
             }
         },
         {
-            "ign": "Foxy9",
+            "ign": "RaxcaL",
             "team": "Gen.G",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 21,
+            "role": "Centinela",
+            "age": 18,
             "stats": {
                 "aim": 79,
                 "clutch": 82,
@@ -2075,8 +2075,8 @@
             "ign": "Ash",
             "team": "Gen.G",
             "region": "VCT Pacific",
-            "role": "Iniciador",
-            "age": 19,
+            "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 92,
                 "clutch": 90,
@@ -2090,7 +2090,7 @@
             "ign": "Karon",
             "team": "Gen.G",
             "region": "VCT Pacific",
-            "role": "Centinela",
+            "role": "Controlador",
             "age": 23,
             "stats": {
                 "aim": 91,
@@ -2105,8 +2105,8 @@
             "ign": "Autumn",
             "team": "Global Esports",
             "region": "VCT Pacific",
-            "role": "IGL",
-            "age": 27,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 91,
                 "clutch": 84,
@@ -2121,7 +2121,7 @@
             "team": "Global Esports",
             "region": "VCT Pacific",
             "role": "Duelista",
-            "age": 18,
+            "age": 22,
             "stats": {
                 "aim": 81,
                 "clutch": 89,
@@ -2135,8 +2135,8 @@
             "ign": "Kr1stal",
             "team": "Global Esports",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 19,
+            "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 86,
                 "clutch": 79,
@@ -2150,8 +2150,8 @@
             "ign": "xavi8k",
             "team": "Global Esports",
             "region": "VCT Pacific",
-            "role": "Iniciador",
-            "age": 21,
+            "role": "IGL",
+            "age": 24,
             "stats": {
                 "aim": 78,
                 "clutch": 78,
@@ -2165,8 +2165,8 @@
             "ign": "PatMen",
             "team": "Global Esports",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 22,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 78,
                 "clutch": 74,
@@ -2181,7 +2181,7 @@
             "team": "Paper Rex",
             "region": "VCT Pacific",
             "role": "Duelista",
-            "age": 22,
+            "age": 23,
             "stats": {
                 "aim": 89,
                 "clutch": 74,
@@ -2195,8 +2195,8 @@
             "ign": "invy",
             "team": "Paper Rex",
             "region": "VCT Pacific",
-            "role": "Duelista",
-            "age": 25,
+            "role": "Iniciador",
+            "age": 22,
             "stats": {
                 "aim": 86,
                 "clutch": 93,
@@ -2211,7 +2211,7 @@
             "team": "Paper Rex",
             "region": "VCT Pacific",
             "role": "Flex",
-            "age": 21,
+            "age": 22,
             "stats": {
                 "aim": 72,
                 "clutch": 77,
@@ -2225,7 +2225,7 @@
             "ign": "d4v41",
             "team": "Paper Rex",
             "region": "VCT Pacific",
-            "role": "Iniciador",
+            "role": "IGL",
             "age": 27,
             "stats": {
                 "aim": 87,
@@ -2240,8 +2240,8 @@
             "ign": "something",
             "team": "Paper Rex",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 23,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 81,
                 "clutch": 86,
@@ -2267,11 +2267,11 @@
             }
         },
         {
-            "ign": "Kushy",
+            "ign": "Xan",
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
             "role": "Duelista",
-            "age": 25,
+            "age": 19,
             "stats": {
                 "aim": 86,
                 "clutch": 78,
@@ -2285,8 +2285,8 @@
             "ign": "xffero",
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 27,
+            "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 84,
                 "clutch": 73,
@@ -2300,8 +2300,8 @@
             "ign": "Monyet",
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
-            "role": "Iniciador",
-            "age": 20,
+            "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 79,
                 "clutch": 83,
@@ -2315,8 +2315,8 @@
             "ign": "Jemkin",
             "team": "Rex Regum Qeon",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 18,
+            "role": "Flex",
+            "age": 22,
             "stats": {
                 "aim": 78,
                 "clutch": 79,
@@ -2330,8 +2330,8 @@
             "ign": "stax",
             "team": "T1",
             "region": "VCT Pacific",
-            "role": "IGL",
-            "age": 25,
+            "role": "Controlador",
+            "age": 26,
             "stats": {
                 "aim": 71,
                 "clutch": 87,
@@ -2346,7 +2346,7 @@
             "team": "T1",
             "region": "VCT Pacific",
             "role": "Duelista",
-            "age": 22,
+            "age": 23,
             "stats": {
                 "aim": 98,
                 "clutch": 95,
@@ -2361,7 +2361,7 @@
             "team": "T1",
             "region": "VCT Pacific",
             "role": "IGL",
-            "age": 27,
+            "age": 28,
             "stats": {
                 "aim": 87,
                 "clutch": 70,
@@ -2375,7 +2375,7 @@
             "ign": "Meteor",
             "team": "T1",
             "region": "VCT Pacific",
-            "role": "Iniciador",
+            "role": "Flex",
             "age": 26,
             "stats": {
                 "aim": 84,
@@ -2390,8 +2390,8 @@
             "ign": "iZu",
             "team": "T1",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 20,
+            "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 90,
                 "clutch": 72,
@@ -2402,11 +2402,11 @@
             }
         },
         {
-            "ign": "JessieVash",
+            "ign": "STYRON",
             "team": "Team Secret",
             "region": "VCT Pacific",
             "role": "IGL",
-            "age": 35,
+            "age": 24,
             "stats": {
                 "aim": 74,
                 "clutch": 77,
@@ -2420,8 +2420,8 @@
             "ign": "Sylvan",
             "team": "Team Secret",
             "region": "VCT Pacific",
-            "role": "Duelista",
-            "age": 22,
+            "role": "Controlador",
+            "age": 24,
             "stats": {
                 "aim": 80,
                 "clutch": 76,
@@ -2432,11 +2432,11 @@
             }
         },
         {
-            "ign": "BerserX",
+            "ign": "natz",
             "team": "Team Secret",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 24,
+            "role": "Centinela",
+            "age": 25,
             "stats": {
                 "aim": 81,
                 "clutch": 84,
@@ -2450,8 +2450,8 @@
             "ign": "kellyS",
             "team": "Team Secret",
             "region": "VCT Pacific",
-            "role": "Iniciador",
-            "age": 22,
+            "role": "Flex",
+            "age": 26,
             "stats": {
                 "aim": 83,
                 "clutch": 78,
@@ -2465,8 +2465,8 @@
             "ign": "Zeus",
             "team": "Team Secret",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 22,
+            "role": "Duelista",
+            "age": 18,
             "stats": {
                 "aim": 79,
                 "clutch": 88,
@@ -2480,8 +2480,8 @@
             "ign": "eKo",
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
-            "role": "IGL",
-            "age": 18,
+            "role": "Flex",
+            "age": 23,
             "stats": {
                 "aim": 79,
                 "clutch": 78,
@@ -2495,8 +2495,8 @@
             "ign": "SugarZ3ro",
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
-            "role": "Duelista",
-            "age": 22,
+            "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 83,
                 "clutch": 74,
@@ -2510,8 +2510,8 @@
             "ign": "SyouTa",
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 24,
+            "role": "Centinela",
+            "age": 23,
             "stats": {
                 "aim": 94,
                 "clutch": 89,
@@ -2526,7 +2526,7 @@
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
             "role": "Iniciador",
-            "age": 19,
+            "age": 20,
             "stats": {
                 "aim": 89,
                 "clutch": 76,
@@ -2540,8 +2540,8 @@
             "ign": "Absol",
             "team": "ZETA DIVISION",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 21,
+            "role": "Duelista",
+            "age": 20,
             "stats": {
                 "aim": 93,
                 "clutch": 82,
@@ -2556,7 +2556,7 @@
             "team": "VARREL",
             "region": "VCT Pacific",
             "role": "IGL",
-            "age": 24,
+            "age": 27,
             "stats": {
                 "aim": 86,
                 "clutch": 75,
@@ -2567,11 +2567,11 @@
             }
         },
         {
-            "ign": "Klaus",
+            "ign": "Foxy9",
             "team": "VARREL",
             "region": "VCT Pacific",
-            "role": "Duelista",
-            "age": 22,
+            "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 76,
                 "clutch": 88,
@@ -2585,8 +2585,8 @@
             "ign": "oonzmlp",
             "team": "VARREL",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 18,
+            "role": "Flex",
+            "age": 19,
             "stats": {
                 "aim": 78,
                 "clutch": 83,
@@ -2600,7 +2600,7 @@
             "ign": "Zexy",
             "team": "VARREL",
             "region": "VCT Pacific",
-            "role": "Iniciador",
+            "role": "Duelista",
             "age": 20,
             "stats": {
                 "aim": 80,
@@ -2615,8 +2615,8 @@
             "ign": "XuNa",
             "team": "VARREL",
             "region": "VCT Pacific",
-            "role": "Centinela",
-            "age": 19,
+            "role": "Iniciador",
+            "age": 18,
             "stats": {
                 "aim": 80,
                 "clutch": 86,
@@ -2646,7 +2646,7 @@
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
             "role": "Duelista",
-            "age": 25,
+            "age": 20,
             "stats": {
                 "aim": 90,
                 "clutch": 86,
@@ -2660,8 +2660,8 @@
             "ign": "Francis",
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
-            "role": "Controlador",
-            "age": 19,
+            "role": "Flex",
+            "age": 20,
             "stats": {
                 "aim": 85,
                 "clutch": 86,
@@ -2675,8 +2675,8 @@
             "ign": "Ivy",
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
-            "role": "Iniciador",
-            "age": 22,
+            "role": "Centinela",
+            "age": 20,
             "stats": {
                 "aim": 84,
                 "clutch": 80,
@@ -2690,7 +2690,7 @@
             "ign": "Xross",
             "team": "Nongshim RedForce",
             "region": "VCT Pacific",
-            "role": "Centinela",
+            "role": "Iniciador",
             "age": 19,
             "stats": {
                 "aim": 89,
@@ -2702,11 +2702,11 @@
             }
         },
         {
-            "ign": "Septem7",
+            "ign": "Bai",
             "team": "All Gamers",
             "region": "VCT China",
-            "role": "IGL",
-            "age": 23,
+            "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 78,
                 "clutch": 80,
@@ -2735,7 +2735,7 @@
             "ign": "Shr1mp",
             "team": "All Gamers",
             "region": "VCT China",
-            "role": "Controlador",
+            "role": "Iniciador",
             "age": 23,
             "stats": {
                 "aim": 91,
@@ -2750,8 +2750,8 @@
             "ign": "K1ra",
             "team": "All Gamers",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 18,
+            "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 82,
                 "clutch": 87,
@@ -2765,8 +2765,8 @@
             "ign": "iamgrq",
             "team": "All Gamers",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 24,
+            "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 89,
                 "clutch": 82,
@@ -2780,8 +2780,8 @@
             "ign": "jkuro",
             "team": "JD Gaming",
             "region": "VCT China",
-            "role": "IGL",
-            "age": 24,
+            "role": "Duelista",
+            "age": 21,
             "stats": {
                 "aim": 90,
                 "clutch": 70,
@@ -2795,8 +2795,8 @@
             "ign": "Yuicaw",
             "team": "JD Gaming",
             "region": "VCT China",
-            "role": "Duelista",
-            "age": 24,
+            "role": "Centinela",
+            "age": 22,
             "stats": {
                 "aim": 90,
                 "clutch": 89,
@@ -2807,11 +2807,11 @@
             }
         },
         {
-            "ign": "coconut",
+            "ign": "BerLIN",
             "team": "JD Gaming",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 21,
+            "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 80,
                 "clutch": 78,
@@ -2822,10 +2822,10 @@
             }
         },
         {
-            "ign": "stew",
+            "ign": "crownfisher",
             "team": "JD Gaming",
             "region": "VCT China",
-            "role": "Iniciador",
+            "role": "Controlador",
             "age": 19,
             "stats": {
                 "aim": 78,
@@ -2840,8 +2840,8 @@
             "ign": "zhe",
             "team": "JD Gaming",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 19,
+            "role": "Flex",
+            "age": 22,
             "stats": {
                 "aim": 81,
                 "clutch": 91,
@@ -2852,11 +2852,11 @@
             }
         },
         {
-            "ign": "sword9",
+            "ign": "SiuFatBB",
             "team": "TYLOO",
             "region": "VCT China",
             "role": "IGL",
-            "age": 21,
+            "age": 27,
             "stats": {
                 "aim": 88,
                 "clutch": 76,
@@ -2885,8 +2885,8 @@
             "ign": "Scales",
             "team": "TYLOO",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 24,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 78,
                 "clutch": 84,
@@ -2900,8 +2900,8 @@
             "ign": "slowly",
             "team": "TYLOO",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 22,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 89,
                 "clutch": 76,
@@ -2915,8 +2915,8 @@
             "ign": "Erv",
             "team": "TYLOO",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 18,
+            "role": "Controlador",
+            "age": 22,
             "stats": {
                 "aim": 87,
                 "clutch": 90,
@@ -2931,7 +2931,7 @@
             "team": "Titan Esports Club",
             "region": "VCT China",
             "role": "IGL",
-            "age": 21,
+            "age": 24,
             "stats": {
                 "aim": 83,
                 "clutch": 88,
@@ -2942,7 +2942,7 @@
             }
         },
         {
-            "ign": "Spitfires",
+            "ign": "ra1ny",
             "team": "Titan Esports Club",
             "region": "VCT China",
             "role": "Duelista",
@@ -2960,8 +2960,8 @@
             "ign": "lucas",
             "team": "Titan Esports Club",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 24,
+            "role": "Iniciador",
+            "age": 19,
             "stats": {
                 "aim": 89,
                 "clutch": 81,
@@ -2975,8 +2975,8 @@
             "ign": "Dynamite",
             "team": "Titan Esports Club",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 20,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 89,
                 "clutch": 75,
@@ -2990,8 +2990,8 @@
             "ign": "Coco",
             "team": "Titan Esports Club",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 24,
+            "role": "Controlador",
+            "age": 22,
             "stats": {
                 "aim": 90,
                 "clutch": 77,
@@ -3005,8 +3005,8 @@
             "ign": "NoMan",
             "team": "Xi Lai Gaming",
             "region": "VCT China",
-            "role": "IGL",
-            "age": 18,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 93,
                 "clutch": 86,
@@ -3021,7 +3021,7 @@
             "team": "Xi Lai Gaming",
             "region": "VCT China",
             "role": "Duelista",
-            "age": 20,
+            "age": 24,
             "stats": {
                 "aim": 93,
                 "clutch": 82,
@@ -3035,8 +3035,8 @@
             "ign": "WsLeo",
             "team": "Xi Lai Gaming",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 24,
+            "role": "IGL",
+            "age": 25,
             "stats": {
                 "aim": 89,
                 "clutch": 85,
@@ -3050,8 +3050,8 @@
             "ign": "Lysoar",
             "team": "Xi Lai Gaming",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 25,
+            "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 82,
                 "clutch": 82,
@@ -3066,7 +3066,7 @@
             "team": "Xi Lai Gaming",
             "region": "VCT China",
             "role": "Centinela",
-            "age": 23,
+            "age": 22,
             "stats": {
                 "aim": 81,
                 "clutch": 84,
@@ -3081,7 +3081,7 @@
             "team": "EDward Gaming",
             "region": "VCT China",
             "role": "Iniciador",
-            "age": 20,
+            "age": 23,
             "stats": {
                 "aim": 92,
                 "clutch": 93,
@@ -3096,7 +3096,7 @@
             "team": "EDward Gaming",
             "region": "VCT China",
             "role": "Duelista",
-            "age": 21,
+            "age": 22,
             "stats": {
                 "aim": 79,
                 "clutch": 86,
@@ -3110,8 +3110,8 @@
             "ign": "Smoggy",
             "team": "EDward Gaming",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 21,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 78,
                 "clutch": 86,
@@ -3125,8 +3125,8 @@
             "ign": "CHICHOO",
             "team": "EDward Gaming",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 24,
+            "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 83,
                 "clutch": 79,
@@ -3140,8 +3140,8 @@
             "ign": "Jieni7",
             "team": "EDward Gaming",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 25,
+            "role": "Controlador",
+            "age": 21,
             "stats": {
                 "aim": 79,
                 "clutch": 91,
@@ -3155,8 +3155,8 @@
             "ign": "vo0kashu",
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
-            "role": "IGL",
-            "age": 21,
+            "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 84,
                 "clutch": 90,
@@ -3167,10 +3167,10 @@
             }
         },
         {
-            "ign": "Flex1n",
+            "ign": "Verse",
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
-            "role": "Duelista",
+            "role": "Controlador",
             "age": 19,
             "stats": {
                 "aim": 78,
@@ -3185,8 +3185,8 @@
             "ign": "Nicc",
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 24,
+            "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 92,
                 "clutch": 91,
@@ -3200,8 +3200,8 @@
             "ign": "SpiritZ1",
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 18,
+            "role": "Duelista",
+            "age": 19,
             "stats": {
                 "aim": 92,
                 "clutch": 75,
@@ -3212,11 +3212,11 @@
             }
         },
         {
-            "ign": "Akeman",
+            "ign": "Life",
             "team": "Dragon Ranger Gaming",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 25,
+            "role": "Flex",
+            "age": 24,
             "stats": {
                 "aim": 90,
                 "clutch": 77,
@@ -3231,7 +3231,7 @@
             "team": "Trace Esports",
             "region": "VCT China",
             "role": "IGL",
-            "age": 23,
+            "age": 24,
             "stats": {
                 "aim": 87,
                 "clutch": 81,
@@ -3245,8 +3245,8 @@
             "ign": "deLb",
             "team": "Trace Esports",
             "region": "VCT China",
-            "role": "Duelista",
-            "age": 24,
+            "role": "Centinela",
+            "age": 21,
             "stats": {
                 "aim": 77,
                 "clutch": 93,
@@ -3257,10 +3257,10 @@
             }
         },
         {
-            "ign": "Viva",
+            "ign": "FKEY",
             "team": "Trace Esports",
             "region": "VCT China",
-            "role": "Controlador",
+            "role": "IGL",
             "age": 20,
             "stats": {
                 "aim": 94,
@@ -3275,8 +3275,8 @@
             "ign": "Kai",
             "team": "Trace Esports",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 25,
+            "role": "Flex",
+            "age": 22,
             "stats": {
                 "aim": 78,
                 "clutch": 76,
@@ -3287,11 +3287,11 @@
             }
         },
         {
-            "ign": "Xlele",
+            "ign": "FengF",
             "team": "Trace Esports",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 18,
+            "role": "Duelista",
+            "age": 22,
             "stats": {
                 "aim": 79,
                 "clutch": 75,
@@ -3306,7 +3306,7 @@
             "team": "Bilibili Gaming",
             "region": "VCT China",
             "role": "Duelista",
-            "age": 21,
+            "age": 23,
             "stats": {
                 "aim": 83,
                 "clutch": 70,
@@ -3320,8 +3320,8 @@
             "ign": "nephh",
             "team": "Bilibili Gaming",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 19,
+            "role": "IGL",
+            "age": 23,
             "stats": {
                 "aim": 84,
                 "clutch": 80,
@@ -3335,8 +3335,8 @@
             "ign": "Knight",
             "team": "Bilibili Gaming",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 21,
+            "role": "Flex",
+            "age": 22,
             "stats": {
                 "aim": 88,
                 "clutch": 77,
@@ -3350,8 +3350,8 @@
             "ign": "rushia",
             "team": "Bilibili Gaming",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 24,
+            "role": "Flex",
+            "age": 19,
             "stats": {
                 "aim": 86,
                 "clutch": 79,
@@ -3362,10 +3362,10 @@
             }
         },
         {
-            "ign": "yilai",
+            "ign": "FT",
             "team": "Bilibili Gaming",
             "region": "VCT China",
-            "role": "Duelista",
+            "role": "Flex",
             "age": 19,
             "stats": {
                 "aim": 83,
@@ -3377,11 +3377,11 @@
             }
         },
         {
-            "ign": "Setrod",
+            "ign": "Xlele",
             "team": "FunPlus Phoenix",
             "region": "VCT China",
             "role": "Duelista",
-            "age": 18,
+            "age": 22,
             "stats": {
                 "aim": 79,
                 "clutch": 83,
@@ -3392,11 +3392,11 @@
             }
         },
         {
-            "ign": "Ben1Ley",
+            "ign": "Setrod",
             "team": "FunPlus Phoenix",
             "region": "VCT China",
-            "role": "Duelista",
-            "age": 22,
+            "role": "Flex",
+            "age": 21,
             "stats": {
                 "aim": 86,
                 "clutch": 92,
@@ -3410,8 +3410,8 @@
             "ign": "KovaQ",
             "team": "FunPlus Phoenix",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 23,
+            "role": "IGL",
+            "age": 22,
             "stats": {
                 "aim": 78,
                 "clutch": 82,
@@ -3426,7 +3426,7 @@
             "team": "FunPlus Phoenix",
             "region": "VCT China",
             "role": "Centinela",
-            "age": 22,
+            "age": 23,
             "stats": {
                 "aim": 74,
                 "clutch": 83,
@@ -3437,11 +3437,11 @@
             }
         },
         {
-            "ign": "BerLIN",
+            "ign": "coconut",
             "team": "FunPlus Phoenix",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 22,
+            "role": "Iniciador",
+            "age": 23,
             "stats": {
                 "aim": 96,
                 "clutch": 72,
@@ -3456,7 +3456,7 @@
             "team": "Nova Esports",
             "region": "VCT China",
             "role": "Controlador",
-            "age": 18,
+            "age": 23,
             "stats": {
                 "aim": 82,
                 "clutch": 75,
@@ -3470,8 +3470,8 @@
             "ign": "qiutiaN",
             "team": "Nova Esports",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 20,
+            "role": "IGL",
+            "age": 26,
             "stats": {
                 "aim": 81,
                 "clutch": 81,
@@ -3485,8 +3485,8 @@
             "ign": "swagzor",
             "team": "Nova Esports",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 19,
+            "role": "Duelista",
+            "age": 18,
             "stats": {
                 "aim": 80,
                 "clutch": 90,
@@ -3497,11 +3497,11 @@
             }
         },
         {
-            "ign": "GREEN",
+            "ign": "cb",
             "team": "Nova Esports",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 18,
+            "role": "Flex",
+            "age": 22,
             "stats": {
                 "aim": 85,
                 "clutch": 92,
@@ -3515,8 +3515,8 @@
             "ign": "GuanG",
             "team": "Nova Esports",
             "region": "VCT China",
-            "role": "Duelista",
-            "age": 19,
+            "role": "Centinela",
+            "age": 22,
             "stats": {
                 "aim": 79,
                 "clutch": 76,
@@ -3531,7 +3531,7 @@
             "team": "Wolves Esports",
             "region": "VCT China",
             "role": "Controlador",
-            "age": 21,
+            "age": 22,
             "stats": {
                 "aim": 91,
                 "clutch": 92,
@@ -3542,11 +3542,11 @@
             }
         },
         {
-            "ign": "jowa",
+            "ign": "Deryeon",
             "team": "Wolves Esports",
             "region": "VCT China",
-            "role": "Duelista",
-            "age": 20,
+            "role": "Flex",
+            "age": 26,
             "stats": {
                 "aim": 85,
                 "clutch": 85,
@@ -3560,8 +3560,8 @@
             "ign": "glacier",
             "team": "Wolves Esports",
             "region": "VCT China",
-            "role": "Controlador",
-            "age": 23,
+            "role": "Duelista",
+            "age": 18,
             "stats": {
                 "aim": 88,
                 "clutch": 91,
@@ -3572,11 +3572,11 @@
             }
         },
         {
-            "ign": "yosemite",
+            "ign": "aluba",
             "team": "Wolves Esports",
             "region": "VCT China",
-            "role": "Centinela",
-            "age": 20,
+            "role": "Iniciador",
+            "age": 25,
             "stats": {
                 "aim": 97,
                 "clutch": 85,
@@ -3587,11 +3587,11 @@
             }
         },
         {
-            "ign": "SiuFatBB",
+            "ign": "yosemite",
             "team": "Wolves Esports",
             "region": "VCT China",
-            "role": "Iniciador",
-            "age": 22,
+            "role": "Centinela",
+            "age": 24,
             "stats": {
                 "aim": 82,
                 "clutch": 82,
