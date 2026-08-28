@@ -1088,7 +1088,14 @@ export default function App() {
 
   const renderScreen=()=>{
     if(screen==="menu"){
-      return <GameModeSelect onPlayerCareer={startPlayerCareer} onCoachCareer={openCoachMode} onContinueCoachCareer={continueCoachCareer} hasCoachSave={coachSaveAvailable}/>;
+      return <GameModeSelect
+        onPlayerCareer={startPlayerCareer}
+        onContinuePlayerCareer={continueSavedCareer}
+        hasPlayerSave={saveAvailable}
+        onCoachCareer={openCoachMode}
+        onContinueCoachCareer={continueCoachCareer}
+        hasCoachSave={coachSaveAvailable}
+      />;
     }
 
     if(screen==="coachSelect"){
