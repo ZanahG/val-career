@@ -9,6 +9,8 @@ import "../../styles/GameModeSelect.css";
 
 interface GameModeSelectProps {
   onPlayerCareer:()=>void;
+  onContinuePlayerCareer:()=>void;
+  hasPlayerSave:boolean;
   onCoachCareer:()=>void;
   onContinueCoachCareer:()=>void;
   hasCoachSave:boolean;
@@ -21,16 +23,26 @@ const MODE_ART={
   coach:{feature:coachCareer,side:coachSide},
 };
 
-export function GameModeSelect({onPlayerCareer,onCoachCareer,onContinueCoachCareer,hasCoachSave}:GameModeSelectProps) {
+export function GameModeSelect({onPlayerCareer,onContinuePlayerCareer,hasPlayerSave,onCoachCareer,onContinueCoachCareer,hasCoachSave}:GameModeSelectProps) {
   const {language}=useGameSettings();
   const [selectedMode,setSelectedMode]=useState<GameMode>("player");
   const isPlayer=selectedMode==="player";
   const art=MODE_ART[selectedMode];
+  const hasSelectedSave=isPlayer?hasPlayerSave:hasCoachSave;
 
   const playSelected=()=>{
-    if(isPlayer)return onPlayerCareer();
+    if(isPlayer){
+      if(hasPlayerSave)return onContinuePlayerCareer();
+      return onPlayerCareer();
+    }
+
     if(hasCoachSave)return onContinueCoachCareer();
-    onCoachCareer();
+    return onCoachCareer();
+  };
+
+  const startNewSelected=()=>{
+    if(isPlayer)return onPlayerCareer();
+    return onCoachCareer();
   };
 
   return (
@@ -80,16 +92,18 @@ export function GameModeSelect({onPlayerCareer,onCoachCareer,onContinueCoachCare
               </p>
 
               <button className="game-mode-feature__play" onClick={playSelected}>
-                {isPlayer
-                  ?language==="es"?"INICIAR PLAYER CAREER":"START PLAYER CAREER"
-                  :hasCoachSave
-                    ?language==="es"?"CONTINUAR COACH CAREER":"CONTINUE COACH CAREER"
-                    :language==="es"?"INICIAR COACH CAREER":"START COACH CAREER"}
+                {hasSelectedSave
+                  ?language==="es"
+                    ?`CONTINUAR ${isPlayer?"PLAYER":"COACH"} CAREER`
+                    :`CONTINUE ${isPlayer?"PLAYER":"COACH"} CAREER`
+                  :language==="es"
+                    ?`INICIAR ${isPlayer?"PLAYER":"COACH"} CAREER`
+                    :`START ${isPlayer?"PLAYER":"COACH"} CAREER`}
                 <b>→</b>
               </button>
 
-              {!isPlayer&&hasCoachSave&&(
-                <button className="game-mode-feature__secondary" onClick={onCoachCareer}>
+              {hasSelectedSave&&(
+                <button className="game-mode-feature__secondary" onClick={startNewSelected}>
                   {language==="es"?"NUEVA CARRERA":"NEW CAREER"}
                 </button>
               )}
@@ -108,36 +122,25 @@ export function GameModeSelect({onPlayerCareer,onCoachCareer,onContinueCoachCare
         </section>
 
         <nav className="game-mode-nav">
-          <button
-            className={selectedMode==="player"?"game-mode-nav__item game-mode-nav__item--active":"game-mode-nav__item"}
-            onMouseEnter={()=>setSelectedMode("player")}
-            onClick={()=>setSelectedMode("player")}
-          >
+          <button className={selectedMode==="player"?"game-mode-nav__item game-mode-nav__item--active":"game-mode-nav__item"} onMouseEnter={()=>setSelectedMode("player")} onClick={()=>setSelectedMode("player")}>
             <span>01</span>
-
             <div>
               <small>{language==="es"?"MODO CARRERA":"CAREER MODE"}</small>
               <strong>PLAYER CAREER</strong>
             </div>
           </button>
 
-          <button
-            className={selectedMode==="coach"?"game-mode-nav__item game-mode-nav__item--active":"game-mode-nav__item"}
-            onMouseEnter={()=>setSelectedMode("coach")}
-            onClick={()=>setSelectedMode("coach")}
-          >
+          <button className={selectedMode==="coach"?"game-mode-nav__item game-mode-nav__item--active":"game-mode-nav__item"} onMouseEnter={()=>setSelectedMode("coach")} onClick={()=>setSelectedMode("coach")}>
             <span>02</span>
-
             <div>
               <small>{language==="es"?"GESTIÓN":"MANAGEMENT"}</small>
               <strong>COACH CAREER</strong>
             </div>
           </button>
 
-          {hasCoachSave&&(
-            <button className="game-mode-nav__item game-mode-nav__item--continue" onClick={onContinueCoachCareer}>
+          {hasSelectedSave&&(
+            <button className="game-mode-nav__item game-mode-nav__item--continue" onClick={playSelected}>
               <span>▶</span>
-
               <div>
                 <small>{language==="es"?"CARRERA GUARDADA":"SAVED CAREER"}</small>
                 <strong>{language==="es"?"CONTINUAR":"CONTINUE"}</strong>

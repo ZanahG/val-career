@@ -52,6 +52,7 @@ export function useCareerSave({player,screen,currentEventId,season,vctSeason,mar
 function isCareerSaveScreen(screen:GameScreen):screen is CareerSave["screen"] {
   return (
     screen==="career"||
+    screen==="profile"||
     screen==="offers"||
     screen==="season"||
     screen==="vct"||
