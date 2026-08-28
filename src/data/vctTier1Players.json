@@ -54,11 +54,11 @@
             "age": 22,
             "stats": {
                 "aim": 98,
-                "clutch": 92,
-                "gameSense": 90,
+                "clutch": 95,
+                "gameSense": 87,
                 "communication": 82,
                 "consistency": 97,
-                "mental": 92
+                "mental": 90
             }
         },
         {
@@ -715,9 +715,9 @@
             "stats": {
                 "aim": 89,
                 "clutch": 88,
-                "gameSense": 92,
+                "gameSense": 91,
                 "communication": 90,
-                "consistency": 93,
+                "consistency": 91,
                 "mental": 89
             }
         },
@@ -747,7 +747,7 @@
                 "clutch": 80,
                 "gameSense": 82,
                 "communication": 79,
-                "consistency": 83,
+                "consistency": 81,
                 "mental": 85
             }
         },
@@ -2648,11 +2648,11 @@
             "role": "Duelista",
             "age": 20,
             "stats": {
-                "aim": 92,
-                "clutch": 85,
+                "aim": 93,
+                "clutch": 90,
                 "gameSense": 86,
                 "communication": 85,
-                "consistency": 86,
+                "consistency": 87,
                 "mental": 85
             }
         },
@@ -2708,12 +2708,12 @@
             "role": "Centinela",
             "age": 21,
             "stats": {
-                "aim": 78,
-                "clutch": 80,
-                "gameSense": 83,
-                "communication": 78,
-                "consistency": 84,
-                "mental": 79
+                "aim": 83,
+                "clutch": 82,
+                "gameSense": 86,
+                "communication": 85,
+                "consistency": 85,
+                "mental": 84
             }
         },
         {
@@ -2724,11 +2724,11 @@
             "age": 19,
             "stats": {
                 "aim": 91,
-                "clutch": 89,
-                "gameSense": 89,
+                "clutch": 88,
+                "gameSense": 87,
                 "communication": 84,
-                "consistency": 76,
-                "mental": 87
+                "consistency": 83,
+                "mental": 86
             }
         },
         {
@@ -2738,11 +2738,11 @@
             "role": "Iniciador",
             "age": 23,
             "stats": {
-                "aim": 91,
-                "clutch": 86,
-                "gameSense": 79,
-                "communication": 92,
-                "consistency": 85,
+                "aim": 90,
+                "clutch": 85,
+                "gameSense": 84,
+                "communication": 89,
+                "consistency": 86,
                 "mental": 85
             }
         },
@@ -2753,12 +2753,12 @@
             "role": "IGL",
             "age": 22,
             "stats": {
-                "aim": 82,
-                "clutch": 87,
-                "gameSense": 90,
-                "communication": 76,
-                "consistency": 83,
-                "mental": 93
+                "aim": 84,
+                "clutch": 85,
+                "gameSense": 91,
+                "communication": 90,
+                "consistency": 87,
+                "mental": 89
             }
         },
         {
@@ -2768,12 +2768,12 @@
             "role": "Controlador",
             "age": 21,
             "stats": {
-                "aim": 89,
-                "clutch": 82,
-                "gameSense": 86,
-                "communication": 72,
-                "consistency": 76,
-                "mental": 82
+                "aim": 87,
+                "clutch": 84,
+                "gameSense": 88,
+                "communication": 86,
+                "consistency": 84,
+                "mental": 85
             }
         },
         {
@@ -2783,12 +2783,12 @@
             "role": "Duelista",
             "age": 21,
             "stats": {
-                "aim": 90,
-                "clutch": 70,
-                "gameSense": 81,
-                "communication": 86,
-                "consistency": 84,
-                "mental": 79
+                "aim": 91,
+                "clutch": 84,
+                "gameSense": 85,
+                "communication": 87,
+                "consistency": 85,
+                "mental": 86
             }
         },
         {
@@ -2798,12 +2798,12 @@
             "role": "Centinela",
             "age": 22,
             "stats": {
-                "aim": 90,
-                "clutch": 89,
-                "gameSense": 89,
-                "communication": 75,
-                "consistency": 84,
-                "mental": 86
+                "aim": 89,
+                "clutch": 87,
+                "gameSense": 88,
+                "communication": 85,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -2813,12 +2813,12 @@
             "role": "IGL",
             "age": 22,
             "stats": {
-                "aim": 80,
-                "clutch": 78,
-                "gameSense": 93,
+                "aim": 83,
+                "clutch": 82,
+                "gameSense": 94,
                 "communication": 92,
-                "consistency": 77,
-                "mental": 93
+                "consistency": 84,
+                "mental": 91
             }
         },
         {
@@ -2828,12 +2828,12 @@
             "role": "Controlador",
             "age": 19,
             "stats": {
-                "aim": 78,
-                "clutch": 82,
-                "gameSense": 92,
-                "communication": 92,
-                "consistency": 94,
-                "mental": 69
+                "aim": 84,
+                "clutch": 85,
+                "gameSense": 90,
+                "communication": 89,
+                "consistency": 91,
+                "mental": 84
             }
         },
         {
@@ -2843,12 +2843,12 @@
             "role": "Flex",
             "age": 22,
             "stats": {
-                "aim": 81,
-                "clutch": 91,
-                "gameSense": 77,
-                "communication": 78,
-                "consistency": 78,
-                "mental": 91
+                "aim": 86,
+                "clutch": 88,
+                "gameSense": 85,
+                "communication": 84,
+                "consistency": 84,
+                "mental": 88
             }
         },
         {
@@ -2858,12 +2858,12 @@
             "role": "IGL",
             "age": 27,
             "stats": {
-                "aim": 88,
-                "clutch": 76,
-                "gameSense": 82,
-                "communication": 86,
-                "consistency": 83,
-                "mental": 84
+                "aim": 85,
+                "clutch": 82,
+                "gameSense": 92,
+                "communication": 90,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -2873,12 +2873,12 @@
             "role": "Duelista",
             "age": 19,
             "stats": {
-                "aim": 80,
-                "clutch": 76,
-                "gameSense": 91,
-                "communication": 72,
-                "consistency": 93,
-                "mental": 85
+                "aim": 93,
+                "clutch": 85,
+                "gameSense": 86,
+                "communication": 84,
+                "consistency": 85,
+                "mental": 86
             }
         },
         {
@@ -2888,12 +2888,12 @@
             "role": "Flex",
             "age": 21,
             "stats": {
-                "aim": 78,
-                "clutch": 84,
-                "gameSense": 89,
-                "communication": 89,
-                "consistency": 81,
-                "mental": 80
+                "aim": 84,
+                "clutch": 86,
+                "gameSense": 88,
+                "communication": 87,
+                "consistency": 84,
+                "mental": 85
             }
         },
         {
@@ -2903,12 +2903,12 @@
             "role": "Flex",
             "age": 24,
             "stats": {
-                "aim": 89,
-                "clutch": 76,
-                "gameSense": 93,
-                "communication": 74,
-                "consistency": 82,
-                "mental": 80
+                "aim": 88,
+                "clutch": 83,
+                "gameSense": 90,
+                "communication": 86,
+                "consistency": 85,
+                "mental": 84
             }
         },
         {
@@ -2918,12 +2918,12 @@
             "role": "Controlador",
             "age": 22,
             "stats": {
-                "aim": 87,
-                "clutch": 90,
-                "gameSense": 93,
-                "communication": 76,
-                "consistency": 91,
-                "mental": 74
+                "aim": 86,
+                "clutch": 88,
+                "gameSense": 91,
+                "communication": 87,
+                "consistency": 89,
+                "mental": 85
             }
         },
         {
@@ -2933,12 +2933,12 @@
             "role": "IGL",
             "age": 24,
             "stats": {
-                "aim": 83,
-                "clutch": 88,
-                "gameSense": 91,
-                "communication": 77,
-                "consistency": 94,
-                "mental": 92
+                "aim": 85,
+                "clutch": 84,
+                "gameSense": 92,
+                "communication": 90,
+                "consistency": 89,
+                "mental": 90
             }
         },
         {
@@ -2948,12 +2948,12 @@
             "role": "Duelista",
             "age": 19,
             "stats": {
-                "aim": 90,
-                "clutch": 93,
-                "gameSense": 82,
-                "communication": 75,
-                "consistency": 76,
-                "mental": 91
+                "aim": 93,
+                "clutch": 86,
+                "gameSense": 85,
+                "communication": 85,
+                "consistency": 84,
+                "mental": 87
             }
         },
         {
@@ -2963,12 +2963,12 @@
             "role": "Iniciador",
             "age": 19,
             "stats": {
-                "aim": 89,
-                "clutch": 81,
-                "gameSense": 79,
-                "communication": 87,
-                "consistency": 89,
-                "mental": 79
+                "aim": 88,
+                "clutch": 83,
+                "gameSense": 86,
+                "communication": 88,
+                "consistency": 86,
+                "mental": 85
             }
         },
         {
@@ -2978,12 +2978,12 @@
             "role": "Flex",
             "age": 21,
             "stats": {
-                "aim": 89,
-                "clutch": 75,
-                "gameSense": 91,
-                "communication": 79,
-                "consistency": 79,
-                "mental": 79
+                "aim": 87,
+                "clutch": 84,
+                "gameSense": 89,
+                "communication": 86,
+                "consistency": 85,
+                "mental": 85
             }
         },
         {
@@ -2993,12 +2993,12 @@
             "role": "Controlador",
             "age": 22,
             "stats": {
-                "aim": 90,
-                "clutch": 77,
+                "aim": 88,
+                "clutch": 83,
                 "gameSense": 90,
-                "communication": 75,
+                "communication": 87,
                 "consistency": 86,
-                "mental": 83
+                "mental": 86
             }
         },
         {
@@ -3008,12 +3008,12 @@
             "role": "Flex",
             "age": 21,
             "stats": {
-                "aim": 93,
-                "clutch": 86,
-                "gameSense": 83,
-                "communication": 77,
-                "consistency": 88,
-                "mental": 75
+                "aim": 92,
+                "clutch": 85,
+                "gameSense": 86,
+                "communication": 85,
+                "consistency": 87,
+                "mental": 86
             }
         },
         {
@@ -3024,11 +3024,11 @@
             "age": 24,
             "stats": {
                 "aim": 93,
-                "clutch": 82,
-                "gameSense": 91,
-                "communication": 83,
-                "consistency": 87,
-                "mental": 82
+                "clutch": 85,
+                "gameSense": 88,
+                "communication": 86,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3038,12 +3038,12 @@
             "role": "IGL",
             "age": 25,
             "stats": {
-                "aim": 89,
-                "clutch": 85,
-                "gameSense": 83,
-                "communication": 78,
-                "consistency": 84,
-                "mental": 84
+                "aim": 86,
+                "clutch": 84,
+                "gameSense": 92,
+                "communication": 90,
+                "consistency": 86,
+                "mental": 88
             }
         },
         {
@@ -3053,12 +3053,12 @@
             "role": "Controlador",
             "age": 21,
             "stats": {
-                "aim": 82,
-                "clutch": 82,
-                "gameSense": 76,
-                "communication": 79,
-                "consistency": 83,
-                "mental": 90
+                "aim": 85,
+                "clutch": 84,
+                "gameSense": 87,
+                "communication": 86,
+                "consistency": 85,
+                "mental": 88
             }
         },
         {
@@ -3068,12 +3068,12 @@
             "role": "Centinela",
             "age": 22,
             "stats": {
-                "aim": 81,
-                "clutch": 84,
-                "gameSense": 90,
-                "communication": 87,
-                "consistency": 93,
-                "mental": 86
+                "aim": 84,
+                "clutch": 85,
+                "gameSense": 89,
+                "communication": 88,
+                "consistency": 87,
+                "mental": 87
             }
         },
         {
@@ -3083,12 +3083,12 @@
             "role": "Iniciador",
             "age": 23,
             "stats": {
-                "aim": 92,
-                "clutch": 93,
-                "gameSense": 73,
-                "communication": 67,
-                "consistency": 83,
-                "mental": 75
+                "aim": 91,
+                "clutch": 90,
+                "gameSense": 92,
+                "communication": 91,
+                "consistency": 89,
+                "mental": 88
             }
         },
         {
@@ -3098,12 +3098,12 @@
             "role": "Duelista",
             "age": 22,
             "stats": {
-                "aim": 79,
-                "clutch": 86,
-                "gameSense": 90,
-                "communication": 95,
+                "aim": 94,
+                "clutch": 91,
+                "gameSense": 89,
+                "communication": 88,
                 "consistency": 87,
-                "mental": 82
+                "mental": 89
             }
         },
         {
@@ -3113,12 +3113,12 @@
             "role": "Flex",
             "age": 24,
             "stats": {
-                "aim": 78,
-                "clutch": 86,
-                "gameSense": 92,
-                "communication": 88,
-                "consistency": 85,
-                "mental": 78
+                "aim": 90,
+                "clutch": 88,
+                "gameSense": 93,
+                "communication": 90,
+                "consistency": 89,
+                "mental": 87
             }
         },
         {
@@ -3128,12 +3128,12 @@
             "role": "IGL",
             "age": 22,
             "stats": {
-                "aim": 83,
-                "clutch": 79,
-                "gameSense": 80,
-                "communication": 78,
-                "consistency": 89,
-                "mental": 82
+                "aim": 88,
+                "clutch": 86,
+                "gameSense": 95,
+                "communication": 94,
+                "consistency": 91,
+                "mental": 93
             }
         },
         {
@@ -3143,12 +3143,12 @@
             "role": "Controlador",
             "age": 21,
             "stats": {
-                "aim": 79,
-                "clutch": 91,
-                "gameSense": 79,
-                "communication": 85,
-                "consistency": 90,
-                "mental": 85
+                "aim": 87,
+                "clutch": 89,
+                "gameSense": 90,
+                "communication": 88,
+                "consistency": 88,
+                "mental": 87
             }
         },
         {
@@ -3158,12 +3158,12 @@
             "role": "Centinela",
             "age": 24,
             "stats": {
-                "aim": 84,
+                "aim": 87,
                 "clutch": 90,
-                "gameSense": 81,
-                "communication": 86,
-                "consistency": 77,
-                "mental": 79
+                "gameSense": 89,
+                "communication": 88,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3173,12 +3173,12 @@
             "role": "Controlador",
             "age": 19,
             "stats": {
-                "aim": 78,
-                "clutch": 91,
-                "gameSense": 91,
-                "communication": 74,
-                "consistency": 83,
-                "mental": 78
+                "aim": 85,
+                "clutch": 89,
+                "gameSense": 90,
+                "communication": 87,
+                "consistency": 85,
+                "mental": 86
             }
         },
         {
@@ -3188,12 +3188,12 @@
             "role": "IGL",
             "age": 23,
             "stats": {
-                "aim": 92,
-                "clutch": 91,
-                "gameSense": 82,
-                "communication": 81,
-                "consistency": 92,
-                "mental": 76
+                "aim": 90,
+                "clutch": 88,
+                "gameSense": 93,
+                "communication": 91,
+                "consistency": 89,
+                "mental": 88
             }
         },
         {
@@ -3203,11 +3203,11 @@
             "role": "Duelista",
             "age": 19,
             "stats": {
-                "aim": 92,
-                "clutch": 75,
-                "gameSense": 92,
-                "communication": 81,
-                "consistency": 80,
+                "aim": 93,
+                "clutch": 85,
+                "gameSense": 88,
+                "communication": 86,
+                "consistency": 85,
                 "mental": 87
             }
         },
@@ -3218,11 +3218,11 @@
             "role": "Flex",
             "age": 24,
             "stats": {
-                "aim": 90,
-                "clutch": 77,
-                "gameSense": 76,
-                "communication": 82,
-                "consistency": 79,
+                "aim": 91,
+                "clutch": 84,
+                "gameSense": 87,
+                "communication": 88,
+                "consistency": 86,
                 "mental": 87
             }
         },
@@ -3233,12 +3233,12 @@
             "role": "IGL",
             "age": 24,
             "stats": {
-                "aim": 87,
-                "clutch": 81,
-                "gameSense": 88,
-                "communication": 82,
-                "consistency": 84,
-                "mental": 72
+                "aim": 88,
+                "clutch": 86,
+                "gameSense": 92,
+                "communication": 91,
+                "consistency": 87,
+                "mental": 88
             }
         },
         {
@@ -3248,12 +3248,12 @@
             "role": "Centinela",
             "age": 21,
             "stats": {
-                "aim": 77,
-                "clutch": 93,
-                "gameSense": 95,
-                "communication": 95,
-                "consistency": 84,
-                "mental": 84
+                "aim": 86,
+                "clutch": 90,
+                "gameSense": 91,
+                "communication": 89,
+                "consistency": 87,
+                "mental": 86
             }
         },
         {
@@ -3263,12 +3263,12 @@
             "role": "IGL",
             "age": 20,
             "stats": {
-                "aim": 94,
-                "clutch": 89,
-                "gameSense": 78,
-                "communication": 66,
-                "consistency": 81,
-                "mental": 84
+                "aim": 92,
+                "clutch": 88,
+                "gameSense": 87,
+                "communication": 86,
+                "consistency": 85,
+                "mental": 86
             }
         },
         {
@@ -3278,12 +3278,12 @@
             "role": "Flex",
             "age": 22,
             "stats": {
-                "aim": 78,
-                "clutch": 76,
-                "gameSense": 85,
-                "communication": 77,
-                "consistency": 76,
-                "mental": 90
+                "aim": 89,
+                "clutch": 85,
+                "gameSense": 88,
+                "communication": 86,
+                "consistency": 85,
+                "mental": 88
             }
         },
         {
@@ -3293,12 +3293,12 @@
             "role": "Duelista",
             "age": 22,
             "stats": {
-                "aim": 79,
-                "clutch": 75,
-                "gameSense": 84,
-                "communication": 73,
-                "consistency": 85,
-                "mental": 74
+                "aim": 92,
+                "clutch": 86,
+                "gameSense": 87,
+                "communication": 85,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3308,12 +3308,12 @@
             "role": "Duelista",
             "age": 23,
             "stats": {
-                "aim": 83,
-                "clutch": 70,
-                "gameSense": 92,
-                "communication": 97,
-                "consistency": 86,
-                "mental": 70
+                "aim": 93,
+                "clutch": 86,
+                "gameSense": 88,
+                "communication": 89,
+                "consistency": 87,
+                "mental": 88
             }
         },
         {
@@ -3323,12 +3323,12 @@
             "role": "IGL",
             "age": 23,
             "stats": {
-                "aim": 84,
-                "clutch": 80,
-                "gameSense": 87,
-                "communication": 90,
-                "consistency": 82,
-                "mental": 80
+                "aim": 86,
+                "clutch": 84,
+                "gameSense": 91,
+                "communication": 92,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3338,12 +3338,12 @@
             "role": "Flex",
             "age": 22,
             "stats": {
-                "aim": 88,
-                "clutch": 77,
-                "gameSense": 88,
-                "communication": 86,
-                "consistency": 75,
-                "mental": 66
+                "aim": 90,
+                "clutch": 85,
+                "gameSense": 89,
+                "communication": 87,
+                "consistency": 86,
+                "mental": 86
             }
         },
         {
@@ -3353,12 +3353,12 @@
             "role": "Flex",
             "age": 19,
             "stats": {
-                "aim": 86,
-                "clutch": 79,
+                "aim": 89,
+                "clutch": 85,
                 "gameSense": 90,
-                "communication": 77,
-                "consistency": 89,
-                "mental": 78
+                "communication": 86,
+                "consistency": 88,
+                "mental": 86
             }
         },
         {
@@ -3368,12 +3368,12 @@
             "role": "Flex",
             "age": 19,
             "stats": {
-                "aim": 83,
-                "clutch": 82,
-                "gameSense": 82,
-                "communication": 89,
-                "consistency": 81,
-                "mental": 81
+                "aim": 88,
+                "clutch": 86,
+                "gameSense": 87,
+                "communication": 88,
+                "consistency": 85,
+                "mental": 86
             }
         },
         {
@@ -3383,12 +3383,12 @@
             "role": "Duelista",
             "age": 22,
             "stats": {
-                "aim": 79,
-                "clutch": 83,
+                "aim": 93,
+                "clutch": 85,
                 "gameSense": 88,
-                "communication": 84,
-                "consistency": 90,
-                "mental": 83
+                "communication": 86,
+                "consistency": 87,
+                "mental": 86
             }
         },
         {
@@ -3398,12 +3398,12 @@
             "role": "Flex",
             "age": 21,
             "stats": {
-                "aim": 86,
-                "clutch": 92,
-                "gameSense": 88,
-                "communication": 92,
-                "consistency": 80,
-                "mental": 91
+                "aim": 88,
+                "clutch": 89,
+                "gameSense": 89,
+                "communication": 90,
+                "consistency": 85,
+                "mental": 88
             }
         },
         {
@@ -3413,12 +3413,12 @@
             "role": "IGL",
             "age": 22,
             "stats": {
-                "aim": 78,
-                "clutch": 82,
-                "gameSense": 92,
-                "communication": 72,
-                "consistency": 80,
-                "mental": 78
+                "aim": 86,
+                "clutch": 85,
+                "gameSense": 93,
+                "communication": 91,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3428,12 +3428,12 @@
             "role": "Centinela",
             "age": 23,
             "stats": {
-                "aim": 74,
-                "clutch": 83,
-                "gameSense": 98,
-                "communication": 93,
-                "consistency": 77,
-                "mental": 68
+                "aim": 85,
+                "clutch": 86,
+                "gameSense": 94,
+                "communication": 92,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3443,12 +3443,12 @@
             "role": "Iniciador",
             "age": 23,
             "stats": {
-                "aim": 96,
-                "clutch": 72,
-                "gameSense": 82,
-                "communication": 67,
-                "consistency": 82,
-                "mental": 90
+                "aim": 90,
+                "clutch": 84,
+                "gameSense": 87,
+                "communication": 88,
+                "consistency": 85,
+                "mental": 87
             }
         },
         {
@@ -3458,12 +3458,12 @@
             "role": "Controlador",
             "age": 23,
             "stats": {
-                "aim": 82,
-                "clutch": 75,
-                "gameSense": 92,
+                "aim": 86,
+                "clutch": 84,
+                "gameSense": 93,
                 "communication": 92,
-                "consistency": 82,
-                "mental": 76
+                "consistency": 87,
+                "mental": 86
             }
         },
         {
@@ -3473,11 +3473,11 @@
             "role": "IGL",
             "age": 26,
             "stats": {
-                "aim": 81,
-                "clutch": 81,
-                "gameSense": 90,
-                "communication": 76,
-                "consistency": 90,
+                "aim": 85,
+                "clutch": 86,
+                "gameSense": 92,
+                "communication": 90,
+                "consistency": 89,
                 "mental": 90
             }
         },
@@ -3488,12 +3488,12 @@
             "role": "Duelista",
             "age": 18,
             "stats": {
-                "aim": 80,
-                "clutch": 90,
-                "gameSense": 81,
-                "communication": 73,
-                "consistency": 77,
-                "mental": 90
+                "aim": 93,
+                "clutch": 88,
+                "gameSense": 85,
+                "communication": 85,
+                "consistency": 85,
+                "mental": 88
             }
         },
         {
@@ -3503,12 +3503,12 @@
             "role": "Flex",
             "age": 22,
             "stats": {
-                "aim": 85,
-                "clutch": 92,
-                "gameSense": 86,
-                "communication": 82,
-                "consistency": 89,
-                "mental": 83
+                "aim": 88,
+                "clutch": 90,
+                "gameSense": 89,
+                "communication": 87,
+                "consistency": 88,
+                "mental": 87
             }
         },
         {
@@ -3518,12 +3518,12 @@
             "role": "Centinela",
             "age": 22,
             "stats": {
-                "aim": 79,
-                "clutch": 76,
-                "gameSense": 90,
-                "communication": 87,
-                "consistency": 76,
-                "mental": 71
+                "aim": 86,
+                "clutch": 84,
+                "gameSense": 91,
+                "communication": 88,
+                "consistency": 85,
+                "mental": 86
             }
         },
         {
@@ -3533,12 +3533,12 @@
             "role": "Controlador",
             "age": 22,
             "stats": {
-                "aim": 91,
-                "clutch": 92,
+                "aim": 88,
+                "clutch": 89,
                 "gameSense": 90,
-                "communication": 83,
-                "consistency": 85,
-                "mental": 76
+                "communication": 87,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3548,12 +3548,12 @@
             "role": "Flex",
             "age": 26,
             "stats": {
-                "aim": 85,
+                "aim": 86,
                 "clutch": 85,
-                "gameSense": 81,
-                "communication": 90,
-                "consistency": 90,
-                "mental": 78
+                "gameSense": 88,
+                "communication": 89,
+                "consistency": 88,
+                "mental": 86
             }
         },
         {
@@ -3563,12 +3563,12 @@
             "role": "Duelista",
             "age": 18,
             "stats": {
-                "aim": 88,
-                "clutch": 91,
-                "gameSense": 92,
-                "communication": 83,
-                "consistency": 91,
-                "mental": 87
+                "aim": 90,
+                "clutch": 88,
+                "gameSense": 89,
+                "communication": 86,
+                "consistency": 87,
+                "mental": 88
             }
         },
         {
@@ -3578,12 +3578,12 @@
             "role": "Iniciador",
             "age": 25,
             "stats": {
-                "aim": 97,
+                "aim": 88,
                 "clutch": 85,
-                "gameSense": 72,
-                "communication": 67,
-                "consistency": 94,
-                "mental": 75
+                "gameSense": 89,
+                "communication": 88,
+                "consistency": 86,
+                "mental": 87
             }
         },
         {
@@ -3593,12 +3593,12 @@
             "role": "Centinela",
             "age": 24,
             "stats": {
-                "aim": 82,
-                "clutch": 82,
-                "gameSense": 79,
-                "communication": 72,
-                "consistency": 92,
-                "mental": 84
+                "aim": 85,
+                "clutch": 86,
+                "gameSense": 90,
+                "communication": 88,
+                "consistency": 87,
+                "mental": 86
             }
         }
     ]
