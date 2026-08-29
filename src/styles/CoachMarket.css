@@ -24,7 +24,7 @@
   background:
     radial-gradient(circle at 12% 22%,rgba(31,120,132,.22),transparent 34%),
     radial-gradient(circle at 87% 88%,rgba(35,72,102,.18),transparent 36%),
-    url("../images/season/careerhud.jpg") center/cover no-repeat;
+    url("../images/season/careerhud.webp") center/cover no-repeat;
   opacity:.30;
   filter:blur(2px);
   transform:scale(1.03);

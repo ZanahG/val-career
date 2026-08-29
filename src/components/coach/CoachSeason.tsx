@@ -10,12 +10,12 @@ import {getNextPlayerStageMatch} from "../../logic/coachStage";
 import {useGameSettings} from "../../context/GameSettingsContext";
 import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
-import kickoffImage from "../../images/season/kickoff.png";
-import masters1Image from "../../images/season/masters1.png";
-import stage1Image from "../../images/season/stage1.png";
-import masters2Image from "../../images/season/masters2.png";
-import stage2Image from "../../images/season/stage2.png";
-import championsImage from "../../images/season/champions.png";
+import kickoffImage from "../../images/season/kickoff.webp";
+import masters1Image from "../../images/season/masters1.webp";
+import stage1Image from "../../images/season/stage1.webp";
+import masters2Image from "../../images/season/masters2.webp";
+import stage2Image from "../../images/season/stage2.webp";
+import championsImage from "../../images/season/champions.webp";
 import {VCTBracket} from "../vct/VCTBracket";
 import "../../styles/CoachSeason.css";
 

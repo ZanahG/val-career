@@ -1,9 +1,9 @@
 import {useCallback,useEffect,useRef,useState} from "react";
 import type {CareerEffects} from "../../types/career";
 import {useGameSettings} from "../../context/GameSettingsContext";
-import carnalitoSprite from "../../images/minigames/carnalito/carnalito.png";
-import carnalitoBackground from "../../images/minigames/carnalito/plantsite.png";
-import sovaDroneSprite from "../../images/minigames/carnalito/sova-drone.png";
+import carnalitoSprite from "../../images/minigames/carnalito/carnalito.webp";
+import carnalitoBackground from "../../images/minigames/carnalito/plantsite.webp";
+import sovaDroneSprite from "../../images/minigames/carnalito/sova-drone.webp";
 import "../../styles/CareerMinigames.css";
 
 interface PlantTimingMinigameProps {

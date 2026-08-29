@@ -1,9 +1,9 @@
 import {useState} from "react";
 import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {useGameSettings} from "../../context/GameSettingsContext";
-import playerCareer from "../../images/game-modes/player-career.png";
+import playerCareer from "../../images/game-modes/player-career.webp";
 import playerSide from "../../images/game-modes/player-side.png";
-import coachCareer from "../../images/game-modes/coach-career.png";
+import coachCareer from "../../images/game-modes/coach-career.webp";
 import coachSide from "../../images/game-modes/coach-side.png";
 import "../../styles/GameModeSelect.css";
 

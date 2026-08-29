@@ -1,11 +1,11 @@
-import kickoffTrophy from "../images/trophies/kickoff.png";
-import vctAmericasStage from "../images/trophies/vct-ame-stage.png";
-import vctEmeaStage from "../images/trophies/vct-emea-stage.png";
-import vctPacificStage from "../images/trophies/vct-pacific-stage.png";
-import vctChinaStage from "../images/trophies/vct-china-stage.png";
-import mastersTrophy from "../images/trophies/masters.png";
-import championsTrophy from "../images/trophies/champions.png";
-import challengersTrophy from "../images/trophies/masters.png";
+import kickoffTrophy from "../images/trophies/kickoff.webp";
+import vctAmericasStage from "../images/trophies/vct-ame-stage.webp";
+import vctEmeaStage from "../images/trophies/vct-emea-stage.webp";
+import vctPacificStage from "../images/trophies/vct-pacific-stage.webp";
+import vctChinaStage from "../images/trophies/vct-china-stage.webp";
+import mastersTrophy from "../images/trophies/masters.webp";
+import championsTrophy from "../images/trophies/champions.webp";
+import challengersTrophy from "../images/trophies/masters.webp";
 
 export interface TrophyPresentation {
   image:string;

@@ -6,7 +6,7 @@ import {useGameSettings} from "../../context/GameSettingsContext";
 
 import duckImage from "../../images/minigames/duck-hunt/duck.png";
 import dogImage from "../../images/minigames/duck-hunt/dog.png";
-import backgroundImage from "../../images/minigames/duck-hunt/background.png";
+import backgroundImage from "../../images/minigames/duck-hunt/background.webp";
 
 import "../../styles/AimTrainerMinigame.css";
 

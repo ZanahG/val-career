@@ -6,7 +6,7 @@ import {assignCoachPlayerTacticalRole,getCoachPlayerTacticalRole,getCoachRoleAss
 import {useGameSettings} from "../../context/GameSettingsContext";
 import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
-import playerChair from "../../images/ui/chair.png";
+import playerChair from "../../images/ui/chair.webp";
 import "../../styles/CoachTactics.css";
 
 interface CoachTacticsProps {

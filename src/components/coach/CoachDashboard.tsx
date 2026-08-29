@@ -6,10 +6,10 @@ import {formatCurrency} from "../../utils/currency";
 import {GameSettingsControls} from "../shared/GameSettingsControls";
 import {getTeamLogo} from "../../utils/teamLogo";
 import rosterIcon from "../../images/icons/roster.png";
-import marketIcon from "../../images/icons/market.png";
-import tacticsIcon from "../../images/icons/tactics.png";
-import mapPoolIcon from "../../images/icons/map-pool.png";
-import seasonIcon from "../../images/icons/season.png";
+import marketIcon from "../../images/icons/market.webp";
+import tacticsIcon from "../../images/icons/tactics.webp";
+import mapPoolIcon from "../../images/icons/map-pool.webp";
+import seasonIcon from "../../images/icons/season.webp";
 import "../../styles/CoachDashboard.css";
 
 interface CoachDashboardProps {
