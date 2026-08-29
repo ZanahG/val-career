@@ -1,36 +1,88 @@
 import {lazy,Suspense,useEffect,useState} from "react";
 import {GameModeSelect} from "./components/shared/GameModeSelect";
 
-const CareerDashboard=lazy(()=>import("./components/career/CareerDashboard").then(module=>({default:module.CareerDashboard})));
-const CareerProfile=lazy(()=>import("./components/career/CareerProfile").then(module=>({default:module.CareerProfile})));
-const CreatePlayer=lazy(()=>import("./components/career/CreatePlayer").then(module=>({default:module.CreatePlayer})));
+// PLAYER — pantallas principales precargadas
+import {CareerDashboard} from "./components/career/CareerDashboard";
+import {CareerProfile} from "./components/career/CareerProfile";
+import {CreatePlayer} from "./components/career/CreatePlayer";
 
-const CoachDashboard=lazy(()=>import("./components/coach/CoachDashboard").then(module=>({default:module.CoachDashboard})));
-const CoachEventRecap=lazy(()=>import("./components/coach/CoachEventRecap").then(module=>({default:module.CoachEventRecap})));
-const CoachJobMarket=lazy(()=>import("./components/coach/CoachJobMarket").then(module=>({default:module.CoachJobMarket})));
-const CoachMapPool=lazy(()=>import("./components/coach/CoachMapPool").then(module=>({default:module.CoachMapPool})));
-const CoachMapVeto=lazy(()=>import("./components/coach/CoachMapVeto").then(module=>({default:module.CoachMapVeto})));
-const CoachMarket=lazy(()=>import("./components/coach/CoachMarket").then(module=>({default:module.CoachMarket})));
-const CoachMidseasonRecap=lazy(()=>import("./components/coach/CoachMidseasonRecap").then(module=>({default:module.CoachMidseasonRecap})));
-const CoachOffseasonRecap=lazy(()=>import("./components/coach/CoachOffseasonRecap").then(module=>({default:module.CoachOffseasonRecap})));
-const CoachProfile=lazy(()=>import("./components/coach/CoachProfile").then(module=>({default:module.CoachProfile})));
-const CoachRoster=lazy(()=>import("./components/coach/CoachRoster").then(module=>({default:module.CoachRoster})));
-const CoachSeason=lazy(()=>import("./components/coach/CoachSeason").then(module=>({default:module.CoachSeason})));
-const CoachTactics=lazy(()=>import("./components/coach/CoachTactics").then(module=>({default:module.CoachTactics})));
-const CoachTeamSelect=lazy(()=>import("./components/coach/CoachTeamSelect").then(module=>({default:module.CoachTeamSelect})));
-const CoachTransferNegotiation=lazy(()=>import("./components/coach/CoachTransferNegotiation").then(module=>({default:module.CoachTransferNegotiation})));
+// COACH — navegación principal precargada
+import {CoachDashboard} from "./components/coach/CoachDashboard";
+import {CoachMapPool} from "./components/coach/CoachMapPool";
+import {CoachMarket} from "./components/coach/CoachMarket";
+import {CoachProfile} from "./components/coach/CoachProfile";
+import {CoachRoster} from "./components/coach/CoachRoster";
+import {CoachSeason} from "./components/coach/CoachSeason";
+import {CoachTactics} from "./components/coach/CoachTactics";
+import {CoachTeamSelect} from "./components/coach/CoachTeamSelect";
 
-const MarketWindowScreen=lazy(()=>import("./components/market/MarketWindowScreen").then(module=>({default:module.MarketWindowScreen})));
-const OfferScreen=lazy(()=>import("./components/market/OfferScreen").then(module=>({default:module.OfferScreen})));
-const MatchStatsModal=lazy(()=>import("./components/match/MatchStatsModal").then(module=>({default:module.MatchStatsModal})));
-const MinigameRenderer=lazy(()=>import("./components/minigames/MinigameRenderer").then(module=>({default:module.MinigameRenderer})));
-const PlayerCardEditor=lazy(()=>import("./components/player/PlayerCardEditor").then(module=>({default:module.PlayerCardEditor})));
-const SeasonDashboard=lazy(()=>import("./components/season/SeasonDashboard").then(module=>({default:module.SeasonDashboard})));
-const SeasonRecap=lazy(()=>import("./components/season/SeasonRecap").then(module=>({default:module.SeasonRecap})));
-const VCTDashboard=lazy(()=>import("./components/vct/VCTDashboard").then(module=>({default:module.VCTDashboard})));
-const VCTLeaderboard=lazy(()=>import("./components/vct/VCTLeaderboard").then(module=>({default:module.VCTLeaderboard})));
-const VCTOffseasonMoves=lazy(()=>import("./components/vct/VCTOffseasonMoves").then(module=>({default:module.VCTOffseasonMoves})));
-const VCTSeasonRecap=lazy(()=>import("./components/vct/VCTSeasonRecap").then(module=>({default:module.VCTSeasonRecap})));
+// PLAYER — pantallas de navegación frecuente
+import {MarketWindowScreen} from "./components/market/MarketWindowScreen";
+import {OfferScreen} from "./components/market/OfferScreen";
+import {SeasonDashboard} from "./components/season/SeasonDashboard";
+import {VCTDashboard} from "./components/vct/VCTDashboard";
+import {VCTLeaderboard} from "./components/vct/VCTLeaderboard";
+
+// LAZY — pantallas/eventos ocasionales o pesados
+const CoachEventRecap=lazy(()=>
+  import("./components/coach/CoachEventRecap")
+    .then(module=>({default:module.CoachEventRecap}))
+);
+
+const CoachJobMarket=lazy(()=>
+  import("./components/coach/CoachJobMarket")
+    .then(module=>({default:module.CoachJobMarket}))
+);
+
+const CoachMapVeto=lazy(()=>
+  import("./components/coach/CoachMapVeto")
+    .then(module=>({default:module.CoachMapVeto}))
+);
+
+const CoachMidseasonRecap=lazy(()=>
+  import("./components/coach/CoachMidseasonRecap")
+    .then(module=>({default:module.CoachMidseasonRecap}))
+);
+
+const CoachOffseasonRecap=lazy(()=>
+  import("./components/coach/CoachOffseasonRecap")
+    .then(module=>({default:module.CoachOffseasonRecap}))
+);
+
+const CoachTransferNegotiation=lazy(()=>
+  import("./components/coach/CoachTransferNegotiation")
+    .then(module=>({default:module.CoachTransferNegotiation}))
+);
+
+const MatchStatsModal=lazy(()=>
+  import("./components/match/MatchStatsModal")
+    .then(module=>({default:module.MatchStatsModal}))
+);
+
+const MinigameRenderer=lazy(()=>
+  import("./components/minigames/MinigameRenderer")
+    .then(module=>({default:module.MinigameRenderer}))
+);
+
+const PlayerCardEditor=lazy(()=>
+  import("./components/player/PlayerCardEditor")
+    .then(module=>({default:module.PlayerCardEditor}))
+);
+
+const SeasonRecap=lazy(()=>
+  import("./components/season/SeasonRecap")
+    .then(module=>({default:module.SeasonRecap}))
+);
+
+const VCTOffseasonMoves=lazy(()=>
+  import("./components/vct/VCTOffseasonMoves")
+    .then(module=>({default:module.VCTOffseasonMoves}))
+);
+
+const VCTSeasonRecap=lazy(()=>
+  import("./components/vct/VCTSeasonRecap")
+    .then(module=>({default:module.VCTSeasonRecap}))
+);
 import {MAX_CAREER_SEASON,MAX_INITIAL_CAREER_EVENTS} from "./config/career";
 import {getPlayerBanner,getPlayerTitle,isPlayerBannerUnlocked,isPlayerTitleUnlocked} from "./data/cosmetics";
 import {getEventById,getRandomCareerStartEventId} from "./data/events";
@@ -1305,17 +1357,52 @@ export default function App() {
   };
 
   return (
-    <Suspense fallback={<div className="app-loading">Loading...</div>}>
-      {renderScreen()}
+    <>
+      <Suspense fallback={null}>
+        {renderScreen()}
+      </Suspense>
 
-      {player&&<MinigameRenderer type={activeMinigame} player={player} onComplete={handleMinigameComplete} onSkip={skipMinigame}/>}
+      {player&&activeMinigame&&(
+        <Suspense fallback={null}>
+          <MinigameRenderer
+            type={activeMinigame}
+            player={player}
+            onComplete={handleMinigameComplete}
+            onSkip={skipMinigame}
+          />
+        </Suspense>
+      )}
 
-      {matchBoxScore&&<MatchStatsModal match={matchBoxScore} playerTeamId={player?.currentTeamId} onClose={closeMatchBoxScore}/>}
+      {matchBoxScore&&(
+        <Suspense fallback={null}>
+          <MatchStatsModal
+            match={matchBoxScore}
+            playerTeamId={player?.currentTeamId}
+            onClose={closeMatchBoxScore}
+          />
+        </Suspense>
+      )}
 
-      {player&&playerCardEditorOpen&&<PlayerCardEditor player={player} onEquipBanner={equipPlayerBanner} onEquipTitle={equipPlayerTitle} onClose={()=>setPlayerCardEditorOpen(false)}/>}
+      {player&&playerCardEditorOpen&&(
+        <Suspense fallback={null}>
+          <PlayerCardEditor
+            player={player}
+            onEquipBanner={equipPlayerBanner}
+            onEquipTitle={equipPlayerTitle}
+            onClose={()=>setPlayerCardEditorOpen(false)}
+          />
+        </Suspense>
+      )}
 
-      {coachMatchBoxScore&&<MatchStatsModal match={coachMatchBoxScore} onClose={()=>setCoachMatchBoxScore(null)}/>}
-    </Suspense>
+      {coachMatchBoxScore&&(
+        <Suspense fallback={null}>
+          <MatchStatsModal
+            match={coachMatchBoxScore}
+            onClose={()=>setCoachMatchBoxScore(null)}
+          />
+        </Suspense>
+      )}
+    </>
   );
 }
 
