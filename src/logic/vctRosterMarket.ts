@@ -1,9 +1,10 @@
+import {randomFloat} from "../utils/rng";
 import type {VCTRealPlayer} from "../data/vctPlayers";
 import type {VCTRosterState,VCTTransfer} from "../types/vctRosters";
 import {progressVCTPlayers} from "./vctPlayerDevelopment";
 import {TEAMS} from "../data/teams";
 
-const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5);
+const shuffle=<T,>(items:T[])=>[...items].sort(()=>randomFloat()-.5);
 const clamp=(value:number,min:number,max:number)=>Math.max(min,Math.min(max,value));
 
 const REGION_TRANSFER_WEIGHTS:Record<string,Record<string,number>>={
@@ -27,7 +28,7 @@ export function simulateVCTOffseason(state:VCTRosterState,nextSeason:number):VCT
     const tier=roster[0]?.tier??1;
     const transferChance=tier===1?.45:.32;
 
-    if(Math.random()>transferChance)continue;
+    if(randomFloat()>transferChance)continue;
 
     attemptTeamTransfer(players,teamName,nextSeason,transfers);
   }
@@ -96,14 +97,14 @@ function pickTargetTeam(players:VCTRealPlayer[],originTeam:string,outgoing:VCTRe
       tierWeight*30+
       prestigeBonus*15+
       roleNeed*20+
-      Math.random()*15;
+      randomFloat()*15;
 
     return {teamName,score,regionWeight,tierWeight};
   }).filter((candidate):candidate is NonNullable<typeof candidate>=>Boolean(candidate));
 
   const eligible=candidates.filter(candidate=>{
     const chance=clamp(candidate.regionWeight*candidate.tierWeight+.05,0,1);
-    return Math.random()<chance;
+    return randomFloat()<chance;
   });
 
   if(!eligible.length)return undefined;
@@ -140,7 +141,7 @@ function pickTransferCandidate(roster:VCTRealPlayer[]) {
   const scored=roster.map(player=>{
     const skill=getPlayerSkill(player);
     const expendability=100-skill;
-    const randomFactor=Math.random()*25;
+    const randomFactor=randomFloat()*25;
 
     return {
       player,
@@ -165,7 +166,7 @@ function pickCompatibleCandidate(roster:VCTRealPlayer[],outgoing:VCTRealPlayer) 
 
     return {
       player:candidate,
-      score:sameRoleBonus+flexBonus+skill*.35+Math.random()*15,
+      score:sameRoleBonus+flexBonus+skill*.35+randomFloat()*15,
     };
   });
 

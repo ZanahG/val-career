@@ -1,9 +1,10 @@
+import {randomFloat} from "../utils/rng";
 import type {CompetitiveCircuit, TeamDefinition} from "../types/career";
 import type {VCTBracketMatch, VCTBracketState, VCTBracketTeamSlot} from "../types/vct";
 import {getStoredCompetitiveStrength} from "./coachTeamStrength";
 import {TEAMS} from "../data/teams";
 
-const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - .5);
+const shuffle = <T,>(items: T[]) => [...items].sort(() => randomFloat() - .5);
 
 const direct = (teamId: string): VCTBracketTeamSlot => ({teamId});
 const winner = (sourceMatchId: string): VCTBracketTeamSlot => ({sourceMatchId, sourceResult: "Winner"});
@@ -169,7 +170,7 @@ function completeMatch(bracket: VCTBracketState, matchId: string, winnerId: stri
     const loserId = winnerId === match.teamAId ? match.teamBId : match.teamAId;
     const winnerIsA = winnerId === match.teamAId;
     const winningScore = match.bestOf === 5 ? 3 : 2;
-    const losingScore = Math.floor(Math.random() * winningScore);
+    const losingScore = Math.floor(randomFloat() * winningScore);
 
     return {
       ...match,
@@ -222,7 +223,7 @@ function simulateCPUWinner(bracket:VCTBracketState,match:VCTBracketMatch) {
   const difference=strengthA-strengthB;
   const chanceA=Math.max(.18,Math.min(.82,.5+difference/55));
 
-  return Math.random()<chanceA?match.teamAId:match.teamBId;
+  return randomFloat()<chanceA?match.teamAId:match.teamBId;
 }
 
 function createMatch(id: string, section: VCTBracketMatch["section"], round: number, roundName: string, order: number, sequence: number, teamA: VCTBracketTeamSlot, teamB: VCTBracketTeamSlot, bestOf: 3 | 5 = 3): VCTBracketMatch {

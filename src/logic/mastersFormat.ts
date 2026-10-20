@@ -1,3 +1,4 @@
+import {randomFloat as rngFloat} from "../utils/rng";
 import type {CareerPlayer,CompetitiveCircuit} from "../types/career";
 import type {MatchResult} from "../types/season";
 import type {MastersBracketMatch,MastersBracketRound,MastersQualifiedTeam,MastersSwissMatch,MastersSwissStanding,VCTMastersBracketState,VCTMastersState,VCTMastersSwissState} from "../types/masters";
@@ -6,9 +7,9 @@ import {simulateMatch} from "./season";
 
 const CIRCUITS: CompetitiveCircuit[] = ["Americas","EMEA","Pacific","China"];
 
-const random = (min: number,max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-const randomFloat = (min: number,max: number) => Math.random() * (max - min) + min;
-const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - .5);
+const random = (min: number,max: number) => Math.floor(rngFloat() * (max - min + 1)) + min;
+const randomFloat = (min: number,max: number) => rngFloat() * (max - min) + min;
+const shuffle = <T,>(items: T[]) => [...items].sort(() => rngFloat() - .5);
 
 export function createDefaultMastersQualifiedTeams(): MastersQualifiedTeam[] {
   return CIRCUITS.flatMap((circuit) => simulateCircuitQualifiers(circuit));
@@ -240,7 +241,7 @@ function simulateCircuitQualifiers(circuit: CompetitiveCircuit): MastersQualifie
 function getRegionalPerformanceScore(strength: number,prestige: number) {
   const base = strength * .78 + prestige * .22;
   const form = randomFloat(-11,11);
-  const upset = Math.random() < .12 ? randomFloat(3,8) : 0;
+  const upset = rngFloat() < .12 ? randomFloat(3,8) : 0;
 
   return base + form + upset;
 }
@@ -349,7 +350,7 @@ function simulateRemainingSwissRound(swiss: VCTMastersSwissState,round: number) 
     const teamB = getTeamById(match.teamBId);
 
     const chanceA = getTeamWinChance(teamA?.strength ?? 75,teamB?.strength ?? 75);
-    const aWon = Math.random() < chanceA;
+    const aWon = rngFloat() < chanceA;
 
     const series = createSeriesScore();
     const rounds = createRoundScore();
@@ -532,7 +533,7 @@ function simulateMastersCPUBracketMatch(bracket: VCTMastersBracketState,match: M
   const teamB = getTeamById(match.teamBId);
 
   const chanceA = getTeamWinChance(teamA?.strength ?? 75,teamB?.strength ?? 75);
-  const aWon = Math.random() < chanceA;
+  const aWon = rngFloat() < chanceA;
 
   const score = createBracketSeriesScore(match.bestOf);
 
@@ -597,7 +598,7 @@ function getTeamWinChance(strengthA: number,strengthB: number) {
 function createSeriesScore() {
   return {
     winner: 2,
-    loser: Math.random() < .55 ? 0 : 1,
+    loser: rngFloat() < .55 ? 0 : 1,
   };
 }
 

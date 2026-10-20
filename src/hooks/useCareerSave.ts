@@ -25,7 +25,7 @@ export function useCareerSave({player,screen,currentEventId,season,vctSeason,mar
   useEffect(()=>{
     if(!player||!isCareerSaveScreen(screen))return;
 
-    saveCareer({
+    const result=saveCareer({
       version:1,
       player,
       screen,
@@ -39,7 +39,7 @@ export function useCareerSave({player,screen,currentEventId,season,vctSeason,mar
       vctRosters,
     });
 
-    setSaveAvailable(true);
+    setSaveAvailable(result.ok||hasCareerSave());
   },[player,screen,currentEventId,season,vctSeason,marketWindow,marketOffers,renewalOffer,vctRosters]);
 
   const clearCareerSave=()=>{

@@ -140,7 +140,7 @@ export function isCosmeticUnlocked(type:CosmeticUnlockType,player:CareerPlayer) 
   }
 
   if (type === "vct") {
-    return player.currentStage === "VCT" || hasTrophyContaining(player,"VCT") || hasTrophyContaining(player,"Masters") || hasTrophyContaining(player,"Champions");
+    return player.currentStage === "VCT" || player.history.some((season) => season.stage === "VCT") || hasTrophyContaining(player,"VCT") || hasTrophyContaining(player,"Masters") || hasTrophyContaining(player,"Champions");
   }
 
   if (type === "masters") {

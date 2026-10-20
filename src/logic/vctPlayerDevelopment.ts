@@ -1,7 +1,8 @@
+import {randomFloat} from "../utils/rng";
 import type {VCTRealPlayer} from "../data/vctPlayers";
 import {getVCTPlayerOverallExact} from "../utils/vctPlayerOverall";
 
-const random = (min:number,max:number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const random = (min:number,max:number) => Math.floor(randomFloat() * (max - min + 1)) + min;
 const clamp = (value:number,min:number,max:number) => Math.max(min,Math.min(max,value));
 
 export function progressVCTPlayers(players:VCTRealPlayer[]):VCTRealPlayer[] {
@@ -26,7 +27,7 @@ function progressVCTPlayer(player:VCTRealPlayer):VCTRealPlayer {
 }
 
 function getDevelopmentDelta(overall:number) {
-  const roll = Math.random();
+  const roll = randomFloat();
 
   if (overall >= 92) {
     if (roll < .20) return -2;

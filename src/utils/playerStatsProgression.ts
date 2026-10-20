@@ -1,5 +1,10 @@
+import {randomFloat} from "./rng";
+import {OFFSEASON_REGRESSION_BALANCE,STAT_GROWTH_BALANCE} from "../config/balance";
+
+const GROWTH = STAT_GROWTH_BALANCE;
+const REGRESSION = OFFSEASON_REGRESSION_BALANCE;
 export function clampPlayerStat(value:number) {
-  return Math.max(1,Math.min(100,value));
+  return Math.max(GROWTH.minStat,Math.min(GROWTH.maxStat,value));
 }
 
 export function applyPlayerStatChange(current:number,change:number) {
@@ -10,22 +15,22 @@ export function applyPlayerStatChange(current:number,change:number) {
   }
 
   if (current >= 99) {
-    return Math.random() < .08 ? 100 : current;
+    return randomFloat() < GROWTH.at99Chance ? GROWTH.maxStat : current;
   }
 
   if (current >= 97) {
-    return Math.random() < .18 ? clampPlayerStat(current + 1) : current;
+    return randomFloat() < GROWTH.from97Chance ? clampPlayerStat(current + 1) : current;
   }
 
   if (current >= 94) {
-    return Math.random() < .35 ? clampPlayerStat(current + 1) : current;
+    return randomFloat() < GROWTH.from94Chance ? clampPlayerStat(current + 1) : current;
   }
 
-  if (current >= 90) {
+  if (current >= GROWTH.capOneFrom) {
     return clampPlayerStat(current + Math.min(1,change));
   }
 
-  if (current >= 85) {
+  if (current >= GROWTH.halfGainFrom) {
     return clampPlayerStat(current + Math.max(1,Math.round(change * .5)));
   }
 
@@ -43,17 +48,17 @@ interface PlayerPerformanceStats {
 
 export function applyOffseasonRegression(stats:PlayerPerformanceStats):PlayerPerformanceStats {
   return {
-    aim:clampPlayerStat(stats.aim - getRegression(stats.aim,1,2)),
-    gameSense:clampPlayerStat(stats.gameSense - getRegression(stats.gameSense,0,1)),
-    communication:clampPlayerStat(stats.communication - getRegression(stats.communication,0,1)),
-    clutch:clampPlayerStat(stats.clutch - getRegression(stats.clutch,0,2)),
-    consistency:clampPlayerStat(stats.consistency - getRegression(stats.consistency,1,3)),
-    mental:clampPlayerStat(stats.mental - getRegression(stats.mental,1,3)),
+    aim:clampPlayerStat(stats.aim - getRegression(stats.aim,REGRESSION.aim)),
+    gameSense:clampPlayerStat(stats.gameSense - getRegression(stats.gameSense,REGRESSION.gameSense)),
+    communication:clampPlayerStat(stats.communication - getRegression(stats.communication,REGRESSION.communication)),
+    clutch:clampPlayerStat(stats.clutch - getRegression(stats.clutch,REGRESSION.clutch)),
+    consistency:clampPlayerStat(stats.consistency - getRegression(stats.consistency,REGRESSION.consistency)),
+    mental:clampPlayerStat(stats.mental - getRegression(stats.mental,REGRESSION.mental)),
   };
 }
 
-function getRegression(stat:number,min:number,max:number) {
-  if (stat < 80) return 0;
+function getRegression(stat:number,[min,max]:readonly [number,number]) {
+  if (stat < REGRESSION.threshold) return 0;
 
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(randomFloat() * (max - min + 1)) + min;
 }

@@ -1,3 +1,4 @@
+import {randomFloat} from "../utils/rng";
 import type {CareerPlayer,TeamDefinition} from "../types/career";
 import type {PlayableVCTPhase,VCTEventState,VCTSeasonState} from "../types/vct";
 import {TEAMS,getTeamById} from "../data/teams";
@@ -12,7 +13,7 @@ const createChampionshipPointsTable = (circuit:TeamDefinition["circuit"]) => Obj
   TEAMS.filter((team) => team.tier === 1 && team.circuit === circuit).map((team) => [team.id,0])
 );
 const emptyEvent = (): VCTEventState => ({status: "Locked",schedule: [],matches: [],championshipPointsEarned: 0});
-const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - .5);
+const shuffle = <T,>(items: T[]) => [...items].sort(() => randomFloat() - .5);
 
 export function createVCTSeason(player: CareerPlayer): VCTSeasonState {
   const team = getTeamById(player.currentTeamId);
@@ -286,7 +287,7 @@ function simulateRivalChampionshipPoints(season:VCTSeasonState,playerTeamId:stri
 
   for (const team of teams) {
     const strengthFactor = Math.max(0,Math.min(1,(team.strength - 65) / 35));
-    const roll = Math.random();
+    const roll = randomFloat();
 
     let points = 0;
 
@@ -300,7 +301,7 @@ function simulateRivalChampionshipPoints(season:VCTSeasonState,playerTeamId:stri
 
     if (phase === "Stage 1" || phase === "Stage 2") {
       const expectedWins = Math.round(1 + strengthFactor * 4);
-      points = Math.max(0,Math.min(5,expectedWins + Math.floor(Math.random() * 3) - 1));
+      points = Math.max(0,Math.min(5,expectedWins + Math.floor(randomFloat() * 3) - 1));
     }
 
     if (phase === "Stage 1 Playoffs") {
@@ -321,8 +322,26 @@ function simulateRivalChampionshipPoints(season:VCTSeasonState,playerTeamId:stri
   return {...season,championshipPointsByTeam:table};
 }
 
+/* Al cambiar de circuito a mitad de temporada, la tabla de puntos debe ser la
+   del nuevo circuito. Los puntos de los eventos ya disputados se simulan para
+   todos sus equipos (incluido el nuevo equipo del jugador: los puntos del
+   equipo anterior no viajan con el jugador), con la misma regla que se usa
+   para los rivales. */
+function rebuildChampionshipPointsForCircuit(season:VCTSeasonState,circuit:TeamDefinition["circuit"]):Record<string,number> {
+  let rebuilt:VCTSeasonState = {...season,circuit,championshipPointsByTeam:createChampionshipPointsTable(circuit)};
+
+  const playedPhases = (Object.keys(season.events) as PlayableVCTPhase[])
+    .filter((phase) => phase !== "Champions" && season.events[phase].status === "Complete");
+
+  for (const phase of playedPhases) {
+    rebuilt = simulateRivalChampionshipPoints(rebuilt,"",phase);
+  }
+
+  return rebuilt.championshipPointsByTeam;
+}
+
 function randomWeighted(values:number[]) {
-  return values[Math.floor(Math.random() * values.length)];
+  return values[Math.floor(randomFloat() * values.length)];
 }
 
 export function resumeVCTAfterMidseasonMarket(player:CareerPlayer,season:VCTSeasonState):VCTSeasonState {
@@ -338,6 +357,9 @@ export function resumeVCTAfterMidseasonMarket(player:CareerPlayer,season:VCTSeas
     ...season,
     circuit:team.circuit,
     marketWindowPending:undefined,
+    championshipPointsByTeam:changedCircuit
+      ? rebuildChampionshipPointsForCircuit(season,team.circuit)
+      : season.championshipPointsByTeam,
   };
 
   if (qualifiedForMasters2 && masters2) {

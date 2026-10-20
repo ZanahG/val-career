@@ -1,3 +1,4 @@
+import {randomFloat} from "../utils/rng";
 import tier1Data from "./vctTier1Players.json";
 import tier2Data from "./challengersTier2Players.json";
 import type {VCTRosterState} from "../types/vctRosters";
@@ -97,7 +98,7 @@ function findReplacementIndex(roster:VCTRealPlayer[],careerRole:string) {
   const flexIndex=roster.findIndex(player=>normalizeRole(player.role)==="Flex");
   if(flexIndex!==-1)return flexIndex;
 
-  return roster.length?Math.floor(Math.random()*roster.length):-1;
+  return roster.length?Math.floor(randomFloat()*roster.length):-1;
 }
 
 function mapCareerRoleToRosterRole(role:string) {

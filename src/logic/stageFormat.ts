@@ -1,11 +1,12 @@
+import {randomFloat} from "../utils/rng";
 import type {CareerPlayer,CompetitiveCircuit} from "../types/career";
 import type {MatchResult} from "../types/season";
 import type {VCTStageBracketMatch,VCTStageBracketState,VCTStageGroup,VCTStageGroupId,VCTStageGroupMatch,VCTStageGroupsState,VCTStageStanding} from "../types/stage";
 import {TEAMS,getTeamById} from "../data/teams";
 import {simulateMatch} from "./season";
 
-const shuffle = <T,>(items:T[]) => [...items].sort(() => Math.random() - .5);
-const random = (min:number,max:number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const shuffle = <T,>(items:T[]) => [...items].sort(() => randomFloat() - .5);
+const random = (min:number,max:number) => Math.floor(randomFloat() * (max - min + 1)) + min;
 
 export function createStageGroups(circuit:CompetitiveCircuit,playerTeamId:string):VCTStageGroupsState {
   const teams = shuffle(TEAMS.filter((team) => team.tier === 1 && team.circuit === circuit));
@@ -223,7 +224,7 @@ function simulateCPUGroupMatch(state:VCTStageGroupsState,match:VCTStageGroupMatc
   const strengthA = teamA?.strength ?? 70;
   const strengthB = teamB?.strength ?? 70;
   const chanceA = .5 + (strengthA - strengthB) * .012;
-  const aWon = Math.random() < Math.max(.18,Math.min(.82,chanceA));
+  const aWon = randomFloat() < Math.max(.18,Math.min(.82,chanceA));
 
   const series = createSeriesScore();
   const rounds = createRoundTotals();
@@ -386,7 +387,7 @@ function simulateCPUBracketMatch(state:VCTStageBracketState,match:VCTStageBracke
   const strengthA = teamA?.strength ?? 70;
   const strengthB = teamB?.strength ?? 70;
   const chanceA = .5 + (strengthA - strengthB) * .012;
-  const aWon = Math.random() < Math.max(.18,Math.min(.82,chanceA));
+  const aWon = randomFloat() < Math.max(.18,Math.min(.82,chanceA));
 
   const series = createSeriesScore(match.bestOf);
 

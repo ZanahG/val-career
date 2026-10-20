@@ -1,3 +1,4 @@
+import {randomFloat} from "../utils/rng";
 import type {CareerPlayer} from "../types/career";
 import type {MatchResult} from "../types/season";
 import type {MatchBoxScore,MatchMapStats,MatchPlayerStats} from "../types/matchStats";
@@ -14,9 +15,9 @@ const INITIATOR_AGENTS = ["Breach","Fade","Gekko","Kayo","Skye","Sova","Tejo"];
 const SENTINEL_AGENTS = ["Chamber","Cypher","Deadlock","Killjoy","Sage","Veto","Vyse"];
 const FLEX_AGENTS = [...DUELIST_AGENTS,...CONTROLLER_AGENTS,...INITIATOR_AGENTS,...SENTINEL_AGENTS];
 
-const random = (min:number,max:number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const random = (min:number,max:number) => Math.floor(randomFloat() * (max - min + 1)) + min;
 const clamp = (value:number,min:number,max:number) => Math.max(min,Math.min(max,value));
-const shuffle = <T,>(items:T[]) => [...items].sort(() => Math.random() - .5);
+const shuffle = <T,>(items:T[]) => [...items].sort(() => randomFloat() - .5);
 
 export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestOf:3|5=3,vctRosters?:VCTRosterState):MatchBoxScore|null {
   const playerTeam = getTeamById(player.currentTeamId);
@@ -92,10 +93,10 @@ export function createMatchBoxScore(player:CareerPlayer,result:MatchResult,bestO
 
 function createSeriesPattern(playerWon:boolean,bestOf:3|5) {
   if (bestOf === 3) {
-    if (Math.random() < .45) return playerWon ? [true,true] : [false,false];
+    if (randomFloat() < .45) return playerWon ? [true,true] : [false,false];
     return playerWon
-      ? Math.random() < .5 ? [true,false,true] : [false,true,true]
-      : Math.random() < .5 ? [false,true,false] : [true,false,false];
+      ? randomFloat() < .5 ? [true,false,true] : [false,true,true]
+      : randomFloat() < .5 ? [false,true,false] : [true,false,false];
   }
 
   const mapsPlayed = random(3,5);
@@ -107,7 +108,7 @@ function createSeriesPattern(playerWon:boolean,bestOf:3|5) {
 }
 
 function createMapScore(playerWon:boolean) {
-  const overtime = Math.random() < .12;
+  const overtime = randomFloat() < .12;
   const winningScore = overtime ? random(14,16) : 13;
   const losingScore = overtime ? winningScore - 2 : random(5,11);
 

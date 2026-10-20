@@ -1,10 +1,11 @@
+import {randomFloat} from "../utils/rng";
 import type {CareerChoice,CareerEffects,CareerEvent} from "../types/career";
 
 type CareerStatEffects = Pick<CareerEffects,"aim"|"gameSense"|"communication"|"clutch"|"consistency"|"mental"|"currentStage">;
 type StatCareerChoice = Omit<CareerChoice,"effects"> & {effects:CareerStatEffects};
 type StatCareerEvent = Omit<CareerEvent,"choices"> & {choices:StatCareerChoice[]};
 
-const randomItem = <T,>(items:readonly T[]) => items[Math.floor(Math.random() * items.length)];
+const randomItem = <T,>(items:readonly T[]) => items[Math.floor(randomFloat() * items.length)];
 
 export const CAREER_START_EVENT_IDS = ["first-radiant-run","premier-roster-invite","ranked-igl-contact","open-qualifier-invite","high-elo-scrim"] as const;
 

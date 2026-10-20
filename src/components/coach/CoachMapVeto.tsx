@@ -2,7 +2,7 @@ import {useEffect,useMemo,useState} from "react";
 import type {CSSProperties} from "react";
 import type {CoachCareerState,CoachMapName,CoachMapVetoState} from "../../types/coach";
 import {getTeamById} from "../../data/teams";
-import {createInitialCoachMapPool,getMapScore} from "../../logic/coachMapPool";
+import {getCoachOpponentMapPool,getMapScore} from "../../logic/coachMapPool";
 import {applyOpponentVetoSelection,applyPlayerVetoSelection,createCoachMapVeto,getCoachVetoSteps,getCurrentVetoStep} from "../../logic/coachMapVeto";
 import {useGameSettings} from "../../context/GameSettingsContext";
 import {GameSettingsControls} from "../shared/GameSettingsControls";
@@ -30,7 +30,7 @@ export function CoachMapVeto({career,opponentTeamId,bestOf,onComplete,onBack}:Co
   const teamLogo=getTeamLogo(team?.logo);
   const opponentLogo=getTeamLogo(opponent?.logo);
 
-  const opponentPool=useMemo(()=>opponent?createInitialCoachMapPool(opponent):null,[opponent]);
+  const opponentPool=useMemo(()=>opponent?getCoachOpponentMapPool(opponent,career.coach.season):null,[opponent,career.coach.season]);
   const mapNames=useMemo(()=>career.team.mapPool.maps.map(map=>map.map),[career.team.mapPool.maps]);
 
   const [veto,setVeto]=useState<CoachMapVetoState|null>(()=>opponentTeamId?createCoachMapVeto(opponentTeamId,mapNames,bestOf):null);
@@ -276,7 +276,7 @@ function SeriesResult({veto,playerShortName,opponentShortName,playerPool,opponen
   playerShortName:string;
   opponentShortName:string;
   playerPool:CoachCareerState["team"]["mapPool"];
-  opponentPool:ReturnType<typeof createInitialCoachMapPool>|null;
+  opponentPool:ReturnType<typeof getCoachOpponentMapPool>|null;
   language:Language;
   onHover:(map:CoachMapName|null)=>void;
   onComplete:()=>void;
@@ -483,7 +483,7 @@ function getMainSubtitle(
 function getDisplayMap(
   veto:CoachMapVetoState|null,
   myPool:CoachCareerState["team"]["mapPool"],
-  opponentPool:ReturnType<typeof createInitialCoachMapPool>|null,
+  opponentPool:ReturnType<typeof getCoachOpponentMapPool>|null,
 ) {
   if(veto?.completed&&veto.seriesMaps.length)return veto.seriesMaps[0];
   if(veto?.selections.length)return veto.selections[veto.selections.length-1].map;
@@ -517,7 +517,7 @@ function getScoreForMap(
 function getMapDifference(
   map:CoachMapName,
   myPool:CoachCareerState["team"]["mapPool"],
-  opponentPool:ReturnType<typeof createInitialCoachMapPool>,
+  opponentPool:ReturnType<typeof getCoachOpponentMapPool>,
 ) {
   return getScoreForMap(myPool,map)-getScoreForMap(opponentPool,map);
 }

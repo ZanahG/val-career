@@ -1,9 +1,11 @@
+import {randomFloat} from "../utils/rng";
 import type {CoachCareerState,CoachMapName,CoachMapPool,CoachMapProfile,CoachMatchResult,CoachPlayer,CoachPlayerTacticalRole} from "../types/coach";
 import type {MatchBoxScore,MatchMapStats,MatchPlayerStats} from "../types/matchStats";
 import {getTeamById} from "../data/teams";
-import {createInitialCoachMapPool} from "./coachMapPool";
+import {getCoachOpponentMapPool} from "./coachMapPool";
 import {getCoachPlayerTacticalRole,getCoachRoleAssignmentFit,getCoachRoleStructureScore} from "./coachPlayerRoles";
 import {getCoachTacticalFit} from "./coachTactics";
+import {COACH_MATCH_BALANCE} from "../config/balance";
 
 const DUELIST_AGENTS=["Iso","Jett","Neon","Phoenix","Raze","Reyna","Waylay","Yoru"];
 const CONTROLLER_AGENTS=["Astra","Brimstone","Clove","Harbor","Miks","Omen","Viper"];
@@ -49,7 +51,7 @@ export function simulateCoachSeries(career:CoachCareerState,opponentTeamId:strin
 
   const bestOf=getSeriesBestOf(seriesMaps);
   const winsRequired=Math.ceil(bestOf/2);
-  const opponentMapPool=createInitialCoachMapPool(opponent);
+  const opponentMapPool=getCoachOpponentMapPool(opponent,career.coach.season);
 
   const maps:MatchMapStats[]=[];
   let playerWins=0;
@@ -142,14 +144,16 @@ function getPlayerTeamPower(career:CoachCareerState,roster:CoachPlayer[],map:Coa
   const mapPower=getMapProfilePower(map);
   const tacticalBonus=getPlayerTacticalBonus(career,roster,map,opponentStrength);
 
-  const rosterValue=rosterQuality*.42;
-  const mapValue=mapPower*.25;
-  const chemistryValue=career.team.chemistry*.08;
-  const formValue=career.team.form*.06;
-  const roleBalanceValue=roleBalance*.07;
+  const balance=COACH_MATCH_BALANCE;
 
-  const tacticalFitValue=(tacticalFit-75)*.06;
-  const tacticalRoleValue=(tacticalRoleStructure-75)*.04;
+  const rosterValue=rosterQuality*balance.rosterWeight;
+  const mapValue=mapPower*balance.mapWeight;
+  const chemistryValue=career.team.chemistry*balance.chemistryWeight;
+  const formValue=career.team.form*balance.formWeight;
+  const roleBalanceValue=roleBalance*balance.roleBalanceWeight;
+
+  const tacticalFitValue=(tacticalFit-balance.tacticalFitBaseline)*balance.tacticalFitWeight;
+  const tacticalRoleValue=(tacticalRoleStructure-balance.tacticalRoleBaseline)*balance.tacticalRoleWeight;
 
   const total=
     rosterValue+
@@ -180,11 +184,13 @@ function getOpponentTeamPower(teamId:string,teamStrength:number,roster:CoachPlay
   const mapPower=getMapProfilePower(map);
   const identityBonus=getOpponentIdentityBonus(teamId,teamStrength,map);
 
-  const rosterValue=rosterQuality*.42;
-  const mapValue=mapPower*.25;
-  const roleBalanceValue=roleBalance*.07;
-  const starPowerValue=starPower*.08;
-  const strengthValue=teamStrength*.06;
+  const balance=COACH_MATCH_BALANCE;
+
+  const rosterValue=rosterQuality*balance.rosterWeight;
+  const mapValue=mapPower*balance.mapWeight;
+  const roleBalanceValue=roleBalance*balance.roleBalanceWeight;
+  const starPowerValue=starPower*balance.opponentStarPowerWeight;
+  const strengthValue=teamStrength*balance.opponentStrengthWeight;
 
   const total=
     rosterValue+
@@ -401,7 +407,7 @@ function getPlayerTacticalBonus(career:CoachCareerState,roster:CoachPlayer[],map
   bonus+=getAttackDefenseInteractionBonus(career,roster);
   bonus+=getTacticalRoleSynergyBonus(career,roster);
 
-  return clamp(bonus,-3,3);
+  return clamp(bonus,COACH_MATCH_BALANCE.tacticalBonusMin,COACH_MATCH_BALANCE.tacticalBonusMax);
 }
 
 function getTacticalRoleSynergyBonus(career:CoachCareerState,roster:CoachPlayer[]) {
@@ -624,18 +630,19 @@ function getRiskRosterBonus(career:CoachCareerState,roster:CoachPlayer[]) {
 }
 function getPlayerTacticalVolatility(career:CoachCareerState) {
   const tactics=career.team.tactics;
-  let volatility=1;
+  const balance=COACH_MATCH_BALANCE;
+  let volatility=balance.volatilityBase;
 
-  if(tactics.risk==="High")volatility+=.22;
-  if(tactics.risk==="Low")volatility-=.18;
+  if(tactics.risk==="High")volatility+=balance.volatilityHighRisk;
+  if(tactics.risk==="Low")volatility+=balance.volatilityLowRisk;
 
-  if(tactics.pace==="Fast")volatility+=.06;
-  if(tactics.pace==="Slow")volatility-=.04;
+  if(tactics.pace==="Fast")volatility+=balance.volatilityFastPace;
+  if(tactics.pace==="Slow")volatility+=balance.volatilitySlowPace;
 
-  if(career.team.tacticalStyle==="Aggressive")volatility+=.06;
-  if(career.team.tacticalStyle==="Controlled")volatility-=.06;
+  if(career.team.tacticalStyle==="Aggressive")volatility+=balance.volatilityAggressiveStyle;
+  if(career.team.tacticalStyle==="Controlled")volatility+=balance.volatilityControlledStyle;
 
-  return clamp(volatility,.72,1.32);
+  return clamp(volatility,balance.volatilityMin,balance.volatilityMax);
 }
 
 function getOpponentIdentityBonus(teamId:string,teamStrength:number,map:CoachMapProfile|null) {
@@ -664,13 +671,14 @@ function getOpponentIdentityBonus(teamId:string,teamStrength:number,map:CoachMap
 function rollMapWinner(playerPower:number,opponentPower:number,volatility:number) {
   const difference=playerPower-opponentPower;
 
+  const balance=COACH_MATCH_BALANCE;
   const effectiveDifference=difference/volatility;
-  const scaledDifference=effectiveDifference/55;
+  const scaledDifference=effectiveDifference/balance.mapWinDivisor;
 
-  const randomSwing=((Math.random()-.5)*.06)*volatility;
-  const probability=clamp(.5+scaledDifference+randomSwing,.16,.84);
+  const randomSwing=((randomFloat()-.5)*balance.mapWinRandomSwing)*volatility;
+  const probability=clamp(.5+scaledDifference+randomSwing,balance.mapWinMin,balance.mapWinMax);
 
-  return Math.random()<probability;
+  return randomFloat()<probability;
 }
 
 function getExpectedMapCloseness(playerPower:number,opponentPower:number) {
@@ -690,7 +698,7 @@ function createMapScore(won:boolean,closeness:"very-close"|"close"|"normal"|"one
     closeness==="normal"?.10:
     .05;
 
-  const overtime=Math.random()<overtimeChance;
+  const overtime=randomFloat()<overtimeChance;
 
   if(overtime){
     const winningScore=random(14,17);
@@ -909,8 +917,8 @@ function deterministicNumber(value:string) {
   return Math.abs(hash>>>0);
 }
 
-function random(min:number,max:number){return Math.floor(Math.random()*(max-min+1))+min;}
+function random(min:number,max:number){return Math.floor(randomFloat()*(max-min+1))+min;}
 function clamp(value:number,min:number,max:number){return Math.max(min,Math.min(max,value));}
-function shuffle<T>(items:T[]){return [...items].sort(()=>Math.random()-.5);}
+function shuffle<T>(items:T[]){return [...items].sort(()=>randomFloat()-.5);}
 function sum(values:number[]){return values.reduce((total,value)=>total+value,0);}
 function average(values:number[]){return values.length?sum(values)/values.length:0;}
