@@ -1,10 +1,12 @@
+import {randomFloat} from "../utils/rng";
+import {PLAYER_MATCH_BALANCE,TIER2_CPU_MATCH_BALANCE} from "../config/balance";
 import type {CareerPlayer} from "../types/career";
 import type {MatchResult,SeasonState,StandingRow} from "../types/season";
 import {TEAMS,getTeamById} from "../data/teams";
 import {getPlayerOverallExact} from "../utils/playerOverall";
 
 const clamp = (value:number,min:number,max:number) => Math.max(min,Math.min(max,value));
-const randomBetween = (min:number,max:number) => Math.random() * (max - min) + min;
+const randomBetween = (min:number,max:number) => randomFloat() * (max - min) + min;
 const randomInt = (min:number,max:number) => Math.floor(randomBetween(min,max + 1));
 
 export function createSeason(player:CareerPlayer):SeasonState {
@@ -12,7 +14,7 @@ export function createSeason(player:CareerPlayer):SeasonState {
   if (!currentTeam) throw new Error("Cannot create season without a valid current team.");
 
   const validOpponents = TEAMS.filter((team) => team.id !== currentTeam.id && team.tier === currentTeam.tier && (currentTeam.tier === 1 ? team.circuit === currentTeam.circuit : team.marketRegion === currentTeam.marketRegion));
-  const opponents = [...validOpponents].sort(() => Math.random() - .5).slice(0,Math.min(6,validOpponents.length));
+  const opponents = [...validOpponents].sort(() => randomFloat() - .5).slice(0,Math.min(6,validOpponents.length));
 
   const standings:StandingRow[] = [
     {teamId:currentTeam.id,wins:0,losses:0,roundsWon:0,roundsLost:0},
@@ -48,28 +50,31 @@ export function simulateMatch(player:CareerPlayer,opponentId:string):MatchResult
   const consistency = player.stats.consistency;
   const mental = player.stats.mental;
 
-  const overallImpact = (overall - 60) * .16;
-  const communicationImpact = (communication - 50) * .02;
-  const gameSenseImpact = (gameSense - 50) * .015;
-  const mentalImpact = (mental - 50) * .01;
+  const balance = PLAYER_MATCH_BALANCE;
+  const baseline = balance.statBaseline;
+
+  const overallImpact = (overall - balance.overallBaseline) * balance.overallImpact;
+  const communicationImpact = (communication - baseline) * balance.communicationImpact;
+  const gameSenseImpact = (gameSense - baseline) * balance.gameSenseImpact;
+  const mentalImpact = (mental - baseline) * balance.mentalImpact;
 
   const playerImpact = overallImpact + communicationImpact + gameSenseImpact + mentalImpact;
 
-  const teamVariance = clamp(6 - consistency * .035,2.5,6);
+  const teamVariance = clamp(balance.teamVarianceBase - consistency * balance.teamVariancePerConsistency,balance.teamVarianceMin,balance.teamVarianceMax);
   const teamStrength = team.strength + playerImpact + randomBetween(-teamVariance,teamVariance);
-  const opponentStrength = opponent.strength + randomBetween(-5,5);
+  const opponentStrength = opponent.strength + randomBetween(-balance.opponentVariance,balance.opponentVariance);
 
   const strengthDifference = teamStrength - opponentStrength;
-  const pressureMatch = Math.abs(strengthDifference) <= 6;
+  const pressureMatch = Math.abs(strengthDifference) <= balance.pressureStrengthGap;
 
-  const clutchPressureBonus = pressureMatch ? (clutch - 50) * .0007 : 0;
-  const mentalPressureBonus = pressureMatch ? (mental - 50) * .0004 : 0;
+  const clutchPressureBonus = pressureMatch ? (clutch - baseline) * balance.clutchPressureBonus : 0;
+  const mentalPressureBonus = pressureMatch ? (mental - baseline) * balance.mentalPressureBonus : 0;
 
-  const winProbability = clamp(.5 + strengthDifference / 40 + clutchPressureBonus + mentalPressureBonus,.12,.88);
-  const won = Math.random() < winProbability;
+  const winProbability = clamp(.5 + strengthDifference / balance.winProbabilityDivisor + clutchPressureBonus + mentalPressureBonus,balance.winProbabilityMin,balance.winProbabilityMax);
+  const won = randomFloat() < winProbability;
 
-  const closeMatchChance = clamp(.62 - Math.abs(strengthDifference) * .035,.25,.72);
-  const closeMatch = pressureMatch || Math.random() < closeMatchChance;
+  const closeMatchChance = clamp(balance.closeMatchBase - Math.abs(strengthDifference) * balance.closeMatchPerStrengthGap,balance.closeMatchMin,balance.closeMatchMax);
+  const closeMatch = pressureMatch || randomFloat() < closeMatchChance;
 
   const scoreFor = won ? 13 : closeMatch ? randomInt(9,12) : randomInt(5,8);
   const scoreAgainst = won ? closeMatch ? randomInt(9,12) : randomInt(5,8) : 13;
@@ -169,13 +174,14 @@ export function updateStandings(standings:StandingRow[],currentTeamId:string,opp
     const team = getTeamById(row.teamId);
     if (!team) return row;
 
+    const cpu = TIER2_CPU_MATCH_BALANCE;
     const strengthDifference = team.strength - averageStrength;
-    const winProbability = clamp(.5 + strengthDifference / 35,.25,.75);
-    const simulatedWin = Math.random() < winProbability;
+    const winProbability = clamp(.5 + strengthDifference / cpu.winProbabilityDivisor,cpu.winProbabilityMin,cpu.winProbabilityMax);
+    const simulatedWin = randomFloat() < winProbability;
 
     const roundDifference = Math.abs(team.strength - averageStrength);
-    const closeMatchChance = clamp(.70 - roundDifference * .04,.30,.70);
-    const closeMatch = Math.random() < closeMatchChance;
+    const closeMatchChance = clamp(cpu.closeMatchBase - roundDifference * cpu.closeMatchPerStrengthGap,cpu.closeMatchMin,cpu.closeMatchMax);
+    const closeMatch = randomFloat() < closeMatchChance;
 
     const roundsWon = simulatedWin ? 13 : closeMatch ? randomInt(9,12) : randomInt(5,8);
     const roundsLost = simulatedWin ? closeMatch ? randomInt(9,12) : randomInt(5,8) : 13;
@@ -233,8 +239,8 @@ function createAscensionSchedule(player:CareerPlayer) {
   const sameRegionalTeams = TEAMS.filter((team) => team.id !== currentTeam.id && team.tier === 2 && team.circuit === currentTeam.circuit && team.marketRegion === currentTeam.marketRegion);
 
   return [
-    ...foreignRegionalTeams.sort(() => Math.random() - .5),
-    ...sameRegionalTeams.sort(() => Math.random() - .5),
+    ...foreignRegionalTeams.sort(() => randomFloat() - .5),
+    ...sameRegionalTeams.sort(() => randomFloat() - .5),
   ].slice(0,3).map((team) => team.id);
 }
 

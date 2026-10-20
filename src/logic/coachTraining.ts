@@ -3,8 +3,9 @@ import {getNextPlayerChampionsMatch} from "./championsBracket";
 import {getNextPlayerKickoffMatch} from "./kickoffBracket";
 import {getNextPlayerMastersMatch} from "./mastersBracket";
 import {getNextPlayerStageMatch} from "./coachStage";
+import {COACH_TRAINING_BALANCE} from "../config/balance";
 
-export const COACH_TRAINING_SESSIONS_PER_PERIOD=3;
+export const COACH_TRAINING_SESSIONS_PER_PERIOD=COACH_TRAINING_BALANCE.sessionsPerPeriod;
 
 export function refreshCoachTrainingPeriod(career:CoachCareerState):CoachCareerState {
   const period=getCoachTrainingPeriod(career);
@@ -21,8 +22,10 @@ export function refreshCoachTrainingPeriod(career:CoachCareerState):CoachCareerS
       maps:career.team.mapPool.maps.map(map=>({
         ...map,
         preparation:Math.max(
-          45,
-          map.preparation-(trainedMaps.includes(map.map)?1:3),
+          COACH_TRAINING_BALANCE.preparationFloor,
+          map.preparation-(trainedMaps.includes(map.map)
+            ?COACH_TRAINING_BALANCE.preparationDecayTrained
+            :COACH_TRAINING_BALANCE.preparationDecayUntrained),
         ),
       })),
     };

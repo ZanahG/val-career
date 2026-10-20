@@ -1,8 +1,9 @@
 import {useEffect,useState} from "react";
-import {rollVCTMinigame,type VCTMinigameType} from "../data/vctMinigames";
+import {planMinigameAfterMatch,type VCTMinigameType} from "../data/vctMinigames";
 import type {PlayableVCTPhase} from "../types/vct";
+import {MINIGAME_BALANCE} from "../config/balance";
 
-const MINIGAME_COOLDOWN = 5;
+const MINIGAME_COOLDOWN = MINIGAME_BALANCE.cooldownMatches;
 
 export function useVCTMinigames() {
   const [activeMinigame,setActiveMinigame] = useState<VCTMinigameType|null>(null);
@@ -40,16 +41,13 @@ export function useVCTMinigames() {
   };
 
   const queueMinigameAfterMatch = (phase:PlayableVCTPhase,waitForBoxScore:boolean) => {
-    if (cooldown > 0) {
-      setCooldown((value) => Math.max(0,value - 1));
-      return;
-    }
+    const plan = planMinigameAfterMatch(phase,{cooldown,lastMinigame},MINIGAME_COOLDOWN);
 
-    const minigame = rollVCTMinigame(phase,lastMinigame ?? undefined);
+    setCooldown(plan.cooldown);
+    setLastMinigame(plan.lastMinigame);
+
+    const minigame = plan.minigame;
     if (!minigame) return;
-
-    setLastMinigame(minigame);
-    setCooldown(MINIGAME_COOLDOWN);
 
     if (waitForBoxScore) {
       setQueuedMinigame(minigame);

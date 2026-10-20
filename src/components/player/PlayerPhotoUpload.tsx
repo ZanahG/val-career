@@ -1,4 +1,5 @@
 import {useRef} from "react";
+import {readFileAsDataUrl,resizeImageDataUrl} from "../../utils/imageResize";
 
 interface PlayerPhotoUploadProps {
   photo?: string;
@@ -13,13 +14,10 @@ export function PlayerPhotoUpload({photo,nickname,onChange}: PlayerPhotoUploadPr
     if (!file) return;
     if (!file.type.startsWith("image/")) return;
 
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (typeof reader.result === "string") onChange(reader.result);
-    };
-
-    reader.readAsDataURL(file);
+    readFileAsDataUrl(file)
+      .then((dataUrl) => resizeImageDataUrl(dataUrl))
+      .then(onChange)
+      .catch(() => undefined);
   };
 
   return (

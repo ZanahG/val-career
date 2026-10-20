@@ -104,6 +104,30 @@ export function CareerDashboard({player,event,onChoose,onReset,onOpenOffers,onOp
                 </button>
               </div>
             </section>
+          ) : player.currentStage === "Retired" ? (
+            <section className="event-card event-card--complete">
+              <span className="eyebrow">{language === "es" ? "CARRERA FINALIZADA" : "CAREER OVER"}</span>
+
+              <h1>{language === "es" ? "TE HAS RETIRADO." : "YOU HAVE RETIRED."}</h1>
+
+              <p className="event-description">
+                {language === "es"
+                  ? "Tu carrera ha terminado. Revisa tu trayectoria o comienza una nueva carrera."
+                  : "Your career is over. Review your journey or start a new career."}
+              </p>
+
+              <div className="career-complete-actions">
+                <button className="primary-button" onClick={onOpenProfile}>
+                  {language === "es" ? "VER CARRERA" : "VIEW CAREER"}
+                  <span>→</span>
+                </button>
+
+                <button className="secondary-button career-reset-button" onClick={onReset}>
+                  {language === "es" ? "NUEVA CARRERA" : "NEW CAREER"}
+                  <span>↻</span>
+                </button>
+              </div>
+            </section>
           ) : (
             <section className="event-card event-card--complete">
               <span className="eyebrow">{language === "es" ? "CAPÍTULO COMPLETADO" : "CHAPTER COMPLETE"}</span>

@@ -14,8 +14,8 @@ export function useCoachSave({career,screen}:UseCoachSaveParams) {
   useEffect(()=>{
     if(!career)return;
 
-    saveCoachCareer(career,screen);
-    setSaveAvailable(true);
+    const result=saveCoachCareer(career,screen);
+    setSaveAvailable(result.ok||hasCoachCareerSave());
   },[career,screen]);
 
   const clearSave=()=>{

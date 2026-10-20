@@ -1,3 +1,4 @@
+import {randomFloat} from "../utils/rng";
 import type {CareerEffects} from "../types/career";
 import type {PlayableVCTPhase,VCTPhase} from "../types/vct";
 
@@ -23,7 +24,7 @@ export interface VCTNarrativeEvent {
   choices:VCTNarrativeChoice[];
 }
 
-const randomItem = <T,>(items:readonly T[]) => items[Math.floor(Math.random() * items.length)];
+const randomItem = <T,>(items:readonly T[]) => items[Math.floor(randomFloat() * items.length)];
 
 export const VCT_NARRATIVE_EVENTS:VCTNarrativeEvent[] = [
   {

@@ -2,9 +2,15 @@ import type {CoachCareerState} from "../types/coach";
 import type {GameScreen} from "../types/navigation";
 import {getTeamById} from "../data/teams";
 import {createInitialCoachBoardState,getCoachJobSecurity} from "../logic/coachBoard";
+import {getBackupKey,isRecord,migrateSave,parseJSON,readStorage,removeStorage,writeStorage,type SaveMigration,type SaveWriteResult} from "./saveStorage";
 
-const COACH_SAVE_KEY="tu-carrera-valorant-coach-career";
-const COACH_SAVE_VERSION=2;
+export const COACH_SAVE_KEY="tu-carrera-valorant-coach-career";
+export const COACH_SAVE_VERSION=2;
+
+/* migrations[n] convierte la versión n en la n+1. */
+export const COACH_SAVE_MIGRATIONS:Record<number,SaveMigration>={
+  1:(save)=>migrateCoachSaveV1(save as Partial<CoachCareerSave>) as unknown as Record<string,unknown>|null,
+};
 
 export interface CoachCareerSave {
   version:number;
@@ -13,7 +19,14 @@ export interface CoachCareerSave {
   career:CoachCareerState;
 }
 
-export function saveCoachCareer(career:CoachCareerState,screen:GameScreen) {
+export interface CoachLoadResult {
+  save:CoachCareerSave|null;
+  status:"ok"|"empty"|"future"|"invalid";
+  migratedFrom:number|null;
+  recoveredFromBackup:boolean;
+}
+
+export function saveCoachCareer(career:CoachCareerState,screen:GameScreen):SaveWriteResult {
   const save:CoachCareerSave={
     version:COACH_SAVE_VERSION,
     savedAt:new Date().toISOString(),
@@ -21,51 +34,64 @@ export function saveCoachCareer(career:CoachCareerState,screen:GameScreen) {
     career,
   };
 
-  localStorage.setItem(COACH_SAVE_KEY,JSON.stringify(save));
+  const result=writeStorage(COACH_SAVE_KEY,JSON.stringify(save));
+  if(!result.ok)console.warn("ValCareer: no se pudo guardar la carrera de entrenador.",result.reason);
+
+  return result;
+}
+
+export function loadCoachCareerSave():CoachLoadResult {
+  const raw=readStorage(COACH_SAVE_KEY);
+  if(raw===null)return {save:null,status:"empty",migratedFrom:null,recoveredFromBackup:false};
+
+  const outcome=migrateCoachSaveData(parseJSON(raw));
+
+  if(outcome.status==="future")return {save:null,status:"future",migratedFrom:null,recoveredFromBackup:false};
+
+  if(outcome.status==="ok"){
+    if(outcome.migratedFrom!==null)writeStorage(`${getBackupKey(COACH_SAVE_KEY)}-v${outcome.migratedFrom}`,raw);
+    writeStorage(getBackupKey(COACH_SAVE_KEY),raw);
+    writeStorage(COACH_SAVE_KEY,JSON.stringify(outcome.save));
+
+    return {save:outcome.save,status:"ok",migratedFrom:outcome.migratedFrom,recoveredFromBackup:false};
+  }
+
+  const backup=migrateCoachSaveData(parseJSON(readStorage(getBackupKey(COACH_SAVE_KEY))));
+
+  if(backup.status==="ok"){
+    return {save:backup.save,status:"ok",migratedFrom:backup.migratedFrom,recoveredFromBackup:true};
+  }
+
+  return {save:null,status:"invalid",migratedFrom:null,recoveredFromBackup:false};
 }
 
 export function loadCoachCareer():CoachCareerSave|null {
-  const raw=localStorage.getItem(COACH_SAVE_KEY);
-  if(!raw)return null;
-
-  try{
-    const parsed=JSON.parse(raw) as Partial<CoachCareerSave>;
-
-    if(parsed.version===COACH_SAVE_VERSION&&parsed.career&&parsed.screen){
-      const normalized=normalizeCoachSave(parsed as CoachCareerSave);
-
-      localStorage.setItem(
-        COACH_SAVE_KEY,
-        JSON.stringify(normalized),
-      );
-
-      return normalized;
-    }
-
-    if(parsed.version===1){
-      const migrated=migrateCoachSaveV1(parsed);
-      if(!migrated)return null;
-
-      localStorage.setItem(
-        COACH_SAVE_KEY,
-        JSON.stringify(migrated),
-      );
-
-      return migrated;
-    }
-
-    return null;
-  }catch{
-    return null;
-  }
+  return loadCoachCareerSave().save;
 }
 
 export function hasCoachCareerSave() {
-  return Boolean(localStorage.getItem(COACH_SAVE_KEY));
+  return readStorage(COACH_SAVE_KEY)!==null;
 }
 
+/* Las copias de seguridad se conservan para poder recuperar una carrera. */
 export function clearCoachCareerSave() {
-  localStorage.removeItem(COACH_SAVE_KEY);
+  removeStorage(COACH_SAVE_KEY);
+}
+
+export function migrateCoachSaveData(data:unknown) {
+  return migrateSave<CoachCareerSave>(
+    data,
+    COACH_SAVE_VERSION,
+    COACH_SAVE_MIGRATIONS,
+    save=>typeof save.version==="number"?save.version:null,
+    save=>{
+      const candidate=save as Partial<CoachCareerSave>;
+      if(!isRecord(candidate.career)||!candidate.screen)return null;
+      if(!isRecord(candidate.career.team)||typeof candidate.career.team.teamId!=="string")return null;
+
+      return normalizeCoachSave(candidate as CoachCareerSave);
+    },
+  );
 }
 
 function migrateCoachSaveV1(save:Partial<CoachCareerSave>):CoachCareerSave|null {

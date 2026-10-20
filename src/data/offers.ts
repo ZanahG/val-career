@@ -1,3 +1,4 @@
+import {randomFloat} from "../utils/rng";
 import type {CareerPlayer,ContractOffer,TeamDefinition} from "../types/career";
 import {getPlayerOverallExact} from "../utils/playerOverall";
 import {getCircuitFromRegion} from "./regions";
@@ -99,7 +100,7 @@ export function generateRenewalOffer(player:CareerPlayer):ContractOffer|null {
     : Math.round(marketSalary * performanceBonus);
 
   const rosterRole:"Starter" = "Starter";
-  const duration = scoutingScore >= 85 ? 2 : Math.random() > .5 ? 2 : 1;
+  const duration = scoutingScore >= 85 ? 2 : randomFloat() > .5 ? 2 : 1;
   const signingBonus = Math.round(salary * (team.tier === 1 ? .6 : .35));
 
   return {
@@ -177,7 +178,7 @@ function getTeamInterestScore(team:TeamDefinition,player:CareerPlayer,overall:nu
 
   const overallQuality = (overall - 50) * .15;
   const roleFitQuality = (getRoleFit(player) - 50) * .12;
-  const randomVariation = Math.random() * 6;
+  const randomVariation = randomFloat() * 6;
 
   return competitiveFit + starterOpportunity + sameCountryBonus + sameRegionBonus + sameCircuitBonus + overallQuality + roleFitQuality + randomVariation;
 }
@@ -207,8 +208,8 @@ function createOffer(team:TeamDefinition,player:CareerPlayer,overall:number,scou
   const rosterRole:"Starter" = "Starter";
 
   const duration = team.tier === 1
-    ? scoutingScore >= 78 ? 2 : Math.random() > .55 ? 2 : 1
-    : index === 0 ? 1 : Math.random() > .5 ? 2 : 1;
+    ? scoutingScore >= 78 ? 2 : randomFloat() > .55 ? 2 : 1
+    : index === 0 ? 1 : randomFloat() > .5 ? 2 : 1;
 
   const signingBonusMultiplier = team.tier === 1 ? .75 : .4;
   const qualityBonus = Math.max(0,(overall - 60) / 100);

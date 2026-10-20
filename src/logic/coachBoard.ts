@@ -1,6 +1,7 @@
 import type {CoachBoardHistoryEntry,CoachBoardObjective,CoachBoardState,CoachCareerState,CoachDismissalReason,CoachJobSecurity} from "../types/coach";
 import type {TeamDefinition} from "../types/career";
 import {getTeamById} from "../data/teams";
+import {COACH_BOARD_BALANCE} from "../config/balance";
 
 type CoachClubAmbition="Elite"|"Contender"|"Competitive"|"Underdog";
 
@@ -24,9 +25,9 @@ export function createInitialCoachBoardState(team:TeamDefinition):CoachBoardStat
 }
 
 export function getCoachJobSecurity(confidence:number):CoachJobSecurity {
-  if(confidence>=75)return "Secure";
-  if(confidence>=50)return "Stable";
-  if(confidence>=25)return "Under Pressure";
+  if(confidence>=COACH_BOARD_BALANCE.secureFrom)return "Secure";
+  if(confidence>=COACH_BOARD_BALANCE.stableFrom)return "Stable";
+  if(confidence>=COACH_BOARD_BALANCE.underPressureFrom)return "Under Pressure";
 
   return "Critical";
 }

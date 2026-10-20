@@ -94,7 +94,7 @@ import {useCareerSave} from "./hooks/useCareerSave";
 import {useCoachSave} from "./hooks/useCoachSave";
 import {loadCoachCareer} from "./utils/coachSaveGame";
 import {useVCTMinigames} from "./hooks/useVCTMinigames";
-import {applyCareerEffects,normalizePlayerCosmetics,scaleIntroCareerEffects} from "./logic/careerPlayer";
+import {applyCareerEffects,applyPostMatchStatChanges,normalizePlayerCosmetics,scaleIntroCareerEffects} from "./logic/careerPlayer";
 import {simulateCoachSeries} from "./logic/coachMatchSimulation";
 import {getNextPlayerStageMatch,playPlayerStageMatchWithScore} from "./logic/coachStage";
 import {advanceCoachVCTPhase,createCoachVCTSeason,getNextCoachOpponent,resolveCoachChampions,resolveCoachKickoff,resolveCoachMasters1,resolveCoachMasters2,resolveCoachStage1,resolveCoachStage2,syncCoachStage1Phase,syncCoachStage2Phase} from "./logic/coachVCTSeason";
@@ -104,11 +104,12 @@ import {getNextPlayerChampionsMatch,playPlayerChampionsMatchWithScore} from "./l
 import {beginCoachMidseasonMarket,beginCoachOffseason,clearCoachMidseasonMarket,completeCoachMidseasonMarket,finishCoachSeason,startNextCoachSeason} from "./logic/coachCareerProgression";
 import {createMatchBoxScore} from "./logic/matchBoxScore";
 import {restoreCareerSave} from "./logic/restoreCareerSave";
+import {createVCTSeasonSummary,retireCareerPlayer} from "./logic/careerHistory";
 import {acceptCoachJobOffer} from "./logic/coachJobMarket";
 import {createSeason,getSortedStandings,playNextMatch} from "./logic/season";
 import {refreshCoachTrainingPeriod} from "./logic/coachTraining";
 import {simulateVCTOffseason} from "./logic/vctRosterMarket";
-import {continueVCTAfterNarrativeEvent,createVCTSeason,getVCTSeasonStats,migrateVCTMastersState,migrateVCTStageState,playNextVCTMatch,resumeVCTAfterMidseasonMarket} from "./logic/vctSeason";
+import {continueVCTAfterNarrativeEvent,createVCTSeason,migrateVCTMastersState,migrateVCTStageState,playNextVCTMatch,resumeVCTAfterMidseasonMarket} from "./logic/vctSeason";
 import type {CareerChoice,CareerEffects,CareerHistoryEntry,CareerPlayer,ContractOffer} from "./types/career";
 import type {CoachCareerState,CoachMapVetoState,CoachTacticalStyle} from "./types/coach";
 import {applyCoachBoardEventEvaluation,applyCoachBoardMatchResult,applyCoachBoardStreakPressure,evaluateCoachBoardProgress} from "./logic/coachBoard";
@@ -121,8 +122,9 @@ import type {SeasonState} from "./types/season";
 import type {PlayableVCTPhase,VCTSeasonState} from "./types/vct";
 import type {VCTRosterState} from "./types/vctRosters";
 import {clearIntroEventCount,loadIntroEventCount,saveIntroEventCount} from "./utils/careerStorage";
-import {applyOffseasonRegression,applyPlayerStatChange} from "./utils/playerStatsProgression";
+import {applyOffseasonRegression} from "./utils/playerStatsProgression";
 import {loadCareer} from "./utils/saveGame";
+import {resizeImageDataUrl,shouldResizePhoto} from "./utils/imageResize";
 
 export default function App() {
   const [player,setPlayer]=useState<CareerPlayer|null>(null);
@@ -155,47 +157,12 @@ export default function App() {
   const currentEvent=getEventById(currentEventId);
   const initialCareerEventsComplete=!currentEvent;
   const hasActiveSeason=Boolean(season||vctSeason);
-  const canOpenOffers=initialCareerEventsComplete&&!hasActiveSeason&&!player?.currentTeamId;
+  const canOpenOffers=initialCareerEventsComplete&&!hasActiveSeason&&!player?.currentTeamId&&player?.currentStage!=="Retired";
 
   const handleRetirePlayer=()=>{
     if(!player)return;
 
-    let retiredPlayer=player;
-
-    if(vctSeason){
-      const stats=getVCTSeasonStats(vctSeason);
-      const championsPlacement=vctSeason.events.Champions.placement??0;
-      const championshipPoints=player.currentTeamId?(vctSeason.championshipPointsByTeam[player.currentTeamId]??0):0;
-
-      const vctEvents=Object.entries(vctSeason.events).map(([name,event])=>({
-        name,
-        wins:event.matches.filter(match=>match.won).length,
-        losses:event.matches.filter(match=>!match.won).length,
-        placement:event.placement,
-        status:event.status,
-      }));
-
-      const historyEntry:CareerHistoryEntry={
-        season:player.season,
-        teamId:player.currentTeamId??"free-agent",
-        teamName:player.currentTeam,
-        rosterRole:player.rosterRole,
-        salary:player.salary,
-        wins:stats.wins,
-        losses:stats.losses,
-        placement:championsPlacement,
-        trophies:[],
-        stage:"VCT",
-        vctCircuit:vctSeason.circuit,
-        championshipPoints,
-        vctEvents,
-      };
-
-      retiredPlayer={
-        ...player,
-        history:[...player.history,historyEntry],
-      };
-    }
+    const retiredPlayer=retireCareerPlayer(player,vctSeason);
 
     setPlayer(retiredPlayer);
     setSeason(null);
@@ -753,14 +720,7 @@ export default function App() {
       const boxScore=createMatchBoxScore(player,result);
       if(boxScore)setMatchBoxScore(boxScore);
 
-      setPlayer({
-        ...player,
-        stats:{
-          ...player.stats,
-          mental:applyPlayerStatChange(player.stats.mental,result.won?1:-1),
-          consistency:applyPlayerStatChange(player.stats.consistency,result.playerRating>=1.05?1:result.playerRating<.8?-1:0),
-        },
-      });
+      setPlayer(applyPostMatchStatChanges(player,result,"Tier 2"));
     }
 
     setSeason(updatedSeason);
@@ -920,14 +880,7 @@ export default function App() {
       const boxScore=createMatchBoxScore(player,result,bestOf,vctRosters);
       if(boxScore)setMatchBoxScore(boxScore);
 
-      setPlayer({
-        ...player,
-        stats:{
-          ...player.stats,
-          mental:applyPlayerStatChange(player.stats.mental,result.won?1:-1),
-          consistency:applyPlayerStatChange(player.stats.consistency,result.playerRating>=1.1?1:result.playerRating<.8?-1:0),
-        },
-      });
+      setPlayer(applyPostMatchStatChanges(player,result,"VCT"));
 
       queueMinigameAfterMatch(previousPhase,Boolean(boxScore));
     }
@@ -944,43 +897,7 @@ export default function App() {
   const handleFinishVCTSeason=()=>{
     if(!player||!vctSeason)return;
 
-    const stats=getVCTSeasonStats(vctSeason);
-
-    const vctEvents=Object.entries(vctSeason.events).map(([name,event])=>({
-      name,
-      wins:event.matches.filter(match=>match.won).length,
-      losses:event.matches.filter(match=>!match.won).length,
-      placement:event.placement,
-      status:event.status,
-    }));
-
-    const championsPlacement=vctSeason.events.Champions.placement??0;
-    const trophies:string[]=[];
-
-    if(vctSeason.events.Kickoff.placement===1)trophies.push(`${player.season} VCT ${vctSeason.circuit} Kickoff Champion`);
-    if(vctSeason.events["Stage 1 Playoffs"].placement===1)trophies.push(`${player.season} VCT ${vctSeason.circuit} Stage 1 Champion`);
-    if(vctSeason.events["Masters 1"].placement===1)trophies.push(`${player.season} Masters 1 Champion`);
-    if(vctSeason.events["Masters 2"].placement===1)trophies.push(`${player.season} Masters 2 Champion`);
-    if(vctSeason.events["Stage 2 Playoffs"].placement===1)trophies.push(`${player.season} VCT ${vctSeason.circuit} Stage 2 Champion`);
-    if(championsPlacement===1)trophies.push(`${player.season} Valorant World Champion`);
-
-    const championshipPoints=player.currentTeamId?(vctSeason.championshipPointsByTeam[player.currentTeamId]??0):0;
-
-    const historyEntry:CareerHistoryEntry={
-      season:player.season,
-      teamId:player.currentTeamId??"free-agent",
-      teamName:player.currentTeam,
-      rosterRole:player.rosterRole,
-      salary:player.salary,
-      wins:stats.wins,
-      losses:stats.losses,
-      placement:championsPlacement,
-      trophies,
-      stage:"VCT",
-      vctCircuit:vctSeason.circuit,
-      championshipPoints,
-      vctEvents,
-    };
+    const {historyEntry,trophies}=createVCTSeasonSummary(player,vctSeason);
 
     const finishedPlayer:CareerPlayer={
       ...player,
@@ -1096,6 +1013,14 @@ export default function App() {
     setPlayerCardEditorOpen(false);
     resetMinigameState();
     setScreen(save.screen);
+
+    const savedPhoto=restored.player.photo;
+
+    if(savedPhoto&&shouldResizePhoto(savedPhoto)){
+      resizeImageDataUrl(savedPhoto).then(resized=>{
+        setPlayer(current=>current&&current.photo===savedPhoto?{...current,photo:resized}:current);
+      });
+    }
   };
 
   const resetCareer=()=>{

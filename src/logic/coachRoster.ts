@@ -1,3 +1,4 @@
+import {randomFloat} from "../utils/rng";
 import type {PlayerRole,PlayerStats,TeamDefinition} from "../types/career";
 import type {CoachPlayer} from "../types/coach";
 import {TEAMS} from "../data/teams";
@@ -399,7 +400,7 @@ function getGeneratedPlayerName(shortName:string,index:number) {
 }
 
 function random(min:number,max:number) {
-  return Math.floor(Math.random()*(max-min+1))+min;
+  return Math.floor(randomFloat()*(max-min+1))+min;
 }
 
 function randomDeterministic(min:number,max:number,seed:string) {

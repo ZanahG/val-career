@@ -1,9 +1,10 @@
 import type {CareerEffects,CareerPlayer} from "../types/career";
 import {applyPlayerStatChange} from "../utils/playerStatsProgression";
+import {INTRO_STAT_MULTIPLIER,POST_MATCH_STAT_BALANCE} from "../config/balance";
+import type {MatchResult} from "../types/season";
 
 const clamp = (value:number) => Math.max(0,Math.min(100,value));
 
-const INTRO_STAT_MULTIPLIER = 2;
 
 export function scaleIntroCareerEffects(effects:CareerEffects):CareerEffects {
   const scale = (value?:number) => value === undefined ? undefined : value > 0 ? value * INTRO_STAT_MULTIPLIER : value;
@@ -52,5 +53,21 @@ export function normalizePlayerCosmetics(player:CareerPlayer):CareerPlayer {
     equippedTitleId:player.equippedTitleId ?? "unknown-prospect",
     unlockedBannerIds:player.unlockedBannerIds?.length ? player.unlockedBannerIds : ["rookie"],
     unlockedTitleIds:player.unlockedTitleIds?.length ? player.unlockedTitleIds : ["unknown-prospect"],
+  };
+}
+
+/* Ajuste de mental y consistencia después de cada partido. */
+export function applyPostMatchStatChanges(player:CareerPlayer,result:Pick<MatchResult,"won"|"playerRating">,competition:"Tier 2"|"VCT"):CareerPlayer {
+  const balance = POST_MATCH_STAT_BALANCE;
+  const highRating = competition === "VCT" ? balance.vctConsistencyHighRating : balance.tier2ConsistencyHighRating;
+  const consistencyChange = result.playerRating >= highRating ? 1 : result.playerRating < balance.consistencyLowRating ? -1 : 0;
+
+  return {
+    ...player,
+    stats:{
+      ...player.stats,
+      mental:applyPlayerStatChange(player.stats.mental,result.won ? balance.mentalOnWin : balance.mentalOnLoss),
+      consistency:applyPlayerStatChange(player.stats.consistency,consistencyChange),
+    },
   };
 }
